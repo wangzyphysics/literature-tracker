@@ -47,8 +47,8 @@ try:
     if not filtered:
         log("没有符合关键词的文献")
     else:
-        # 只翻译前3篇测试
-        test_articles = filtered[:3]
+        # 只翻译前30篇测试
+        test_articles = filtered[:30]
         log(f"🌐 翻译前 {len(test_articles)} 篇...")
         
         for i, article in enumerate(test_articles, 1):
