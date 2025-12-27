@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="自动追踪机器学习、铁电、磁性等领域最新文献">
     <title>文献追踪系统</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">
+                🌙
+            </button>
             <h1>📚 文献追踪系统</h1>
             <p class="subtitle">自动追踪机器学习、铁电、磁性等领域最新文献</p>
         </header>
@@ -24,6 +30,19 @@
                     <option value="date-asc">按日期升序</option>
                     <option value="journal">按期刊</option>
                 </select>
+
+                <div class="category-filters">
+                    <button class="category-btn active" data-category="all" onclick="setCategory('all')">
+                        全部
+                    </button>
+                    <button class="category-btn" data-category="ai-related" onclick="setCategory('ai-related')">
+                        🤖 AI相关
+                    </button>
+                    <button class="category-btn" data-category="ai-unrelated" onclick="setCategory('ai-unrelated')">
+                        📚 非AI
+                    </button>
+                </div>
+
                 <label class="checkbox-label">
                     <input type="checkbox" id="favoritesOnly" onchange="filterArticles()">
                     只看收藏
@@ -33,6 +52,8 @@
 
         <div class="stats" id="stats">
             <span>共 <strong id="totalCount">0</strong> 篇文献</span>
+            <span>AI相关 <strong id="aiCount" class="ai-count">0</strong> 篇</span>
+            <span>非AI <strong id="nonAiCount" class="non-ai-count">0</strong> 篇</span>
             <span>收藏 <strong id="favCount">0</strong> 篇</span>
             <span>最后更新: <strong id="lastUpdate">-</strong></span>
         </div>
@@ -42,8 +63,17 @@
         </div>
 
         <div id="pagination"></div>
+
+        <!-- 键盘快捷键提示 -->
+        <div class="keyboard-hints">
+            <div><kbd>j</kbd> / <kbd>k</kbd> 上下导航</div>
+            <div><kbd>Enter</kbd> 展开/折叠</div>
+            <div><kbd>o</kbd> 打开原文</div>
+            <div><kbd>s</kbd> 收藏</div>
+        </div>
     </div>
 
-    <script src="app.js?v=2"></script>
+    <script src="app.js?v=3"></script>
 </body>
+
 </html>
