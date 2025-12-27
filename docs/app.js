@@ -433,10 +433,53 @@ function hideSearchHistory() {
 
 async function loadArticles() {
     try {
+        const startTime = performance.now();
+        console.log('🚀 开始加载文献...');
+
         // 使用性能监控
         if (typeof performanceMonitor !== 'undefined' && performanceMonitor && performanceMonitor.start) {
             performanceMonitor.start('数据加载');
         }
+
+        // 使用极速加载器（如果可用）
+        if (typeof fastLoader !== 'undefined' && fastLoader) {
+            console.log('✨ 使用极速加载模式');
+
+            // 极速加载
+            const articles = await fastLoader.fastLoad();
+            allArticles = articles;
+
+            // 合并本地状态（异步处理，不阻塞）
+            requestIdleCallback(() => {
+                allArticles.forEach(article => {
+                    article.is_favorite = favorites.has(article.id);
+                    article.is_read = readArticles.has(article.id);
+                    article.is_read_later = readLater.has(article.id);
+                    article.is_ai_related = isAIRelated(article);
+                });
+            });
+
+            // 填充期刊下拉列表
+            populateJournalList();
+
+            // 更新统计信息
+            const data = { articles: allArticles, total: allArticles.length };
+            updateStats(data);
+            updateReadLaterCount();
+
+            const loadTime = Math.round(performance.now() - startTime);
+            console.log(`✅ 加载完成: ${allArticles.length} 篇文献，耗时 ${loadTime}ms`);
+
+            // 结束性能监控
+            if (typeof performanceMonitor !== 'undefined' && performanceMonitor && performanceMonitor.end) {
+                performanceMonitor.end('数据加载');
+            }
+
+            return;
+        }
+
+        // 降级到标准加载模式
+        console.log('📦 使用标准加载模式');
 
         // 尝试从 IndexedDB 加载缓存
         let articles = null;
@@ -499,6 +542,9 @@ async function loadArticles() {
 
         // 筛选和显示文章
         filterArticles();
+
+        const loadTime = Math.round(performance.now() - startTime);
+        console.log(`✅ 加载完成: ${allArticles.length} 篇文献，耗时 ${loadTime}ms`);
 
         // 结束性能监控
         if (typeof performanceMonitor !== 'undefined' && performanceMonitor && performanceMonitor.end) {

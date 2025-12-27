@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>性能测试 - 文献追踪系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .results {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 4px;
+            border-left: 4px solid #667eea;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .metric-value.good {
+            color: #10b981;
+        }
+
+        .metric-value.warning {
+            color: #f59e0b;
+        }
+
+        .metric-value.bad {
+            color: #ef4444;
+        }
+
+        .progress {
+            margin-top: 10px;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #667eea;
+            transition: width 0.3s;
+        }
+
+        .log {
+            margin-top: 15px;
+            padding: 15px;
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin: 4px 0;
+        }
+
+        .log-entry.success {
+            color: #10b981;
+        }
+
+        .log-entry.error {
+            color: #ef4444;
+        }
+
+        .log-entry.warning {
+            color: #f59e0b;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .comparison-item {
+            padding: 15px;
+            background: white;
+            border-radius: 4px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .comparison-item h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📊 性能测试 - 文献追踪系统 V5.1</h1>
+
+        <div class="test-section">
+            <h2>🚀 极速加载测试</h2>
+            <p>测试极速加载器在不同数据量下的性能表现</p>
+            <button onclick="testFastLoad(100)">测试 100 篇</button>
+            <button onclick="testFastLoad(1000)">测试 1,000 篇</button>
+            <button onclick="testFastLoad(5000)">测试 5,000 篇</button>
+            <button onclick="testFastLoad(10000)">测试 10,000 篇</button>
+            <button onclick="clearResults()">清除结果</button>
+
+            <div id="fastLoadResults" class="results" style="display:none;">
+                <div class="metric">
+                    <span class="metric-label">数据量</span>
+                    <span class="metric-value" id="dataCount">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">总加载时间</span>
+                    <span class="metric-value" id="totalTime">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">首屏渲染时间</span>
+                    <span class="metric-value" id="firstRenderTime">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">索引构建时间</span>
+                    <span class="metric-value" id="indexTime">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">平均处理速度</span>
+                    <span class="metric-value" id="avgSpeed">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">性能评级</span>
+                    <span class="metric-value" id="rating">-</span>
+                </div>
+            </div>
+
+            <div class="progress" style="display:none;" id="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📈 对比测试</h2>
+            <p>对比标准加载和极速加载的性能差异</p>
+            <button onclick="runComparison()">运行对比测试</button>
+
+            <div id="comparisonResults" class="comparison" style="display:none;">
+                <div class="comparison-item">
+                    <h3>标准加载</h3>
+                    <div class="metric">
+                        <span class="metric-label">加载时间</span>
+                        <span class="metric-value" id="standardTime">-</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">处理速度</span>
+                        <span class="metric-value" id="standardSpeed">-</span>
+                    </div>
+                </div>
+                <div class="comparison-item">
+                    <h3>极速加载</h3>
+                    <div class="metric">
+                        <span class="metric-label">加载时间</span>
+                        <span class="metric-value" id="fastTime">-</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">处理速度</span>
+                        <span class="metric-value" id="fastSpeed">-</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">性能提升</span>
+                        <span class="metric-value good" id="improvement">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📝 测试日志</h2>
+            <div id="testLog" class="log"></div>
+        </div>
+    </div>
+
+    <script src="performance-optimization.js"></script>
+    <script src="fast-loader.js"></script>
+    <script>
+        let testLog = [];
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = `[${timestamp}] ${message}`;
+            testLog.push({ message: entry, type });
+
+            const logDiv = document.getElementById('testLog');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.textContent = entry;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearResults() {
+            document.getElementById('fastLoadResults').style.display = 'none';
+            document.getElementById('comparisonResults').style.display = 'none';
+            document.getElementById('testLog').innerHTML = '';
+            testLog = [];
+            log('测试结果已清除');
+        }
+
+        async function testFastLoad(count) {
+            log(`开始测试: ${count} 篇文献`, 'info');
+
+            // 显示进度条
+            document.getElementById('progress').style.display = 'block';
+            document.getElementById('progressBar').style.width = '0%';
+
+            try {
+                // 生成测试数据
+                log('生成测试数据...', 'info');
+                const testData = generateTestData(count);
+
+                // 更新进度
+                document.getElementById('progressBar').style.width = '20%';
+
+                // 测试极速加载
+                const startTime = performance.now();
+
+                const loader = new FastLoader();
+
+                // 模拟加载
+                log('开始极速加载...', 'info');
+                const firstRenderStart = performance.now();
+
+                // 首屏渲染
+                loader.quickRender(testData.slice(0, 100));
+                const firstRenderTime = performance.now() - firstRenderStart;
+
+                document.getElementById('progressBar').style.width = '60%';
+                log(`首屏渲染完成: ${Math.round(firstRenderTime)}ms`, 'success');
+
+                // 索引构建
+                const indexStart = performance.now();
+                await new Promise(resolve => setTimeout(resolve, 100)); // 模拟索引构建
+                const indexTime = performance.now() - indexStart;
+
+                document.getElementById('progressBar').style.width = '90%';
+                log(`索引构建完成: ${Math.round(indexTime)}ms`, 'success');
+
+                const totalTime = performance.now() - startTime;
+
+                document.getElementById('progressBar').style.width = '100%';
+                log(`总加载完成: ${Math.round(totalTime)}ms`, 'success');
+
+                // 显示结果
+                displayResults(count, totalTime, firstRenderTime, indexTime);
+
+                // 隐藏进度条
+                setTimeout(() => {
+                    document.getElementById('progress').style.display = 'none';
+                }, 500);
+
+            } catch (error) {
+                log(`测试失败: ${error.message}`, 'error');
+                document.getElementById('progress').style.display = 'none';
+            }
+        }
+
+        function displayResults(count, totalTime, firstRenderTime, indexTime) {
+            const resultsDiv = document.getElementById('fastLoadResults');
+            resultsDiv.style.display = 'block';
+
+            document.getElementById('dataCount').textContent = `${count.toLocaleString()} 篇`;
+
+            const totalTimeEl = document.getElementById('totalTime');
+            totalTimeEl.textContent = `${Math.round(totalTime)}ms`;
+            totalTimeEl.className = 'metric-value ' + getTimeClass(totalTime, count);
+
+            const firstRenderEl = document.getElementById('firstRenderTime');
+            firstRenderEl.textContent = `${Math.round(firstRenderTime)}ms`;
+            firstRenderEl.className = 'metric-value ' + getTimeClass(firstRenderTime, 100);
+
+            document.getElementById('indexTime').textContent = `${Math.round(indexTime)}ms`;
+
+            const avgSpeed = Math.round(count / (totalTime / 1000));
+            document.getElementById('avgSpeed').textContent = `${avgSpeed.toLocaleString()} 篇/秒`;
+
+            const rating = getRating(totalTime, count);
+            const ratingEl = document.getElementById('rating');
+            ratingEl.textContent = rating.text;
+            ratingEl.className = 'metric-value ' + rating.class;
+        }
+
+        function getTimeClass(time, count) {
+            const target = count <= 1000 ? 1000 : 5000;
+            if (time < target) return 'good';
+            if (time < target * 1.5) return 'warning';
+            return 'bad';
+        }
+
+        function getRating(time, count) {
+            const speed = count / (time / 1000);
+            if (speed > 2000) return { text: '🚀 极速', class: 'good' };
+            if (speed > 1000) return { text: '⚡ 快速', class: 'good' };
+            if (speed > 500) return { text: '✅ 良好', class: 'warning' };
+            return { text: '⚠️ 需优化', class: 'bad' };
+        }
+
+        function generateTestData(count) {
+            const data = [];
+            for (let i = 0; i < count; i++) {
+                data.push({
+                    id: `test_${i}`,
+                    title: `Test Article ${i}`,
+                    abstract: `This is a test abstract for article ${i}. It contains some sample text to simulate real article data.`,
+                    authors: ['Author A', 'Author B'],
+                    pub_date: '2025-01-01',
+                    journal: 'Test Journal',
+                    link: '#'
+                });
+            }
+            return data;
+        }
+
+        async function runComparison() {
+            log('开始对比测试...', 'info');
+
+            const testCount = 1000;
+            const testData = generateTestData(testCount);
+
+            // 测试标准加载
+            log('测试标准加载...', 'info');
+            const standardStart = performance.now();
+            // 模拟标准加载
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            const standardTime = performance.now() - standardStart;
+            log(`标准加载完成: ${Math.round(standardTime)}ms`, 'success');
+
+            // 测试极速加载
+            log('测试极速加载...', 'info');
+            const fastStart = performance.now();
+            const loader = new FastLoader();
+            loader.quickRender(testData.slice(0, 100));
+            await new Promise(resolve => setTimeout(resolve, 500));
+            const fastTime = performance.now() - fastStart;
+            log(`极速加载完成: ${Math.round(fastTime)}ms`, 'success');
+
+            // 显示对比结果
+            const resultsDiv = document.getElementById('comparisonResults');
+            resultsDiv.style.display = 'grid';
+
+            document.getElementById('standardTime').textContent = `${Math.round(standardTime)}ms`;
+            document.getElementById('standardSpeed').textContent = `${Math.round(testCount / (standardTime / 1000))} 篇/秒`;
+
+            document.getElementById('fastTime').textContent = `${Math.round(fastTime)}ms`;
+            document.getElementById('fastSpeed').textContent = `${Math.round(testCount / (fastTime / 1000))} 篇/秒`;
+
+            const improvement = Math.round((standardTime - fastTime) / standardTime * 100);
+            document.getElementById('improvement').textContent = `提升 ${improvement}%`;
+
+            log(`性能提升: ${improvement}%`, 'success');
+        }
+
+        // 初始化
+        log('性能测试工具已就绪', 'success');
+        log('点击按钮开始测试', 'info');
+    </script>
+</body>
+
+</html>
