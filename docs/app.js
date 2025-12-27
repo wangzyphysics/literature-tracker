@@ -35,7 +35,7 @@ const MAX_SEARCH_HISTORY = 10;
 const JOURNAL_GROUPS = {
     'top': {
         name: '顶刊',
-        patterns: ['nature', 'science', 'physical review letters', 'prl', 'Phys. Rev. lett.', 'journal of the american chemical society', 'jacs', 'angewandte', 'pnas', 'proceedings of the national academy', 'advanced materials', 'adv. mater', 'editor', 'suggestion', 'physics news', 'physics today', 'Rev. Mod. Phys.']
+        patterns: ['nature', 'science', 'physical review letters', 'prl', 'phys. rev. lett', 'phys. rev. x', 'prx', 'journal of the american chemical society', 'jacs', 'angewandte', 'pnas', 'proceedings of the national academy', 'advanced materials', 'adv. mater', 'editor', 'suggestion', 'physics news', 'physics today', 'rev. mod. phys', 'annual reviews']
     },
     'nature': {
         name: 'Nature系列',
@@ -43,7 +43,7 @@ const JOURNAL_GROUPS = {
     },
     'aps': {
         name: 'APS系列',
-        patterns: ['physical review', 'prl', 'prx', 'prb', 'pr materials', 'pr research', 'pr energy', 'pr applied', 'physics', 'Phys. Rev.', 'Rev. Mod. Phys.']
+        patterns: ['physical review', 'prl', 'prx', 'prb', 'pr materials', 'pr research', 'pr energy', 'pr applied', 'prx energy', 'physics', 'phys. rev.', 'rev. mod. phys']
     },
     'acs': {
         name: 'ACS系列',
@@ -51,7 +51,7 @@ const JOURNAL_GROUPS = {
     },
     'wiley': {
         name: 'Wiley系列',
-        patterns: ['wiley', 'angewandte', 'angew', 'advanced materials', 'adv. mater', 'adv. funct', 'advanced functional', 'advanced energy', 'small', 'chemphyschem']
+        patterns: ['wiley', 'angewandte', 'angew', 'advanced materials', 'adv. mater', 'adv. funct', 'advanced functional', 'advanced energy', 'advanced science', 'small', 'chemphyschem']
     },
     'rsc': {
         name: 'RSC系列',
@@ -59,7 +59,11 @@ const JOURNAL_GROUPS = {
     },
     'elsevier': {
         name: 'Elsevier系列',
-        patterns: ['computational materials science', 'computer physics communications', 'materials today', 'sciencedirect']
+        patterns: ['computational materials science', 'computer physics communications', 'materials today', 'sciencedirect', 'science bulletin']
+    },
+    'iop': {
+        name: 'IOP系列',
+        patterns: ['machine learning: science and technology', 'iop', 'journal of physics']
     },
     'preprint': {
         name: '预印本',
@@ -82,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupKeyboardNavigation();
     createTooltip();
     initSearchMode();
+    handleURLParams();
 });
 
 // ========================================
@@ -423,6 +428,8 @@ function hideSearchHistory() {
 
 async function loadArticles() {
     try {
+        performanceMonitor.start('数据加载');
+
         const response = await fetch('data/index.json');
         const data = await response.json();
 
@@ -442,6 +449,11 @@ async function loadArticles() {
         updateStats(data);
         updateReadLaterCount();
         filterArticles();
+
+        // 记录文章数量用于更新检查
+        lastKnownArticleCount = allArticles.length;
+
+        performanceMonitor.end('数据加载');
     } catch (error) {
         console.error('加载数据失败:', error);
         document.getElementById('articleList').innerHTML = `
@@ -990,6 +1002,14 @@ function handleKeyPress(event) {
                 markFocusedReadLater();
             }
             break;
+        case '/':
+            event.preventDefault();
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.focus();
+                searchInput.select();
+            }
+            break;
     }
 }
 
@@ -1444,3 +1464,169 @@ function executeBooleanSearch(articles, ast) {
             return articles;
     }
 }
+
+
+// ========================================
+// URL参数处理
+// ========================================
+
+function handleURLParams() {
+    const params = new URLSearchParams(window.location.search);
+
+    const search = params.get('search');
+    if (search) {
+        const input = document.getElementById('searchInput');
+        if (input) {
+            input.value = search;
+        }
+    }
+
+    const journal = params.get('journal');
+    if (journal) {
+        const select = document.getElementById('journalFilter');
+        if (select) {
+            for (const option of select.options) {
+                if (option.value === journal) {
+                    select.value = journal;
+                    break;
+                }
+            }
+        }
+    }
+
+    const category = params.get('category');
+    if (category && ['all', 'ai-related', 'ai-unrelated'].includes(category)) {
+        setCategory(category);
+    }
+}
+
+// ========================================
+// 性能监控
+// ========================================
+
+const performanceMonitor = {
+    timers: {},
+
+    start(label) {
+        this.timers[label] = performance.now();
+    },
+
+    end(label) {
+        if (this.timers[label]) {
+            const duration = performance.now() - this.timers[label];
+            console.log(`[性能] ${label}: ${duration.toFixed(2)}ms`);
+            delete this.timers[label];
+            return duration;
+        }
+        return 0;
+    },
+
+    measurePageLoad() {
+        window.addEventListener('load', () => {
+            const timing = performance.timing;
+            if (timing.loadEventEnd && timing.navigationStart) {
+                const loadTime = timing.loadEventEnd - timing.navigationStart;
+                console.log(`[性能] 页面加载时间: ${loadTime}ms`);
+            }
+        });
+    }
+};
+
+performanceMonitor.measurePageLoad();
+
+// ========================================
+// 回到顶部功能
+// ========================================
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// 监听滚动，显示/隐藏回到顶部按钮
+window.addEventListener('scroll', () => {
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+        if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    }
+});
+
+// ========================================
+// 后台更新检查
+// ========================================
+
+let lastKnownArticleCount = 0;
+
+// 后台检查更新
+async function checkForUpdates() {
+    try {
+        const response = await fetch('data/index.json?t=' + Date.now());
+        const data = await response.json();
+        const newArticles = data.articles || [];
+
+        if (lastKnownArticleCount > 0 && newArticles.length !== lastKnownArticleCount) {
+            const diff = newArticles.length - lastKnownArticleCount;
+            if (diff > 0) {
+                showUpdateNotification(diff);
+            }
+        }
+        lastKnownArticleCount = newArticles.length;
+    } catch (error) {
+        console.warn('检查更新失败:', error);
+    }
+}
+
+// 显示更新通知
+function showUpdateNotification(newCount) {
+    // 移除已有的通知
+    const existing = document.querySelector('.update-notification');
+    if (existing) existing.remove();
+
+    const notification = document.createElement('div');
+    notification.className = 'update-notification';
+    notification.innerHTML = `
+        <span>发现 ${newCount} 篇新文献</span>
+        <button onclick="reloadArticles()">刷新</button>
+        <button onclick="this.parentElement.remove()">忽略</button>
+    `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => notification.classList.add('visible'), 100);
+
+    // 30秒后自动隐藏
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.classList.remove('visible');
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, 30000);
+}
+
+// 重新加载文章
+async function reloadArticles() {
+    // 移除通知
+    const notification = document.querySelector('.update-notification');
+    if (notification) {
+        notification.classList.remove('visible');
+        setTimeout(() => notification.remove(), 300);
+    }
+
+    // 显示加载状态
+    const container = document.getElementById('articleList');
+    if (container) {
+        container.innerHTML = '<div class="loading">正在刷新...</div>';
+    }
+
+    // 重新加载
+    await loadArticles();
+    showToast('文献列表已更新');
+}
+
+// 每5分钟检查一次更新
+setInterval(checkForUpdates, 5 * 60 * 1000);

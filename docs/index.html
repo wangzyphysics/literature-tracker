@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="自动追踪机器学习、铁电、磁性等领域最新文献">
+    <meta name="theme-color" content="#667eea">
     <title>文献追踪系统</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -24,7 +25,7 @@
         <div class="controls">
             <div class="search-box">
                 <div class="search-input-wrapper">
-                    <input type="text" id="searchInput" placeholder="搜索标题、摘要、作者..." autocomplete="off">
+                    <input type="text" id="searchInput" placeholder="搜索标题、摘要、作者... (支持正则和布尔)" autocomplete="off">
                     <span class="search-mode-indicator mode-normal" id="searchModeIndicator" title="点击切换搜索模式">普通</span>
                     <div class="search-history-dropdown" id="searchHistoryDropdown">
                         <div class="search-history-header">
@@ -59,6 +60,7 @@
                         <option value="group:wiley">📘 Wiley系列 (Angew/Adv. Mater.等)</option>
                         <option value="group:rsc">🧫 RSC系列 (Digital Discovery等)</option>
                         <option value="group:elsevier">📚 Elsevier系列 (Comp. Mater. Sci.等)</option>
+                        <option value="group:iop">🔭 IOP系列 (ML:ST等)</option>
                         <option value="group:preprint">📄 预印本 (arXiv/ChemRxiv)</option>
                         <option value="group:other">📰 其他</option>
                     </optgroup>
@@ -136,7 +138,13 @@
             <div><kbd>s</kbd> 收藏</div>
             <div><kbd>r</kbd> 标记已读</div>
             <div><kbd>l</kbd> 稍后阅读</div>
+            <div><kbd>/</kbd> 聚焦搜索</div>
         </div>
+
+        <!-- 回到顶部按钮 -->
+        <button id="backToTop" class="back-to-top" onclick="scrollToTop()" title="回到顶部">
+            ↑
+        </button>
 
         <!-- 页脚 -->
         <footer class="site-footer">
@@ -144,7 +152,7 @@
         </footer>
     </div>
 
-    <script src="app.js?v=14"></script>
+    <script src="app.js?v=16"></script>
 </body>
 
 </html>
