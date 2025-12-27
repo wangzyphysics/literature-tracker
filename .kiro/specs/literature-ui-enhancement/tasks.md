@@ -34,7 +34,7 @@
     - **Property 1: Card Toggle Consistency**
     - **Validates: Requirements 1.2, 1.3**
 
-- [ ] 3. 实现AI分类筛选功能
+- [x] 3. 实现AI分类筛选功能
   - [x] 3.1 实现 `isAIRelated` 分类函数
     - 检查标题和摘要中的AI关键词
     - 大小写不敏感匹配
@@ -46,16 +46,16 @@
   - [x] 3.3 实现 `filterByCategory` 筛选函数
     - 根据选择的分类筛选文献列表
     - _Requirements: 3.4_
-  - [ ] 3.4 编写AI分类正确性属性测试
+  - [ ]* 3.4 编写AI分类正确性属性测试
 
     - **Property 3: AI Classification Correctness**
     - **Validates: Requirements 3.2, 3.3, 3.5**
-  - [ ] 3.5 编写分类筛选完整性属性测试
+  - [ ]* 3.5 编写分类筛选完整性属性测试
 
     - **Property 4: Category Filter Completeness**
     - **Validates: Requirements 3.4**
 
-- [ ] 4. 实现关键词高亮功能
+- [x] 4. 实现关键词高亮功能
   - [x] 4.1 实现 `highlightKeywords` 函数
     - 使用正则表达式匹配关键词
     - 包装为高亮span元素
@@ -63,12 +63,12 @@
   - [x] 4.2 在卡片渲染中应用关键词高亮
     - 高亮标题和摘要中的关键词
     - _Requirements: 10.1, 10.2_
-  - [ ] 4.3 编写关键词高亮完整性属性测试
+  - [ ]* 4.3 编写关键词高亮完整性属性测试
 
     - **Property 9: Keyword Highlighting Completeness**
     - **Validates: Requirements 10.1, 10.2, 10.3**
 
-- [ ] 5. 实现主题切换功能
+- [x] 5. 实现主题切换功能
   - [x] 5.1 实现主题管理函数
     - `getCurrentTheme()` - 获取当前主题
     - `setTheme(theme)` - 设置主题
@@ -79,35 +79,35 @@
     - 在页面头部添加切换按钮
     - 显示当前主题图标（太阳/月亮）
     - _Requirements: 4.2, 4.3_
-  - [ ] 5.3 编写主题持久化往返属性测试
+  - [ ]* 5.3 编写主题持久化往返属性测试
 
     - **Property 5: Theme Persistence Round-Trip**
     - **Validates: Requirements 4.4, 4.5**
-  - [ ] 5.4 编写主题切换幂等性属性测试
+  - [ ]* 5.4 编写主题切换幂等性属性测试
 
     - **Property 6: Theme Toggle Idempotence**
     - **Validates: Requirements 4.2**
 
-- [ ] 6. 更新分页系统
+- [x] 6. 更新分页系统
   - [x] 6.1 修改 PAGE_SIZE 为 50
     - 更新分页逻辑
     - _Requirements: 2.1_
   - [x] 6.2 优化分页导航UI
     - 确保分页控件在移动端可用
     - _Requirements: 2.2, 2.3_
-  - [ ] 6.3 编写分页大小约束属性测试
+  - [ ]* 6.3 编写分页大小约束属性测试
 
     - **Property 2: Pagination Size Constraint**
     - **Validates: Requirements 2.1**
 
-- [ ] 7. 实现键盘快捷键支持
+- [x] 7. 实现键盘快捷键支持
   - [x] 7.1 实现键盘导航函数
     - `focusNext()` / `focusPrev()` - 上下导航
     - `toggleFocused()` - 展开/折叠
     - `openFocused()` - 打开原文
     - `starFocused()` - 收藏
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
-  - [ ] 7.2 添加键盘事件监听器
+  - [x] 7.2 添加键盘事件监听器
     - 监听 j/k/Enter/o/s 按键
     - 添加聚焦状态视觉反馈
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_

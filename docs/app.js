@@ -1630,3 +1630,48 @@ async function reloadArticles() {
 
 // 每5分钟检查一次更新
 setInterval(checkForUpdates, 5 * 60 * 1000);
+
+// ========================================
+// Service Worker 注册
+// ========================================
+
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+            try {
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                console.log('[SW] Service Worker 注册成功:', registration.scope);
+
+                // 监听更新
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    console.log('[SW] 发现新版本...');
+
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // 新版本已安装，提示用户刷新
+                            showUpdateAvailable();
+                        }
+                    });
+                });
+            } catch (error) {
+                console.warn('[SW] Service Worker 注册失败:', error);
+            }
+        });
+    }
+}
+
+function showUpdateAvailable() {
+    const notification = document.createElement('div');
+    notification.className = 'update-notification';
+    notification.innerHTML = `
+        <span>应用有新版本可用</span>
+        <button onclick="location.reload()">刷新</button>
+        <button onclick="this.parentElement.remove()">稍后</button>
+    `;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.classList.add('visible'), 100);
+}
+
+// 注册 Service Worker
+registerServiceWorker();
