@@ -158,7 +158,25 @@
     </footer>
     </div>
 
-    <script src="app.js?v=17"></script>
+    <script src="performance-optimization.js?v=1"></script>
+    <script src="advanced-features.js?v=1"></script>
+    <script src="app.js?v=18"></script>
+    <script>
+        // 初始化高级功能（在app.js加载后，等待数据加载完成）
+        document.addEventListener('DOMContentLoaded', function () {
+            // 延迟初始化高级功能，确保app.js已完成基础初始化
+            setTimeout(function () {
+                if (typeof initAdvancedFeatures === 'function') {
+                    try {
+                        initAdvancedFeatures();
+                        console.log('✅ 高级功能初始化完成');
+                    } catch (e) {
+                        console.error('高级功能初始化失败:', e);
+                    }
+                }
+            }, 500);
+        });
+    </script>
 </body>
 
 </html>
