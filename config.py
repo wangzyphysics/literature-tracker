@@ -63,7 +63,7 @@ RSS_FEEDS = [
 KEYWORDS = [
     "ferro",
     "machine",
-    "learning",
+    "learn",
     "magne",
     "neural",
     "network",

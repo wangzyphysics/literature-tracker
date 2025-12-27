@@ -17,6 +17,7 @@ from rss_fetcher import RSSFetcher
 from translator import translate_text
 from data_manager import DataManager
 from email_notifier import EmailNotifier
+from abstract_scraper import AbstractScraper, enhance_article_abstract
 
 
 def run_fetch(send_email: bool = True, verbose: bool = True):
@@ -47,15 +48,29 @@ def run_fetch(send_email: bool = True, verbose: bool = True):
         print("\n✅ 没有新文献，任务完成")
         return []
     
-    # 4. 翻译新文献
-    print(f"\n🌐 正在翻译 {len(new_articles)} 篇新文献...")
+    # 4. 翻译新文献（并增强摘要）
+    print(f"\n🌐 正在处理 {len(new_articles)} 篇新文献...")
+    scraper = AbstractScraper()
+    enhanced_count = 0
+    
     for i, article in enumerate(new_articles, 1):
         print(f"  [{i}/{len(new_articles)}] {article.title[:50]}...")
-        article.title_zh = translate_text(article.title)
-        if article.abstract:
-            article.abstract_zh = translate_text(article.abstract)
+        
+        # 先检查并增强摘要
+        if enhance_article_abstract(article, scraper, translate_text):
+            enhanced_count += 1
         else:
-            article.abstract_zh = ""
+            # 如果没有增强，正常翻译
+            if article.abstract:
+                article.abstract_zh = translate_text(article.abstract)
+            else:
+                article.abstract_zh = ""
+        
+        # 翻译标题
+        article.title_zh = translate_text(article.title)
+    
+    if enhanced_count > 0:
+        print(f"\n📊 共增强 {enhanced_count} 篇文献的摘要")
     
     # 5. 保存到历史记录
     print("\n💾 保存数据...")
