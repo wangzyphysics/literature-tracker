@@ -1029,7 +1029,7 @@ class PerformanceMonitor {
 
         let html = '<div class="performance-panel-header">';
         html += '<h3>⚡ 性能监控</h3>';
-        html += '<button onclick="performanceMonitor.hidePanel()">✕</button>';
+        html += '<button onclick="advancedPerformanceMonitor.hidePanel()">✕</button>';
         html += '</div>';
 
         html += '<div class="performance-panel-body">';
@@ -1067,8 +1067,8 @@ class PerformanceMonitor {
         html += '</div>';
 
         html += '<div class="performance-panel-footer">';
-        html += '<button onclick="performanceMonitor.exportReport()">导出报告</button>';
-        html += '<button onclick="performanceMonitor.clear()">清除数据</button>';
+        html += '<button onclick="advancedPerformanceMonitor.exportReport()">导出报告</button>';
+        html += '<button onclick="advancedPerformanceMonitor.clear()">清除数据</button>';
         html += '</div>';
 
         panel.innerHTML = html;
@@ -1240,16 +1240,16 @@ let indexedDBManager = null;
 let invertedIndexSearchEngine = null;
 let workerPool = null;
 let domNodePool = null;
-let performanceMonitor = null;
+let advancedPerformanceMonitor = null;  // 重命名避免与app.js中的performanceMonitor冲突
 let serviceWorkerManager = null;
 
 // 初始化性能优化功能
 async function initPerformanceOptimization() {
     console.log('🚀 初始化性能优化模块...');
 
-    // 初始化性能监控
-    performanceMonitor = new PerformanceMonitor();
-    performanceMonitor.start('初始化');
+    // 初始化高级性能监控
+    advancedPerformanceMonitor = new PerformanceMonitor();
+    advancedPerformanceMonitor.start('初始化');
 
     // 初始化 Service Worker
     try {
@@ -1288,7 +1288,7 @@ async function initPerformanceOptimization() {
         }
     }
 
-    performanceMonitor.end('初始化');
+    advancedPerformanceMonitor.end('初始化');
 
     console.log('✅ 性能优化模块初始化完成');
 }
@@ -1300,7 +1300,7 @@ if (typeof window !== 'undefined') {
     window.invertedIndexSearchEngine = invertedIndexSearchEngine;
     window.workerPool = workerPool;
     window.domNodePool = domNodePool;
-    window.performanceMonitor = performanceMonitor;
+    window.advancedPerformanceMonitor = advancedPerformanceMonitor;
     window.serviceWorkerManager = serviceWorkerManager;
     window.initPerformanceOptimization = initPerformanceOptimization;
 }

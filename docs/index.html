@@ -28,134 +28,135 @@
             <div class="nav-links">
                 <a href="analytics.html" class="nav-link">📊 数据分析</a>
                 <a href="daily/" class="nav-link">📰 每日摘要</a>
+                <a href="feed.xml" class="nav-link rss-link" target="_blank">📡 RSS订阅</a>
             </div>
-            <div class="search-box"></div>
-            <div class="search-input-wrapper">
-                <input type="text" id="searchInput" placeholder="搜索标题、摘要、作者... (支持正则和布尔)" autocomplete="off">
-                <span class="search-mode-indicator mode-normal" id="searchModeIndicator" title="点击切换搜索模式">普通</span>
-                <div class="search-history-dropdown" id="searchHistoryDropdown">
-                    <div class="search-history-header">
-                        <span>搜索历史</span>
-                        <button onclick="clearSearchHistory()" class="clear-history-btn">清除</button>
+            <div class="search-box">
+                <div class="search-input-wrapper">
+                    <input type="text" id="searchInput" placeholder="搜索标题、摘要、作者... (支持正则和布尔)" autocomplete="off">
+                    <span class="search-mode-indicator mode-normal" id="searchModeIndicator" title="点击切换搜索模式">普通</span>
+                    <div class="search-history-dropdown" id="searchHistoryDropdown">
+                        <div class="search-history-header">
+                            <span>搜索历史</span>
+                            <button onclick="clearSearchHistory()" class="clear-history-btn">清除</button>
+                        </div>
+                        <div class="search-history-list" id="searchHistoryList"></div>
                     </div>
-                    <div class="search-history-list" id="searchHistoryList"></div>
                 </div>
+                <button onclick="clearSearch()">清除</button>
             </div>
-            <button onclick="clearSearch()">清除</button>
+            <div class="filters">
+                <div class="date-filter">
+                    <input type="date" id="dateFrom" onchange="filterArticles()" title="开始日期">
+                    <span class="date-separator">至</span>
+                    <input type="date" id="dateTo" onchange="filterArticles()" title="结束日期">
+                    <button onclick="clearDateFilter()" class="date-clear-btn" title="清除日期筛选">✕</button>
+                </div>
+
+                <select id="sortSelect" onchange="sortArticles()">
+                    <option value="date-desc">按日期降序</option>
+                    <option value="date-asc">按日期升序</option>
+                </select>
+
+                <select id="journalFilter" onchange="filterArticles()">
+                    <option value="all">全部期刊</option>
+                    <optgroup label="📁 期刊分组">
+                        <option value="group:top">⭐ 顶刊 (Nature/Science/PRL/JACS/Angew/PNAS等)</option>
+                        <option value="group:nature">🔬 Nature/npj系列</option>
+                        <option value="group:aps">⚛️ APS系列 (PRL/PRX/PRB/PR Applied等)</option>
+                        <option value="group:acs">🧪 ACS系列 (JACS/Nano Lett等)</option>
+                        <option value="group:wiley">📘 Wiley系列 (Angew/Adv. Mater.等)</option>
+                        <option value="group:rsc">🧫 RSC系列 (Digital Discovery等)</option>
+                        <option value="group:elsevier">📚 Elsevier系列 (Comp. Mater. Sci.等)</option>
+                        <option value="group:iop">🔭 IOP系列 (ML:ST等)</option>
+                        <option value="group:preprint">📄 预印本 (arXiv/ChemRxiv)</option>
+                        <option value="group:other">📰 其他</option>
+                    </optgroup>
+                    <optgroup label="📖 单独期刊" id="journalList">
+                        <!-- 动态填充 -->
+                    </optgroup>
+                </select>
+
+                <div class="category-filters">
+                    <button class="category-btn active" data-category="all" onclick="setCategory('all')">
+                        全部
+                    </button>
+                    <button class="category-btn" data-category="ai-related" onclick="setCategory('ai-related')">
+                        🤖 AI相关
+                    </button>
+                    <button class="category-btn" data-category="ai-unrelated" onclick="setCategory('ai-unrelated')">
+                        📚 非AI
+                    </button>
+                </div>
+
+                <div class="read-filters">
+                    <button class="read-filter-btn active" data-filter="all" onclick="setReadFilter('all')">
+                        全部
+                    </button>
+                    <button class="read-filter-btn" data-filter="unread" onclick="setReadFilter('unread')">
+                        未读
+                    </button>
+                    <button class="read-filter-btn" data-filter="read" onclick="setReadFilter('read')">
+                        已读
+                    </button>
+                    <button class="read-filter-btn" data-filter="later" onclick="setReadFilter('later')">
+                        📌 待读
+                    </button>
+                </div>
+
+                <div class="batch-export">
+                    <span class="batch-export-label">批量导出:</span>
+                    <button onclick="exportAllBibTeX()" title="导出当前筛选结果为BibTeX">
+                        📄 BibTeX
+                    </button>
+                    <button onclick="exportAllRIS()" title="导出当前筛选结果为RIS">
+                        📋 RIS
+                    </button>
+                </div>
+
+                <label class="checkbox-label">
+                    <input type="checkbox" id="favoritesOnly" onchange="filterArticles()">
+                    只看收藏
+                </label>
+            </div>
         </div>
-        <div class="filters">
-            <div class="date-filter">
-                <input type="date" id="dateFrom" onchange="filterArticles()" title="开始日期">
-                <span class="date-separator">至</span>
-                <input type="date" id="dateTo" onchange="filterArticles()" title="结束日期">
-                <button onclick="clearDateFilter()" class="date-clear-btn" title="清除日期筛选">✕</button>
-            </div>
 
-            <select id="sortSelect" onchange="sortArticles()">
-                <option value="date-desc">按日期降序</option>
-                <option value="date-asc">按日期升序</option>
-            </select>
-
-            <select id="journalFilter" onchange="filterArticles()">
-                <option value="all">全部期刊</option>
-                <optgroup label="📁 期刊分组">
-                    <option value="group:top">⭐ 顶刊 (Nature/Science/PRL/JACS/Angew/PNAS等)</option>
-                    <option value="group:nature">🔬 Nature/npj系列</option>
-                    <option value="group:aps">⚛️ APS系列 (PRL/PRX/PRB/PR Applied等)</option>
-                    <option value="group:acs">🧪 ACS系列 (JACS/Nano Lett等)</option>
-                    <option value="group:wiley">📘 Wiley系列 (Angew/Adv. Mater.等)</option>
-                    <option value="group:rsc">🧫 RSC系列 (Digital Discovery等)</option>
-                    <option value="group:elsevier">📚 Elsevier系列 (Comp. Mater. Sci.等)</option>
-                    <option value="group:iop">🔭 IOP系列 (ML:ST等)</option>
-                    <option value="group:preprint">📄 预印本 (arXiv/ChemRxiv)</option>
-                    <option value="group:other">📰 其他</option>
-                </optgroup>
-                <optgroup label="📖 单独期刊" id="journalList">
-                    <!-- 动态填充 -->
-                </optgroup>
-            </select>
-
-            <div class="category-filters">
-                <button class="category-btn active" data-category="all" onclick="setCategory('all')">
-                    全部
-                </button>
-                <button class="category-btn" data-category="ai-related" onclick="setCategory('ai-related')">
-                    🤖 AI相关
-                </button>
-                <button class="category-btn" data-category="ai-unrelated" onclick="setCategory('ai-unrelated')">
-                    📚 非AI
-                </button>
-            </div>
-
-            <div class="read-filters">
-                <button class="read-filter-btn active" data-filter="all" onclick="setReadFilter('all')">
-                    全部
-                </button>
-                <button class="read-filter-btn" data-filter="unread" onclick="setReadFilter('unread')">
-                    未读
-                </button>
-                <button class="read-filter-btn" data-filter="read" onclick="setReadFilter('read')">
-                    已读
-                </button>
-                <button class="read-filter-btn" data-filter="later" onclick="setReadFilter('later')">
-                    📌 待读
-                </button>
-            </div>
-
-            <div class="batch-export">
-                <span class="batch-export-label">批量导出:</span>
-                <button onclick="exportAllBibTeX()" title="导出当前筛选结果为BibTeX">
-                    📄 BibTeX
-                </button>
-                <button onclick="exportAllRIS()" title="导出当前筛选结果为RIS">
-                    📋 RIS
-                </button>
-            </div>
-
-            <label class="checkbox-label">
-                <input type="checkbox" id="favoritesOnly" onchange="filterArticles()">
-                只看收藏
-            </label>
+        <div class="stats" id="stats">
+            <span>共 <strong id="totalCount">0</strong> 篇文献</span>
+            <span>当前显示 <strong id="filteredCount" class="filtered-count">0</strong> 篇</span>
+            <span>未读 <strong id="unreadCount" class="unread-count">0</strong> 篇</span>
+            <span>待读 <strong id="readLaterCount" class="read-later-count">0</strong> 篇</span>
+            <span>AI相关 <strong id="aiCount" class="ai-count">0</strong> 篇</span>
+            <span>非AI <strong id="nonAiCount" class="non-ai-count">0</strong> 篇</span>
+            <span>收藏 <strong id="favCount">0</strong> 篇</span>
+            <span>最后更新: <strong id="lastUpdate">-</strong></span>
         </div>
-    </div>
 
-    <div class="stats" id="stats">
-        <span>共 <strong id="totalCount">0</strong> 篇文献</span>
-        <span>当前显示 <strong id="filteredCount" class="filtered-count">0</strong> 篇</span>
-        <span>未读 <strong id="unreadCount" class="unread-count">0</strong> 篇</span>
-        <span>待读 <strong id="readLaterCount" class="read-later-count">0</strong> 篇</span>
-        <span>AI相关 <strong id="aiCount" class="ai-count">0</strong> 篇</span>
-        <span>非AI <strong id="nonAiCount" class="non-ai-count">0</strong> 篇</span>
-        <span>收藏 <strong id="favCount">0</strong> 篇</span>
-        <span>最后更新: <strong id="lastUpdate">-</strong></span>
-    </div>
+        <div id="articleList" class="article-list">
+            <div class="loading">加载中...</div>
+        </div>
 
-    <div id="articleList" class="article-list">
-        <div class="loading">加载中...</div>
-    </div>
+        <div id="pagination"></div>
 
-    <div id="pagination"></div>
+        <!-- 键盘快捷键提示 -->
+        <div class="keyboard-hints">
+            <div><kbd>j</kbd> / <kbd>k</kbd> 上下导航</div>
+            <div><kbd>Enter</kbd> 展开/折叠</div>
+            <div><kbd>o</kbd> 打开原文</div>
+            <div><kbd>s</kbd> 收藏</div>
+            <div><kbd>r</kbd> 标记已读</div>
+            <div><kbd>l</kbd> 稍后阅读</div>
+            <div><kbd>/</kbd> 聚焦搜索</div>
+        </div>
 
-    <!-- 键盘快捷键提示 -->
-    <div class="keyboard-hints">
-        <div><kbd>j</kbd> / <kbd>k</kbd> 上下导航</div>
-        <div><kbd>Enter</kbd> 展开/折叠</div>
-        <div><kbd>o</kbd> 打开原文</div>
-        <div><kbd>s</kbd> 收藏</div>
-        <div><kbd>r</kbd> 标记已读</div>
-        <div><kbd>l</kbd> 稍后阅读</div>
-        <div><kbd>/</kbd> 聚焦搜索</div>
-    </div>
+        <!-- 回到顶部按钮 -->
+        <button id="backToTop" class="back-to-top" onclick="scrollToTop()" title="回到顶部">
+            ↑
+        </button>
 
-    <!-- 回到顶部按钮 -->
-    <button id="backToTop" class="back-to-top" onclick="scrollToTop()" title="回到顶部">
-        ↑
-    </button>
-
-    <!-- 页脚 -->
-    <footer class="site-footer">
-        Made by 于宏宇（Hongyu Yu） with AI
-    </footer>
+        <!-- 页脚 -->
+        <footer class="site-footer">
+            Made by 于宏宇（Hongyu Yu） with AI
+        </footer>
     </div>
 
     <script src="performance-optimization.js?v=1"></script>
