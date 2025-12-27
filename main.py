@@ -12,12 +12,14 @@ from datetime import datetime
 # 添加当前目录到路径
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from config import RSS_FEEDS, KEYWORDS, EMAIL_CONFIG, DATA_DIR, ARTICLES_DIR
+from config import RSS_FEEDS, KEYWORDS, EMAIL_CONFIG, DATA_DIR, ARTICLES_DIR, WECHAT_CONFIG, DEDUP_CONFIG
 from rss_fetcher import RSSFetcher
 from translator import translate_text
 from data_manager import DataManager
 from email_notifier import EmailNotifier
 from abstract_scraper import AbstractScraper, enhance_article_abstract
+from deduplicator import Deduplicator
+from wechat_notifier import WeChatNotifier
 
 
 def run_fetch(send_email: bool = True, verbose: bool = True):
@@ -39,6 +41,17 @@ def run_fetch(send_email: bool = True, verbose: bool = True):
     print(f"\n🔍 使用关键词筛选: {', '.join(KEYWORDS)}")
     filtered_articles = fetcher.filter_by_keywords(all_articles)
     print(f"筛选后剩余 {len(filtered_articles)} 篇文献")
+    
+    # 2.5 去重处理
+    if DEDUP_CONFIG.get("enabled", True):
+        print(f"\n🔄 正在去重...")
+        deduplicator = Deduplicator(
+            similarity_threshold=DEDUP_CONFIG.get("similarity_threshold", 0.9)
+        )
+        filtered_articles, dup_count = deduplicator.deduplicate(filtered_articles)
+        if dup_count > 0:
+            print(f"   去除 {dup_count} 篇重复文献")
+        print(f"去重后剩余 {len(filtered_articles)} 篇文献")
     
     # 3. 获取新文献（去重）
     new_articles = data_manager.get_new_articles(filtered_articles)
@@ -95,8 +108,15 @@ def run_fetch(send_email: bool = True, verbose: bool = True):
             smtp_port=EMAIL_CONFIG["smtp_port"],
             sender_email=EMAIL_CONFIG["sender_email"],
             sender_password=EMAIL_CONFIG["sender_password"],
+            mode=EMAIL_CONFIG.get("mode", "full"),
         )
         notifier.send_notification(EMAIL_CONFIG["recipient"], new_articles)
+    
+    # 9. 发送微信推送
+    if WECHAT_CONFIG.get("enabled") and WECHAT_CONFIG.get("sendkey"):
+        print("\n📱 发送微信推送...")
+        wechat = WeChatNotifier(sendkey=WECHAT_CONFIG["sendkey"])
+        wechat.send_notification(new_articles)
     
     print(f"\n✅ 任务完成！共处理 {len(new_articles)} 篇新文献")
     return new_articles

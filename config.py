@@ -57,6 +57,13 @@ RSS_FEEDS = [
     "https://chemrxiv.org/engage/rss/chemrxiv",
     "https://www.researchsquare.com/rss.xml",
     "https://rss.arxiv.org/rss/cond-mat.supr-con+cond-mat.mtrl-sci+cond-mat.str-el+physics.comp-ph+physics.chem-ph",
+    "https://feeds.rsc.org/rss/dd",  # Digital Discovery (RSC - AI for chemistry)
+    "https://rss.sciencedirect.com/publication/science/09270256",  # Computational Materials Science
+    "https://rss.sciencedirect.com/publication/science/00104655",  # Computer Physics Communications
+    "https://www.nature.com/npjquantmats.rss",  # npj Quantum Materials
+    "https://rss.sciencedirect.com/publication/science/13697021",  # Materials Today
+    "https://www.nature.com/npj2dmaterials.rss",  # npj 2D Materials and Applications
+    "http://feeds.aps.org/rss/recent/prapplied.xml",  # Physical Review Applied
 ]
 
 # 关键词列表（用于筛选文献）
@@ -80,6 +87,19 @@ EMAIL_CONFIG = {
     "smtp_port": 465,
     "sender_email": os.environ.get("EMAIL_SENDER", ""),  # 从环境变量或手动配置
     "sender_password": os.environ.get("EMAIL_PASSWORD", ""),  # 从环境变量或手动配置
+    "mode": "digest",  # 邮件模式: "full" 完整版（含摘要）, "digest" 摘要版（仅标题列表）
+}
+
+# 微信推送配置（Server酱）
+WECHAT_CONFIG = {
+    "enabled": False,  # 是否启用微信推送
+    "sendkey": os.environ.get("SERVERCHAN_KEY", ""),  # Server酱SendKey，从 https://sct.ftqq.com/ 获取
+}
+
+# 去重配置
+DEDUP_CONFIG = {
+    "enabled": True,  # 是否启用去重
+    "similarity_threshold": 0.9,  # 标题相似度阈值（0-1）
 }
 
 # GitHub配置

@@ -1,6 +1,7 @@
 /**
  * 文献追踪系统 - 前端应用
  * 支持：可折叠卡片、AI分类筛选、主题切换、键盘快捷键、关键词高亮
+ *       阅读状态追踪、搜索历史
  */
 
 // ========================================
@@ -10,16 +11,60 @@
 let allArticles = [];
 let filteredArticles = [];
 let favorites = new Set();
+let readArticles = new Set();  // 已读文献
+let readLater = new Set();  // 稍后阅读
 let expandedCards = new Set();
+let searchHistory = [];  // 搜索历史
 let currentPage = 1;
 let focusedIndex = -1;
 let currentCategory = 'all'; // 'all' | 'ai-related' | 'ai-unrelated'
+let currentReadFilter = 'all'; // 'all' | 'unread' | 'read' | 'later'
 let currentTheme = 'light';
 
 const PAGE_SIZE = 50;
 const AI_KEYWORDS = ['machine', 'learn', 'neural', 'network'];
 const THEME_STORAGE_KEY = 'literature_theme';
 const FAVORITES_STORAGE_KEY = 'literature_favorites';
+const READ_STORAGE_KEY = 'literature_read';
+const READ_LATER_STORAGE_KEY = 'literature_read_later';
+const SEARCH_HISTORY_KEY = 'literature_search_history';
+const MAX_SEARCH_HISTORY = 10;
+
+// 期刊分组定义
+const JOURNAL_GROUPS = {
+    'top': {
+        name: '顶刊',
+        patterns: ['nature', 'science', 'physical review letters', 'prl', 'Phys. Rev. lett.', 'journal of the american chemical society', 'jacs', 'angewandte', 'pnas', 'proceedings of the national academy', 'advanced materials', 'adv. mater', 'editor', 'suggestion', 'physics news', 'physics today', 'Rev. Mod. Phys.']
+    },
+    'nature': {
+        name: 'Nature系列',
+        patterns: ['nature', 'npj']
+    },
+    'aps': {
+        name: 'APS系列',
+        patterns: ['physical review', 'prl', 'prx', 'prb', 'pr materials', 'pr research', 'pr energy', 'pr applied', 'physics', 'Phys. Rev.', 'Rev. Mod. Phys.']
+    },
+    'acs': {
+        name: 'ACS系列',
+        patterns: ['acs', 'journal of the american chemical', 'jacs', 'nano letters', 'chemical reviews', 'j. phys. chem', 'j. chem. theory']
+    },
+    'wiley': {
+        name: 'Wiley系列',
+        patterns: ['wiley', 'angewandte', 'angew', 'advanced materials', 'adv. mater', 'adv. funct', 'advanced functional', 'advanced energy', 'small', 'chemphyschem']
+    },
+    'rsc': {
+        name: 'RSC系列',
+        patterns: ['rsc', 'royal society of chemistry', 'digital discovery', 'chem. sci', 'chemical science']
+    },
+    'elsevier': {
+        name: 'Elsevier系列',
+        patterns: ['computational materials science', 'computer physics communications', 'materials today', 'sciencedirect']
+    },
+    'preprint': {
+        name: '预印本',
+        patterns: ['arxiv', 'chemrxiv', 'researchsquare', 'preprint']
+    }
+};
 
 // ========================================
 // 初始化
@@ -28,6 +73,9 @@ const FAVORITES_STORAGE_KEY = 'literature_favorites';
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     loadFavorites();
+    loadReadStatus();
+    loadReadLater();
+    loadSearchHistory();
     loadArticles();
     setupSearch();
     setupKeyboardNavigation();
@@ -111,17 +159,21 @@ function toggleFavorite(id) {
 
     updateFavCount();
 
-    if (document.getElementById('favoritesOnly').checked) {
+    if (document.getElementById('favoritesOnly')?.checked) {
         filterArticles();
     } else {
-        const card = document.getElementById(`article-${id}`);
-        if (card) {
-            card.classList.toggle('favorite', favorites.has(id));
-            const btn = card.querySelector('.favorite-btn');
-            if (btn) {
-                btn.innerHTML = favorites.has(id) ? '⭐' : '☆';
-                btn.title = favorites.has(id) ? '取消收藏' : '添加收藏';
-            }
+        updateCardFavoriteUI(id);
+    }
+}
+
+function updateCardFavoriteUI(id) {
+    const card = document.getElementById(`article-${id}`);
+    if (card) {
+        card.classList.toggle('favorite', favorites.has(id));
+        const btn = card.querySelector('.favorite-btn');
+        if (btn) {
+            btn.innerHTML = favorites.has(id) ? '⭐' : '☆';
+            btn.title = favorites.has(id) ? '取消收藏' : '添加收藏';
         }
     }
 }
@@ -129,6 +181,238 @@ function toggleFavorite(id) {
 function updateFavCount() {
     const el = document.getElementById('favCount');
     if (el) el.textContent = favorites.size;
+}
+
+// ========================================
+// 阅读状态管理
+// ========================================
+
+function loadReadStatus() {
+    try {
+        const saved = localStorage.getItem(READ_STORAGE_KEY);
+        if (saved) {
+            readArticles = new Set(JSON.parse(saved));
+        }
+    } catch (e) {
+        console.warn('无法加载阅读状态:', e);
+    }
+}
+
+function saveReadStatus() {
+    try {
+        localStorage.setItem(READ_STORAGE_KEY, JSON.stringify([...readArticles]));
+    } catch (e) {
+        console.warn('无法保存阅读状态:', e);
+    }
+}
+
+function toggleReadStatus(id) {
+    if (readArticles.has(id)) {
+        readArticles.delete(id);
+    } else {
+        readArticles.add(id);
+    }
+
+    saveReadStatus();
+
+    const article = allArticles.find(a => a.id === id);
+    if (article) {
+        article.is_read = readArticles.has(id);
+    }
+
+    updateUnreadCount();
+
+    if (currentReadFilter !== 'all') {
+        filterArticles();
+    } else {
+        updateCardReadUI(id);
+    }
+}
+
+function updateCardReadUI(id) {
+    const card = document.getElementById(`article-${id}`);
+    if (card) {
+        const isRead = readArticles.has(id);
+        card.classList.toggle('read', isRead);
+        const btn = card.querySelector('.read-btn');
+        if (btn) {
+            btn.innerHTML = isRead ? '✓ 已读' : '○ 未读';
+            btn.title = isRead ? '标记为未读' : '标记为已读';
+            btn.classList.toggle('is-read', isRead);
+        }
+    }
+}
+
+function updateUnreadCount() {
+    const unreadCount = allArticles.length - readArticles.size;
+    const el = document.getElementById('unreadCount');
+    if (el) el.textContent = unreadCount;
+}
+
+function setReadFilter(filter) {
+    currentReadFilter = filter;
+
+    document.querySelectorAll('.read-filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
+    });
+
+    filterArticles();
+}
+
+// ========================================
+// 稍后阅读管理
+// ========================================
+
+function loadReadLater() {
+    try {
+        const saved = localStorage.getItem(READ_LATER_STORAGE_KEY);
+        if (saved) {
+            readLater = new Set(JSON.parse(saved));
+        }
+    } catch (e) {
+        console.warn('无法加载稍后阅读:', e);
+    }
+}
+
+function saveReadLater() {
+    try {
+        localStorage.setItem(READ_LATER_STORAGE_KEY, JSON.stringify([...readLater]));
+    } catch (e) {
+        console.warn('无法保存稍后阅读:', e);
+    }
+}
+
+function toggleReadLater(id) {
+    if (readLater.has(id)) {
+        readLater.delete(id);
+    } else {
+        readLater.add(id);
+    }
+
+    saveReadLater();
+
+    const article = allArticles.find(a => a.id === id);
+    if (article) {
+        article.is_read_later = readLater.has(id);
+    }
+
+    updateReadLaterCount();
+
+    if (currentReadFilter === 'later') {
+        filterArticles();
+    } else {
+        updateCardReadLaterUI(id);
+    }
+}
+
+function updateCardReadLaterUI(id) {
+    const card = document.getElementById(`article-${id}`);
+    if (card) {
+        const isLater = readLater.has(id);
+        card.classList.toggle('read-later', isLater);
+        const btn = card.querySelector('.read-later-btn');
+        if (btn) {
+            btn.innerHTML = isLater ? '📌' : '📍';
+            btn.title = isLater ? '从待读列表移除' : '添加到待读列表';
+            btn.classList.toggle('is-later', isLater);
+        }
+    }
+}
+
+function updateReadLaterCount() {
+    const el = document.getElementById('readLaterCount');
+    if (el) el.textContent = readLater.size;
+}
+
+// ========================================
+// 搜索历史管理
+// ========================================
+
+function loadSearchHistory() {
+    try {
+        const saved = localStorage.getItem(SEARCH_HISTORY_KEY);
+        if (saved) {
+            searchHistory = JSON.parse(saved);
+        }
+    } catch (e) {
+        console.warn('无法加载搜索历史:', e);
+    }
+}
+
+function saveSearchHistory() {
+    try {
+        localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(searchHistory));
+    } catch (e) {
+        console.warn('无法保存搜索历史:', e);
+    }
+}
+
+function addToSearchHistory(term) {
+    if (!term || term.trim().length === 0) return;
+
+    term = term.trim();
+
+    // 移除重复项
+    searchHistory = searchHistory.filter(h => h.toLowerCase() !== term.toLowerCase());
+
+    // 添加到开头
+    searchHistory.unshift(term);
+
+    // 限制数量
+    if (searchHistory.length > MAX_SEARCH_HISTORY) {
+        searchHistory = searchHistory.slice(0, MAX_SEARCH_HISTORY);
+    }
+
+    saveSearchHistory();
+    renderSearchHistory();
+}
+
+function clearSearchHistory() {
+    searchHistory = [];
+    saveSearchHistory();
+    renderSearchHistory();
+    hideSearchHistory();
+}
+
+function renderSearchHistory() {
+    const container = document.getElementById('searchHistoryList');
+    if (!container) return;
+
+    if (searchHistory.length === 0) {
+        container.innerHTML = '<div class="search-history-empty">暂无搜索历史</div>';
+        return;
+    }
+
+    container.innerHTML = searchHistory.map(term => `
+        <div class="search-history-item" onclick="useSearchHistory('${escapeHtml(term)}')">
+            <span class="history-icon">🕐</span>
+            <span class="history-text">${escapeHtml(term)}</span>
+        </div>
+    `).join('');
+}
+
+function useSearchHistory(term) {
+    const input = document.getElementById('searchInput');
+    if (input) {
+        input.value = term;
+        hideSearchHistory();
+        filterArticles();
+    }
+}
+
+function showSearchHistory() {
+    const dropdown = document.getElementById('searchHistoryDropdown');
+    if (dropdown && searchHistory.length > 0) {
+        renderSearchHistory();
+        dropdown.classList.add('visible');
+    }
+}
+
+function hideSearchHistory() {
+    const dropdown = document.getElementById('searchHistoryDropdown');
+    if (dropdown) {
+        dropdown.classList.remove('visible');
+    }
 }
 
 // ========================================
@@ -142,13 +426,19 @@ async function loadArticles() {
 
         allArticles = data.articles || [];
 
-        // 合并本地收藏状态并计算AI分类
+        // 合并本地状态
         allArticles.forEach(article => {
             article.is_favorite = favorites.has(article.id);
+            article.is_read = readArticles.has(article.id);
+            article.is_read_later = readLater.has(article.id);
             article.is_ai_related = isAIRelated(article);
         });
 
+        // 填充期刊下拉列表
+        populateJournalList();
+
         updateStats(data);
+        updateReadLaterCount();
         filterArticles();
     } catch (error) {
         console.error('加载数据失败:', error);
@@ -183,15 +473,82 @@ function filterByCategory(articles, category) {
     return articles;
 }
 
+function filterByReadStatus(articles, filter) {
+    if (filter === 'all') return articles;
+    if (filter === 'unread') return articles.filter(a => !a.is_read);
+    if (filter === 'read') return articles.filter(a => a.is_read);
+    if (filter === 'later') return articles.filter(a => a.is_read_later);
+    return articles;
+}
+
 function setCategory(category) {
     currentCategory = category;
 
-    // 更新按钮状态
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.category === category);
     });
 
     filterArticles();
+}
+
+// ========================================
+// 期刊筛选
+// ========================================
+
+function matchesJournalGroup(journal, groupKey) {
+    if (!journal || !JOURNAL_GROUPS[groupKey]) return false;
+
+    const journalLower = journal.toLowerCase();
+    const patterns = JOURNAL_GROUPS[groupKey].patterns;
+
+    return patterns.some(pattern => journalLower.includes(pattern));
+}
+
+function isInAnyGroup(journal) {
+    if (!journal) return false;
+
+    for (const groupKey of Object.keys(JOURNAL_GROUPS)) {
+        if (matchesJournalGroup(journal, groupKey)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function filterByJournal(articles, filterValue) {
+    if (filterValue === 'all') return articles;
+
+    if (filterValue.startsWith('group:')) {
+        const groupKey = filterValue.replace('group:', '');
+
+        if (groupKey === 'other') {
+            // "其他"分组：不属于任何已定义分组的期刊
+            return articles.filter(a => !isInAnyGroup(a.journal));
+        }
+
+        return articles.filter(a => matchesJournalGroup(a.journal, groupKey));
+    }
+
+    // 单独期刊筛选
+    return articles.filter(a => a.journal === filterValue);
+}
+
+function populateJournalList() {
+    const journalSet = new Set();
+    allArticles.forEach(article => {
+        if (article.journal) {
+            journalSet.add(article.journal);
+        }
+    });
+
+    const journals = Array.from(journalSet).sort();
+    const optgroup = document.getElementById('journalList');
+
+    if (optgroup) {
+        optgroup.innerHTML = journals.map(journal =>
+            `<option value="${escapeHtml(journal)}">${escapeHtml(journal)}</option>`
+        ).join('');
+    }
 }
 
 // ========================================
@@ -201,10 +558,7 @@ function setCategory(category) {
 function highlightKeywords(text) {
     if (!text) return '';
 
-    // 先转义HTML
     const escaped = escapeHtml(text);
-
-    // 创建正则表达式匹配所有关键词（大小写不敏感）
     const pattern = new RegExp(`(${AI_KEYWORDS.join('|')})`, 'gi');
     return escaped.replace(pattern, '<span class="keyword-highlight">$1</span>');
 }
@@ -223,8 +577,8 @@ function escapeHtml(text) {
 function updateStats(data) {
     document.getElementById('totalCount').textContent = data.total || 0;
     updateFavCount();
+    updateUnreadCount();
 
-    // 计算AI相关/无关数量
     const aiCount = allArticles.filter(a => a.is_ai_related).length;
     const nonAiCount = allArticles.length - aiCount;
 
@@ -255,27 +609,64 @@ function setupSearch() {
 
     input.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
+            const term = input.value.trim();
+            if (term) {
+                addToSearchHistory(term);
+            }
+            hideSearchHistory();
             filterArticles();
+        }
+    });
+
+    input.addEventListener('focus', () => {
+        showSearchHistory();
+    });
+
+    // 点击外部关闭下拉
+    document.addEventListener('click', (e) => {
+        const searchBox = document.querySelector('.search-box');
+        if (searchBox && !searchBox.contains(e.target)) {
+            hideSearchHistory();
         }
     });
 }
 
 function clearSearch() {
     document.getElementById('searchInput').value = '';
+    hideSearchHistory();
     filterArticles();
 }
 
 function filterArticles() {
     const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
     const favoritesOnly = document.getElementById('favoritesOnly')?.checked || false;
+    const dateFrom = document.getElementById('dateFrom')?.value || '';
+    const dateTo = document.getElementById('dateTo')?.value || '';
+    const journalFilter = document.getElementById('journalFilter')?.value || 'all';
 
     filteredArticles = allArticles.filter(article => {
-        // 收藏筛选
         if (favoritesOnly && !article.is_favorite) {
             return false;
         }
 
-        // 搜索筛选
+        // 日期范围筛选
+        if (dateFrom || dateTo) {
+            const articleDate = article.pub_date || '';
+            if (articleDate) {
+                if (dateFrom && articleDate < dateFrom) {
+                    return false;
+                }
+                if (dateTo && articleDate > dateTo) {
+                    return false;
+                }
+            } else {
+                // 没有日期的文献，如果设置了日期筛选则排除
+                if (dateFrom || dateTo) {
+                    return false;
+                }
+            }
+        }
+
         if (searchTerm) {
             const searchText = [
                 article.title,
@@ -297,9 +688,23 @@ function filterArticles() {
     // 应用分类筛选
     filteredArticles = filterByCategory(filteredArticles, currentCategory);
 
+    // 应用阅读状态筛选
+    filteredArticles = filterByReadStatus(filteredArticles, currentReadFilter);
+
+    // 应用期刊筛选
+    filteredArticles = filterByJournal(filteredArticles, journalFilter);
+
     currentPage = 1;
     focusedIndex = -1;
     sortArticles();
+}
+
+function clearDateFilter() {
+    const dateFrom = document.getElementById('dateFrom');
+    const dateTo = document.getElementById('dateTo');
+    if (dateFrom) dateFrom.value = '';
+    if (dateTo) dateTo.value = '';
+    filterArticles();
 }
 
 function sortArticles() {
@@ -311,14 +716,20 @@ function sortArticles() {
                 return (b.pub_date || '').localeCompare(a.pub_date || '');
             case 'date-asc':
                 return (a.pub_date || '').localeCompare(b.pub_date || '');
-            case 'journal':
-                return (a.journal || '').localeCompare(b.journal || '');
             default:
                 return 0;
         }
     });
 
+    updateFilteredCount();
     renderArticles();
+}
+
+function updateFilteredCount() {
+    const el = document.getElementById('filteredCount');
+    if (el) {
+        el.textContent = filteredArticles.length;
+    }
 }
 
 // ========================================
@@ -354,6 +765,19 @@ function toggleCardExpansion(id) {
         expandedCards.delete(id);
     } else {
         expandedCards.add(id);
+        // 展开时自动标记为已读
+        if (!readArticles.has(id)) {
+            readArticles.add(id);
+            saveReadStatus();
+
+            const article = allArticles.find(a => a.id === id);
+            if (article) {
+                article.is_read = true;
+            }
+
+            updateUnreadCount();
+            updateCardReadUI(id);
+        }
     }
 
     const card = document.getElementById(`article-${id}`);
@@ -387,33 +811,25 @@ function renderArticles() {
     ).join('');
 
     renderPagination();
-    updateFilteredStats();
-}
-
-function updateFilteredStats() {
-    // 更新当前筛选结果的统计
-    const filteredCount = document.getElementById('filteredCount');
-    if (filteredCount) {
-        filteredCount.textContent = filteredArticles.length;
-    }
 }
 
 function createArticleCard(article, index) {
     const isExpanded = expandedCards.has(article.id);
     const isFav = article.is_favorite;
+    const isRead = article.is_read;
+    const isLater = article.is_read_later;
     const isFocused = index === focusedIndex;
     const isAI = article.is_ai_related;
 
     const authors = (article.authors || []).slice(0, 3).join(', ');
     const authorsMore = article.authors && article.authors.length > 3 ? ' et al.' : '';
 
-    // 高亮标题和摘要中的关键词
     const titleZhHighlighted = highlightKeywords(article.title_zh || article.title);
     const titleEnHighlighted = highlightKeywords(article.title);
     const abstractZhHighlighted = highlightKeywords(article.abstract_zh);
 
     return `
-        <div class="article-card ${isExpanded ? 'expanded' : ''} ${isFav ? 'favorite' : ''} ${isFocused ? 'focused' : ''}" 
+        <div class="article-card ${isExpanded ? 'expanded' : ''} ${isFav ? 'favorite' : ''} ${isRead ? 'read' : ''} ${isLater ? 'read-later' : ''} ${isFocused ? 'focused' : ''}" 
              id="article-${article.id}"
              data-index="${index}"
              data-id="${article.id}">
@@ -423,9 +839,11 @@ function createArticleCard(article, index) {
                  onmouseenter="showPreview(event, '${article.id}')"
                  onmouseleave="hidePreview()">
                 <div class="card-main">
-                    <div class="card-title-zh">${titleZhHighlighted}</div>
+                    <div class="card-title-zh">
+                        <a href="${article.link}" target="_blank" rel="noopener" onclick="event.stopPropagation();">${titleZhHighlighted}</a>
+                    </div>
                     <div class="card-meta">
-                        <span>📖 ${escapeHtml(article.journal || '未知期刊')}</span>
+                        <span>� $${escapeHtml(article.journal || '未知期刊')}</span>
                         <span>📅 ${article.pub_date || '未知日期'}</span>
                         <span class="ai-tag ${isAI ? 'ai-related' : 'ai-unrelated'}">
                             ${isAI ? '🤖 AI' : '📚 非AI'}
@@ -433,6 +851,16 @@ function createArticleCard(article, index) {
                     </div>
                 </div>
                 <div class="card-actions">
+                    <button class="read-btn ${isRead ? 'is-read' : ''}" 
+                            onclick="event.stopPropagation(); toggleReadStatus('${article.id}')" 
+                            title="${isRead ? '标记为未读' : '标记为已读'}">
+                        ${isRead ? '✓ 已读' : '○ 未读'}
+                    </button>
+                    <button class="read-later-btn ${isLater ? 'is-later' : ''}" 
+                            onclick="event.stopPropagation(); toggleReadLater('${article.id}')" 
+                            title="${isLater ? '从待读列表移除' : '添加到待读列表'}">
+                        ${isLater ? '📌' : '📍'}
+                    </button>
                     <button class="favorite-btn" 
                             onclick="event.stopPropagation(); toggleFavorite('${article.id}')" 
                             title="${isFav ? '取消收藏' : '添加收藏'}">
@@ -457,6 +885,14 @@ function createArticleCard(article, index) {
                             ${abstractZhHighlighted}
                         </div>
                     ` : ''}
+                    <div class="card-export">
+                        <button class="export-btn" onclick="event.stopPropagation(); exportBibTeX('${article.id}')" title="导出BibTeX">
+                            📄 BibTeX
+                        </button>
+                        <button class="export-btn" onclick="event.stopPropagation(); exportRIS('${article.id}')" title="导出RIS">
+                            📋 RIS
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -479,11 +915,8 @@ function renderPagination() {
     }
 
     let html = '<div class="pagination">';
-
-    // 上一页
     html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>`;
 
-    // 页码
     const maxVisible = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
     let endPage = Math.min(totalPages, startPage + maxVisible - 1);
@@ -506,12 +939,8 @@ function renderPagination() {
         html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
     }
 
-    // 下一页
     html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>`;
-
-    // 页码信息
     html += `<span class="page-info">第 ${currentPage}/${totalPages} 页，共 ${filteredArticles.length} 篇</span>`;
-
     html += '</div>';
     paginationContainer.innerHTML = html;
 }
@@ -525,7 +954,6 @@ function setupKeyboardNavigation() {
 }
 
 function handleKeyPress(event) {
-    // 如果在输入框中，不处理快捷键
     if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
         return;
     }
@@ -557,20 +985,26 @@ function handleKeyPress(event) {
                 starFocused();
             }
             break;
+        case 'r':
+            if (focusedIndex >= 0) {
+                event.preventDefault();
+                markFocusedRead();
+            }
+            break;
+        case 'l':
+            if (focusedIndex >= 0) {
+                event.preventDefault();
+                markFocusedReadLater();
+            }
+            break;
     }
 }
 
 function focusNext() {
     const pageArticles = getCurrentPageArticles();
     if (pageArticles.length === 0) return;
-
-    // 移除当前焦点
     updateFocusedCard(false);
-
-    // 移动到下一个
     focusedIndex = Math.min(focusedIndex + 1, pageArticles.length - 1);
-
-    // 添加新焦点
     updateFocusedCard(true);
     scrollToFocused();
 }
@@ -578,18 +1012,12 @@ function focusNext() {
 function focusPrev() {
     const pageArticles = getCurrentPageArticles();
     if (pageArticles.length === 0) return;
-
-    // 移除当前焦点
     updateFocusedCard(false);
-
-    // 移动到上一个
     if (focusedIndex < 0) {
         focusedIndex = 0;
     } else {
         focusedIndex = Math.max(focusedIndex - 1, 0);
     }
-
-    // 添加新焦点
     updateFocusedCard(true);
     scrollToFocused();
 }
@@ -597,7 +1025,6 @@ function focusPrev() {
 function updateFocusedCard(isFocused) {
     const pageArticles = getCurrentPageArticles();
     if (focusedIndex < 0 || focusedIndex >= pageArticles.length) return;
-
     const article = pageArticles[focusedIndex];
     const card = document.getElementById(`article-${article.id}`);
     if (card) {
@@ -608,7 +1035,6 @@ function updateFocusedCard(isFocused) {
 function scrollToFocused() {
     const pageArticles = getCurrentPageArticles();
     if (focusedIndex < 0 || focusedIndex >= pageArticles.length) return;
-
     const article = pageArticles[focusedIndex];
     const card = document.getElementById(`article-${article.id}`);
     if (card) {
@@ -619,7 +1045,6 @@ function scrollToFocused() {
 function toggleFocused() {
     const pageArticles = getCurrentPageArticles();
     if (focusedIndex < 0 || focusedIndex >= pageArticles.length) return;
-
     const article = pageArticles[focusedIndex];
     toggleCardExpansion(article.id);
 }
@@ -627,7 +1052,6 @@ function toggleFocused() {
 function openFocused() {
     const pageArticles = getCurrentPageArticles();
     if (focusedIndex < 0 || focusedIndex >= pageArticles.length) return;
-
     const article = pageArticles[focusedIndex];
     if (article.link) {
         window.open(article.link, '_blank');
@@ -637,9 +1061,22 @@ function openFocused() {
 function starFocused() {
     const pageArticles = getCurrentPageArticles();
     if (focusedIndex < 0 || focusedIndex >= pageArticles.length) return;
-
     const article = pageArticles[focusedIndex];
     toggleFavorite(article.id);
+}
+
+function markFocusedRead() {
+    const pageArticles = getCurrentPageArticles();
+    if (focusedIndex < 0 || focusedIndex >= pageArticles.length) return;
+    const article = pageArticles[focusedIndex];
+    toggleReadStatus(article.id);
+}
+
+function markFocusedReadLater() {
+    const pageArticles = getCurrentPageArticles();
+    if (focusedIndex < 0 || focusedIndex >= pageArticles.length) return;
+    const article = pageArticles[focusedIndex];
+    toggleReadLater(article.id);
 }
 
 // ========================================
@@ -656,10 +1093,7 @@ function createTooltip() {
 }
 
 function showPreview(event, articleId) {
-    // 移动端不显示tooltip
     if (window.innerWidth < 768) return;
-
-    // 如果卡片已展开，不显示tooltip
     if (expandedCards.has(articleId)) return;
 
     const article = allArticles.find(a => a.id === articleId);
@@ -675,14 +1109,11 @@ function showPreview(event, articleId) {
         tooltipElement.innerHTML = highlightKeywords(preview);
         tooltipElement.classList.add('visible');
 
-        // 定位tooltip
         const rect = event.target.getBoundingClientRect();
-        const tooltipRect = tooltipElement.getBoundingClientRect();
-
         let left = rect.left;
         let top = rect.bottom + 10;
 
-        // 确保不超出屏幕
+        const tooltipRect = tooltipElement.getBoundingClientRect();
         if (left + tooltipRect.width > window.innerWidth - 20) {
             left = window.innerWidth - tooltipRect.width - 20;
         }
@@ -700,4 +1131,132 @@ function hidePreview() {
     if (tooltipElement) {
         tooltipElement.classList.remove('visible');
     }
+}
+
+// ========================================
+// 导出功能 (BibTeX / RIS)
+// ========================================
+
+function exportBibTeX(articleId) {
+    const article = allArticles.find(a => a.id === articleId);
+    if (!article) return;
+
+    const authors = (article.authors || []).join(' and ');
+    const year = article.pub_date ? article.pub_date.substring(0, 4) : 'unknown';
+    const key = `${(article.authors?.[0]?.split(' ').pop() || 'unknown').toLowerCase()}${year}`;
+
+    const bibtex = `@article{${key},
+  title = {${article.title}},
+  author = {${authors || 'Unknown'}},
+  journal = {${article.journal || 'Unknown'}},
+  year = {${year}},
+  url = {${article.link || ''}},
+  abstract = {${(article.abstract || '').replace(/\n/g, ' ')}}
+}`;
+
+    downloadFile(bibtex, `${key}.bib`, 'text/plain');
+    showToast('BibTeX 已导出');
+}
+
+function exportRIS(articleId) {
+    const article = allArticles.find(a => a.id === articleId);
+    if (!article) return;
+
+    const year = article.pub_date ? article.pub_date.substring(0, 4) : '';
+    const month = article.pub_date ? article.pub_date.substring(5, 7) : '';
+    const day = article.pub_date ? article.pub_date.substring(8, 10) : '';
+
+    let ris = `TY  - JOUR\n`;
+    ris += `TI  - ${article.title}\n`;
+
+    (article.authors || []).forEach(author => {
+        ris += `AU  - ${author}\n`;
+    });
+
+    ris += `JO  - ${article.journal || ''}\n`;
+    ris += `PY  - ${year}\n`;
+    if (month) ris += `DA  - ${year}/${month}/${day || '01'}\n`;
+    ris += `UR  - ${article.link || ''}\n`;
+    ris += `AB  - ${(article.abstract || '').replace(/\n/g, ' ')}\n`;
+    ris += `ER  - \n`;
+
+    const filename = `${(article.authors?.[0]?.split(' ').pop() || 'article').toLowerCase()}_${year}.ris`;
+    downloadFile(ris, filename, 'text/plain');
+    showToast('RIS 已导出');
+}
+
+function exportAllBibTeX() {
+    const articles = filteredArticles.length > 0 ? filteredArticles : allArticles;
+    let bibtex = '';
+
+    articles.forEach((article, index) => {
+        const authors = (article.authors || []).join(' and ');
+        const year = article.pub_date ? article.pub_date.substring(0, 4) : 'unknown';
+        const key = `${(article.authors?.[0]?.split(' ').pop() || 'unknown').toLowerCase()}${year}_${index}`;
+
+        bibtex += `@article{${key},
+  title = {${article.title}},
+  author = {${authors || 'Unknown'}},
+  journal = {${article.journal || 'Unknown'}},
+  year = {${year}},
+  url = {${article.link || ''}},
+  abstract = {${(article.abstract || '').replace(/\n/g, ' ')}}
+}\n\n`;
+    });
+
+    downloadFile(bibtex, `literature_export_${new Date().toISOString().slice(0, 10)}.bib`, 'text/plain');
+    showToast(`已导出 ${articles.length} 篇文献的 BibTeX`);
+}
+
+function exportAllRIS() {
+    const articles = filteredArticles.length > 0 ? filteredArticles : allArticles;
+    let ris = '';
+
+    articles.forEach(article => {
+        const year = article.pub_date ? article.pub_date.substring(0, 4) : '';
+        const month = article.pub_date ? article.pub_date.substring(5, 7) : '';
+        const day = article.pub_date ? article.pub_date.substring(8, 10) : '';
+
+        ris += `TY  - JOUR\n`;
+        ris += `TI  - ${article.title}\n`;
+
+        (article.authors || []).forEach(author => {
+            ris += `AU  - ${author}\n`;
+        });
+
+        ris += `JO  - ${article.journal || ''}\n`;
+        ris += `PY  - ${year}\n`;
+        if (month) ris += `DA  - ${year}/${month}/${day || '01'}\n`;
+        ris += `UR  - ${article.link || ''}\n`;
+        ris += `AB  - ${(article.abstract || '').replace(/\n/g, ' ')}\n`;
+        ris += `ER  - \n\n`;
+    });
+
+    downloadFile(ris, `literature_export_${new Date().toISOString().slice(0, 10)}.ris`, 'text/plain');
+    showToast(`已导出 ${articles.length} 篇文献的 RIS`);
+}
+
+function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('visible'), 10);
+    setTimeout(() => {
+        toast.classList.remove('visible');
+        setTimeout(() => document.body.removeChild(toast), 300);
+    }, 2000);
 }

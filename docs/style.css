@@ -207,25 +207,7 @@ header h1 {
     margin-bottom: 15px;
 }
 
-.search-box input {
-    flex: 1;
-    padding: 12px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-md);
-    font-size: 16px;
-    background: var(--bg-input);
-    color: var(--text-primary);
-    transition: border-color var(--transition-fast), background var(--transition-normal);
-}
-
-.search-box input:focus {
-    outline: none;
-    border-color: var(--border-color-focus);
-}
-
-.search-box input::placeholder {
-    color: var(--text-muted);
-}
+/* 搜索框内的input样式已移至.search-input-wrapper */
 
 .search-box button {
     padding: 12px 24px;
@@ -266,6 +248,20 @@ header h1 {
 .filters select:focus {
     outline: none;
     border-color: var(--border-color-focus);
+}
+
+#journalFilter {
+    min-width: 200px;
+    max-width: 300px;
+}
+
+#journalFilter optgroup {
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+#journalFilter option {
+    padding: 4px 8px;
 }
 
 .checkbox-label {
@@ -337,6 +333,11 @@ header h1 {
     color: var(--accent-primary);
 }
 
+.stats .filtered-count {
+    color: var(--accent-secondary);
+    font-size: 1.1em;
+}
+
 .stats .ai-count {
     color: var(--color-ai-tag);
 }
@@ -406,6 +407,16 @@ header h1 {
     color: var(--text-primary);
     margin-bottom: var(--spacing-xs);
     line-height: 1.4;
+}
+
+.card-title-zh a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.card-title-zh a:hover {
+    color: var(--accent-primary);
 }
 
 .card-meta {
@@ -721,6 +732,16 @@ header h1 {
         gap: var(--spacing-md);
     }
 
+    .date-filter {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .date-filter input[type="date"] {
+        flex: 1;
+        min-width: 120px;
+    }
+
     .filters select {
         width: 100%;
     }
@@ -802,6 +823,364 @@ header h1 {
     color: var(--text-muted);
     font-size: 14px;
     border-top: 1px solid var(--border-color);
+}
+
+/* ========================================
+   日期筛选样式
+   ======================================== */
+
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.date-filter input[type="date"] {
+    padding: 8px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    cursor: pointer;
+    min-height: 40px;
+    transition: border-color var(--transition-fast), background var(--transition-normal);
+}
+
+.date-filter input[type="date"]:focus {
+    outline: none;
+    border-color: var(--border-color-focus);
+}
+
+.date-filter input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: var(--date-picker-filter, none);
+}
+
+[data-theme="dark"] .date-filter input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.date-separator {
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 0 4px;
+}
+
+.date-clear-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+    min-height: 40px;
+}
+
+.date-clear-btn:hover {
+    border-color: var(--color-error);
+    color: var(--color-error);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* ========================================
+   阅读状态样式
+   ======================================== */
+
+.read-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.read-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.read-btn.is-read {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: white;
+}
+
+.article-card.read {
+    opacity: 0.7;
+}
+
+.article-card.read .card-title-zh {
+    color: var(--text-muted);
+}
+
+.read-filters {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.read-filter-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 13px;
+    transition: all var(--transition-fast);
+}
+
+.read-filter-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.read-filter-btn.active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: white;
+}
+
+.unread-count {
+    color: var(--color-error);
+}
+
+/* ========================================
+   搜索历史样式
+   ======================================== */
+
+.search-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast), background var(--transition-normal);
+}
+
+.search-input-wrapper input:focus {
+    outline: none;
+    border-color: var(--border-color-focus);
+}
+
+.search-input-wrapper input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-history-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    margin-top: 4px;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-history-dropdown.visible {
+    display: block;
+}
+
+.search-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.clear-history-btn {
+    background: none;
+    border: none;
+    color: var(--color-error);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+}
+
+.clear-history-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.search-history-list {
+    padding: var(--spacing-xs) 0;
+}
+
+.search-history-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.search-history-item:hover {
+    background: var(--bg-card-hover);
+}
+
+.history-icon {
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+.history-text {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.search-history-empty {
+    padding: var(--spacing-md);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ========================================
+   稍后阅读样式
+   ======================================== */
+
+.read-later-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 4px 8px;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.read-later-btn:hover {
+    border-color: var(--accent-primary);
+    transform: scale(1.05);
+}
+
+.read-later-btn.is-later {
+    background: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    color: white;
+}
+
+.article-card.read-later {
+    border-left: 4px solid var(--accent-secondary);
+}
+
+.read-later-count {
+    color: var(--accent-secondary);
+}
+
+/* ========================================
+   导出按钮样式
+   ======================================== */
+
+.card-export {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.export-btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 13px;
+    transition: all var(--transition-fast);
+    min-height: 36px;
+}
+
+.export-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    background: var(--bg-card-hover);
+}
+
+.batch-export {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+.batch-export-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-right: var(--spacing-xs);
+}
+
+.batch-export button {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 13px;
+    transition: all var(--transition-fast);
+    min-height: 40px;
+}
+
+.batch-export button:hover {
+    border-color: var(--accent-primary);
+    color: white;
+    background: var(--accent-primary);
+}
+
+/* ========================================
+   Toast 提示样式
+   ======================================== */
+
+.toast {
+    position: fixed;
+    bottom: var(--spacing-xl);
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--bg-tooltip);
+    color: var(--text-tooltip);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    font-size: 14px;
+    z-index: 2000;
+    opacity: 0;
+    transition: all var(--transition-normal);
+    pointer-events: none;
+}
+
+.toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 /* ========================================

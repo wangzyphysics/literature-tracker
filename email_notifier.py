@@ -1,6 +1,6 @@
 """
 邮件通知模块 - 发送新文献通知
-增强版：完善的错误处理和配置验证
+增强版：完善的错误处理、配置验证、支持完整版和摘要版两种模式
 """
 
 import smtplib
@@ -16,11 +16,23 @@ class EmailNotifier:
     """邮件通知器"""
     
     def __init__(self, smtp_server: str, smtp_port: int, 
-                 sender_email: str, sender_password: str):
+                 sender_email: str, sender_password: str,
+                 mode: str = "full"):
+        """
+        初始化邮件通知器
+        
+        Args:
+            smtp_server: SMTP服务器地址
+            smtp_port: SMTP端口
+            sender_email: 发件人邮箱
+            sender_password: 发件人密码/授权码
+            mode: 邮件模式 - "full" 完整版, "digest" 摘要版
+        """
         self.smtp_server = smtp_server
         self.smtp_port = smtp_port
         self.sender_email = sender_email
         self.sender_password = sender_password
+        self.mode = mode
     
     def validate_config(self) -> Tuple[bool, str]:
         """
@@ -82,13 +94,18 @@ class EmailNotifier:
         try:
             # 创建邮件
             msg = MIMEMultipart('alternative')
-            msg['Subject'] = f"📚 文献追踪更新 - {len(articles)}篇新文献 ({datetime.now().strftime('%Y-%m-%d %H:%M')})"
+            mode_label = "摘要版" if self.mode == "digest" else "完整版"
+            msg['Subject'] = f"📚 文献追踪更新 - {len(articles)}篇新文献 [{mode_label}] ({datetime.now().strftime('%Y-%m-%d %H:%M')})"
             msg['From'] = self.sender_email
             msg['To'] = recipient
             
-            # 生成邮件内容
-            html_content = self._generate_html(articles)
-            text_content = self._generate_text(articles)
+            # 根据模式生成邮件内容
+            if self.mode == "digest":
+                html_content = self._generate_digest_html(articles)
+                text_content = self._generate_digest_text(articles)
+            else:
+                html_content = self._generate_html(articles)
+                text_content = self._generate_text(articles)
             
             msg.attach(MIMEText(text_content, 'plain', 'utf-8'))
             msg.attach(MIMEText(html_content, 'html', 'utf-8'))
@@ -243,5 +260,133 @@ class EmailNotifier:
             text += f"   期刊: {article.journal} | 日期: {article.pub_date}\n"
             text += f"   作者: {authors}\n"
             text += f"   链接: {article.link}\n\n"
+        
+        return text
+
+    def _generate_digest_html(self, articles: list) -> str:
+        """生成摘要版HTML格式邮件内容（仅标题列表）"""
+        # 统计AI相关文献
+        ai_keywords = ['machine', 'learn', 'neural', 'network']
+        ai_articles = []
+        non_ai_articles = []
+        
+        for article in articles:
+            text = f"{article.title} {getattr(article, 'title_zh', '')} {getattr(article, 'abstract', '')}".lower()
+            if any(kw in text for kw in ai_keywords):
+                ai_articles.append(article)
+            else:
+                non_ai_articles.append(article)
+        
+        html = """
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .header p { margin: 5px 0 0; opacity: 0.9; }
+        .stats { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 20px; flex-wrap: wrap; }
+        .stat-item { font-size: 14px; }
+        .stat-item strong { color: #667eea; }
+        .stat-item.ai strong { color: #059669; }
+        .stat-item.non-ai strong { color: #6b7280; }
+        .section { margin-bottom: 25px; }
+        .section h2 { font-size: 16px; color: #333; border-bottom: 2px solid #667eea; padding-bottom: 8px; margin-bottom: 15px; }
+        .section h2.ai { border-color: #059669; }
+        .section h2.non-ai { border-color: #6b7280; }
+        .article-item { padding: 10px 0; border-bottom: 1px solid #eee; }
+        .article-item:last-child { border-bottom: none; }
+        .article-title { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px; }
+        .article-title a { color: inherit; text-decoration: none; }
+        .article-title a:hover { color: #667eea; }
+        .article-meta { font-size: 12px; color: #888; }
+        .footer { text-align: center; color: #888; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 文献追踪更新 [摘要版]</h1>
+        <p>发现 {total} 篇符合关键词的新文献</p>
+    </div>
+    
+    <div class="stats">
+        <div class="stat-item">总计: <strong>{total}</strong> 篇</div>
+        <div class="stat-item ai">🤖 AI相关: <strong>{ai_count}</strong> 篇</div>
+        <div class="stat-item non-ai">📚 非AI: <strong>{non_ai_count}</strong> 篇</div>
+    </div>
+""".format(total=len(articles), ai_count=len(ai_articles), non_ai_count=len(non_ai_articles))
+        
+        # 按期刊分组显示AI相关文献
+        if ai_articles:
+            html += '<div class="section"><h2 class="ai">🤖 AI相关文献</h2>'
+            html += self._generate_journal_groups(ai_articles)
+            html += '</div>'
+        
+        # 按期刊分组显示非AI文献
+        if non_ai_articles:
+            html += '<div class="section"><h2 class="non-ai">📚 非AI文献</h2>'
+            html += self._generate_journal_groups(non_ai_articles)
+            html += '</div>'
+        
+        html += """
+    <div class="footer">
+        <p>此邮件由文献追踪系统自动发送 [摘要版 - 仅显示标题列表]</p>
+    </div>
+</body>
+</html>
+"""
+        return html
+    
+    def _generate_journal_groups(self, articles: list) -> str:
+        """按期刊分组生成文献列表HTML"""
+        by_journal = {}
+        for article in articles:
+            journal = article.journal or '未知期刊'
+            if journal not in by_journal:
+                by_journal[journal] = []
+            by_journal[journal].append(article)
+        
+        html = ""
+        for journal, journal_articles in by_journal.items():
+            html += f'<div style="margin-bottom: 15px;"><strong style="color: #667eea; font-size: 13px;">📰 {journal}</strong>'
+            for article in journal_articles:
+                title_zh = getattr(article, 'title_zh', '') or article.title
+                html += f'''
+                <div class="article-item">
+                    <div class="article-title"><a href="{article.link}" target="_blank">{title_zh}</a></div>
+                    <div class="article-meta">📅 {article.pub_date or '未知日期'}</div>
+                </div>
+'''
+            html += '</div>'
+        
+        return html
+    
+    def _generate_digest_text(self, articles: list) -> str:
+        """生成摘要版纯文本格式邮件内容"""
+        # 统计
+        ai_keywords = ['machine', 'learn', 'neural', 'network']
+        ai_count = sum(1 for a in articles if any(kw in f"{a.title} {getattr(a, 'abstract', '')}".lower() for kw in ai_keywords))
+        
+        text = f"文献追踪更新 [摘要版] - 发现 {len(articles)} 篇新文献\n"
+        text += f"AI相关: {ai_count} 篇 | 非AI: {len(articles) - ai_count} 篇\n"
+        text += "=" * 50 + "\n\n"
+        
+        # 按期刊分组
+        by_journal = {}
+        for article in articles:
+            journal = article.journal or '未知期刊'
+            if journal not in by_journal:
+                by_journal[journal] = []
+            by_journal[journal].append(article)
+        
+        for journal, journal_articles in by_journal.items():
+            text += f"【{journal}】\n"
+            for i, article in enumerate(journal_articles, 1):
+                title_zh = getattr(article, 'title_zh', '') or article.title
+                text += f"  {i}. {title_zh}\n"
+                text += f"     链接: {article.link}\n"
+            text += "\n"
         
         return text
