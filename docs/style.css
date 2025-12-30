@@ -1198,6 +1198,26 @@ header h1 {
 
     .card-header {
         padding: var(--spacing-md);
+        /* 确保移动端点击区域足够大 */
+        min-height: 80px;
+    }
+
+    /* 移动端卡片操作按钮优化 */
+    .card-actions {
+        flex-wrap: wrap;
+        gap: var(--spacing-xs);
+    }
+
+    .card-actions button {
+        min-width: 44px;
+        min-height: 44px;
+        padding: var(--spacing-sm);
+    }
+
+    /* 移动端已读/未读按钮简化 */
+    .read-btn {
+        font-size: 12px;
+        padding: var(--spacing-xs) var(--spacing-sm);
     }
 
     .card-meta {
@@ -2688,6 +2708,135 @@ img.lazy-error {
     font-size: 11px;
 }
 
+/* 移动端底部导航按钮激活状态 */
+.mobile-bottom-nav button.active {
+    color: var(--accent-primary);
+    background: var(--accent-light);
+    border-radius: var(--radius-md);
+}
+
+/* 移动端筛选面板 */
+.mobile-filter-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+}
+
+.mobile-filter-panel.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-filter-panel .mobile-filter-header {
+    position: absolute;
+    bottom: 70vh;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    transform: translateY(100%);
+    transition: transform var(--transition-normal);
+    z-index: 2;
+}
+
+.mobile-filter-panel.visible .mobile-filter-header {
+    transform: translateY(0);
+}
+
+.mobile-filter-panel .mobile-filter-header h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: var(--text-primary);
+}
+
+.mobile-filter-panel .mobile-filter-header button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-filter-panel .mobile-filter-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70vh;
+    background: var(--bg-card);
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    padding-top: 60px;
+    padding-bottom: calc(var(--spacing-lg) + 70px);
+    transform: translateY(100%);
+    transition: transform var(--transition-normal);
+    z-index: 1;
+}
+
+.mobile-filter-panel.visible .mobile-filter-content {
+    transform: translateY(0);
+}
+
+.mobile-filter-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.mobile-filter-section:last-child {
+    margin-bottom: 0;
+}
+
+.mobile-filter-section h4 {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: 0.9em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mobile-filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.mobile-filter-buttons button {
+    flex: 1;
+    min-width: calc(50% - var(--spacing-sm));
+    padding: var(--spacing-md);
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 48px;
+}
+
+.mobile-filter-buttons button:active {
+    background: var(--accent-light);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
 /* 移动端操作按钮 */
 .mobile-actions {
     position: absolute;
@@ -2724,6 +2873,13 @@ img.lazy-error {
     font-size: 18px;
     cursor: pointer;
     transition: transform var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-actions button:last-child {
+    background: var(--text-muted);
 }
 
 .mobile-actions button:active {

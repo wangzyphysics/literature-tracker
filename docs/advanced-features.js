@@ -1193,9 +1193,12 @@ class MobileAdapter {
     }
 
     setupTouchHandlers() {
+        let touchStartTime = 0;
+
         document.addEventListener('touchstart', (e) => {
             this.touchStartX = e.changedTouches[0].screenX;
             this.touchStartY = e.changedTouches[0].screenY;
+            touchStartTime = Date.now();
 
             // 找到最近的文章卡片
             this.currentSwipeElement = e.target.closest('.article-card');
@@ -1204,7 +1207,18 @@ class MobileAdapter {
         document.addEventListener('touchend', (e) => {
             this.touchEndX = e.changedTouches[0].screenX;
             this.touchEndY = e.changedTouches[0].screenY;
-            this.handleSwipe();
+
+            const touchDuration = Date.now() - touchStartTime;
+            const deltaX = Math.abs(this.touchEndX - this.touchStartX);
+            const deltaY = Math.abs(this.touchEndY - this.touchStartY);
+
+            // 只有当滑动距离超过阈值且不是快速点击时才处理滑动
+            // 快速点击（<200ms）或小距离移动（<30px）视为点击，不处理滑动
+            if (touchDuration > 200 && (deltaX > 30 || deltaY > 30)) {
+                this.handleSwipe();
+            }
+
+            this.currentSwipeElement = null;
         }, { passive: true });
     }
 
@@ -1214,7 +1228,7 @@ class MobileAdapter {
         const deltaX = this.touchEndX - this.touchStartX;
         const deltaY = this.touchEndY - this.touchStartY;
 
-        // 确保是水平滑动
+        // 确保是水平滑动，且滑动距离足够大
         if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > this.swipeThreshold) {
             const articleId = this.currentSwipeElement.dataset.id;
 
@@ -1229,8 +1243,6 @@ class MobileAdapter {
                 this.showActionButtons(this.currentSwipeElement);
             }
         }
-
-        this.currentSwipeElement = null;
     }
 
     showActionButtons(card) {
@@ -1240,14 +1252,19 @@ class MobileAdapter {
         const actions = document.createElement('div');
         actions.className = 'mobile-actions';
         actions.innerHTML = `
-            <button onclick="toggleFavorite('${card.dataset.id}')">⭐</button>
-            <button onclick="toggleReadLater('${card.dataset.id}')">📌</button>
+            <button onclick="event.stopPropagation(); toggleFavorite('${card.dataset.id}')">⭐</button>
+            <button onclick="event.stopPropagation(); toggleReadLater('${card.dataset.id}')">📌</button>
+            <button onclick="event.stopPropagation(); this.parentElement.remove()">✕</button>
         `;
 
         card.appendChild(actions);
 
-        // 3秒后自动隐藏
-        setTimeout(() => actions.remove(), 3000);
+        // 5秒后自动隐藏
+        setTimeout(() => {
+            if (actions.parentElement) {
+                actions.remove();
+            }
+        }, 5000);
     }
 
     showSwipeFeedback(message) {
@@ -1272,35 +1289,189 @@ class MobileAdapter {
         const nav = document.createElement('div');
         nav.className = 'mobile-bottom-nav';
         nav.innerHTML = `
-            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <button onclick="mobileAdapter.scrollToTopAndReset()">
                 <span>🏠</span>
                 <small>首页</small>
             </button>
-            <button onclick="document.getElementById('searchInput')?.focus()">
+            <button onclick="mobileAdapter.openMobileSearch()">
                 <span>🔍</span>
                 <small>搜索</small>
             </button>
-            <button onclick="setReadFilter('later')">
-                <span>📌</span>
-                <small>待读</small>
+            <button onclick="mobileAdapter.toggleUnreadFilter()">
+                <span>📬</span>
+                <small>未读</small>
             </button>
-            <button onclick="setCategory('ai-related')">
-                <span>🤖</span>
-                <small>AI</small>
+            <button onclick="mobileAdapter.toggleFavoritesFilter()">
+                <span>⭐</span>
+                <small>收藏</small>
+            </button>
+            <button onclick="mobileAdapter.openFilterPanel()">
+                <span>☰</span>
+                <small>筛选</small>
             </button>
         `;
 
         document.body.appendChild(nav);
+
+        // 添加移动端布局类
+        document.body.classList.add('mobile-layout');
+    }
+
+    // 滚动到顶部并重置筛选
+    scrollToTopAndReset() {
+        // 重置所有筛选条件
+        if (typeof setReadFilter === 'function') setReadFilter('all');
+        if (typeof setCategory === 'function') setCategory('all');
+        const favCheckbox = document.getElementById('favoritesOnly');
+        if (favCheckbox && favCheckbox.checked) {
+            favCheckbox.checked = false;
+            if (typeof filterArticles === 'function') filterArticles();
+        }
+        // 滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.showSwipeFeedback('已返回首页');
+    }
+
+    // 打开移动端搜索
+    openMobileSearch() {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            // 滚动到搜索框位置
+            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                searchInput.focus();
+                searchInput.select();
+            }, 300);
+        }
+    }
+
+    // 切换未读筛选
+    toggleUnreadFilter() {
+        const currentFilter = typeof currentReadFilter !== 'undefined' ? currentReadFilter : 'all';
+        if (currentFilter === 'unread') {
+            if (typeof setReadFilter === 'function') setReadFilter('all');
+            this.showSwipeFeedback('显示全部文献');
+            this.updateNavButtonState('unread', false);
+        } else {
+            if (typeof setReadFilter === 'function') setReadFilter('unread');
+            this.showSwipeFeedback('只显示未读');
+            this.updateNavButtonState('unread', true);
+        }
+    }
+
+    // 切换收藏筛选
+    toggleFavoritesFilter() {
+        const favCheckbox = document.getElementById('favoritesOnly');
+        if (favCheckbox) {
+            favCheckbox.checked = !favCheckbox.checked;
+            if (typeof filterArticles === 'function') filterArticles();
+            if (favCheckbox.checked) {
+                this.showSwipeFeedback('只显示收藏');
+                this.updateNavButtonState('favorites', true);
+            } else {
+                this.showSwipeFeedback('显示全部文献');
+                this.updateNavButtonState('favorites', false);
+            }
+        }
+    }
+
+    // 打开筛选面板
+    openFilterPanel() {
+        // 检查是否已存在筛选面板
+        let panel = document.getElementById('mobileFilterPanel');
+        if (panel) {
+            panel.classList.toggle('visible');
+            return;
+        }
+
+        // 创建移动端筛选面板
+        panel = document.createElement('div');
+        panel.id = 'mobileFilterPanel';
+        panel.className = 'mobile-filter-panel';
+        panel.innerHTML = `
+            <div class="mobile-filter-header">
+                <h3>筛选选项</h3>
+                <button onclick="document.getElementById('mobileFilterPanel').classList.remove('visible')">✕</button>
+            </div>
+            <div class="mobile-filter-content">
+                <div class="mobile-filter-section">
+                    <h4>阅读状态</h4>
+                    <div class="mobile-filter-buttons">
+                        <button onclick="setReadFilter('all'); mobileAdapter.closeFilterPanel()">全部</button>
+                        <button onclick="setReadFilter('unread'); mobileAdapter.closeFilterPanel()">未读</button>
+                        <button onclick="setReadFilter('read'); mobileAdapter.closeFilterPanel()">已读</button>
+                        <button onclick="setReadFilter('later'); mobileAdapter.closeFilterPanel()">待读</button>
+                    </div>
+                </div>
+                <div class="mobile-filter-section">
+                    <h4>文献分类</h4>
+                    <div class="mobile-filter-buttons">
+                        <button onclick="setCategory('all'); mobileAdapter.closeFilterPanel()">全部</button>
+                        <button onclick="setCategory('ai-related'); mobileAdapter.closeFilterPanel()">🤖 AI相关</button>
+                        <button onclick="setCategory('ai-unrelated'); mobileAdapter.closeFilterPanel()">📚 非AI</button>
+                    </div>
+                </div>
+                <div class="mobile-filter-section">
+                    <h4>快捷操作</h4>
+                    <div class="mobile-filter-buttons">
+                        <button onclick="mobileAdapter.toggleFavoritesFilter(); mobileAdapter.closeFilterPanel()">⭐ 只看收藏</button>
+                        <button onclick="clearSearch(); mobileAdapter.closeFilterPanel()">🔄 清除搜索</button>
+                        <button onclick="clearDateFilter(); mobileAdapter.closeFilterPanel()">📅 清除日期</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(panel);
+
+        // 点击背景关闭
+        panel.addEventListener('click', (e) => {
+            if (e.target === panel) {
+                panel.classList.remove('visible');
+            }
+        });
+
+        // 显示面板
+        setTimeout(() => panel.classList.add('visible'), 10);
+    }
+
+    // 关闭筛选面板
+    closeFilterPanel() {
+        const panel = document.getElementById('mobileFilterPanel');
+        if (panel) {
+            panel.classList.remove('visible');
+        }
+    }
+
+    // 更新导航按钮状态
+    updateNavButtonState(type, active) {
+        const nav = document.querySelector('.mobile-bottom-nav');
+        if (!nav) return;
+
+        const buttons = nav.querySelectorAll('button');
+        buttons.forEach(btn => {
+            const small = btn.querySelector('small');
+            if (small) {
+                if (type === 'unread' && small.textContent === '未读') {
+                    btn.classList.toggle('active', active);
+                } else if (type === 'favorites' && small.textContent === '收藏') {
+                    btn.classList.toggle('active', active);
+                }
+            }
+        });
     }
 
     setupPullToRefresh() {
         let startY = 0;
         let pulling = false;
+        let triggered = false;
 
         document.addEventListener('touchstart', (e) => {
-            if (window.pageYOffset === 0) {
+            // 只有在页面顶部时才启用下拉刷新
+            if (window.pageYOffset <= 0) {
                 startY = e.touches[0].pageY;
                 pulling = true;
+                triggered = false;
             }
         }, { passive: true });
 
@@ -1310,19 +1481,36 @@ class MobileAdapter {
             const currentY = e.touches[0].pageY;
             const pullDistance = currentY - startY;
 
-            if (pullDistance > 100) {
+            // 只有向下拉动才显示指示器
+            if (pullDistance > 60 && !triggered) {
                 this.showPullToRefreshIndicator();
             }
         }, { passive: true });
 
         document.addEventListener('touchend', () => {
             if (pulling) {
+                const indicator = document.getElementById('pullToRefreshIndicator');
+                const wasVisible = indicator && indicator.classList.contains('visible');
+
                 pulling = false;
                 this.hidePullToRefreshIndicator();
 
-                // 触发刷新
-                if (typeof filterArticles === 'function') {
-                    filterArticles();
+                // 只有当指示器显示时才触发刷新
+                if (wasVisible && !triggered) {
+                    triggered = true;
+                    this.showSwipeFeedback('正在刷新...');
+
+                    // 重新加载数据
+                    if (typeof loadArticles === 'function') {
+                        loadArticles().then(() => {
+                            this.showSwipeFeedback('刷新完成');
+                        }).catch(() => {
+                            this.showSwipeFeedback('刷新失败');
+                        });
+                    } else if (typeof filterArticles === 'function') {
+                        filterArticles();
+                        this.showSwipeFeedback('已刷新');
+                    }
                 }
             }
         }, { passive: true });
