@@ -1157,11 +1157,6 @@ function createArticleCard(article, index) {
     // 判断是否有英文标题（且与中文标题不同）
     const hasEnglishTitle = article.title && article.title_zh && article.title !== article.title_zh;
 
-    // 摘要预览（截取前150字符用于网格布局）
-    const abstractPreview = article.abstract_zh ?
-        (article.abstract_zh.length > 150 ? article.abstract_zh.substring(0, 150) + '...' : article.abstract_zh) : '';
-    const abstractPreviewHighlighted = highlightUserKeywords(abstractPreview);
-
     return `
         <div class="article-card ${isExpanded ? 'expanded' : ''} ${isFav ? 'favorite' : ''} ${isRead ? 'read' : ''} ${isLater ? 'read-later' : ''} ${isFocused ? 'focused' : ''} journal-group-${journalGroup}" 
              id="article-${article.id}"
@@ -1170,9 +1165,7 @@ function createArticleCard(article, index) {
              data-journal-group="${journalGroup}">
             
             <div class="card-header" 
-                 onclick="toggleCardExpansion('${article.id}')"
-                 onmouseenter="showPreview(event, '${article.id}')"
-                 onmouseleave="hidePreview()">
+                 onclick="toggleCardExpansion('${article.id}')">
                 <div class="card-main">
                     <div class="card-title-zh">
                         <a href="${article.link}" target="_blank" rel="noopener" onclick="event.stopPropagation();">${titleZhHighlighted}</a>
@@ -1189,11 +1182,6 @@ function createArticleCard(article, index) {
                             ${isAI ? '🤖 AI' : '📚 非AI'}
                         </span>
                     </div>
-                    ${abstractPreview ? `
-                    <div class="card-abstract-preview">
-                        ${abstractPreviewHighlighted}
-                    </div>
-                    ` : ''}
                 </div>
                 <div class="card-actions">
                     <button class="read-btn ${isRead ? 'is-read' : ''}" 
@@ -1446,51 +1434,13 @@ function createTooltip() {
 }
 
 function showPreview(event, articleId) {
-    if (window.innerWidth < 768) return;
-    if (expandedCards.has(articleId)) return;
-
-    const article = allArticles.find(a => a.id === articleId);
-    if (!article || !article.abstract_zh) return;
-
-    clearTimeout(tooltipTimeout);
-
-    tooltipTimeout = setTimeout(() => {
-        const preview = article.abstract_zh.length > 200
-            ? article.abstract_zh.substring(0, 200) + '...'
-            : article.abstract_zh;
-
-        // 构建预览内容：英文标题 + 摘要预览
-        let previewHtml = '';
-        if (article.title) {
-            previewHtml += `<div class="preview-title-en">${highlightUserKeywords(article.title)}</div>`;
-        }
-        previewHtml += `<div class="preview-abstract">${highlightUserKeywords(preview)}</div>`;
-
-        tooltipElement.innerHTML = previewHtml;
-        tooltipElement.classList.add('visible');
-
-        const rect = event.target.getBoundingClientRect();
-        let left = rect.left;
-        let top = rect.bottom + 10;
-
-        const tooltipRect = tooltipElement.getBoundingClientRect();
-        if (left + tooltipRect.width > window.innerWidth - 20) {
-            left = window.innerWidth - tooltipRect.width - 20;
-        }
-        if (top + tooltipRect.height > window.innerHeight - 20) {
-            top = rect.top - tooltipRect.height - 10;
-        }
-
-        tooltipElement.style.left = `${left}px`;
-        tooltipElement.style.top = `${top}px`;
-    }, 500);
+    // 预览功能已关闭
+    return;
 }
 
 function hidePreview() {
-    clearTimeout(tooltipTimeout);
-    if (tooltipElement) {
-        tooltipElement.classList.remove('visible');
-    }
+    // 预览功能已关闭
+    return;
 }
 
 // ========================================

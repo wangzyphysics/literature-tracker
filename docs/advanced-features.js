@@ -3,142 +3,61 @@
  */
 
 // ========================================
-// 布局管理器
+// 布局管理器（简化版 - 只保留列表布局）
 // ========================================
 
 class LayoutManager {
     constructor() {
-        this.currentLayout = 'list'; // 'list', 'grid', 'compact'
+        this.currentLayout = 'list';
         this.layouts = {
-            list: { columns: 1, spacing: 'normal', details: 'full' },
-            grid: { columns: 'auto', spacing: 'normal', details: 'summary' },
-            compact: { columns: 1, spacing: 'tight', details: 'minimal' }
+            list: { columns: 1, spacing: 'normal', details: 'full' }
         };
         this.storageKey = 'literature_layout';
     }
 
     init() {
-        this.restoreLayout();
-        this.createUI();
+        // 强制使用列表布局，不创建切换UI
+        this.currentLayout = 'list';
         this.applyLayout();
     }
 
     createUI() {
-        const controls = document.querySelector('.controls');
-        if (!controls) return;
-
-        const layoutSection = document.createElement('div');
-        layoutSection.className = 'layout-controls';
-        layoutSection.innerHTML = `
-            <div class="layout-switcher">
-                <span class="layout-label">布局:</span>
-                <button class="layout-btn ${this.currentLayout === 'list' ? 'active' : ''}" 
-                        data-layout="list" 
-                        title="列表视图">
-                    ☰ 列表
-                </button>
-                <button class="layout-btn ${this.currentLayout === 'grid' ? 'active' : ''}" 
-                        data-layout="grid" 
-                        title="网格视图">
-                    ⊞ 网格
-                </button>
-                <button class="layout-btn ${this.currentLayout === 'compact' ? 'active' : ''}" 
-                        data-layout="compact" 
-                        title="紧凑视图">
-                    ≡ 紧凑
-                </button>
-            </div>
-        `;
-
-        // 插入到 filters 之前
-        const filters = controls.querySelector('.filters');
-        if (filters) {
-            controls.insertBefore(layoutSection, filters);
-        } else {
-            controls.appendChild(layoutSection);
-        }
-
-        // 绑定事件
-        layoutSection.querySelectorAll('.layout-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.setLayout(btn.dataset.layout);
-            });
-        });
+        // 不再创建布局切换UI
     }
 
     setLayout(layoutName) {
-        if (!this.layouts[layoutName]) return;
-
-        // 保存当前滚动位置
-        const scrollPos = window.pageYOffset;
-
-        this.currentLayout = layoutName;
-        this.saveLayout();
+        // 只支持列表布局
+        this.currentLayout = 'list';
         this.applyLayout();
-        this.updateUI();
-
-        // 恢复滚动位置
-        requestAnimationFrame(() => {
-            window.scrollTo(0, scrollPos);
-        });
     }
 
     applyLayout() {
         const articleList = document.getElementById('articleList');
         if (!articleList) return;
 
-        // 移除所有布局类
+        // 移除所有布局类，只添加列表布局
         articleList.classList.remove('layout-list', 'layout-grid', 'layout-compact');
-
-        // 添加当前布局类
-        articleList.classList.add(`layout-${this.currentLayout}`);
-
-        // 根据布局调整网格列数
-        if (this.currentLayout === 'grid') {
-            this.updateGridColumns();
-        }
+        articleList.classList.add('layout-list');
     }
 
     updateGridColumns() {
-        const articleList = document.getElementById('articleList');
-        if (!articleList) return;
-
-        const width = window.innerWidth;
-        let columns = 1;
-
-        if (width >= 1200) columns = 3;
-        else if (width >= 768) columns = 2;
-
-        articleList.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+        // 不再需要
     }
 
     updateUI() {
-        document.querySelectorAll('.layout-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.layout === this.currentLayout);
-        });
+        // 不再需要
     }
 
     saveLayout() {
-        try {
-            localStorage.setItem(this.storageKey, this.currentLayout);
-        } catch (e) {
-            console.warn('无法保存布局设置:', e);
-        }
+        // 不再需要保存
     }
 
     restoreLayout() {
-        try {
-            const saved = localStorage.getItem(this.storageKey);
-            if (saved && this.layouts[saved]) {
-                this.currentLayout = saved;
-            }
-        } catch (e) {
-            console.warn('无法加载布局设置:', e);
-        }
+        // 不再需要恢复
     }
 
     getLayout() {
-        return this.layouts[this.currentLayout];
+        return this.layouts['list'];
     }
 }
 
