@@ -1196,34 +1196,84 @@ header h1 {
         gap: var(--spacing-sm);
     }
 
+    /* 移动端卡片头部布局优化 */
     .card-header {
-        padding: var(--spacing-md);
-        /* 确保移动端点击区域足够大 */
-        min-height: 80px;
+        padding: var(--spacing-sm) var(--spacing-md);
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-sm);
     }
 
-    /* 移动端卡片操作按钮优化 */
+    .card-main {
+        width: 100%;
+    }
+
+    /* 移动端标题完整显示 */
+    .card-title-zh {
+        font-size: 1em;
+        line-height: 1.5;
+        /* 不限制行数，完整显示标题 */
+    }
+
+    /* 移动端英文标题预览 - 显示更多 */
+    .card-title-en-preview {
+        font-size: 0.85em;
+        -webkit-line-clamp: 2;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
+
+    /* 移动端卡片操作按钮 - 放在底部一行 */
     .card-actions {
-        flex-wrap: wrap;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
         gap: var(--spacing-xs);
+        padding-top: var(--spacing-xs);
+        border-top: 1px solid var(--border-color);
+        margin-top: var(--spacing-xs);
     }
 
-    .card-actions button {
-        min-width: 44px;
-        min-height: 44px;
-        padding: var(--spacing-sm);
+    .card-actions button,
+    .card-actions .read-btn,
+    .card-actions .read-later-btn,
+    .card-actions .favorite-btn {
+        min-width: 36px;
+        min-height: 36px;
+        padding: var(--spacing-xs);
+        font-size: 14px;
     }
 
     /* 移动端已读/未读按钮简化 */
     .read-btn {
-        font-size: 12px;
-        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 11px;
+        padding: 4px 8px;
+        white-space: nowrap;
+    }
+
+    .expand-icon {
+        font-size: 14px;
     }
 
     .card-meta {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
         gap: var(--spacing-xs);
+        font-size: 12px;
+    }
+
+    .card-meta span {
+        white-space: nowrap;
+    }
+
+    /* AI标签更紧凑 */
+    .ai-tag {
+        font-size: 10px;
+        padding: 1px 6px;
     }
 
     .card-details-inner {
