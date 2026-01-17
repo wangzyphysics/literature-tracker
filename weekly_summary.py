@@ -19,18 +19,34 @@ except ImportError:
 class WeeklySummarizer:
     """周报生成器"""
     
-    # 顶刊列表
+    # 顶刊列表 - 精确匹配，避免误匹配
     TOP_JOURNALS = [
+        # Nature 系列
         'Nature',
-        'Science',
         'Nature Materials',
         'Nature Physics',
         'Nature Chemistry',
         'Nature Communications',
         'Nature Nanotechnology',
+        'Nature Electronics',
+        'Nature Energy',
+        'Nat. Mater.',
+        'Nat. Phys.',
+        'Nat. Chem.',
+        'Nat. Commun.',
+        'Nat. Nanotechnol.',
+        'Nat. Electron.',
+        'Nat. Energy',
+        # Science 系列（注意：只包含正刊，不包含 ScienceDirect）
+        'Science',
         'Science Advances',
+        'Sci. Adv.',
+        # 其他顶刊
         'Physical Review Letters',
-        'Advanced Materials'
+        'Phys. Rev. Lett.',
+        'PRL',
+        'Advanced Materials',
+        'Adv. Mater.'
     ]
     
     # 磁性/铁电关键词
@@ -58,15 +74,53 @@ class WeeklySummarizer:
         """筛选符合条件的文献"""
         filtered = []
         
+        # 排除关键词（这些不是真正的期刊）
+        EXCLUDE_KEYWORDS = [
+            'sciencedirect', 'springer', 'table of contents', 'toc',
+            'editor', 'suggestion', 'news', 'highlight'
+        ]
+        
         for article in articles:
             # 检查日期范围
             pub_date = article.get('pub_date', '')
             if not (start_date <= pub_date <= end_date):
                 continue
             
-            # 检查期刊
+            # 检查期刊 - 精确匹配，避免误匹配
             journal = article.get('journal', '')
-            if not any(top_journal.lower() in journal.lower() for top_journal in self.TOP_JOURNALS):
+            if not journal:
+                continue
+            
+            journal_lower = journal.lower()
+            
+            # 排除非期刊内容
+            if any(exclude in journal_lower for exclude in EXCLUDE_KEYWORDS):
+                continue
+            
+            # 精确匹配顶刊列表
+            is_top_journal = False
+            for top_journal in self.TOP_JOURNALS:
+                top_lower = top_journal.lower()
+                
+                # 精确匹配
+                if journal == top_journal:
+                    is_top_journal = True
+                    break
+                
+                # 包含匹配（但要小心处理）
+                if top_lower in journal_lower:
+                    # 特殊处理 Science：必须是 "Science" 或 "Science Advances"，不能是 "ScienceDirect"
+                    if top_lower == 'science':
+                        if journal_lower == 'science' or journal_lower.startswith('science advances') or journal_lower.startswith('sci. adv'):
+                            is_top_journal = True
+                            break
+                        else:
+                            continue
+                    else:
+                        is_top_journal = True
+                        break
+            
+            if not is_top_journal:
                 continue
             
             # 检查关键词

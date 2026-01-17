@@ -6,9 +6,18 @@
 
 ## 涵盖期刊
 
-- Nature 系列：Nature, Nature Materials, Nature Physics, Nature Chemistry, Nature Communications, Nature Nanotechnology
-- Science 系列：Science, Science Advances
-- 其他顶刊：Physical Review Letters, Advanced Materials
+**严格筛选顶刊，确保质量：**
+
+- **Nature 系列**：Nature, Nature Materials, Nature Physics, Nature Chemistry, Nature Communications, Nature Nanotechnology, Nature Electronics, Nature Energy
+- **Science 系列**：Science（正刊）, Science Advances
+  - ⚠️ 注意：不包含 ScienceDirect（那只是数据库平台，包含2区3区期刊）
+- **其他顶刊**：Physical Review Letters (PRL), Advanced Materials
+
+**排除内容**：
+- ScienceDirect 平台期刊（非顶刊）
+- Table of Contents（目录页）
+- Editor's Suggestions（编辑推荐）
+- News & Highlights（新闻）
 
 ## 关注领域
 

@@ -7,9 +7,14 @@
 ## 主要特性
 
 ### 1. 智能筛选
-- **顶刊覆盖**：Nature、Science 及其子刊（Nature Materials、Nature Physics、Science Advances 等）
+- **顶刊覆盖**：
+  - Nature 系列（Nature、Nature Materials、Nature Physics 等）
+  - Science 系列（**Science 正刊**、Science Advances）
+  - ⚠️ **不包含** ScienceDirect（那只是数据库平台，包含2区3区期刊）
+  - 其他顶刊：Physical Review Letters、Advanced Materials
 - **领域聚焦**：自动识别磁性、铁电、多铁性、压电等相关研究
 - **关键词匹配**：支持中英文关键词（ferroelectric、铁电、multiferroic、多铁等）
+- **内容过滤**：自动排除 Table of Contents、Editor's Suggestions 等非研究内容
 
 ### 2. AI 分析
 使用 Gemini AI 生成专业周报，包含：
