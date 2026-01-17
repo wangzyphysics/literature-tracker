@@ -779,13 +779,42 @@ def generate_daily_summary(articles: List[Dict], date: str = None,
         date = datetime.now().strftime('%Y-%m-%d')
     
     # 筛选当日文献
+    print(f"\n📅 筛选 {date} 的文献...")
+    print(f"   总文献数: {len(articles)}")
+    
+    # 检查日期字段格式
+    date_formats = {}
+    for a in articles[:10]:  # 只检查前10篇作为样本
+        pub_date = a.get('pub_date', '')
+        if pub_date:
+            date_len = len(pub_date.split()[0]) if ' ' in pub_date else len(pub_date)
+            date_formats[date_len] = date_formats.get(date_len, 0) + 1
+    
+    if date_formats:
+        print(f"   日期字段格式样本: {dict(date_formats)}")
+    
     today_articles = [
         a for a in articles 
         if a.get('pub_date', '').startswith(date)
     ]
     
+    print(f"   匹配日期 {date} 的文献数: {len(today_articles)}")
+    
     if not today_articles:
         print(f"📭 {date} 没有新文献")
+        # 显示最近几天的文献数量，帮助调试
+        from collections import Counter
+        date_counts = Counter()
+        for a in articles:
+            pub_date = a.get('pub_date', '')
+            if pub_date:
+                date_part = pub_date.split()[0] if ' ' in pub_date else pub_date[:10]
+                if len(date_part) >= 10:
+                    date_counts[date_part[:10]] += 1
+        if date_counts:
+            print(f"   最近几天的文献分布:")
+            for d, count in date_counts.most_common(5):
+                print(f"     {d}: {count} 篇")
         return None
     
     # 获取API配置

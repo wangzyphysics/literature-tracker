@@ -7,87 +7,266 @@
     <link rel="stylesheet" href="../style.css">
     <style>
         .weekly-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
+        
         .weekly-header {
             text-align: center;
             margin-bottom: 40px;
-            padding: 30px;
+            padding: 40px 30px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 16px;
             color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.35);
         }
+        
         .weekly-header h1 {
             margin: 0 0 10px 0;
-            font-size: 2em;
+            font-size: 2.5em;
+            font-weight: 700;
         }
+        
         .weekly-header .date-range {
             font-size: 1.2em;
             opacity: 0.95;
         }
+        
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
+        
         .stat-card {
             background: var(--bg-card);
             padding: 20px;
             border-radius: 12px;
             text-align: center;
             box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
+        
+        .stat-card.ferro {
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .stat-card.ai {
+            border-left: 4px solid #10b981;
+        }
+        
+        .stat-card.both {
+            border-left: 4px solid #8b5cf6;
+        }
+        
         .stat-value {
             font-size: 2.5em;
             font-weight: bold;
             color: var(--accent-primary);
             margin-bottom: 5px;
         }
+        
         .stat-label {
             color: var(--text-muted);
             font-size: 0.9em;
         }
+        
         .section {
             background: var(--bg-card);
             padding: 25px;
             border-radius: 12px;
             margin-bottom: 25px;
             box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
+        
         .section h2 {
             margin: 0 0 20px 0;
             color: var(--text-primary);
             border-bottom: 2px solid var(--accent-primary);
             padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .highlight-card {
+        
+        .section.ferro-section h2 {
+            border-bottom-color: #f59e0b;
+        }
+        
+        .section.ai-section h2 {
+            border-bottom-color: #10b981;
+        }
+        
+        .section.both-section h2 {
+            border-bottom-color: #8b5cf6;
+        }
+        
+        .overview-text {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 8px;
             border-left: 4px solid var(--accent-primary);
-            padding: 20px;
-            margin-bottom: 20px;
+        }
+        
+        .overview-article-list {
+            margin-top: 25px;
+        }
+        
+        .overview-group {
+            margin-bottom: 30px;
+        }
+        
+        .overview-group-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+        
+        .overview-group.both-group .overview-group-title {
+            border-left-color: #8b5cf6;
+        }
+        
+        .overview-group.ferro-group .overview-group-title {
+            border-left-color: #f59e0b;
+        }
+        
+        .overview-group.ai-group .overview-group-title {
+            border-left-color: #10b981;
+        }
+        
+        .overview-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .overview-item {
+            margin-bottom: 12px;
+            padding: 12px 15px;
             background: var(--bg-primary);
-            border-radius: 0 8px 8px 0;
+            border-radius: 6px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
         }
-        .highlight-card h4 {
-            margin: 0 0 12px 0;
-            font-size: 1.1em;
+        
+        .overview-item:hover {
+            background: var(--bg-card);
+            border-left-color: var(--accent-primary);
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .highlight-card h4 a {
+        
+        .overview-link {
             color: var(--text-primary);
             text-decoration: none;
+            display: block;
+            line-height: 1.6;
         }
-        .highlight-card h4 a:hover {
+        
+        .overview-link:hover {
             color: var(--accent-primary);
         }
-        .highlight-meta {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
+        
+        .overview-journal {
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-right: 8px;
+            font-size: 0.9em;
         }
-        .journal-tag {
+        
+        .article-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            transition: all var(--transition-fast);
+        }
+        
+        .article-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .article-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .article-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .article-title {
+            margin: 0 0 8px 0;
+            font-size: 1.05em;
+            line-height: 1.4;
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-title-en {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .article-journal {
+            font-size: 0.9em;
+            color: var(--accent-primary);
+            margin: 8px 0 0 0;
+            font-weight: 600;
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        
+        .journal-badge {
             background: var(--accent-primary);
             color: white;
             padding: 4px 12px;
@@ -95,31 +274,317 @@
             font-size: 0.85em;
             font-weight: 500;
         }
-        .property-tag {
-            background: var(--color-ai-tag);
+        
+        .all-articles-section {
+            background: var(--bg-card);
+        }
+        
+        .section-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .journal-group-title {
+            color: var(--text-primary);
+            font-size: 1.2em;
+            font-weight: 700;
+            margin: 35px 0 20px 0;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
             color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .article-list {
+            margin-bottom: 30px;
+            display: grid;
+            gap: 20px;
+        }
+        
+        .article-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-color: var(--accent-primary);
+        }
+        
+        .article-card:hover::before {
+            opacity: 1;
+        }
+        
+        .article-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        
+        .article-number {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .article-title-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .article-title {
+            margin: 0 0 8px 0;
+            font-size: 1.15em;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-title-en {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .article-journal {
+            font-size: 0.9em;
+            color: var(--accent-primary);
+            margin: 8px 0 0 0;
+            font-weight: 600;
+            display: inline-block;
             padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .article-body {
+            margin: 16px 0;
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--border-color);
+        }
+        
+        .article-authors {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-ai-analysis {
+            font-size: 0.95em;
+            color: var(--accent-primary);
+            line-height: 1.7;
+            margin: 12px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            font-weight: 500;
+        }
+        
+        .article-abstract-preview {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 12px 0 8px 0;
+            opacity: 0.9;
+        }
+        
+        .toggle-abstract-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
             border-radius: 6px;
             font-size: 0.85em;
+            cursor: pointer;
+            margin: 8px 0;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
-        .highlight-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
+        
+        .toggle-abstract-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .article-abstract-full {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .abstract-section {
+            margin-bottom: 16px;
+        }
+        
+        .abstract-section strong {
+            color: var(--text-primary);
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .abstract-section p {
             font-size: 0.9em;
             color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
         }
-        .highlight-innovation {
+        
+        .abstract-en {
+            font-style: italic;
+            color: var(--text-muted);
+        }
+        
+        .article-abstract {
+            font-size: 0.95em;
             color: var(--text-secondary);
-            margin: 10px 0;
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .article-type-tag {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .article-type-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .ferro-tag {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .ai-tag {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .article-date {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .article-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 2px solid var(--accent-primary);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .article-link:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(4px);
+        }
+        
+        .authors {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+        
+        .article-abstract {
+            font-size: 0.9em;
+            color: var(--text-secondary);
             line-height: 1.6;
+            margin: 10px 0 0 0;
         }
-        .highlight-significance {
-            color: var(--color-ai-tag);
-            font-size: 0.9em;
+        
+        .article-abstract-en {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.5;
             margin: 8px 0 0 0;
         }
+        
         .journal-stat {
             display: flex;
             justify-content: space-between;
@@ -129,10 +594,12 @@
             background: var(--bg-primary);
             border-radius: 8px;
         }
+        
         .journal-name {
             font-weight: 500;
             color: var(--text-primary);
         }
+        
         .journal-count {
             background: var(--accent-primary);
             color: white;
@@ -140,6 +607,7 @@
             border-radius: 6px;
             font-size: 0.9em;
         }
+        
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -147,9 +615,11 @@
             text-decoration: none;
             font-weight: 500;
         }
+        
         .back-link:hover {
             text-decoration: underline;
         }
+        
         .generated-by {
             text-align: center;
             color: var(--text-muted);
@@ -159,9 +629,48 @@
             border-top: 1px solid var(--border-color);
         }
         
+        .no-articles {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 30px;
+            font-style: italic;
+        }
+        
         @media (max-width: 767px) {
-            .highlight-details {
-                grid-template-columns: 1fr;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .article-item {
+                flex-direction: column;
+            }
+            
+            .article-number {
+                align-self: flex-start;
+            }
+            
+            .article-card {
+                padding: 16px;
+            }
+            
+            .article-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .article-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .article-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .journal-group-title {
+                font-size: 1em;
+                padding: 10px 16px;
             }
         }
     </style>
@@ -171,124 +680,520 @@
         <a href="../index.html" class="back-link">← 返回主页</a>
         
         <div class="weekly-header">
-            <h1>🔬 磁性/铁电周报</h1>
+            <h1>🔬 周报</h1>
             <div class="date-range">2025-12-22 至 2025-12-28</div>
         </div>
         
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-value">10</div>
+                <div class="stat-value">12</div>
                 <div class="stat-label">本周文献</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">6</div>
-                <div class="stat-label">重点推荐</div>
+            <div class="stat-card ferro">
+                <div class="stat-value">11</div>
+                <div class="stat-label">⚡ 磁性/铁电</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">3</div>
-                <div class="stat-label">涉及期刊</div>
+            <div class="stat-card ai">
+                <div class="stat-value">1</div>
+                <div class="stat-label">🤖 AI/机器学习</div>
+            </div>
+            <div class="stat-card both">
+                <div class="stat-value">0</div>
+                <div class="stat-label">🔀 交叉研究</div>
             </div>
         </div>
         
         <div class="section">
             <h2>📊 本周总览</h2>
-            <p>本周（2025-12-22至12-28）磁性与铁电领域共发表10篇高质量论文，涵盖了交变磁体（Altermagnetism）、二维铁电半导体及动态多铁性等前沿方向。研究重点集中在自旋与激子的相互作用、通过对称性破缺实现的新型多铁机制，以及高性能铁电探测器的应用开发。重要发现包括在CrSBr中观测到磁振子-激子阻力效应，以及在交变磁体中通过铁弹性实现自旋反转。</p>
+            <p class="overview-text">本周（2025年12月22日至12月28日）凝聚态物理与材料科学领域成果丰硕，共计12篇核心文献。研究重点集中在交变磁体（Altermagnetism）的对称性分类、二维铁电半导体的极化增强、以及动态多铁性理论。此外，人工智能在量子成像领域的应用也展示了跨学科结合的新趋势，整体研究呈现出从基础物理发现向高性能器件应用转化的特征。</p>
+            
+            <div class="overview-article-list"><div class="overview-group ferro-group"><h3 class="overview-group-title">⚡ 磁性/铁电材料 (11篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-ba86218c6f4e" class="overview-link">
+                        <span class="overview-journal">[Nat. Nanotechnol.]</span>
+                        在范德华磁性材料中发现由自旋激发驱动的磁激子输运，为非耗散能量传输提供了新路径。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-36164c836aae" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        建立了二维交替磁体中激子的对称性分类框架，揭示了非相对论性磁有序对光学响应的调控机制。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-06e60bec4785" class="overview-link">
+                        <span class="overview-journal">[Adv. Mater.]</span>
+                        利用二维钙钛矿的铁电特性实现感算一体化，显著提升了昏暗环境下的物体识别能力。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-088faeffcf75" class="overview-link">
+                        <span class="overview-journal">[Adv. Mater.]</span>
+                        在缺铁的Fe5GeTe2中观察到介观尺度的磁相分离，揭示了组分波动对二维磁结构的影响。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-46df7653a841" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        通过X射线发射光谱揭示了重费米子体系中局域与巡回磁性的演化，提出了方向相关的相图模型。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-30e4b690817b" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        提出动态DM相互作用理论，阐明了中心对称晶格中由晶格振动诱导的动态多铁性与拓扑激发。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-ea59270c06d3" class="overview-link">
+                        <span class="overview-journal">[Adv. Mater.]</span>
+                        通过氧自供合成法制备出具有巨大铁电极化的二维Fe2Mo3O8，打破了二维铁电体极化强度受限的瓶颈。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-3d0dfdbeea22" class="overview-link">
+                        <span class="overview-journal">[Adv. Mater.]</span>
+                        在C16相高熵硼化物中实现了极高的磁各向异性，为新型硬磁材料开发提供了新思路。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-7460f1181cd2" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        提出一种基于对称性分析的铁弹性与交变磁性耦合机制，实现了由晶体对称性强制的自旋反转。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-d68feccaa057" class="overview-link">
+                        <span class="overview-journal">[Adv. Mater.]</span>
+                        研制出基于PZT陶瓷的高性能X射线探测器，在高温下仍保持卓越的自驱动灵敏度。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-6e8a4379d980" class="overview-link">
+                        <span class="overview-journal">[Adv. Mater.]</span>
+                        利用对称性破缺的拓扑表面态，在1.3 T垂直磁化条件下实现了无外场辅助的确定性SOT切换。
+                    </a>
+                </li></ul></div><div class="overview-group ai-group"><h3 class="overview-group-title">🤖 AI/机器学习 (1篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-5f7469866388" class="overview-link">
+                        <span class="overview-journal">[Nat. Commun.]</span>
+                        将物理神经网络的可解析表达能力框架应用于量子成像，提升了复杂环境下的成像精度。
+                    </a>
+                </li></ul></div></div>
         </div>
         
-        <div class="section"><h2>⭐ 重点文献</h2>
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41565-025-02068-y" target="_blank">Exciton transport driven by spin excitations in an antiferromagnet</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Nature Nanotechnology</span>
-                    <span class="property-tag">反铁磁性、激子输运</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> CrSBr</div>
-                    <div><strong>研究方法:</strong> 实验测量与磁光光谱</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 首次揭示了激子输运受磁振子-激子阻力效应控制，而非传统扩散模型。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 为利用自旋自由度调控二维材料光电性质开辟了新路径。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="http://link.aps.org/doi/10.1103/zn7r-k1xd" target="_blank">Symmetry Classification of Alternating Excitons in Two-Dimensional Altermagnets</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Physical Review Letters</span>
-                    <span class="property-tag">交变磁性、光学响应</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> 二维交变磁体</div>
-                    <div><strong>研究方法:</strong> 对称性分析与群论分类</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 对非相对论性共线反铁磁体中的激子进行了系统对称性分类，定义了“交变激子”。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 完善了交变磁体在光物理领域的理论基础。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="http://link.aps.org/doi/10.1103/sfvl-3qrg" target="_blank">Band Topology and Dynamical Multiferroicity Induced by Dynamic Dzyaloshinskii-Moriya Interaction in Centrosymmetric Lattices</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Physical Review Letters</span>
-                    <span class="property-tag">动态多铁性、拓扑能带</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> 中心对称晶格材料</div>
-                    <div><strong>研究方法:</strong> 理论推导与自旋-晶格耦合模型</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 提出通过晶格振动在中心对称晶体中诱导动态DMI，产生磁振子-声子杂化拓扑激发。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 突破了传统多铁性对晶格对称性的严格限制。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202518468?af=R" target="_blank">Oxygen Self-Supply Synthesis of 2D Fe2Mo3O8 Semiconductor Single Crystals with Giant Ferroelectric Polarization</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Advanced Materials</span>
-                    <span class="property-tag">铁电性、半导体特性</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> Fe2Mo3O8</div>
-                    <div><strong>研究方法:</strong> 氧自供合成法、电学表征</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 通过氧自供策略合成出具有巨大铁电极化的二维Fe2Mo3O8单晶。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 为研制高性能二维铁电半导体器件提供了理想材料体系。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="http://link.aps.org/doi/10.1103/jql2-b4c4" target="_blank">Crystal-Symmetry-Enforced Spin Reversal in Ferroelastic Altermagnets</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Physical Review Letters</span>
-                    <span class="property-tag">多铁性、自旋反转</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> 铁弹性交变磁体</div>
-                    <div><strong>研究方法:</strong> 对称性分析与第一性原理计算</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 提出一种基于铁弹性和交变磁性耦合的新型多铁机制，实现对称性强制的自旋反转。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 为自旋电子学器件中的非磁场自旋操控提供了理论支撑。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202519678?af=R" target="_blank">Field-Free, Deterministic Giant Spin-Orbit Torque Switching of 1.3 T Perpendicular Magnetization with Symmetry-Lifted Topological Surface States</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Advanced Materials</span>
-                    <span class="property-tag">自旋轨道力矩 (SOT)</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> 拓扑绝缘体/铁磁异质结</div>
-                    <div><strong>研究方法:</strong> 器件加工与磁化翻转测试</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 利用对称性破缺的拓扑表面态实现1.3 T强垂直磁化的无外场确定性翻转。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 解决了高密度磁存储器中大垂直磁化强度难以无场翻转的难题。</p>
-            </div>
-            </div>
         
-        <div class="section"><h2>🔥 研究趋势</h2><p>本周研究显示出“交变磁性”正从基础物理预测向光学和多铁性耦合方向快速演进。研究者开始关注交变磁体中的激子行为及铁弹性耦合，这预示着该领域将进入多场调控阶段。此外，二维铁电材料的研究正从简单的物性发现转向功能化应用，如感内计算和高能射线探测。拓扑材料在自旋电子学中的应用也取得了突破，特别是在实现强垂直磁化无场翻转方面表现出巨大潜力。</p></div>
         
-        <div class="section"><h2>🔮 未来展望</h2><p>未来研究将更关注动态多铁性的实验验证，以及如何在室温下实现交变磁体的高效自旋电流产生。同时，结合二维铁电半导体与拓扑材料的异质结将成为量子信息处理器的重要研究方向。</p></div>
+        <div class="section ferro-section"><h2>⚡ 磁性/铁电材料</h2>
+                <div class="article-card" id="article-ba86218c6f4e">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41565-025-02068-y" target="_blank">反铁磁体中由自旋激发驱动的激子输运</a>
+                            </h4>
+                            <p class="article-title-en">Exciton transport driven by spin excitations in an antiferromagnet</p>
+                            <div class="article-journal">📚 Nat. Nanotechnol.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Florian Dirnberger, Sophia Terres, Zakhar A. Iakovlev 等8位作者</div>
+                        <div class="article-ai-analysis">该研究在范德华反铁磁体CrSBr中，首次实现自旋激发驱动的激子输运。通过自旋与激子强耦合，为光学能量与信息流操控提供了新途径，对开发高性能磁光器件及光信息处理器件具有重要价值。</div>
+                        <div class="article-abstract-preview">Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies develope...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-ba86218c6f4e')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-ba86218c6f4e-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies developed for electrons, the strong interactions of these excitons with the spin degree of freedom may provide innovative solutions for long-standing challenges in optics, such as steering the flow of energy and information. Here we demonstrate the transport of excitons by spin excitations in the van der Waals antiferromagnetic semiconductor CrSBr. Our observations reveal ultrafast, nearly isotropic exciton propagation, substantially enhanced at the Néel temperature, transient contraction and expansion of exciton clouds at low temperatures and superdiffusive behaviour in bilayer samples. These signatures largely defy description by commonly known exciton transport mechanisms. Instead, we attribute them to magnon currents induced by laser excitation. We propose that the drag forces exerted by these currents can effectively imprint characteristic properties of spin excitations onto the motion of excitons. The universal nature of the underlying magnon–exciton scattering promises the driving of excitons by magnons in other magnetic semiconductors and even in non-magnetic materials by proximity in heterostructures, merging the rich physics of magnetotransport with optics and photonics.</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies developed for electrons, the strong interactions of these excitons with the spin degree of freedom may provide innovative solutions for long-standing challenges in optics, such as steering the flow of energy and information. Here we demonstrate the transport of excitons by spin excitations in the van der Waals antiferromagnetic semiconductor CrSBr. Our observations reveal ultrafast, nearly isotropic exciton propagation, substantially enhanced at the Néel temperature, transient contraction and expansion of exciton clouds at low temperatures and superdiffusive behaviour in bilayer samples. These signatures largely defy description by commonly known exciton transport mechanisms. Instead, we attribute them to magnon currents induced by laser excitation. We propose that the drag forces exerted by these currents can effectively imprint characteristic properties of spin excitations onto the motion of excitons. The universal nature of the underlying magnon–exciton scattering promises the driving of excitons by magnons in other magnetic semiconductors and even in non-magnetic materials by proximity in heterostructures, merging the rich physics of magnetotransport with optics and photonics.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-26</div>
+                        <a href="https://www.nature.com/articles/s41565-025-02068-y" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-36164c836aae">
+                    <div class="article-header">
+                        <div class="article-number">2</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/zn7r-k1xd" target="_blank">二维交替磁体中交替激子的对称分类</a>
+                            </h4>
+                            <p class="article-title-en">Symmetry Classification for Alternating Excitons in Two-Dimensional Altermagnets</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Jiayu David Cao (曹嘉宇), Konstantin S. Denisov, Yuntian Liu (刘云天), and Igor Žutić</div>
+                        <div class="article-ai-analysis">{
+  "analysis_summary": "该研究系统分类了二维交替磁体激子的对称性，揭示了磁序对激子态的调制。其创新在于建立了磁性与光学响应的理论关联，为光学探测交替磁体提供了重要框架，对自旋</div>
+                        <div class="article-abstract-preview">作者：曹嘉宇、Konstantin S. Denisov、刘云天和 Igor Žutić 激子，束缚电子空穴态，通常主导二维 (2D) 材料的光学响应，并反映其固有特性，包括自旋轨道耦合、磁有序或能带拓扑。通过关注越来越多的具有非相对论性的共线反铁磁体...... [物理。莱特牧师。 135, 26...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-36164c836aae')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-36164c836aae-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：曹嘉宇、Konstantin S. Denisov、刘云天和 Igor Žutić 激子，束缚电子空穴态，通常主导二维 (2D) 材料的光学响应，并反映其固有特性，包括自旋轨道耦合、磁有序或能带拓扑。通过关注越来越多的具有非相对论性的共线反铁磁体...... [物理。莱特牧师。 135, 266703] 发布于 2025 年 12 月 26 日星期五</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Jiayu David Cao (曹嘉宇), Konstantin S. Denisov, Yuntian Liu (刘云天), and Igor Žutić Excitons, bound electron-hole states, often dominate the optical response of two-dimensional (2D) materials and reflect their inherent properties, including spin-orbit coupling, magnetic ordering, or band topology. By focusing on a growing class of collinear antiferromagnets with a nonrelativistic s… [Phys. Rev. Lett. 135, 266703] Published Fri Dec 26, 2025</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-26</div>
+                        <a href="http://link.aps.org/doi/10.1103/zn7r-k1xd" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-06e60bec4785">
+                    <div class="article-header">
+                        <div class="article-number">3</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202520823?af=R" target="_blank">使用 2D 钙钛矿的铁电配置传感器内动态计算用于昏暗物体识别</a>
+                            </h4>
+                            <p class="article-title-en">Ferroelectric‐Configured In‐Sensor Dynamic Computing with 2D Perovskites for Dim Object Recognition</p>
+                            <div class="article-journal">📚 Adv. Mater.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Jie Liu, 
+Fan Du, 
+Limin Wu, 
+Xiaosheng Fang</div>
+                        <div class="article-ai-analysis">[
+  "该研究利用2D钙钛矿的铁电特性，实现了传感器内动态计算。核心创新在于通过铁电配置增强弱光特征提取，解决了昏暗识别难题。这为低功耗类脑视觉提供了新方案，具有重要应用价值。"
+]</div>
+                        <div class="article-abstract-preview">先进材料，早期观点。...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-06e60bec4785')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-06e60bec4785-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>先进材料，早期观点。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Advanced Materials, EarlyView.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-26</div>
+                        <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202520823?af=R" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-088faeffcf75">
+                    <div class="article-header">
+                        <div class="article-number">4</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202515150?af=R" target="_blank">缺铁 Fe5GeTe2 中的介观磁结构相分离</a>
+                            </h4>
+                            <p class="article-title-en">Mesoscale Magnetostructural Phase Separation in Fe‐deficient Fe5GeTe2</p>
+                            <div class="article-journal">📚 Adv. Mater.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Haoyang Ni, 
+Eric R. Hoglund, 
+Jordan A. Hachtel, 
+Jian‐Min Zuo, 
+Lijun Wu, 
+Yimei Zhu, 
+Andrew F. May, 
+Miaofang Chi</div>
+                        <div class="article-ai-analysis">揭示了Fe5GeTe2中的介观磁相分离，发现铁缺陷可调控磁性演化。创新点在于打破单一磁序认知，阐明了结构与磁性的关联，为研发高性能二维自旋电子器件提供了关键物理依据。</div>
+                        <div class="article-abstract-preview">先进材料，早期观点。...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-088faeffcf75')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-088faeffcf75-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>先进材料，早期观点。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Advanced Materials, EarlyView.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-26</div>
+                        <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202515150?af=R" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-46df7653a841">
+                    <div class="article-header">
+                        <div class="article-number">5</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/hdcf-dycj" target="_blank">$\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$中局域重电子磁力的巡回：超越多尼亚赫相图的方向相关相图</a>
+                            </h4>
+                            <p class="article-title-en">Itinerant to Localized Heavy Electron Magnetism in $\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$: A Direction-Dependent Phase Diagram beyond the Doniach Phase Diagram</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Hitoshi Yamaoka, Hiroshi Tanida, Eike F. Schwier, Yoshiya Yamamoto, Shiv Kumar, Masashi Arita, Kenya Shimada, Fumisato Tajima, Renta Onodera, Takashi Nishioka, Hirofumi Ishii, Nozomu Hiraoka, and Jun’ichiro Mizuki</div>
+                        <div class="article-ai-analysis">该研究通过能谱分析揭示了Ce(Ru1-xRhx)2Al10的磁性演化，创新性提出超越多尼亚赫模型的方向相关相图。这阐明了各向异性在重费米子体系中的作用，为理解关联电子系统提供了重要物理依据。</div>
+                        <div class="article-abstract-preview">作者：Hitoshi Yamaoka、Hiroshi Tanida、Eike F. Schwier、Yoshiya Yamamoto、Shiv Kumar、Masashi Arita、Kenya Shimada、Fumisato Tajima、Renta Onodera、Takashi Nishio...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-46df7653a841')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-46df7653a841-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Hitoshi Yamaoka、Hiroshi Tanida、Eike F. Schwier、Yoshiya Yamamoto、Shiv Kumar、Masashi Arita、Kenya Shimada、Fumisato Tajima、Renta Onodera、Takashi Nishioka、Hirofumi Ishii、Nozomu Hiraoka 和 Jun’ichiro Mizuki 的电子和晶体结构$\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$ 已使用 X 射线发射光谱、光电子能谱 (PES) 和 X 射线衍射进行了研究。在 $x 以内未观察到结构相变</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Hitoshi Yamaoka, Hiroshi Tanida, Eike F. Schwier, Yoshiya Yamamoto, Shiv Kumar, Masashi Arita, Kenya Shimada, Fumisato Tajima, Renta Onodera, Takashi Nishioka, Hirofumi Ishii, Nozomu Hiraoka, and Jun’ichiro Mizuki Electronic and crystal structures of $\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$ have been studied using x-ray emission spectroscopy, photoelectron spectroscopy (PES), and x-ray diffraction. No structural phase transition was observed up to $x=0.1$, while the x-ray ab… [Phys. Rev. Lett. 135, 266503] Published Wed Dec 24, 2025</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-24</div>
+                        <a href="http://link.aps.org/doi/10.1103/hdcf-dycj" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-30e4b690817b">
+                    <div class="article-header">
+                        <div class="article-number">6</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/sfvl-3qrg" target="_blank">中心对称晶格中动态 Dzyaloshinskii-Moriya 相互作用引起的能带拓扑和动态多铁性</a>
+                            </h4>
+                            <p class="article-title-en">Band Topology and Dynamic Multiferroicity Induced from Dynamical Dzyaloshinskii-Moriya Interactions in Centrosymmetric Lattices</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Bowen Ma and Z. D. Wang</div>
+                        <div class="article-ai-analysis">该研究提出中心对称晶格中的动态DMI机制，揭示了磁振子-声子拓扑杂化激发，阐明动态多铁性的物理起源。该创新突破了对称性限制，为设计拓扑量子器件与多铁材料提供了关键理论指导。</div>
+                        <div class="article-abstract-preview">作者：Bowen Ma 和 Z.D. Wang 我们通过一般考虑阳离子和阴离子的振动，发展了中心对称晶体中动态 Dzyaloshinskii-Moriya 相互作用 (dDMI) 的理论。它产生反对称的自旋晶格耦合，诱导磁振子-声子杂化拓扑激发。此外，我们……[物理。莱特牧师。 135, 26670...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-30e4b690817b')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-30e4b690817b-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Bowen Ma 和 Z.D. Wang 我们通过一般考虑阳离子和阴离子的振动，发展了中心对称晶体中动态 Dzyaloshinskii-Moriya 相互作用 (dDMI) 的理论。它产生反对称的自旋晶格耦合，诱导磁振子-声子杂化拓扑激发。此外，我们……[物理。莱特牧师。 135, 266702] 2025 年 12 月 24 日星期三发布</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Bowen Ma and Z. D. Wang We develop a theory of a dynamical Dzyaloshinskii-Moriya interaction (dDMI) in centrosymmetric crystals by generally considering the vibration of both cations and anions. It gives rise to an antisymmetric spin-lattice coupling, inducing magnon-phonon hybridized topological excitations. Moreover, we … [Phys. Rev. Lett. 135, 266702] Published Wed Dec 24, 2025</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-24</div>
+                        <a href="http://link.aps.org/doi/10.1103/sfvl-3qrg" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-ea59270c06d3">
+                    <div class="article-header">
+                        <div class="article-number">7</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202518468?af=R" target="_blank">氧自供合成巨大铁电极化二维Fe2Mo3O8半导体单晶</a>
+                            </h4>
+                            <p class="article-title-en">Oxygen‐Self‐Supply Synthesis of Two‐Dimensional Fe2Mo3O8 Semiconductor Single Crystal With Colossal Ferroelectric Polarization</p>
+                            <div class="article-journal">📚 Adv. Mater.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Xiaohui Li, 
+Yueyang Jia, 
+Yanan Peng, 
+Jianyong Wei, 
+Luying Song, 
+Hang Sun, 
+Ling Huang, 
+Yuhang Li, 
+Ruihan Xu, 
+Chuxuan Xiao, 
+Zhu Du, 
+Rui Yang, 
+Jun He, 
+Jianping Shi</div>
+                        <div class="article-ai-analysis">该研究通过氧自供策略，制备出具巨大铁电极化的二维Fe2Mo3O8单晶。突破了超薄多铁材料生长瓶颈，为研发高性能非易失存储器及多功能微纳器件奠定了重要基础。</div>
+                        <div class="article-abstract-preview">先进材料，早期观点。...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-ea59270c06d3')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-ea59270c06d3-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>先进材料，早期观点。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Advanced Materials, EarlyView.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-24</div>
+                        <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202518468?af=R" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-3d0dfdbeea22">
+                    <div class="article-header">
+                        <div class="article-number">8</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516135?af=R" target="_blank">具有高磁各向异性的 C16 相高熵硼化物</a>
+                            </h4>
+                            <p class="article-title-en">C16 Phase High Entropy Borides With High Magnetic Anisotropy</p>
+                            <div class="article-journal">📚 Adv. Mater.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Willie B. Beeson, 
+Dhritiman Bhattacharya, 
+Dinesh Bista, 
+Bradley J. Fugetta, 
+Gen Yin, 
+Kai Liu</div>
+                        <div class="article-ai-analysis">该研究成功制备出C16相高熵硼化物，核心创新在于利用多主元设计实现了高磁各向异性。这不仅拓展了高熵材料的功能边界，更为研发高性能永磁材料及磁功能器件提供了新路径。</div>
+                        <div class="article-abstract-preview">先进材料，早期观点。...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-3d0dfdbeea22')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-3d0dfdbeea22-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>先进材料，早期观点。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Advanced Materials, EarlyView.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-23</div>
+                        <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516135?af=R" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-7460f1181cd2">
+                    <div class="article-header">
+                        <div class="article-number">9</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/jql2-b4c4" target="_blank">铁弹性交变磁体中晶体对称性强制的自旋反转</a>
+                            </h4>
+                            <p class="article-title-en">Spin Inversion Enforced by Crystal Symmetry in Ferroelastic Altermagnets</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Yuqiang Huang, Chenqiang Hua, Runzhang Xu, Junwei Liu, Yi Zheng, and Yunhao Lu</div>
+                        <div class="article-ai-analysis">该研究提出铁弹性与交变磁性耦合的新型多铁机制，通过对称性强制实现自旋反转。这揭示了应变调控磁序的新路径，为高性能自旋电子器件的开发提供了关键理论支撑。</div>
+                        <div class="article-abstract-preview">作者：黄玉强、华晨强、徐润章、刘俊伟、郑毅和陆云浩 在突破性的预测和无数有希望的应用的推动下，自旋电子学领域见证了人们对交流磁学的兴趣的深刻激增。在这里，我们提出了一种基于对称分析的铁弹性和交变磁性之间的新型多铁机制。通过f...... [物理。莱特牧师。 135, 266701] 发布于 2025...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-7460f1181cd2')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-7460f1181cd2-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：黄玉强、华晨强、徐润章、刘俊伟、郑毅和陆云浩 在突破性的预测和无数有希望的应用的推动下，自旋电子学领域见证了人们对交流磁学的兴趣的深刻激增。在这里，我们提出了一种基于对称分析的铁弹性和交变磁性之间的新型多铁机制。通过f...... [物理。莱特牧师。 135, 266701] 发布于 2025 年 12 月 22 日星期一</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Yuqiang Huang, Chenqiang Hua, Runzhang Xu, Junwei Liu, Yi Zheng, and Yunhao Lu The realm of spintronics has witnessed a profound surge in fascination towards altermagnetism, fueled by groundbreaking predictions and a myriad of promising applications. Here, we propose a novel multiferroic mechanism between ferroelasticity and altermagnetism based on symmetry analysis. Through f… [Phys. Rev. Lett. 135, 266701] Published Mon Dec 22, 2025</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-22</div>
+                        <a href="http://link.aps.org/doi/10.1103/jql2-b4c4" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-d68feccaa057">
+                    <div class="article-header">
+                        <div class="article-number">10</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202517846?af=R" target="_blank">具有高温自驱动灵敏度和低检测限的Pb(Zr0.52Ti0.48)O3铁电陶瓷X射线探测器</a>
+                            </h4>
+                            <p class="article-title-en">Pb(Zr0.52Ti0.48)O3 Ferroelectric Ceramic X‐Ray Detectors with High‐Temperature Self‐Driven Sensitivity and Low Detection Limit</p>
+                            <div class="article-journal">📚 Adv. Mater.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Yufei Song, 
+Fuai Hu, 
+Feifei Guo, 
+Yang Li, 
+Jianhui Liu, 
+Zeliang Gao</div>
+                        <div class="article-ai-analysis">该研究开发了PZT陶瓷高温自驱动X射线探测器，利用铁电极化场实现高灵敏探测。创新性地突破了高温性能瓶颈与检测限，在工业探伤及极端环境成像领域具有重要的应用价值。</div>
+                        <div class="article-abstract-preview">先进材料，早期观点。...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-d68feccaa057')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-d68feccaa057-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>先进材料，早期观点。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Advanced Materials, EarlyView.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-22</div>
+                        <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202517846?af=R" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-6e8a4379d980">
+                    <div class="article-header">
+                        <div class="article-number">11</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202519678?af=R" target="_blank">具有对称提升拓扑表面态的 1.3 T 垂直磁化的无场、确定性巨自旋轨道扭矩切换</a>
+                            </h4>
+                            <p class="article-title-en">Field‐Free, Deterministic Giant Spin‐Orbit Torque Switching of 1.3 T Perpendicular Magnetization With Symmetry‐Lifted Topological Surface States</p>
+                            <div class="article-journal">📚 Adv. Mater.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 He Ren, 
+Yawen Peng, 
+Meixin Cheng, 
+Yu Shi, 
+Reza Asadi, 
+Adam W. Tsen, 
+Guo‐Xing Miao</div>
+                        <div class="article-ai-analysis">该研究利用对称性提升的拓扑表面态，实现了1.3 T强垂直磁化的无场确定性切换。核心创新在于通过拓扑态调控突破了SOT切换对磁场的依赖，为开发高密度、低功耗及高稳定性的非易失性存储器提供了关键技术支撑。</div>
+                        <div class="article-abstract-preview">先进材料，早期观点。...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-6e8a4379d980')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-6e8a4379d980-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>先进材料，早期观点。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Advanced Materials, EarlyView.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-22</div>
+                        <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202519678?af=R" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
+        
+        <div class="section ai-section"><h2>🤖 AI/机器学习</h2>
+                <div class="article-card" id="article-5f7469866388">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-67884-1" target="_blank">通过学习理论推进量子成像</a>
+                            </h4>
+                            <p class="article-title-en">Advancing quantum imaging through learning theory</p>
+                            <div class="article-journal">📚 Nat. Commun.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Yunkai Wang, Changhun Oh, Junyu Liu 等5位作者</div>
+                        <div class="article-ai-analysis">该研究将物理神经网络REC理论引入量子成像，通过识别“特征任务”将成像系统转化为学习设备。该方案仅需优化输出权重即可处理复杂任务，显著提升了采样效率与解析精度，为量子成像的实用化提供了重要理论支撑。</div>
+                        <div class="article-abstract-preview">We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradig...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-5f7469866388')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-5f7469866388-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradigm of quantum learning, the imaging system functions as a physical learning device that maps input parameters to measurable features, while complex practical tasks are handled by training only the output weights, enabled by the systematic identification of well-estimated features (eigentasks) and their corresponding sample thresholds. Using this framework, we analyze both direct imaging and superresolution strategies for compact sources, defined as sources with sizes bounded below the Rayleigh limit. In particular, we introduce the orthogonalized SPADE method—a nontrivial generalization of existing superresolution techniques—that achieves superior performance when multiple compact sources are closely spaced. This method relaxes the earlier superresolution studies’ strong assumption that the entire source must lie within the Rayleigh limit, marking an important step toward developing more general and practically applicable approaches. Using the example of face recognition, which involve complex structured sources, we demonstrate the superior performance of our orthogonalized SPADE method and highlight key advantages of the quantum learning approach—its ability to tackle complex imaging tasks and enhance performance by selectively extracting well-estimated features.</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradigm of quantum learning, the imaging system functions as a physical learning device that maps input parameters to measurable features, while complex practical tasks are handled by training only the output weights, enabled by the systematic identification of well-estimated features (eigentasks) and their corresponding sample thresholds. Using this framework, we analyze both direct imaging and superresolution strategies for compact sources, defined as sources with sizes bounded below the Rayleigh limit. In particular, we introduce the orthogonalized SPADE method—a nontrivial generalization of existing superresolution techniques—that achieves superior performance when multiple compact sources are closely spaced. This method relaxes the earlier superresolution studies’ strong assumption that the entire source must lie within the Rayleigh limit, marking an important step toward developing more general and practically applicable approaches. Using the example of face recognition, which involve complex structured sources, we demonstrate the superior performance of our orthogonalized SPADE method and highlight key advantages of the quantum learning approach—its ability to tackle complex imaging tasks and enhance performance by selectively extracting well-estimated features.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2025-12-27</div>
+                        <a href="https://www.nature.com/articles/s41467-025-67884-1" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
         
         <div class="section"><h2>📚 期刊分布</h2>
             <div class="journal-stat">
                 <div class="journal-name">Adv. Mater.</div>
-                <div class="journal-count">5 篇</div>
+                <div class="journal-count">6 篇</div>
             </div>
             
             <div class="journal-stat">
@@ -300,10 +1205,15 @@
                 <div class="journal-name">Nat. Nanotechnol.</div>
                 <div class="journal-count">1 篇</div>
             </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nat. Commun.</div>
+                <div class="journal-count">1 篇</div>
+            </div>
             </div>
         
         <div class="generated-by">
-            由 gemini 生成 | 2026-01-17 11:05
+            由 gemini 生成 | 2026-01-17 17:58
         </div>
     </div>
     
@@ -311,6 +1221,22 @@
         // 主题支持
         const theme = localStorage.getItem('literature_theme') || 'light';
         document.documentElement.setAttribute('data-theme', theme);
+        
+        // 展开/折叠摘要功能
+        function toggleAbstract(articleId) {
+            const abstractDiv = document.getElementById(articleId + '-abstract');
+            const btn = event.target;
+            
+            if (abstractDiv.style.display === 'none') {
+                abstractDiv.style.display = 'block';
+                btn.textContent = '📖 收起摘要';
+                btn.style.background = 'var(--accent-secondary)';
+            } else {
+                abstractDiv.style.display = 'none';
+                btn.textContent = '📖 查看完整摘要';
+                btn.style.background = 'var(--accent-primary)';
+            }
+        }
     </script>
 </body>
 </html>

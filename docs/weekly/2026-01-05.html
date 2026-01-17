@@ -7,87 +7,266 @@
     <link rel="stylesheet" href="../style.css">
     <style>
         .weekly-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
+        
         .weekly-header {
             text-align: center;
             margin-bottom: 40px;
-            padding: 30px;
+            padding: 40px 30px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 16px;
             color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.35);
         }
+        
         .weekly-header h1 {
             margin: 0 0 10px 0;
-            font-size: 2em;
+            font-size: 2.5em;
+            font-weight: 700;
         }
+        
         .weekly-header .date-range {
             font-size: 1.2em;
             opacity: 0.95;
         }
+        
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
+        
         .stat-card {
             background: var(--bg-card);
             padding: 20px;
             border-radius: 12px;
             text-align: center;
             box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
+        
+        .stat-card.ferro {
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .stat-card.ai {
+            border-left: 4px solid #10b981;
+        }
+        
+        .stat-card.both {
+            border-left: 4px solid #8b5cf6;
+        }
+        
         .stat-value {
             font-size: 2.5em;
             font-weight: bold;
             color: var(--accent-primary);
             margin-bottom: 5px;
         }
+        
         .stat-label {
             color: var(--text-muted);
             font-size: 0.9em;
         }
+        
         .section {
             background: var(--bg-card);
             padding: 25px;
             border-radius: 12px;
             margin-bottom: 25px;
             box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
+        
         .section h2 {
             margin: 0 0 20px 0;
             color: var(--text-primary);
             border-bottom: 2px solid var(--accent-primary);
             padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .highlight-card {
+        
+        .section.ferro-section h2 {
+            border-bottom-color: #f59e0b;
+        }
+        
+        .section.ai-section h2 {
+            border-bottom-color: #10b981;
+        }
+        
+        .section.both-section h2 {
+            border-bottom-color: #8b5cf6;
+        }
+        
+        .overview-text {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 8px;
             border-left: 4px solid var(--accent-primary);
-            padding: 20px;
-            margin-bottom: 20px;
+        }
+        
+        .overview-article-list {
+            margin-top: 25px;
+        }
+        
+        .overview-group {
+            margin-bottom: 30px;
+        }
+        
+        .overview-group-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+        
+        .overview-group.both-group .overview-group-title {
+            border-left-color: #8b5cf6;
+        }
+        
+        .overview-group.ferro-group .overview-group-title {
+            border-left-color: #f59e0b;
+        }
+        
+        .overview-group.ai-group .overview-group-title {
+            border-left-color: #10b981;
+        }
+        
+        .overview-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .overview-item {
+            margin-bottom: 12px;
+            padding: 12px 15px;
             background: var(--bg-primary);
-            border-radius: 0 8px 8px 0;
+            border-radius: 6px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
         }
-        .highlight-card h4 {
-            margin: 0 0 12px 0;
-            font-size: 1.1em;
+        
+        .overview-item:hover {
+            background: var(--bg-card);
+            border-left-color: var(--accent-primary);
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .highlight-card h4 a {
+        
+        .overview-link {
             color: var(--text-primary);
             text-decoration: none;
+            display: block;
+            line-height: 1.6;
         }
-        .highlight-card h4 a:hover {
+        
+        .overview-link:hover {
             color: var(--accent-primary);
         }
-        .highlight-meta {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
+        
+        .overview-journal {
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-right: 8px;
+            font-size: 0.9em;
         }
-        .journal-tag {
+        
+        .article-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            transition: all var(--transition-fast);
+        }
+        
+        .article-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .article-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .article-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .article-title {
+            margin: 0 0 8px 0;
+            font-size: 1.05em;
+            line-height: 1.4;
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-title-en {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .article-journal {
+            font-size: 0.9em;
+            color: var(--accent-primary);
+            margin: 8px 0 0 0;
+            font-weight: 600;
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        
+        .journal-badge {
             background: var(--accent-primary);
             color: white;
             padding: 4px 12px;
@@ -95,31 +274,317 @@
             font-size: 0.85em;
             font-weight: 500;
         }
-        .property-tag {
-            background: var(--color-ai-tag);
+        
+        .all-articles-section {
+            background: var(--bg-card);
+        }
+        
+        .section-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .journal-group-title {
+            color: var(--text-primary);
+            font-size: 1.2em;
+            font-weight: 700;
+            margin: 35px 0 20px 0;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
             color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .article-list {
+            margin-bottom: 30px;
+            display: grid;
+            gap: 20px;
+        }
+        
+        .article-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-color: var(--accent-primary);
+        }
+        
+        .article-card:hover::before {
+            opacity: 1;
+        }
+        
+        .article-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        
+        .article-number {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .article-title-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .article-title {
+            margin: 0 0 8px 0;
+            font-size: 1.15em;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-title-en {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .article-journal {
+            font-size: 0.9em;
+            color: var(--accent-primary);
+            margin: 8px 0 0 0;
+            font-weight: 600;
+            display: inline-block;
             padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .article-body {
+            margin: 16px 0;
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--border-color);
+        }
+        
+        .article-authors {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-ai-analysis {
+            font-size: 0.95em;
+            color: var(--accent-primary);
+            line-height: 1.7;
+            margin: 12px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            font-weight: 500;
+        }
+        
+        .article-abstract-preview {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 12px 0 8px 0;
+            opacity: 0.9;
+        }
+        
+        .toggle-abstract-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
             border-radius: 6px;
             font-size: 0.85em;
+            cursor: pointer;
+            margin: 8px 0;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
-        .highlight-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
+        
+        .toggle-abstract-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .article-abstract-full {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .abstract-section {
+            margin-bottom: 16px;
+        }
+        
+        .abstract-section strong {
+            color: var(--text-primary);
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .abstract-section p {
             font-size: 0.9em;
             color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
         }
-        .highlight-innovation {
+        
+        .abstract-en {
+            font-style: italic;
+            color: var(--text-muted);
+        }
+        
+        .article-abstract {
+            font-size: 0.95em;
             color: var(--text-secondary);
-            margin: 10px 0;
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .article-type-tag {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .article-type-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .ferro-tag {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .ai-tag {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .article-date {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .article-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 2px solid var(--accent-primary);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .article-link:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(4px);
+        }
+        
+        .authors {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+        
+        .article-abstract {
+            font-size: 0.9em;
+            color: var(--text-secondary);
             line-height: 1.6;
+            margin: 10px 0 0 0;
         }
-        .highlight-significance {
-            color: var(--color-ai-tag);
-            font-size: 0.9em;
+        
+        .article-abstract-en {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.5;
             margin: 8px 0 0 0;
         }
+        
         .journal-stat {
             display: flex;
             justify-content: space-between;
@@ -129,10 +594,12 @@
             background: var(--bg-primary);
             border-radius: 8px;
         }
+        
         .journal-name {
             font-weight: 500;
             color: var(--text-primary);
         }
+        
         .journal-count {
             background: var(--accent-primary);
             color: white;
@@ -140,6 +607,7 @@
             border-radius: 6px;
             font-size: 0.9em;
         }
+        
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -147,9 +615,11 @@
             text-decoration: none;
             font-weight: 500;
         }
+        
         .back-link:hover {
             text-decoration: underline;
         }
+        
         .generated-by {
             text-align: center;
             color: var(--text-muted);
@@ -159,9 +629,48 @@
             border-top: 1px solid var(--border-color);
         }
         
+        .no-articles {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 30px;
+            font-style: italic;
+        }
+        
         @media (max-width: 767px) {
-            .highlight-details {
-                grid-template-columns: 1fr;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .article-item {
+                flex-direction: column;
+            }
+            
+            .article-number {
+                align-self: flex-start;
+            }
+            
+            .article-card {
+                padding: 16px;
+            }
+            
+            .article-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .article-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .article-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .journal-group-title {
+                font-size: 1em;
+                padding: 10px 16px;
             }
         }
     </style>
@@ -171,124 +680,658 @@
         <a href="../index.html" class="back-link">← 返回主页</a>
         
         <div class="weekly-header">
-            <h1>🔬 磁性/铁电周报</h1>
+            <h1>🔬 周报</h1>
             <div class="date-range">2026-01-05 至 2026-01-11</div>
         </div>
         
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-value">13</div>
+                <div class="stat-value">17</div>
                 <div class="stat-label">本周文献</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">6</div>
-                <div class="stat-label">重点推荐</div>
+            <div class="stat-card ferro">
+                <div class="stat-value">9</div>
+                <div class="stat-label">⚡ 磁性/铁电</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">3</div>
-                <div class="stat-label">涉及期刊</div>
+            <div class="stat-card ai">
+                <div class="stat-value">8</div>
+                <div class="stat-label">🤖 AI/机器学习</div>
+            </div>
+            <div class="stat-card both">
+                <div class="stat-value">0</div>
+                <div class="stat-label">🔀 交叉研究</div>
             </div>
         </div>
         
         <div class="section">
             <h2>📊 本周总览</h2>
-            <p>本周（2026-01-05至2026-01-11）磁性与铁电领域研究成果丰硕，涵盖了莫尔超晶格、二维异质结及宽禁带半导体铁电体等前沿方向。研究重点集中在通过对称性工程调控非线性输运、利用光学手段操控轨道磁性，以及突破氮化物铁电材料的循环耐久性极限。此外，界面电荷转移诱导的铁电性与磁电耦合新机制成为本周的理论与实验亮点。</p>
+            <p class="overview-text">本周（2026-01-05至2026-01-11）凝聚态物理与材料科学领域进展显著，共发表17篇相关文献。研究重点集中在铁电体耐久性的数量级提升、魔角石墨烯轨道磁性的光学调控以及利用对称性工程设计新型界面物理效应。同时，AI在量子动力学预测、三维光子神经网络架构及复杂网络规律发现方面展现出强大的跨学科驱动力。</p>
+            
+            <div class="overview-article-list"><div class="overview-group ferro-group"><h3 class="overview-group-title">⚡ 磁性/铁电材料 (9篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-fa152ef081b0" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        通过结合磁吸引力和弹性张力构建双稳态弹磁系统，实现了高频放大运动与非易失性机械存储功能。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-48d0275e6604" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        利用(112)高指数取向打破LAO/STO界面对称性，在室温下诱导出巨大的非线性霍尔效应和电流感应磁化。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-dd0e3ce8f3f5" class="overview-link">
+                        <span class="overview-journal">[Nature Physics]</span>
+                        在手性晶体碲中首次观察到动态磁手性不稳定性，揭示了磁场诱导电磁波放大的新机制。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-6980b0bd086f" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        通过精确电压调制实现AlScN铁电电容器超过10^10次的循环耐久性，比此前基准提高三个数量级。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-dfe733d5c38d" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        在自旋密度泛函理论框架下，通过精确约束交换相关扭矩解决了非共线磁系统中的物理自旋力矩计算难题。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-b8488f56c6aa" class="overview-link">
+                        <span class="overview-journal">[Nature Physics]</span>
+                        利用圆偏振光通过逆法拉第效应实现了对魔角石墨烯轨道磁性及反常霍尔效应的非接触式光学调控。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-49b68b80c831" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        通过界面电荷转移而非结构滑动，在范德华异质结中实现了电可切换的鲁棒类铁电磁滞特性。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-30113487fc3b" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        开发出基于压电芯-壳结构的声电容器，实现了超声驱动的高密度电荷注入和闭环脑神经调节。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-971a03da8f14" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        提出一种基于磁电效应的新型力矩机制，为极性磁性材料中自旋方向的快速切换提供了节能方案。
+                    </a>
+                </li></ul></div><div class="overview-group ai-group"><h3 class="overview-group-title">🤖 AI/机器学习 (2篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-7d55fcafb475" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        结合衍射深度神经网络与机械重构机制，大幅提升了光学信息系统的复用通道数和系统容量。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-82b3c9adffd3" class="overview-link">
+                        <span class="overview-journal">[Nature Electronics]</span>
+                        利用纳米级忆阻器的丝状动力学实现光子脉冲发射，构建了无需复杂布线的高密度三维光子计算阵列。
+                    </a>
+                </li></ul></div></div>
         </div>
         
-        <div class="section"><h2>⭐ 重点文献</h2>
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41567-025-03117-y" target="_blank">Optical control of orbital magnetism in magic-angle twisted bilayer graphene</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Nature Physics</span>
-                    <span class="property-tag">轨道磁性、反常霍尔效应</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> 魔角扭曲双层石墨烯 (MATBG) / WSe2</div>
-                    <div><strong>研究方法:</strong> 近红外光学操纵、输运测量</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 利用圆偏振光的逆法拉第效应，实现了对莫尔能带中轨道磁性及反常霍尔效应的滞后与幅度的光学自旋锁定控制。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 开辟了在莫尔拓扑材料中进行超快光学磁存储与逻辑操纵的新途径。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41567-025-03145-8" target="_blank">Dynamical magneto-chiral instability in photoexcited tellurium</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Nature Physics</span>
-                    <span class="property-tag">磁手性、动态不稳定性</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> 单质碲 (Te) 晶体</div>
-                    <div><strong>研究方法:</strong> 时域太赫兹发射光谱 (TD-TES)、理论建模</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 在手性固体系统中首次观察到动态磁手性不稳定性导致的相干太赫兹辐射放大现象。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 为研制基于手性材料的新型固体太赫兹放大器提供了物理基础。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41467-025-68221-2" target="_blank">Write-cycle endurance beyond 10^10 in sub-50 nm ferroelectric AlScN</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Nature Communications</span>
-                    <span class="property-tag">铁电极化切换、循环耐久性</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> 氮化铝钪 (AlScN)</div>
-                    <div><strong>研究方法:</strong> 薄膜电容器制备、精确电压调制测量</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 通过部分极化切换策略，将纤锌矿铁电体的写入耐久性提升至10^10次以上，较此前记录提高千倍。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 解决了氮化物铁电体在非易失性存储应用中的关键可靠性瓶颈。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41467-025-68072-x" target="_blank">Ferroelectric switching of interfacial dipoles in α-RuCl3/graphene heterostructures</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Nature Communications</span>
-                    <span class="property-tag">界面铁电性、电荷转移</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> α-RuCl3 / 石墨烯 / hBN</div>
-                    <div><strong>研究方法:</strong> 范德华异质结构筑、静电输运测量</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 无需滑动或扭转，纯粹利用跨原子薄介电势垒的界面电荷转移稳定了可电切换的非挥发性偶极子。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 提出了一种在原子尺度上通过界面工程实现铁电态的新机制。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41467-025-66149-1" target="_blank">Magnetization generation and giant nonlinear transport at symmetry-designed interfaces</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Nature Communications</span>
-                    <span class="property-tag">非线性霍尔效应、贝里曲率偶极子、电流感应磁化</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> LaAlO3/SrTiO3 (112) 异质结</div>
-                    <div><strong>研究方法:</strong> 高折射率取向晶体生长、室温输运测量</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 通过(112)取向设计打破界面镜面对称性，在室温下实现了巨大的非线性霍尔效应和电流感应面外磁化。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 展示了通过晶体取向工程调控量子几何性质以获得高效自旋电子学器件的能力。</p>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="http://link.aps.org/doi/10.1103/l5fd-kpn5" target="_blank">Magnetoelectric Torque in Polar Magnetic Bilayers</a></h4>
-                <div class="highlight-meta">
-                    <span class="journal-tag">Phys. Rev. Lett.</span>
-                    <span class="property-tag">磁电耦合、磁矩翻转</span>
-                </div>
-                <div class="highlight-details">
-                    <div><strong>材料体系:</strong> 极性磁性双层膜</div>
-                    <div><strong>研究方法:</strong> 理论推导、唯象模型</div>
-                </div>
-                <p class="highlight-innovation"><strong>创新点:</strong> 提出一种不同于SOT/STT的新机制——磁电力矩，利用极性结构中的电场直接诱导磁矩翻转。</p>
-                <p class="highlight-significance"><strong>意义:</strong> 为超低功耗自旋电子器件设计提供了全新的物理途径。</p>
-            </div>
-            </div>
         
-        <div class="section"><h2>🔥 研究趋势</h2><p>本周研究显示，莫尔超晶格系统已从静态物性探索转向动态光学受控阶段，特别是轨道磁性的全光操控成为热点。铁电领域中，氮化物薄膜的工业化可靠性研究取得重大进展，10^10次的循环寿命使其具备了挑战主流存储技术的潜力。同时，界面对称性设计（如高折射率取向界面）正成为诱导非线性物理效应和产生磁化的新范式。此外，二维材料中的界面电荷转移机制正在重新定义纳米尺度下的铁电性起源。</p></div>
         
-        <div class="section"><h2>🔮 未来展望</h2><p>未来研究将进一步探索莫尔系统中拓扑态与磁性的超快动力学耦合。在应用层面，基于AlScN的高耐久性铁电存储器有望进入原型器件集成阶段。同时，利用磁电力矩实现更低能耗的自旋翻转将是自旋电子学领域的一个重要竞争方向。</p></div>
+        <div class="section ferro-section"><h2>⚡ 磁性/铁电材料</h2>
+                <div class="article-card" id="article-fa152ef081b0">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-68225-y" target="_blank">放大驱动和机械记忆的弹磁不稳定性</a>
+                            </h4>
+                            <p class="article-title-en">Elasto-magnetic instabilities for amplified actuation and mechanical memory</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Seong-Yu Choi, Ji-Sung Park, Won Jun Song 等9位作者</div>
+                        <div class="article-ai-analysis">该研究融合磁力与弹力诱发不稳定性，创新实现驱动放大与机械记忆。利用惯性迟滞实现可编程存储，为开发高效、自适应软体驱动器提供设计准则，对软体机器人智能化意义重大。</div>
+                        <div class="article-abstract-preview">不稳定性会在机械系统中产生快速且放大的运动。在这里，我们提出了一种弹磁不稳定性，它结合了磁吸引力和弹性张力来产生双稳态动力学。为了证明这一点，我们构建了一个耦合弹磁振动系统，该系统在较宽的频率范围内产生比控制系统更大的运动以及更大的位移和力。我们还通过研究磁力和弹力之间的平衡，建立了可应用于不同配置...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-fa152ef081b0')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-fa152ef081b0-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>不稳定性会在机械系统中产生快速且放大的运动。在这里，我们提出了一种弹磁不稳定性，它结合了磁吸引力和弹性张力来产生双稳态动力学。为了证明这一点，我们构建了一个耦合弹磁振动系统，该系统在较宽的频率范围内产生比控制系统更大的运动以及更大的位移和力。我们还通过研究磁力和弹力之间的平衡，建立了可应用于不同配置的设计原则。该系统还显示出惯性迟滞，通过以可调节阈值的易失性和非易失性模式存储外部输入来启用机械存储器。这种放大和记忆的双重功能显示了如何将不稳定性用于可编程和自适应软驱动。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Instabilities can generate fast and amplified motion in mechanical systems. Here, we present an elasto-magnetic instability that combines magnetic attraction and elastic tension to create bistable dynamics. To demonstrate this, we built a coupled elasto-magnetic vibration system that produces amplified motion and greater displacement and force than a control system across a wide frequency range. We also establish design principles that can be applied to different configurations by studying the balance between magnetic and elastic forces. The system also shows inertial hysteresis, which enables mechanical memory by storing external inputs in volatile and non-volatile modes with adjustable thresholds. This dual function of amplification and memory shows how instabilities can be potentially used for programmable and adaptive soft actuation.
+
+[原始信息] Nature Communications, Published online: 10 January 2026; doi:10.1038/s41467-025-68225-y Here the authors utilize magnetic attraction and elastic tension to create instabilities that amplify vibrations and induce inertia-driven hysteresis. The design enables efficient mechanical memory with both volatile and non-volatile modes.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-10</div>
+                        <a href="https://www.nature.com/articles/s41467-025-68225-y" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-48d0275e6604">
+                    <div class="article-header">
+                        <div class="article-number">2</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-66149-1" target="_blank">对称设计界面处的磁化产生和巨大非线性输运</a>
+                            </h4>
+                            <p class="article-title-en">Magnetization generation and giant nonlinear transport at symmetry-engineered interfaces</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Hang-Bo Zhang, Zhen-Yu Ding, Yi-Ning Xie 等11位作者</div>
+                        <div class="article-ai-analysis">该研究通过(112)取向工程打破界面镜面对称性，在室温下实现巨非线性霍尔效应。其核心在于利用对称性调控量子几何，为开发拓扑电子器件提供新策略，具有重要应用价值。</div>
+                        <div class="article-abstract-preview">异质结构中的界面具有固有的反演不对称性并表现出不同的物理效应，然而，组成层的原始面内镜面对称性通常保留在界面处。按需操纵这些对称性仍然具有挑战性。在这里，我们展示了一种通过设计异质结构的晶体取向来控制界面的面内镜对称性的策略。我们设计了一种具有新取向的主力系统，即在 (112) 平面具有金属界面的 ...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-48d0275e6604')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-48d0275e6604-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>异质结构中的界面具有固有的反演不对称性并表现出不同的物理效应，然而，组成层的原始面内镜面对称性通常保留在界面处。按需操纵这些对称性仍然具有挑战性。在这里，我们展示了一种通过设计异质结构的晶体取向来控制界面的面内镜对称性的策略。我们设计了一种具有新取向的主力系统，即在 (112) 平面具有金属界面的 LaAlO3/SrTiO3 异质结构。如此高的折射率取向导致除垂直于\([1\bar{1}0]\)方向(\({M}_{[1\bar{1}0]}\))的镜面之外的所有原始镜面对称性被破坏，从而产生具有金属传导的Cs点对称性。因此，该界面表现出巨大的非线性霍尔效应，其特征是大贝里曲率偶极子、圆形光电效应和电流感应的面外磁化，所有这些都在室温下起作用。非线性霍尔效应的强度可与韦尔和狄拉克系统相媲美。我们的工作建立了一种新策略，通过设计界面对称性来探索具有非平凡量子几何的新兴电子特性。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Interfaces in heterostructures possess inherent inversion asymmetry and display diverse physical effects, however, the pristine in-plane mirror symmetries of the constituent layers are usually preserved at the interface. On-demand manipulation of these symmetries remains challenging. Here, we demonstrate a strategy to control the in-plane mirror symmetries of interfaces by engineering the crystallographic orientation of heterostructures. We design a workhorse system with a new orientation, i.e., the LaAlO3/SrTiO3heterostructure with metallic interfaces in the (112)-plane. Such a high index orientation leads to the breaking of all the pristine mirror symmetries except the mirror plane perpendicular to the\([1\bar{1}0]\)direction (\({M}_{[1\bar{1}0]}\)), resulting in theCspoint symmetry with a metallic conduction. Consequently, this interface exhibits a giant nonlinear Hall effect characterized by a large Berry curvature dipole, a circular photogalvanic effect, and current-induced out-of-plane magnetization, all functional at room temperature. The magnitude of the nonlinear Hall effect rivals the Weyl and Dirac systems. Our work establishes a new strategy in exploring emerging electronic properties with nontrivial quantum geometry by designing the interface symmetry.
+
+[原始信息] Nature Communications, Published online: 09 January 2026; doi:10.1038/s41467-025-66149-1 Symmetry breaking is key to numerous notable effects, for instance, the emergence of a Rashba interaction at interfaces between two materials. Here, Zhang, Ding, and coauthors succeed in breaking in-plane mirror symmetries via crystallographic engineering, and observe a giant non-linear Hall effect and current induced magnetization at room temperature.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-09</div>
+                        <a href="https://www.nature.com/articles/s41467-025-66149-1" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-dd0e3ce8f3f5">
+                    <div class="article-header">
+                        <div class="article-number">3</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41567-025-03145-8" target="_blank">光激发碲的动态磁手性不稳定性</a>
+                            </h4>
+                            <p class="article-title-en">Dynamic magneto-chiral instability in photoexcited tellurium</p>
+                            <div class="article-journal">📚 Nature Physics</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Yijing Huang, Nick Abboud, Yinchuan Lv 等15位作者</div>
+                        <div class="article-ai-analysis">[
+  "该研究在手性碲中首次观测到动态磁手性不稳定性，揭示了极化子放大诱导太赫兹辐射增强的机制。这证实了固态系统中的手性电磁效应，为开发新型太赫兹放大器提供了新路径。"
+]</div>
+                        <div class="article-abstract-preview">在不平衡的带电手性费米子系统中，与磁场平行的电流会产生动态不稳定性，从而放大电磁波。这种机制是否也适用于手性固态系统仍不确定。在这里，我们使用时域太赫兹发射光谱观察了元素碲（一种结构手性晶体）的动态磁手性不稳定性特征。在中等磁场的瞬态光激发下，我们观察到相干模式的太赫兹辐射，其幅度随着时间的推移而增...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-dd0e3ce8f3f5')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-dd0e3ce8f3f5-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>在不平衡的带电手性费米子系统中，与磁场平行的电流会产生动态不稳定性，从而放大电磁波。这种机制是否也适用于手性固态系统仍不确定。在这里，我们使用时域太赫兹发射光谱观察了元素碲（一种结构手性晶体）的动态磁手性不稳定性特征。在中等磁场的瞬态光激发下，我们观察到相干模式的太赫兹辐射，其幅度随着时间的推移而增长。我们提出了一个理论模型，该模型基于电磁波与碲中受体态的红外活性振荡器相互作用的动态不稳定性来描述这种行为，从而产生放大的极化子。这些结果表明，磁手性不稳定性可以在固态系统中出现，并建立手性材料中太赫兹波放大的机制。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">In systems of charged chiral fermions out of equilibrium, an electric current parallel to a magnetic field can generate a dynamic instability that amplifies electromagnetic waves. Whether this mechanism also operates in chiral solid-state systems has remained uncertain. Here we observe signatures of a dynamic magneto-chiral instability in elemental tellurium, a structurally chiral crystal, using time-domain terahertz emission spectroscopy. Under transient photoexcitation in a moderate magnetic field, we observe terahertz radiation with coherent modes that grow in amplitude over time. We present a theoretical model that describes this behaviour based on a dynamic instability of electromagnetic waves interacting with infrared-active oscillators of acceptor states in tellurium, giving rise to an amplifying polariton. These results demonstrate that magneto-chiral instabilities can emerge in solid-state systems and establish a mechanism for terahertz-wave amplification in chiral materials.
+
+[原始信息] Nature Physics, Published online: 09 January 2026; doi:10.1038/s41567-025-03145-8 Instabilities in chiral plasmas can amplify electromagnetic waves, raising the question of whether chiral solids behave similarly. Now a magneto-chiral instability is demonstrated in tellurium, observed as growing terahertz emission after photoexcitation.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-09</div>
+                        <a href="https://www.nature.com/articles/s41567-025-03145-8" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-6980b0bd086f">
+                    <div class="article-header">
+                        <div class="article-number">4</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-68221-2" target="_blank">亚 50 nm 铁电 AlScN 中的写入循环耐久性超过 10 10</a>
+                            </h4>
+                            <p class="article-title-en">Write cycling endurance exceeding 10 10 in sub-50 nm ferroelectric AlScN</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Hyunmin Cho, Yubo Wang, Chloe Leblanc 等11位作者</div>
+                        <div class="article-ai-analysis">该研究利用电压调制实现部分极化翻转，使45nm AlScN耐久性突破10^10次，较此前提升千倍。这一创新解决了纤锌矿铁电体寿命瓶颈，为开发高可靠、低功耗非易失性存储器提供了关键支撑。</div>
+                        <div class="article-abstract-preview">纤锌矿铁电体，特别是氮化铝钪 (AlScN)，已成为非易失性存储器的一种有前途的材料平台，提供超过 100 μC/cm2 的高极化值。然而，在之前的报告中，它们的高矫顽力场（>3 MV/cm）将循环耐力限制为约 107 次循环。在这里，我们展示了 AlScN 中对极化切换的前所未有的控制，实现了超过...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-6980b0bd086f')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-6980b0bd086f-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>纤锌矿铁电体，特别是氮化铝钪 (AlScN)，已成为非易失性存储器的一种有前途的材料平台，提供超过 100 μC/cm2 的高极化值。然而，在之前的报告中，它们的高矫顽力场（>3 MV/cm）将循环耐力限制为约 107 次循环。在这里，我们展示了 AlScN 中对极化切换的前所未有的控制，实现了超过 1010 次循环的写入循环耐久性——比之前的纤锌矿铁电基准提高了一千倍。通过 45 nm 厚的 Al0.64Sc0.36N 电容器中的精确电压调制，我们表明，虽然完全极化反转 (2Pr≈ 200 μC/cm2) 维持约 108 个周期，但部分切换将耐久性延长到 1010 个周期以上，同时保持相当大的极化 (2Pr >30 μC/cm2)。这种卓越的耐用性，加上优化的 10 μm 直径器件中接近 10 MV/cm 的击穿场，代表了所有纤锌矿铁电体的最高报告值。我们的研究结果为氮化物铁电体的可靠性建立了新的范例，证明受控的部分极化和尺寸缩放可以实现高耐久性和节能运行。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Wurtzite ferroelectrics, particularly aluminum scandium nitride (AlScN), have emerged as a promising material platform for non-volatile memories, offering high polarization values exceeding 100 μC/cm2. However, their high coercive fields (>3 MV/cm) have limited cycling endurance to ~107cycles in previous reports. Here, we demonstrate unprecedented control of polarization switching in AlScN, achieving write cycling endurance exceeding 1010cycles—a thousand-fold improvement over previous wurtzite ferroelectric benchmarks. Through precise voltage modulation in 45 nm-thick Al0.64Sc0.36N capacitors, we show that while complete polarization reversal (2Pr≈ 200 μC/cm2) sustains ~108cycles, partial switching extends endurance beyond 1010cycles while maintaining a substantial polarization (>30 μC/cm2for 2Pr). This exceptional endurance, combined with breakdown fields approaching 10 MV/cm in optimized 10 μm diameter devices, represents the highest reported values for any wurtzite ferroelectric. Our findings establish a new paradigm for reliability in nitride ferroelectrics, demonstrating that controlled partial polarization and size scaling enables both high endurance and energy-efficient operation.
+
+[原始信息] Nature Communications, Published online: 09 January 2026; doi:10.1038/s41467-025-68221-2 The authors demonstrate that stable partial polarization control achieves more than 1010 write cycles in ferroelectric AlScN. Further, reducing capacitor diameter increases breakdown voltage, boosting endurance.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-09</div>
+                        <a href="https://www.nature.com/articles/s41467-025-68221-2" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-dfe733d5c38d">
+                    <div class="article-header">
+                        <div class="article-number">5</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/lt1f-8pz2" target="_blank">来自精确约束交换相关扭矩的物理自旋扭矩</a>
+                            </h4>
+                            <p class="article-title-en">Physical Spin Torques from Exactly Constrained Exchange-Correlation Torques</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Jacques K. Desmarais, Kamel Bencheikh, Giovanni Vignale, and Stefano Pittalis</div>
+                        <div class="article-ai-analysis">该研究通过精确约束交换相关扭矩，解决了非共线磁系统中物理自旋力矩的计算难题。核心创新在于理清了扭矩与自旋流发散的关系，为自旋电子学器件研发和精准模拟提供了关键理论支撑。</div>
+                        <div class="article-abstract-preview">作者：Jacques K. Desmarais、Kamel Bencheikh、Giovanni Vignale 和 Stefano Pittalis 在过去的二十年中，捕获非共线磁系统中的物理自旋力矩问题一直主导着自旋密度泛函理论 (SDFT)。自旋扭矩与自旋流的发散直接相关，这一事实阻碍了进展，...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-dfe733d5c38d')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-dfe733d5c38d-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Jacques K. Desmarais、Kamel Bencheikh、Giovanni Vignale 和 Stefano Pittalis 在过去的二十年中，捕获非共线磁系统中的物理自旋力矩问题一直主导着自旋密度泛函理论 (SDFT)。自旋扭矩与自旋流的发散直接相关，这一事实阻碍了进展，这是一个量……[物理。莱特牧师。 136, 016403] 2026 年 1 月 7 日星期三发布</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Jacques K. Desmarais, Kamel Bencheikh, Giovanni Vignale, and Stefano Pittalis The problem of capturing physical spin torques in noncollinear magnetic systems has dominated the scene of spin-density functional theory (SDFT) in the last two decades. Progress has been hindered by the fact that the spin torque is directly connected to the divergence of the spin current, a quantit… [Phys. Rev. Lett. 136, 016403] Published Wed Jan 07, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-07</div>
+                        <a href="http://link.aps.org/doi/10.1103/lt1f-8pz2" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-b8488f56c6aa">
+                    <div class="article-header">
+                        <div class="article-number">6</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41567-025-03117-y" target="_blank">魔角扭曲双层石墨烯轨道磁性的光学控制</a>
+                            </h4>
+                            <p class="article-title-en">Optical control of orbital magnetism in magic-angle twisted bilayer graphene</p>
+                            <div class="article-journal">📚 Nature Physics</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Eylon Persky, Léonie Parisot, Minhao He 等9位作者</div>
+                        <div class="article-ai-analysis">[
+  "该研究利用圆偏振光实现了魔角石墨烯轨道磁性的光学调控。创新在于通过逆法拉第效应操纵反常霍尔效应，为莫尔拓扑态的超快光控提供新范式，对研发新型量子器件价值重大。"
+]</div>
+                        <div class="article-abstract-preview">扭曲石墨烯结构中的平带具有各种强相关和拓扑现象。对它们进行光学探测和控制可以揭示对称性和动力学等重要信息，但由于与光学波长相比能隙较小，这一直具有挑战性。在这里，我们报告了单层 WSe2 器件上魔角扭曲双层石墨烯中轨道磁性的近红外光学控制以及相关的反常霍尔效应。我们演示了使用圆偏振光对整数莫尔填充附...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-b8488f56c6aa')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-b8488f56c6aa-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>扭曲石墨烯结构中的平带具有各种强相关和拓扑现象。对它们进行光学探测和控制可以揭示对称性和动力学等重要信息，但由于与光学波长相比能隙较小，这一直具有挑战性。在这里，我们报告了单层 WSe2 器件上魔角扭曲双层石墨烯中轨道磁性的近红外光学控制以及相关的反常霍尔效应。我们演示了使用圆偏振光对整数莫尔填充附近的反常霍尔效应的滞后和幅度的控制。通过调制光螺旋度，我们观察到各种填充物中横向电阻的周期性调制，表明通过大的逆法拉第效应引起的光诱导轨道磁化。在金属和反常霍尔效应状态之间的转变中，我们还揭示了霍尔电阻率的大且随机的切换，我们将其归因于光调谐的磁域渗透簇。我们的结果证明了莫尔结构中相关性和拓扑的光学操纵的潜力。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Flat bands in twisted graphene structures host various strongly correlated and topological phenomena. Optically probing and controlling them can reveal important information such as symmetry and dynamics, but this has been challenging due to the small energy gap compared with optical wavelengths. Here we report on the near-infrared optical control of orbital magnetism and associated anomalous Hall effects in a magic-angle twisted bilayer graphene on a monolayer WSe2device. We demonstrate control over the hysteresis and amplitude of the anomalous Hall effect near integer moiré fillings using circularly polarized light. By modulating the light helicity, we observe periodic modulation of the transverse resistance in a wide range of fillings, indicating light-induced orbital magnetization through a large inverse Faraday effect. At the transition between metallic and anomalous Hall effect regimes, we also reveal large and random switching of the Hall resistivity, which we attribute to the light-tuned percolating cluster of magnetic domains. Our results demonstrate the potential of the optical manipulation of correlation and topology in moiré structures.
+
+[原始信息] Nature Physics, Published online: 06 January 2026; doi:10.1038/s41567-025-03117-y Strong correlations and topology have been seen in moiré graphene, but their optical control has not been shown yet. Now, the optical manipulation of orbital magnetism and anomalous Hall effects is demonstrated in magic-angle twisted bilayer graphene.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-06</div>
+                        <a href="https://www.nature.com/articles/s41567-025-03117-y" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-49b68b80c831">
+                    <div class="article-header">
+                        <div class="article-number">7</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-68072-x" target="_blank">α -RuCl 3 /石墨烯异质结构中界面偶极子的铁电转换</a>
+                            </h4>
+                            <p class="article-title-en">Ferroelectric switching of interfacial dipoles in α -RuCl 3 /graphene heterostructure</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Soyun Kim, Jo Hyun Yun, Junsik Choe 等11位作者</div>
+                        <div class="article-ai-analysis">[
+  "该研究通过界面电荷转移在α-RuCl3/石墨烯异质结中实现了电控铁电转换，创新性地无需物理滑移即可稳定偶极子。这为范德华异质结的铁电调控提供了新机制，在原子级非易失性存储及光电器件领域具有重</div>
+                        <div class="article-abstract-preview">我们展示了石墨烯/薄 hBN/α-RuCl3α-RuCl3 异质结构中的电可切换、非挥发性偶极子，纯粹通过跨原子薄介电势垒的界面电荷转移来稳定。这种机制不需要滑动或扭转来明确打破反演对称性，并产生在 30 K 附近显着出现的强大的类铁电磁滞回线。强平面内和平面外磁场下的系统测量表明对磁滞特性的影响可...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-49b68b80c831')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-49b68b80c831-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>我们展示了石墨烯/薄 hBN/α-RuCl3α-RuCl3 异质结构中的电可切换、非挥发性偶极子，纯粹通过跨原子薄介电势垒的界面电荷转移来稳定。这种机制不需要滑动或扭转来明确打破反演对称性，并产生在 30 K 附近显着出现的强大的类铁电磁滞回线。强平面内和平面外磁场下的系统测量表明对磁滞特性的影响可以忽略不计，证实驱动偶极子切换的主要机制是静电。我们的研究结果为范德华异质结构中的电可调谐铁电现象建立了一条独特而稳健的途径，为探索原子尺度上界面电荷转移和偶极子态的温度调节势垒穿越之间的相互作用提供了机会。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">We demonstrate electrically switchable, non-volatile dipoles in graphene/thin hBN/α-RuCl3alpha-RuCl3 heterostructures, stabilized purely by interfacial charge transfer across an atomically thin dielectric barrier. This mechanism requires no sliding or twisting to explicitly break inversion symmetry and produces robust ferroelectric-like hysteresis loops that emerge prominently near 30 K. Systematic measurements under strong in-plane and out-of-plane magnetic fields reveal negligible effects on the hysteresis characteristics, confirming that the primary mechanism driving the dipole switching is electrostatic. Our findings establish a distinct and robust route to electrically tunable ferroelectric phenomena in van der Waals heterostructures, opening opportunities to explore the interplay between interfacial charge transfer and temperature-tuned barrier crossing of dipole states at the atomic scale.
+
+[原始信息] Nature Communications, Published online: 06 January 2026; doi:10.1038/s41467-025-68072-x This study shows that electrically switchable and non-volatile dipoles can form at the interface of graphene and α-RuCl3 when separated by an ultrathin hBN layer. The dipole switching is driven by interfacial charge transfer, is stable without continuous power, and emerges in a narrow temperature window around 30 K.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-06</div>
+                        <a href="https://www.nature.com/articles/s41467-025-68072-x" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-30113487fc3b">
+                    <div class="article-header">
+                        <div class="article-number">8</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-67723-3" target="_blank">具有拓扑集成压电纳米球的软声电容器可实现无线硬膜外闭环神经调节</a>
+                            </h4>
+                            <p class="article-title-en">Soft sonocapacitor with topologically integrated piezodielectric nanospheres enables wireless epidural closed-loop neuromodulation</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Zhidong Wei, Fei Jin, Tong Li 等12位作者</div>
+                        <div class="article-ai-analysis">该研究通过拓扑结构创新，开发出高密度无线电荷注入的软声电容器。其核心在于平衡了电荷密度与安全性，实现了硬膜外闭环癫痫治疗，为微创电子医药开辟了新路径。</div>
+                        <div class="article-abstract-preview">电容耦合电刺激通过可逆充电调节神经元活动，而无需电荷转移反应。这代表了一种有前途且安全的神经调节方案，但实现无线和高电容电荷密度注入仍然具有挑战性。在这里，我们开发了一种由压电介电复合纳米球（UCapT）和二维纤维素组装而成的拓扑纤维结构声电容器（SonoCap）。 UCapT具有独特的压电芯-空腔...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-30113487fc3b')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-30113487fc3b-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>电容耦合电刺激通过可逆充电调节神经元活动，而无需电荷转移反应。这代表了一种有前途且安全的神经调节方案，但实现无线和高电容电荷密度注入仍然具有挑战性。在这里，我们开发了一种由压电介电复合纳米球（UCapT）和二维纤维素组装而成的拓扑纤维结构声电容器（SonoCap）。 UCapT具有独特的压电芯-空腔-介电笼结构，可以有效耦合超声激励以实现压电电子电容转移，其高度组装的SonoCap实现了累积电荷存储、高离子可及表面积和宏观柔软度，从而实现无线和高电容电荷密度注入。 SonoCap 在 0.63 W cm−2 超声波激励下可实现高达 9.7 mC cm−2 的电容性电荷密度输出，同时产生可忽略不计的 2 nC cm−2 法拉第电荷。我们证明，SonoCap 可以经颅和硬膜外调节大鼠和猪大脑中的神经回路动力学，而不引入脑内异物并维持心室稳态。通过集成基于深度学习的闭环诊断系统，可以实现颞叶癫痫的按需、无线、硬膜外电容电刺激治疗。 SonoCap 的设计理念有望激发功能性电容刺激器的不断发展，从而有可能促进电容电神经调节的广泛应用。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Capacitively coupled electrical stimulation modulates neuronal activity through reversible charging and without charge transfer reactions. This represents a promising and safe neuromodulation scheme but achieving wireless and high capacitive charge density injection remains challenging. Here, we developed a topological fibrous-architecture sonocapacitor (SonoCap) that assembled from piezoelectric-dielectric composite nanosphere (UCapT) and two-dimensional cellulose. UCapT features a unique piezoelectric core-hollow cavity-dielectric cage structure that can efficiently couples ultrasound excitation to achieve piezoelectric electron-capacitance transfer, and its highly assembled SonoCap achieves cumulative charge storage, a high ion-accessible surface area, and macroscopic softness, thereby enabling wireless and high capacitive charge density injection. SonoCap can achieve a capacitive charge density output of up to 9.7 mC cm−2under 0.63 W cm−2ultrasound excitation, while generating a negligible Faradaic charge of 2 nC cm−2. We demonstrated that SonoCap can transcranially and epidurally modulate neural circuit dynamics in rat and pig brains, without introducing intracerebral foreign bodies and maintaining ventricular homeostasis. By integrating a deep learning-based closed-loop diagnostic system, on-demand, wireless, and epidural capacitive electrical stimulation treatment for temporal lobe epilepsy can be achieved. The design concept of SonoCap is expected to inspire expanding development of functional capacitive stimulators, potentially promoting the widespread application of capacitive electrical neuromodulation.
+
+[原始信息] Nature Communications, Published online: 06 January 2026; doi:10.1038/s41467-025-67723-3 Achieving wireless and high charge density neural stimulation remains challenging. To address this issue, the authors develop a sonocapacitor from piezoelectric-dielectric composite nanospheres and two-dimensional cellulose.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-06</div>
+                        <a href="https://www.nature.com/articles/s41467-025-67723-3" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-971a03da8f14">
+                    <div class="article-header">
+                        <div class="article-number">9</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/l5fd-kpn5" target="_blank">极性磁双层中的磁电扭矩</a>
+                            </h4>
+                            <p class="article-title-en">Magnetoelectric Torque in Polar Magnetic Bilayers</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Zhong Shen, Jun Chen, Xiaoyan Yao, and Shuai Dong</div>
+                        <div class="article-ai-analysis">[
+  "该研究提出磁电力矩机制，利用极性磁双层实现高效自旋调控。该机制突破了传统力矩的能效瓶颈，大幅提升翻转速度，为研发低功耗、高速自旋电子器件提供了全新物理路径。"
+]</div>
+                        <div class="article-abstract-preview">作者：沉忠、陈军、姚晓燕、董帅 自旋方向或纹理的节能快速切换是自旋电子学的核心问题，需求量很大，但仍然具有挑战性。与基于自旋转移力矩或自旋轨道力矩的主流路线不同，这里我们提出了另一种机制，称为磁电力矩...... [Phys.莱特牧师。 136, 016702] 2026 年 1 月 6 日星期二发...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-971a03da8f14')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-971a03da8f14-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：沉忠、陈军、姚晓燕、董帅 自旋方向或纹理的节能快速切换是自旋电子学的核心问题，需求量很大，但仍然具有挑战性。与基于自旋转移力矩或自旋轨道力矩的主流路线不同，这里我们提出了另一种机制，称为磁电力矩...... [Phys.莱特牧师。 136, 016702] 2026 年 1 月 6 日星期二发布</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Zhong Shen, Jun Chen, Xiaoyan Yao, and Shuai Dong Energy-efficient fast switching of spin orientations or textures is a core issue of spintronics, which is highly demanded but remains challenging. Different from the mainstream routes based on spin-transfer torque or spin-orbit torque, here we propose another mechanism coined as magnetoelectric torq… [Phys. Rev. Lett. 136, 016702] Published Tue Jan 06, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-06</div>
+                        <a href="http://link.aps.org/doi/10.1103/l5fd-kpn5" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
+        
+        <div class="section ai-section"><h2>🤖 AI/机器学习</h2>
+                <div class="article-card" id="article-7d55fcafb475">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-026-68310-w" target="_blank">通过机械重构实现超高容量的衍射魔方网络</a>
+                            </h4>
+                            <p class="article-title-en">Diffractive magic cube network with super-high capacity enabled by mechanical reconfiguration</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Peijie Feng, Fubei Liu, Yuanfeng Liu 等12位作者</div>
+                        <div class="article-ai-analysis">该研究提出衍射魔方网络，结合机械重构与深度学习，通过等效连通律实现超百通道低串扰波前操纵。该成果显著提升了光复用容量，为大容量光存储及计算提供了高效、低成本的硬件新范式。</div>
+                        <div class="article-abstract-preview">自由空间波前操纵设备已成为先进光学信息系统的强大平台。为了应对光信息指数级增长带来的挑战，人们正在积极探索光复用和动态可重构器件来增强系统容量。其中，粗粒度机械可重构机制为容量增强提供了一种经济高效且低复杂度的方法。然而，由于机械变换不充分和优化模型不理想，当前研究中获得的通道数不足以满足实际应用。...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-7d55fcafb475')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-7d55fcafb475-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>自由空间波前操纵设备已成为先进光学信息系统的强大平台。为了应对光信息指数级增长带来的挑战，人们正在积极探索光复用和动态可重构器件来增强系统容量。其中，粗粒度机械可重构机制为容量增强提供了一种经济高效且低复杂度的方法。然而，由于机械变换不充分和优化模型不理想，当前研究中获得的通道数不足以满足实际应用。在本文中，提出了一种衍射魔方网络（DMCN）来提高机械可重构系统的复用能力。我们利用衍射深度神经网络（D2NN）模型来联合优化由排列、平移和旋转三种机械操作组合生成的通道子集。使用衍射光学元件（DOE）对 144 通道全息图、108 通道单/双焦点、60 通道单/多模 OAM 光束生成进行了实验演示。制定了等效的连通律来提高模型的可扩展性。我们的策略不仅提供了一种新颖的范例，将系统容量提高到超高水平且低串扰，而且还为光存储、计算、通信和光刻技术的新进步铺平了道路。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Free-space wavefront manipulation devices have emerged as powerful platforms for advanced optical information systems. In response to the challenges posed by the exponential growth of optical information, optical multiplexing and dynamic reconfigurable devices are being actively explored to the enhance system capacity. Among them, coarse-grained mechanically reconfigurable mechanism offers a cost-effective and low-complexity approach for capacity enhancement. However, the channel numbers achieved in current studies are insufficient for practical applications because of inadequate mechanical transformations and suboptimal optimization models. In this article, a diffractive magic cube network (DMCN) is proposed to advance the multiplexing capacity of mechanically reconfigurable system. We utilized the diffractive deep neural network (D2NN) model to jointly optimize the subset of channels generated by the combination of three mechanical operations, permutation, translation, and rotation. The 144-channel holograms, 108-channel single/double focus, 60-channel single/multi-mode OAM beam generation were experimentally demonstrated using diffractive optical elements (DOEs). An equivalent connectivity law was formulated to improve model scalability. Our strategy not only provides a novel paradigm to improve system capacity to super-high level with low crosstalk, but also paves the way for new advancements in optical storage, computing, communication, and photolithography.
+
+[原始信息] Nature Communications, Published online: 11 January 2026; doi:10.1038/s41467-026-68310-w Mechanically reconfigurable mechanisms offer a cost-effective, low-complexity approach to build high-capacity multiplexing wavefront modulation devices, yet current studies achieve insufficient channel numbers for practical applications due to limited mechanical transformations and suboptimal optimization models. Here, authors propose a diffractive magic cube network to address this challenge.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-11</div>
+                        <a href="https://www.nature.com/articles/s41467-026-68310-w" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-68f73a0f9d2b">
+                    <div class="article-header">
+                        <div class="article-number">2</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/7lsx-ssjl" target="_blank">利用基于数据的量子经典动力学预测开放量子动力学</a>
+                            </h4>
+                            <p class="article-title-en">Predicting Open Quantum Dynamics with Data-Informed Quantum-Classical Dynamics</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Pinchen Xie, Ke Wang, Anupam Mitra, Yuanran Zhu, Xiantao Li, Wibe Albert de Jong, and Chao Yang</div>
+                        <div class="article-ai-analysis">该研究提出DIQCD方法，融合数据驱动与含时Lindblad方程，实现稀疏噪声下开放量子系统的高效建模。该方法显著提升了演化预测的鲁棒性，为复杂量子动力学研究提供了精准分析工具。</div>
+                        <div class="article-abstract-preview">作者：Pinchen Xie、Ke Wang、Anupam Mitra、Yuanran Zhu、Xiantao Li、Wibe Albert de Jong 和 Chao Yang 我们介绍了一种基于数据的量子经典动力学 (DIQCD) 方法，用于预测开放量子系统的演化。 DIQCD 中的运动方程是...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-68f73a0f9d2b')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-68f73a0f9d2b-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Pinchen Xie、Ke Wang、Anupam Mitra、Yuanran Zhu、Xiantao Li、Wibe Albert de Jong 和 Chao Yang 我们介绍了一种基于数据的量子经典动力学 (DIQCD) 方法，用于预测开放量子系统的演化。 DIQCD 中的运动方程是一个 Lindblad 方程，具有灵活的、与时间相关的哈密顿量，可以对其进行优化以适应来自局部观测的稀疏和噪声数据...... [Phys。莱特牧师。 136, 010402] 发表于 2026 年 1 月 9 日星期五</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Pinchen Xie, Ke Wang, Anupam Mitra, Yuanran Zhu, Xiantao Li, Wibe Albert de Jong, and Chao Yang We introduce a data-informed quantum-classical dynamics (DIQCD) approach for predicting the evolution of an open quantum system. The equation of motion in DIQCD is a Lindblad equation with a flexible, time-dependent Hamiltonian that can be optimized to fit sparse and noisy data from local observatio… [Phys. Rev. Lett. 136, 010402] Published Fri Jan 09, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-09</div>
+                        <a href="http://link.aps.org/doi/10.1103/7lsx-ssjl" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-82b3c9adffd3">
+                    <div class="article-header">
+                        <div class="article-number">3</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41928-025-01529-5" target="_blank">基于忆阻闪烁神经元的光子连接三维神经网络</a>
+                            </h4>
+                            <p class="article-title-en">Photonically linked three-dimensional neural networks based on memristive blinking neurons</p>
+                            <div class="article-journal">📚 Nature Electronics</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Yue Zhou, Yuetong Fang, Raphael Gisler 等11位作者</div>
+                        <div class="article-ai-analysis">该研究研制出纳米级忆阻闪烁神经元，利用光子脉冲实现无线互连，突破了三维布线瓶颈。这种光电融合架构显著提升系统集成度与扩展性，为开发高能效类脑计算硬件提供新方案。</div>
+                        <div class="article-abstract-preview">人工智能的持续发展需要更强大的计算架构。然而，基于互补金属氧化物半导体的神经元的巨大足迹和对电路由的限制阻碍了传统人工神经元及其突触连接的扩展。在这里，我们展示了忆阻闪烁神经元可用于构建可扩展的光子链接三维神经网络。我们的人工神经元基于银/聚（甲基丙烯酸甲酯）/银金属-绝缘体-金属忆阻切换面内结。其...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-82b3c9adffd3')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-82b3c9adffd3-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>人工智能的持续发展需要更强大的计算架构。然而，基于互补金属氧化物半导体的神经元的巨大足迹和对电路由的限制阻碍了传统人工神经元及其突触连接的扩展。在这里，我们展示了忆阻闪烁神经元可用于构建可扩展的光子链接三维神经网络。我们的人工神经元基于银/聚（甲基丙烯酸甲酯）/银金属-绝缘体-金属忆阻切换面内结。其电阻开关依赖于原子级丝状动力学，并且该器件在集成临界数量的传入电尖峰时发射光子脉冲，从而无需庞大的外围电路读出和用于传输信号的电线。我们使用忆阻闪烁神经元（其占地面积为 170 nm × 240 nm）来构建光子连接的三维尖峰神经网络。我们证明该网络可以在 Google 语音数据集中执行四类分类任务，准确率达到 91.51%。我们还创建了节距为 1 μm 的高密度人工神经元阵列，并表明它可以执行 MNIST 分类任务，准确率为 92.27%。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">The continuing development of artificial intelligence requires more powerful computing architectures. However, the large footprint of complementary-metal–oxide–semiconductor-based neurons and constraints on electric routing hinder the scaling of conventional artificial neurons and their synaptic connectivity. Here we show that memristive blinking neurons can be used to build scalable photonically linked three-dimensional neural networks. Our artificial neuron is based on a silver/poly(methyl methacrylate)/silver metal–insulator–metal memristive switching in-plane junction. Its resistive switching relies on atomic-scale filamentary dynamics and the device emits photon pulses on integrating a critical number of incoming electrical spikes, which eliminates the need for bulky peripheral circuit read-out and electrical wiring for transmitting signals. We use the memristive blinking neuron, which has a footprint of 170 nm × 240 nm, to build a photonically linked three-dimensional spiking neural network. We show that the network can perform a four-class classification task within the Google Speech dataset with an accuracy of 91.51%. We also create a high-density artificial neuron array with a pitch of 1 μm and show that it can perform an MNIST classification task with an accuracy of 92.27%.
+
+[原始信息] Nature Electronics, Published online: 08 January 2026; doi:10.1038/s41928-025-01529-5 A memristive blinking neuron—relying on atomic-scale filamentary dynamics for resistive switching and emitting photon pulses on integrating a critical number of incoming electrical spikes—can be used to build photonically linked three-dimensional spiking neural networks.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-08</div>
+                        <a href="https://www.nature.com/articles/s41928-025-01529-5" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-5da865d305c0">
+                    <div class="article-header">
+                        <div class="article-number">4</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/yfb3-fgf2" target="_blank">增强引力波检测：具有鲁棒不确定性量化的机器学习管道组合方法</a>
+                            </h4>
+                            <p class="article-title-en">Enhancing Gravitational-Wave Detection: A Machine Learning Pipeline Combination Approach with Robust Uncertainty Quantification</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Gregory Ashton, Ann-Kristin Malz, and Nicolo Colombo</div>
+                        <div class="article-ai-analysis">该研究通过机器学习整合探测管道，创新引入鲁棒不确定性量化。这有效抑制了噪声与伪影，显著提升引力波识别灵敏度与可靠性，为复杂天文数据处理提供稳健高效的新方案。</div>
+                        <div class="article-abstract-preview">作者：Gregory Ashton、Ann-Kristin Malz 和 Nicolo Colombo 来自先进时代干涉仪探测器的引力波数据由背景高斯噪声、频繁的瞬态伪影和罕见的天体物理信号组成。存在多种搜索算法来检测来自紧凑二元合并的信号，但它们不同的性能使复杂化...... [Phys。莱特牧师...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-5da865d305c0')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-5da865d305c0-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Gregory Ashton、Ann-Kristin Malz 和 Nicolo Colombo 来自先进时代干涉仪探测器的引力波数据由背景高斯噪声、频繁的瞬态伪影和罕见的天体物理信号组成。存在多种搜索算法来检测来自紧凑二元合并的信号，但它们不同的性能使复杂化...... [Phys。莱特牧师。 136, 011402] 发布于 2026 年 1 月 8 日星期四</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Gregory Ashton, Ann-Kristin Malz, and Nicolo Colombo Gravitational-wave data from advanced-era interferometric detectors consists of background Gaussian noise, frequent transient artifacts, and rare astrophysical signals. Multiple search algorithms exist to detect the signals from compact binary coalescences, but their varying performance complicates … [Phys. Rev. Lett. 136, 011402] Published Thu Jan 08, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-08</div>
+                        <a href="http://link.aps.org/doi/10.1103/yfb3-fgf2" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-1809140c53bf">
+                    <div class="article-header">
+                        <div class="article-number">5</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-67374-4" target="_blank">不确定性感知机器学习可预测全球化学品市场的非癌症人体毒性</a>
+                            </h4>
+                            <p class="article-title-en">Uncertainty-aware machine learning to predict non-cancer human toxicity for the global chemicals market</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Kerstin von Borries, Katie V. Beckwith, Jonathan M. Goodman 等6位作者</div>
+                        <div class="article-ai-analysis">该研究创新开发不确定性感知模型，量化了全球十万种化学品的毒性预测置信度。这提升了评估透明度，识别出风险热点，为化学品监管决策提供科学依据，具有重要应用价值。</div>
+                        <div class="article-abstract-preview">人类接触到数千种化学物质，但有限的毒性数据阻碍了对其对人类健康影响的有效管理。高性能机器学习模型具有解决这一差距的潜力，但它们在更广泛的化学品中的非典型预测性能削弱了人们对其结果的信心。我们开发不确定性感知模型来预测生殖/发育和一般非癌症人类毒性效应剂量。我们经过良好校准的模型提供与观察到的预测误差...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-1809140c53bf')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-1809140c53bf-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>人类接触到数千种化学物质，但有限的毒性数据阻碍了对其对人类健康影响的有效管理。高性能机器学习模型具有解决这一差距的潜力，但它们在更广泛的化学品中的非典型预测性能削弱了人们对其结果的信心。我们开发不确定性感知模型来预测生殖/发育和一般非癌症人类毒性效应剂量。我们经过良好校准的模型提供与观察到的预测误差和化学熟悉度相一致的不确定性估计。我们以 95% 的置信区间预测全球销售的超过 100,000 种化学品的毒性，并识别毒性和不确定性热点。这些结果可用于为旨在减少潜在人类健康影响的决策提供信息，并指导有针对性的数据生成和建模工作，以减少预测的不确定性。在这里，我们表明，提高预测不确定性的透明度为建立毒性预测的信心提供了关键见解，支持基于机器学习的预测在化学评估中的良好整合。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Humans are exposed to thousands of chemicals, yet limited toxicity data hinder effective management of their impacts on human health. High-performing machine learning models hold potential for addressing this gap, but their uncharacterized prediction performance across the wider range of chemicals undermines confidence in their results. We develop uncertainty-aware models to predict reproductive/developmental and general non-cancer human toxicity effect doses. Our well-calibrated models provide uncertainty estimates aligned with observed prediction errors and chemical familiarity. We predict toxicity with 95% confidence intervals for >100,000 globally marketed chemicals and identify toxicity and uncertainty hotspots. These results can be applied to inform decisions aimed at reducing potential human health impacts and guide targeted data generation and modeling efforts to reduce prediction uncertainty. Here, we show that enhancing transparency in prediction uncertainty provides key insights for building confidence in toxicity predictions, supporting the sound integration of machine learning-based predictions in chemical assessments.
+
+[原始信息] Nature Communications, Published online: 07 January 2026; doi:10.1038/s41467-025-67374-4 Uncertainty-aware machine learning models predict human toxicity for more than 100,000 chemicals, highlighting potency and uncertainty hotspots to guide safer use and to focus efforts to improve prediction confidence.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-07</div>
+                        <a href="https://www.nature.com/articles/s41467-025-67374-4" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-57f5b4b5e84f">
+                    <div class="article-header">
+                        <div class="article-number">6</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s43588-025-00929-z" target="_blank">发现复杂网络系统背后的规律</a>
+                            </h4>
+                            <p class="article-title-en">Discovering the laws behind complex networked systems</p>
+                            <div class="article-journal">📚 Nature Computational Science</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Iacopo Iacopini, Eugenio Valdano</div>
+                        <div class="article-ai-analysis">[
+  "该研究利用神经符号回归技术，实现了高维复杂网络动力学方程的自动推导。核心创新在于融合了深度学习的拟合能力与符号逻辑的可解释性，为揭示复杂系统底层规律提供了新工具，对自动化科学发现及跨学科建模</div>
+                        <div class="article-abstract-preview">最近的一项研究表明，神经符号回归提供了一条自动发现高维复杂系统网络动力学控制方程的途径。于 Z.、丁 J. 和李 Y.Nat。计算。科学。https://doi.org/10.1038/s43588-025-00893-8(2025)。文章谷歌学者 Wang, H. et al.Nature620,...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-57f5b4b5e84f')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-57f5b4b5e84f-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>最近的一项研究表明，神经符号回归提供了一条自动发现高维复杂系统网络动力学控制方程的途径。于 Z.、丁 J. 和李 Y.Nat。计算。科学。https://doi.org/10.1038/s43588-025-00893-8(2025)。文章谷歌学者 Wang, H. et al.Nature620, 47–60 (2023)。文章谷歌学者 Thibeault, V.、Allard, A. 和 Desrosiers, P.Nat。物理学.20, 294–302 (2024)。文章谷歌学者 Battiston, F. 等人，物理学。报告 874, 1–92 (2020)。文章MathSciNetGoogle 学者高 T. T. 和严 G.Nat。计算。科学 2，160–168 (2022)。文章Google Scholar Hu, J., Cui, J. 和 Yang, B.Nat。通讯 16, 6226 (2025)。文章谷歌学术 Guimerà, R. et al.Sci. Adv.6，eaav6971 (2020)。文章谷歌学者狄拉克，P.A.M.Sci。上午 208, 45–53 (1963)。文章谷歌学者爱因斯坦，A.Ann。物理学 322, 891–921 (1905)。文章Google Scholar Liu, Z. 和 Tegmark, M.Phys。 Rev. Lett.126, 180604 (2021)。文章谷歌学术 Lu, P. Y. 等人，Nat。通讯 14, 4744 (2023)。文章Google 学术下载参考文献 英国伦敦东北大学网络科学研究所 Iacopo Iacopini 美国马萨诸塞州波士顿东北大学物理系 Iacopo Iacopini 索邦大学、INSERM、法国巴黎 Pierre Louis d’Epidémiologie et de Santé Publique 研究所 Eugenio Valdano 搜索作者：PubMedGoogle 学术搜索作者上：PubMed Google Scholar 通讯作者：Iacopo Iacopinior Eugenio Valdano。作者声明没有竞争利益。转载和许可 Iacopini, I., Valdano, E. 发现复杂网络系统背后的规律。Nat Comput Sci(2026)。 https://doi.org/10.1038/s43588-025-00929-z 下载引文 发布时间：2026 年 1 月 5 日 记录版本：2026 年 1 月 5 日 DOI：https://doi.org/10.1038/s43588-025-00929-z 与您共享以下链接的任何人都可以阅读此内容：抱歉，可共享链接目前不适用于本文。由 Springer Nature SharedIt 内容共享计划提供</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">A recent study shows that neural symbolic regression offers a route to automated discovery of governing equations for network dynamics across high-dimensional complex systems. Yu, Z., Ding, J. & Li, Y.Nat. Comput. Sci.https://doi.org/10.1038/s43588-025-00893-8(2025). ArticleGoogle Scholar Wang, H. et al.Nature620, 47–60 (2023). ArticleGoogle Scholar Thibeault, V., Allard, A. & Desrosiers, P.Nat. Phys.20, 294–302 (2024). ArticleGoogle Scholar Battiston, F. et al.Phys. Rep.874, 1–92 (2020). ArticleMathSciNetGoogle Scholar Gao, T. T. & Yan, G.Nat. Comput. Sci.2, 160–168 (2022). ArticleGoogle Scholar Hu, J., Cui, J. & Yang, B.Nat. Commun.16, 6226 (2025). ArticleGoogle Scholar Guimerà, R. et al.Sci. Adv.6, eaav6971 (2020). ArticleGoogle Scholar Dirac, P. A. M.Sci. Am.208, 45–53 (1963). ArticleGoogle Scholar Einstein, A.Ann. Phys.322, 891–921 (1905). ArticleGoogle Scholar Liu, Z. & Tegmark, M.Phys. Rev. Lett.126, 180604 (2021). ArticleGoogle Scholar Lu, P. Y. et al.Nat. Commun.14, 4744 (2023). ArticleGoogle Scholar Download references Network Science Institute, Northeastern University London, London, UK Iacopo Iacopini Department of Physics, Northeastern University, Boston, MA, USA Iacopo Iacopini Sorbonne Université, INSERM, Institut Pierre Louis d’Epidémiologie et de Santé Publique, Paris, France Eugenio Valdano Search author on:PubMedGoogle Scholar Search author on:PubMedGoogle Scholar Correspondence toIacopo IacopiniorEugenio Valdano. The authors declare no competing interests. Reprints and permissions Iacopini, I., Valdano, E. Discovering the laws behind complex networked systems.Nat Comput Sci(2026). https://doi.org/10.1038/s43588-025-00929-z Download citation Published:05 January 2026 Version of record:05 January 2026 DOI:https://doi.org/10.1038/s43588-025-00929-z Anyone you share the following link with will be able to read this content: Sorry, a shareable link is not currently available for this article. Provided by the Springer Nature SharedIt content-sharing initiative
+
+[原始信息] Nature Computational Science, Published online: 05 January 2026; doi:10.1038/s43588-025-00929-z A recent study shows that neural symbolic regression offers a route to automated discovery of governing equations for network dynamics across high-dimensional complex systems.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-05</div>
+                        <a href="https://www.nature.com/articles/s43588-025-00929-z" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-4d5af567d2db">
+                    <div class="article-header">
+                        <div class="article-number">7</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s43588-025-00947-x" target="_blank">通过动态模型将细胞间通信网络映射到细胞状态转换轨迹</a>
+                            </h4>
+                            <p class="article-title-en">Mapping cell–cell communication networks onto cell-state transition trajectories via a dynamic model</p>
+                            <div class="article-journal">📚 Nature Computational Science</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        
+                        <div class="article-ai-analysis">[
+  "开发CCCvelo框架，创新性地整合细胞间通讯与胞内调控动态模型，实现状态转换轨迹映射。这为空间转录组分析提供了有力工具，对解析组织发育及疾病演化的细胞动力学机制具有重要科研与应用价值。"
+</div>
+                        <div class="article-abstract-preview">基于物理学的协同进化学习算法框架 CCCvelo 推断出由细胞间通讯和细胞内转录调控驱动的细胞状态转换的时空动态。 CCCvelo 能够解码细胞间通讯动态以及处理基于图像的空间转录组数据。 Mulas, C., Chaigne, A., Smith, A. & Chalut, K. J. 细胞状态转...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-4d5af567d2db')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-4d5af567d2db-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>基于物理学的协同进化学习算法框架 CCCvelo 推断出由细胞间通讯和细胞内转录调控驱动的细胞状态转换的时空动态。 CCCvelo 能够解码细胞间通讯动态以及处理基于图像的空间转录组数据。 Mulas, C., Chaigne, A., Smith, A. & Chalut, K. J. 细胞状态转换：定义和挑战。Development148, dev199950 (2021)。一篇综述文章介绍了描述 CST 的关键挑战，并重点介绍了加深我们对细胞如何重新连接其状态的理解的示例和模型系统。文章谷歌学者 Armingol, E.、Officer, A.、Harismendy, O. 和 Lewis, N. E. 从基因表达中破译细胞间相互作用和通讯。 Rev. Genet.22, 71–88 (2021)。一篇综述文章，介绍了使用转录组数据分析细胞间相互作用的方法和工具。文章谷歌学者 Bergen, V.、Soldatov, R. A.、Kharchenko, P. V. 和 Theis, F. J. RNA 速度——当前挑战和未来前景。系统。 Biol.17, e10282 (2021)。一篇综述文章，介绍了 RNA 速度建模方法的现状，讨论了各种示例以说明其局限性和潜在缺点，并提供了如何应对由此产生的挑战的指导。文章谷歌学者 Marx, V. 年度方法：空间解析转录组学。方法18, 9–14 (2021)。一篇介绍空间转录组学技术的发展、类别和关键应用的综述文章。文章谷歌学术夏洛特，B. 等人。如何用人工智能构建虚拟细胞：优先事项和机遇。Cell187, 7045–7063 (2024)。一篇透视文章，提出了通过将人工智能模型与组学数据集成来构建“虚拟细胞”的愿景。文章谷歌学术下载参考文献出版商的注释施普林格·自然对于已出版地图和机构隶属关系中的管辖权主张保持中立。这是以下内容的摘要：Yan, L. 等人。解码空间转录组学中动态细胞间通讯驱动的细胞状态转变。Nat。计算。科学 https://doi.org/10.1038/s43588-025-00934-2(2026)。转载和许可通过动态模型将细胞间通信网络映射到细胞状态转换轨迹。Nat Comput Sci（2026）。 https://doi.org/10.1038/s43588-025-00947-x 下载引文 发布日期：2026 年 1 月 5 日 记录版本：2026 年 1 月 5 日 DOI：https://doi.org/10.1038/s43588-025-00947-x 与您共享以下链接的任何人都可以阅读此内容：抱歉，可共享链接目前不适用于本文。由 Springer Nature SharedIt 内容共享计划提供</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">The physics-informed coevolution-learning algorithm-based framework CCCvelo infers the spatio-temporal dynamics of cell-state transitions driven by both intercellular communication and intracellular transcriptional regulation. CCCvelo is able to decode cell–cell communication dynamics as well as to process image-based spatial transcriptomics data. Mulas, C., Chaigne, A., Smith, A. & Chalut, K. J. Cell state transitions: definitions and challenges.Development148, dev199950 (2021).A review article that presents the key challenges in describing CSTs and highlights examples and model systems that deepen our understanding of how cells rewire their states. ArticleGoogle Scholar Armingol, E., Officer, A., Harismendy, O. & Lewis, N. E. Deciphering cell-cell interactions and communication from gene expression.Nat. Rev. Genet.22, 71–88 (2021).A review article that presents the methods and tools used to analyze cell–cell interactions using transcriptome data. ArticleGoogle Scholar Bergen, V., Soldatov, R. A., Kharchenko, P. V. & Theis, F. J. RNA velocity–current challenges and future perspectives.Mol. Syst. Biol.17, e10282 (2021).A review article that presents the current state of RNA velocity modeling methods, discusses various examples to illustrate their limitations and potential shortcomings, and provides guidance on how to address the resulting challenges. ArticleGoogle Scholar Marx, V. Method of the Year: spatially resolved transcriptomics.Nat. Methods18, 9–14 (2021).A review article that presents the development, categories, and key applications of spatial transcriptomics technologies. ArticleGoogle Scholar Charlotte, B. et al. How to build the virtual cell with artificial intelligence: Priorities and opportunities.Cell187, 7045–7063 (2024).A perspective article that presents a vision for building a ‘virtual cell’ by integrating AI models with omics data. ArticleGoogle Scholar Download references Publisher’s noteSpringer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations. This is a summary of:Yan, L. et al. Decoding cell state transitions driven by dynamic cell–cell communication in spatial transcriptomics.Nat. Comput. Sci.https://doi.org/10.1038/s43588-025-00934-2(2026). Reprints and permissions Mapping cell–cell communication networks onto cell-state transition trajectories via a dynamic model.Nat Comput Sci(2026). https://doi.org/10.1038/s43588-025-00947-x Download citation Published:05 January 2026 Version of record:05 January 2026 DOI:https://doi.org/10.1038/s43588-025-00947-x Anyone you share the following link with will be able to read this content: Sorry, a shareable link is not currently available for this article. Provided by the Springer Nature SharedIt content-sharing initiative
+
+[原始信息] Nature Computational Science, Published online: 05 January 2026; doi:10.1038/s43588-025-00947-x The physics-informed coevolution-learning algorithm-based framework CCCvelo infers the spatio-temporal dynamics of cell-state transitions driven by both intercellular communication and intracellular transcriptional regulation. CCCvelo is able to decode cell–cell communication dynamics as well as to process image-based spatial transcriptomics data.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-05</div>
+                        <a href="https://www.nature.com/articles/s43588-025-00947-x" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-b38ce71e41a0">
+                    <div class="article-header">
+                        <div class="article-number">8</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-67942-8" target="_blank">深度学习和超振荡散斑支持多模光纤探针进行原位纳米位移检测和显微成像</a>
+                            </h4>
+                            <p class="article-title-en">Deep learning and superoscillatory speckles empowered multimode fiber probe for in situ nano-displacement detection and micro-imaging</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Lele Wang, Yiwei Zhang, Yibing Zhou 等11位作者</div>
+                        <div class="article-ai-analysis">该文利用深度学习解析超振荡散斑，通过多模光纤实现10nm级原位探测。创新在于物理模型驱动的稳健识别，为复杂空间精密制造与生物成像提供了高效、鲁棒的单端探测方案。</div>
+                        <div class="article-abstract-preview">高精度计量为半导体制造和生命科学奠定了基础。然而，现有的位移测量方法无法在复杂的设备内部进行灵活的探测。在这里，我们提出了一种原位、非接触式纳米位移测量方法。利用深度学习赋能的多模光纤探头，可以从超振荡散斑中高效提取精细特征信息，实现10 nm分辨率和99.95%准确率的单端检测。建立物理模型将位移...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-b38ce71e41a0')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-b38ce71e41a0-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>高精度计量为半导体制造和生命科学奠定了基础。然而，现有的位移测量方法无法在复杂的设备内部进行灵活的探测。在这里，我们提出了一种原位、非接触式纳米位移测量方法。利用深度学习赋能的多模光纤探头，可以从超振荡散斑中高效提取精细特征信息，实现10 nm分辨率和99.95%准确率的单端检测。建立物理模型将位移与光纤中的高阶模比例相关联。亚毫米尺寸的探头可以在有限的空间内检测不同结构的目标。在不同的光纤弯曲条件和不同的金属材料下，通过联合学习实现了鲁棒识别。该系统具有低于 0.1% 的极端压缩比，具有高精度、低训练成本和高速处理的特点。该探头的成像能力也经过实验验证，证明了其在光刻、弱力传感和超分辨率显微内窥镜等应用中作为强大工具的潜力。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">High-precision metrology has laid the foundation for semiconductor fabrication and life sciences. However, existing displacement measurement approaches are incapable of performing flexible probing within complex equipment interiors. Here, we present a in situ, non-contact nano-displacement measurement approach. Leveraging a multimode fiber probe empowered by deep learning, fine feature information can be efficiently extracted from superoscillatory speckles, achieving single-ended detection with 10 nm resolution and 99.95% accuracy. A physical model is established to correlate the displacement with higher-order modes proportion in the fiber. Sub-millimeter-sized probe enables detecting targets with different structures in confined spaces. Robust recognition is achieved through joint learning, under varying fiber bending conditions and different metal materials. With extreme compression ratios of less than 0.1%, the system delivers high accuracy, low training costs, and high-speed processing. The imaging capability of the probe is also experimentally validated, proving potential as a powerful tool in applications such as lithography, weak force sensing, and super-resolution micro-endoscopy.
+
+[原始信息] Nature Communications, Published online: 05 January 2026; doi:10.1038/s41467-025-67942-8 This work introduces an in-situ nano-displacement measurement system via a multimode fiber probe with superoscillatory speckles and deep learning. It achieves 10 nm resolution and 99.95% accuracy for wafers, non-contact sensing in confined spaces.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-01-05</div>
+                        <a href="https://www.nature.com/articles/s41467-025-67942-8" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
         
         <div class="section"><h2>📚 期刊分布</h2>
             <div class="journal-stat">
                 <div class="journal-name">Nature Communications</div>
-                <div class="journal-count">7 篇</div>
+                <div class="journal-count">8 篇</div>
             </div>
             
             <div class="journal-stat">
@@ -300,10 +1343,20 @@
                 <div class="journal-name">Nature Physics</div>
                 <div class="journal-count">2 篇</div>
             </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Computational Science</div>
+                <div class="journal-count">2 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Electronics</div>
+                <div class="journal-count">1 篇</div>
+            </div>
             </div>
         
         <div class="generated-by">
-            由 gemini 生成 | 2026-01-17 11:06
+            由 gemini 生成 | 2026-01-17 18:16
         </div>
     </div>
     
@@ -311,6 +1364,22 @@
         // 主题支持
         const theme = localStorage.getItem('literature_theme') || 'light';
         document.documentElement.setAttribute('data-theme', theme);
+        
+        // 展开/折叠摘要功能
+        function toggleAbstract(articleId) {
+            const abstractDiv = document.getElementById(articleId + '-abstract');
+            const btn = event.target;
+            
+            if (abstractDiv.style.display === 'none') {
+                abstractDiv.style.display = 'block';
+                btn.textContent = '📖 收起摘要';
+                btn.style.background = 'var(--accent-secondary)';
+            } else {
+                abstractDiv.style.display = 'none';
+                btn.textContent = '📖 查看完整摘要';
+                btn.style.background = 'var(--accent-primary)';
+            }
+        }
     </script>
 </body>
 </html>

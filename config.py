@@ -110,26 +110,50 @@ KEYWORDS = USER_KEYWORDS.get("于宏宇", [])
 import os
 
 # 邮件配置
+# 优先从本地配置文件读取
+_local_email_config = {}
+try:
+    from config.local import EMAIL_CONFIG as LOCAL_EMAIL_CONFIG
+    _local_email_config = LOCAL_EMAIL_CONFIG
+except ImportError:
+    pass
+
 EMAIL_CONFIG = {
     "recipient": "594836947@qq.com",
     "smtp_server": "smtp.qq.com",
     "smtp_port": 465,
-    "sender_email": os.environ.get("EMAIL_SENDER", ""),  # 从环境变量或手动配置
-    "sender_password": os.environ.get("EMAIL_PASSWORD", ""),  # 从环境变量或手动配置
+    "sender_email": _local_email_config.get("sender_email") or os.environ.get("EMAIL_SENDER", ""),  # 优先从config.local.py读取
+    "sender_password": _local_email_config.get("sender_password") or os.environ.get("EMAIL_PASSWORD", ""),  # 优先从config.local.py读取
     "mode": "digest",  # 邮件模式: "full" 完整版（含摘要）, "digest" 摘要版（仅标题列表）
 }
 
 # 微信推送配置（Server酱）
+# 优先从本地配置文件读取
+_local_wechat_config = {}
+try:
+    from config.local import WECHAT_CONFIG as LOCAL_WECHAT_CONFIG
+    _local_wechat_config = LOCAL_WECHAT_CONFIG
+except ImportError:
+    pass
+
 WECHAT_CONFIG = {
-    "enabled": False,  # 是否启用微信推送
-    "sendkey": os.environ.get("SERVERCHAN_KEY", ""),  # Server酱SendKey，从 https://sct.ftqq.com/ 获取
+    "enabled": _local_wechat_config.get("enabled", False),  # 是否启用微信推送
+    "sendkey": _local_wechat_config.get("sendkey") or os.environ.get("SERVERCHAN_KEY", ""),  # Server酱SendKey，优先从config.local.py读取
 }
 
 # AI摘要配置
+# 优先从本地配置文件读取，然后从环境变量读取
+_local_ai_config = {}
+try:
+    from config.local import AI_CONFIG as LOCAL_AI_CONFIG
+    _local_ai_config = LOCAL_AI_CONFIG
+except ImportError:
+    pass
+
 AI_CONFIG = {
     "enabled": True,  # 是否启用AI摘要
-    "provider": os.environ.get("AI_PROVIDER", "gemini"),  # gemini, siliconflow, groq, deepseek
-    "api_key": os.environ.get("AI_API_KEY", ""),  # API密钥
+    "provider": _local_ai_config.get("provider") or os.environ.get("AI_PROVIDER", "gemini"),  # gemini, siliconflow, groq, deepseek
+    "api_key": _local_ai_config.get("api_key") or os.environ.get("AI_API_KEY", ""),  # API密钥（优先从config.local.py读取）
 }
 
 # 去重配置

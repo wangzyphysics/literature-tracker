@@ -1,0 +1,41 @@
+name: Generate Weekly Summary
+
+on:
+  schedule:
+    # 每周日 00:00 UTC (北京时间周日 08:00) 运行
+    - cron: '0 0 * * 0'
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Generate weekly summary
+        run: |
+          python weekly_summary.py
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_PROVIDER: gemini
+      
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "🔬 自动生成周报 [skip ci]"
+          file_pattern: "docs/weekly/*.html docs/weekly/index.json"
+          commit_user_name: GitHub Actions
+          commit_user_email: actions@github.com

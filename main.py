@@ -51,23 +51,29 @@ def run_fetch(send_email: bool = True, verbose: bool = True):
     
     # 2. 关键词筛选
     print(f"\n🔍 使用关键词筛选: {', '.join(KEYWORDS)}")
+    print(f"   关键词数量: {len(KEYWORDS)}")
     filtered_articles = fetcher.filter_by_keywords(all_articles)
     print(f"筛选后剩余 {len(filtered_articles)} 篇文献")
+    print(f"   筛选率: {len(filtered_articles)/len(all_articles)*100:.1f}%" if all_articles else "   筛选率: N/A")
     
     # 3. 去重处理
     if DEDUP_CONFIG.get("enabled", True):
         print(f"\n🔄 正在去重...")
+        similarity_threshold = DEDUP_CONFIG.get("similarity_threshold", 0.9)
+        print(f"   相似度阈值: {similarity_threshold}")
         deduplicator = Deduplicator(
-            similarity_threshold=DEDUP_CONFIG.get("similarity_threshold", 0.9)
+            similarity_threshold=similarity_threshold
         )
         filtered_articles, dup_count = deduplicator.deduplicate(filtered_articles)
         if dup_count > 0:
             print(f"   去除 {dup_count} 篇重复文献")
         print(f"去重后剩余 {len(filtered_articles)} 篇文献")
+        print(f"   去重率: {dup_count/len(filtered_articles + dup_count)*100:.1f}%" if (filtered_articles + dup_count) > 0 else "   去重率: N/A")
     
     # 4. 获取新文献（去重）
     new_articles = data_manager.get_new_articles(filtered_articles)
     print(f"其中新文献 {len(new_articles)} 篇")
+    print(f"   新文献率: {len(new_articles)/len(filtered_articles)*100:.1f}%" if filtered_articles else "   新文献率: N/A")
     
     if not new_articles:
         print("\n✅ 没有新文献，任务完成")
