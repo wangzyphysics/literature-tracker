@@ -68,7 +68,8 @@ def run_fetch(send_email: bool = True, verbose: bool = True):
         if dup_count > 0:
             print(f"   去除 {dup_count} 篇重复文献")
         print(f"去重后剩余 {len(filtered_articles)} 篇文献")
-        print(f"   去重率: {dup_count/len(filtered_articles + dup_count)*100:.1f}%" if (filtered_articles + dup_count) > 0 else "   去重率: N/A")
+        total_before_dedup = len(filtered_articles) + dup_count
+        print(f"   去重率: {dup_count/total_before_dedup*100:.1f}%" if total_before_dedup > 0 else "   去重率: N/A")
     
     # 4. 获取新文献（去重）
     new_articles = data_manager.get_new_articles(filtered_articles)
