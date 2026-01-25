@@ -36,6 +36,9 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "🔬 自动生成周报 [skip ci]"
-          file_pattern: "docs/weekly/*.html docs/weekly/index.json"
+          file_pattern: |
+            docs/weekly/*.html
+            docs/weekly/index.json
           commit_user_name: GitHub Actions
           commit_user_email: actions@github.com
+          skip_dirty_check: true
