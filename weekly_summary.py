@@ -2186,35 +2186,37 @@ class WeeklySummarizer:
         return filepath
     
     def _update_weekly_index(self, week_start: str):
-        """更新周报索引"""
-        import glob
-        
-        weekly_dir = 'docs/weekly'
-        index_file = os.path.join(weekly_dir, 'index.json')
-        
-        # 扫描所有周报文件
-        weekly_files = glob.glob(os.path.join(weekly_dir, '????-??-??.html'))
-        weeklies = []
-        
-        for f in sorted(weekly_files, reverse=True):
-            filename = os.path.basename(f)
-            date_str = filename.replace('.html', '')
-            try:
-                date_obj = datetime.strptime(date_str, '%Y-%m-%d')
-                end_date = date_obj + timedelta(days=6)
-                weeklies.append({
-                    'week_start': date_str,
-                    'week_end': end_date.strftime('%Y-%m-%d'),
-                    'file': filename
-                })
-            except ValueError:
-                continue
-        
-        # 保存索引
-        with open(index_file, 'w', encoding='utf-8') as f:
-            json.dump({'weeklies': weeklies, 'updated': datetime.now().isoformat()}, f, ensure_ascii=False, indent=2)
-        
-        print(f"✅ 周报索引已更新: {len(weeklies)} 个周报")
+        """更新周报索引（根据 docs/weekly 下已有 HTML 重写 index.json）"""
+        n = _write_weekly_index_file('docs/weekly')
+        print(f"✅ 周报索引已更新: {n} 个周报")
+
+
+def _write_weekly_index_file(weekly_dir: str = 'docs/weekly') -> int:
+    """
+    根据 weekly_dir 下已有 YYYY-MM-DD.html 文件重写 index.json。
+    返回写入的周报条数。不依赖 WeeklySummarizer 实例，供 sync_weekly_index 使用。
+    """
+    import glob
+    index_file = os.path.join(weekly_dir, 'index.json')
+    weekly_files = glob.glob(os.path.join(weekly_dir, '????-??-??.html'))
+    weeklies = []
+    for f in sorted(weekly_files, reverse=True):
+        filename = os.path.basename(f)
+        date_str = filename.replace('.html', '')
+        try:
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+            end_date = date_obj + timedelta(days=6)
+            weeklies.append({
+                'week_start': date_str,
+                'week_end': end_date.strftime('%Y-%m-%d'),
+                'file': filename
+            })
+        except ValueError:
+            continue
+    os.makedirs(weekly_dir, exist_ok=True)
+    with open(index_file, 'w', encoding='utf-8') as f:
+        json.dump({'weeklies': weeklies, 'updated': datetime.now().isoformat()}, f, ensure_ascii=False, indent=2)
+    return len(weeklies)
 
 
 def generate_weekly_summary(week_start: str = None, api_key: str = None) -> Optional[str]:
@@ -2256,9 +2258,27 @@ def generate_weekly_summary(week_start: str = None, api_key: str = None) -> Opti
     return summarizer.save_summary_html(summary)
 
 
+def sync_weekly_index(weekly_dir: str = 'docs/weekly') -> int:
+    """
+    根据 docs/weekly 下已有 HTML 文件刷新 index.json，确保周报列表页与文件一致。
+    不依赖 API 或 WeeklySummarizer 实例，可在 CI 或本地安全调用。
+    返回写入的周报条数。
+    """
+    n = _write_weekly_index_file(weekly_dir)
+    try:
+        print(f"✅ 周报索引已同步: {n} 个周报")
+    except UnicodeEncodeError:
+        print(f"[OK] weekly index synced: {n} entries")
+    return n
+
+
 if __name__ == '__main__':
     import sys
     
     # 使用命令行参数
     week_start = sys.argv[1] if len(sys.argv) > 1 else None
-    generate_weekly_summary(week_start)
+    try:
+        generate_weekly_summary(week_start)
+    finally:
+        # 每次运行结束都刷新索引，确保周报列表页能显示所有已存在的 HTML（含本次新生成的）
+        sync_weekly_index()
