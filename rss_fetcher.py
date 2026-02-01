@@ -5,10 +5,13 @@ RSS抓取模块 - 从RSS源获取文献信息
 import feedparser
 import hashlib
 import re
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from dateutil import parser as date_parser
 from typing import Optional
 from bs4 import BeautifulSoup
+
+# 北京时间 UTC+8，用于统一存储 pub_date 为「北京时间的日历日」，避免 Actions(UTC) 与统计日期时差
+BEIJING_TZ = timezone(timedelta(hours=8))
 
 
 class Article:
@@ -194,22 +197,25 @@ class RSSFetcher:
         return authors
     
     def _parse_date(self, entry) -> str:
-        """解析发布日期"""
+        """
+        解析发布日期，统一为北京时间的日历日 (YYYY-MM-DD)。
+        RSS 时间多为 UTC，Actions 运行在 UTC；统一转为北京时间再取日期，避免「今天」在 UTC 与北京不一致导致漏筛/多筛。
+        """
         date_str = ""
-        
         for field in ["published", "updated", "created", "dc_date"]:
             if field in entry:
                 date_str = entry[field]
                 break
-        
         if date_str:
             try:
                 dt = date_parser.parse(date_str)
-                return dt.strftime("%Y-%m-%d")
-            except:
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                beijing_dt = dt.astimezone(BEIJING_TZ)
+                return beijing_dt.strftime("%Y-%m-%d")
+            except Exception:
                 pass
-        
-        return datetime.now().strftime("%Y-%m-%d")
+        return datetime.now(BEIJING_TZ).strftime("%Y-%m-%d")
     
     def _get_journal_name(self, url: str, feed) -> str:
         """获取期刊名称"""

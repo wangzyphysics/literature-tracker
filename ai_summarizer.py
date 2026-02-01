@@ -272,9 +272,9 @@ class AISummarizer:
     def _build_prompt(self, articles: List[Dict], date: str) -> str:
         """构建提示词"""
         
-        # 准备文献信息
+        # 准备文献信息（提高上限以便包含更多近期文献，尤其是 arXiv）
         articles_text = []
-        for i, article in enumerate(articles[:30], 1):  # 限制数量避免超长
+        for i, article in enumerate(articles[:80], 1):  # 限制数量避免超长，80 篇覆盖约 2 天
             title = article.get('title_zh') or article.get('title', '')
             journal = article.get('journal', '未知期刊')
             link = article.get('link', '')
@@ -289,7 +289,7 @@ class AISummarizer:
         
         articles_str = '\n'.join(articles_text)
         
-        return f"""你是一位专业的计算材料科学文献分析助手。请分析以下{date}的{len(articles)}篇新文献，生成一份结构化的每日摘要报告。
+        return f"""你是一位专业的计算材料科学文献分析助手。请分析以下{date}的{len(articles)}篇新文献（已截取前{min(len(articles), 80)}篇供分析），生成一份结构化的每日摘要报告。
 
 **重点关注领域**（请优先分析和推荐）：
 1. 机器学习/深度学习在材料科学中的应用（ML势函数、性能预测、材料设计等）
@@ -761,56 +761,75 @@ class AISummarizer:
         print(f"✅ 摘要索引已更新: {len(summaries)} 个摘要")
 
 
-def generate_daily_summary(articles: List[Dict], date: str = None, 
-                          api_provider: str = None, api_key: str = None) -> Optional[str]:
+def _daily_report_date(date: str = None):
+    """日报统计日期：未传时取「北京时间今天」，避免 Actions(UTC) 与统计日期时差。"""
+    from datetime import timezone, timedelta
+    beijing_tz = timezone(timedelta(hours=8))
+    if date:
+        return date.strip()[:10]
+    return datetime.now(beijing_tz).strftime('%Y-%m-%d')
+
+
+def _date_part(pub_date: str) -> str:
+    """从 pub_date 取出 YYYY-MM-DD 部分，空或无效返回空串。"""
+    if not (pub_date or '').strip():
+        return ''
+    return (pub_date or '').strip().split()[0][:10]
+
+
+def generate_daily_summary(articles: List[Dict], date: str = None,
+                          api_provider: str = None, api_key: str = None,
+                          verbose_filter: bool = False) -> Optional[str]:
     """
-    便捷函数：生成每日摘要
+    生成「单日」每日摘要：只统计 report_date 这一天的文献，逐篇按 pub_date 筛选。
+    
+    每日筛选流程（每一篇都参与筛选）：
+    1. 确定报告日 report_date：若未传 date，取「北京时间今天」（避免 Actions 跑在 UTC 导致“今天”不一致）。
+    2. 从 data/index.json 读入的 articles 逐篇处理：
+       - 取出 pub_date 的日期部分 _date_part(pub_date)（YYYY-MM-DD，与 rss_fetcher 存盘时统一为北京时间日历日一致）。
+       - 仅当 _date_part(pub_date) == report_date 时保留，否则丢弃。
+    3. 得到当日文献列表后，再交给 AI 生成摘要并保存 HTML。
+    
+    时区约定：rss_fetcher 解析 RSS 时已将发布时间统一为北京时间的日历日写入 pub_date；
+    此处 report_date 也使用北京时间今天，保证「同一天」定义一致，避免 Actions 与统计日期时差导致的漏筛/多筛。
     
     Args:
-        articles: 文献列表
-        date: 日期，默认今天
-        api_provider: API提供商
-        api_key: API密钥
+        articles: 文献列表（通常来自刚更新后的 data/index.json）
+        date: 报告日 YYYY-MM-DD，默认 None 表示「北京时间今天」
+        api_provider: API 提供商
+        api_key: API 密钥
+        verbose_filter: 是否逐篇打印筛选结果（便于排查）
         
     Returns:
-        输出文件路径
+        输出文件路径，无当日文献时返回 None
     """
-    if date is None:
-        date = datetime.now().strftime('%Y-%m-%d')
+    report_date = _daily_report_date(date)
     
-    # 筛选当日文献
-    print(f"\n📅 筛选 {date} 的文献...")
+    print(f"\n📅 每日筛选：报告日 = {report_date}（北京时间单日）")
     print(f"   总文献数: {len(articles)}")
     
-    # 检查日期字段格式
-    date_formats = {}
-    for a in articles[:10]:  # 只检查前10篇作为样本
-        pub_date = a.get('pub_date', '')
-        if pub_date:
-            date_len = len(pub_date.split()[0]) if ' ' in pub_date else len(pub_date)
-            date_formats[date_len] = date_formats.get(date_len, 0) + 1
+    # 逐篇筛选：只保留 pub_date 日期部分等于 report_date 的文献
+    today_articles = []
+    for a in articles:
+        pub = a.get('pub_date') or ''
+        part = _date_part(pub)
+        if part == report_date:
+            today_articles.append(a)
+            if verbose_filter:
+                print(f"   [保留] {part} {a.get('title', '')[:50]}...")
+        elif verbose_filter and part:
+            print(f"   [跳过] {part} (≠ {report_date}) {a.get('title', '')[:50]}...")
     
-    if date_formats:
-        print(f"   日期字段格式样本: {dict(date_formats)}")
-    
-    today_articles = [
-        a for a in articles 
-        if a.get('pub_date', '').startswith(date)
-    ]
-    
-    print(f"   匹配日期 {date} 的文献数: {len(today_articles)}")
+    print(f"   匹配当日（{report_date}）的文献数: {len(today_articles)}")
     
     if not today_articles:
-        print(f"📭 {date} 没有新文献")
-        # 显示最近几天的文献数量，帮助调试
+        print(f"📭 {report_date} 没有新文献")
         from collections import Counter
         date_counts = Counter()
         for a in articles:
-            pub_date = a.get('pub_date', '')
-            if pub_date:
-                date_part = pub_date.split()[0] if ' ' in pub_date else pub_date[:10]
-                if len(date_part) >= 10:
-                    date_counts[date_part[:10]] += 1
+            part = _date_part(a.get('pub_date') or '')
+            if part:
+                date_counts[part] += 1
         if date_counts:
             print(f"   最近几天的文献分布:")
             for d, count in date_counts.most_common(5):
@@ -831,10 +850,10 @@ def generate_daily_summary(articles: List[Dict], date: str = None,
         print("⚠️ 未配置AI API密钥，使用降级摘要")
         summarizer = AISummarizer.__new__(AISummarizer)
         summarizer.provider_name = 'fallback'
-        summary = summarizer.fallback_summary(today_articles, date)
+        summary = summarizer.fallback_summary(today_articles, report_date)
     else:
         summarizer = AISummarizer(api_provider, api_key)
-        summary = summarizer.generate_daily_summary(today_articles, date)
+        summary = summarizer.generate_daily_summary(today_articles, report_date)
     
     return summarizer.save_summary_html(summary)
 
@@ -842,16 +861,19 @@ def generate_daily_summary(articles: List[Dict], date: str = None,
 if __name__ == '__main__':
     import sys
     
-    # 测试
+    # 测试：优先读 data/index.json（与 main.py 一致），否则 docs/data/index.json
     try:
-        with open('docs/data/index.json', 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        articles = data.get('articles', [])
-        
-        # 使用命令行参数或环境变量
-        date = sys.argv[1] if len(sys.argv) > 1 else None
-        generate_daily_summary(articles, date)
-        
+        flags = {'--verbose', '-v'}
+        date = next((a for a in sys.argv[1:] if a not in flags), None)
+        verbose = bool(flags & set(sys.argv[1:]))
+        for path in ('data/index.json', 'docs/data/index.json'):
+            if os.path.exists(path):
+                with open(path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                articles = data.get('articles', [])
+                generate_daily_summary(articles, date, verbose_filter=verbose)
+                break
+        else:
+            print("未找到数据文件（data/index.json 或 docs/data/index.json），请先运行抓取脚本")
     except FileNotFoundError:
         print("未找到数据文件，请先运行抓取脚本")

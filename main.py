@@ -7,7 +7,7 @@ RSS文献追踪系统 - 主程序
 import os
 import sys
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 # 添加当前目录到路径
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -119,17 +119,19 @@ def run_fetch(send_email: bool = True, verbose: bool = True):
     data_manager.generate_index_json()
     print("📊 索引文件已更新")
     
-    # 9. 生成RSS Feed
+    # 9. 生成RSS Feed（使用刚更新的 data/index.json，不要用 docs/data 的旧副本）
     print("\n📡 生成RSS Feed...")
     try:
         import json
-        with open('docs/data/index.json', 'r', encoding='utf-8') as f:
+        index_path = os.path.join(DATA_DIR, 'index.json')
+        with open(index_path, 'r', encoding='utf-8') as f:
             all_data = json.load(f)
         generate_rss_feed(all_data.get('articles', []))
     except Exception as e:
         print(f"   RSS生成失败: {e}")
     
-    # 10. 生成AI每日摘要
+    # 10. 生成AI每日摘要（使用刚更新的 data/index.json；报告日为「北京时间昨天」，与 Actions 定时一致）
+    # Actions 在 UTC 0:00/12:00（北京 08:00/20:00）跑，总结「前一天」的文献才能得到完整一天的数据
     ai_enabled = AI_CONFIG.get("enabled", True)
     ai_api_key = os.environ.get('AI_API_KEY') or AI_CONFIG.get('api_key', '')
     ai_provider = os.environ.get('AI_PROVIDER') or AI_CONFIG.get('provider', 'gemini')
@@ -137,10 +139,14 @@ def run_fetch(send_email: bool = True, verbose: bool = True):
         print("\n🤖 生成AI每日摘要...")
         try:
             import json
-            with open('docs/data/index.json', 'r', encoding='utf-8') as f:
+            beijing_tz = timezone(timedelta(hours=8))
+            yesterday_beijing = (datetime.now(beijing_tz) - timedelta(days=1)).strftime('%Y-%m-%d')
+            index_path = os.path.join(DATA_DIR, 'index.json')
+            with open(index_path, 'r', encoding='utf-8') as f:
                 all_data = json.load(f)
             generate_daily_summary(
                 all_data.get('articles', []),
+                date=yesterday_beijing,
                 api_provider=ai_provider,
                 api_key=ai_api_key,
             )
