@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周报 - 2026-02-02 至 2026-02-08</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .weekly-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .weekly-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.35);
+        }
+        
+        .weekly-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        
+        .weekly-header .date-range {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-card.ferro {
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .stat-card.ai {
+            border-left: 4px solid #10b981;
+        }
+        
+        .stat-card.both {
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+        
+        .section {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .section h2 {
+            margin: 0 0 20px 0;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section.ferro-section h2 {
+            border-bottom-color: #f59e0b;
+        }
+        
+        .section.ai-section h2 {
+            border-bottom-color: #10b981;
+        }
+        
+        .section.both-section h2 {
+            border-bottom-color: #8b5cf6;
+        }
+        
+        .overview-text {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+        
+        .overview-article-list {
+            margin-top: 25px;
+        }
+        
+        .overview-group {
+            margin-bottom: 30px;
+        }
+        
+        .overview-group-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+        
+        .overview-group.both-group .overview-group-title {
+            border-left-color: #8b5cf6;
+        }
+        
+        .overview-group.ferro-group .overview-group-title {
+            border-left-color: #f59e0b;
+        }
+        
+        .overview-group.ai-group .overview-group-title {
+            border-left-color: #10b981;
+        }
+        
+        .overview-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .overview-item {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .overview-item:hover {
+            background: var(--bg-card);
+            border-left-color: var(--accent-primary);
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .overview-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: block;
+            line-height: 1.6;
+        }
+        
+        .overview-link:hover {
+            color: var(--accent-primary);
+        }
+        
+        .overview-journal {
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-right: 8px;
+            font-size: 0.9em;
+        }
+        
+        .article-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            transition: all var(--transition-fast);
+        }
+        
+        .article-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .article-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .article-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .article-title {
+            margin: 0 0 8px 0;
+            font-size: 1.05em;
+            line-height: 1.4;
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-title-en {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .article-journal {
+            font-size: 0.9em;
+            color: var(--accent-primary);
+            margin: 8px 0 0 0;
+            font-weight: 600;
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        
+        .journal-badge {
+            background: var(--accent-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .all-articles-section {
+            background: var(--bg-card);
+        }
+        
+        .section-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .journal-group-title {
+            color: var(--text-primary);
+            font-size: 1.2em;
+            font-weight: 700;
+            margin: 35px 0 20px 0;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .article-list {
+            margin-bottom: 30px;
+            display: grid;
+            gap: 20px;
+        }
+        
+        .article-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-color: var(--accent-primary);
+        }
+        
+        .article-card:hover::before {
+            opacity: 1;
+        }
+        
+        .article-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        
+        .article-number {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .article-title-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .article-title {
+            margin: 0 0 8px 0;
+            font-size: 1.15em;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-title-en {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .article-journal {
+            font-size: 0.9em;
+            color: var(--accent-primary);
+            margin: 8px 0 0 0;
+            font-weight: 600;
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .article-body {
+            margin: 16px 0;
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--border-color);
+        }
+        
+        .article-authors {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-ai-analysis {
+            font-size: 0.95em;
+            color: var(--accent-primary);
+            line-height: 1.7;
+            margin: 12px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            font-weight: 500;
+        }
+        
+        .article-abstract-preview {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 12px 0 8px 0;
+            opacity: 0.9;
+        }
+        
+        .toggle-abstract-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            cursor: pointer;
+            margin: 8px 0;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .toggle-abstract-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .article-abstract-full {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .abstract-section {
+            margin-bottom: 16px;
+        }
+        
+        .abstract-section strong {
+            color: var(--text-primary);
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .abstract-section p {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .abstract-en {
+            font-style: italic;
+            color: var(--text-muted);
+        }
+        
+        .article-abstract {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .article-type-tag {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .article-type-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .ferro-tag {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .ai-tag {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .article-date {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .article-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 2px solid var(--accent-primary);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .article-link:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(4px);
+        }
+        
+        .authors {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+        
+        .article-abstract {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 10px 0 0 0;
+        }
+        
+        .article-abstract-en {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.5;
+            margin: 8px 0 0 0;
+        }
+        
+        .journal-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+        
+        .journal-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .journal-count {
+            background: var(--accent-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .generated-by {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .no-articles {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 30px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 767px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .article-item {
+                flex-direction: column;
+            }
+            
+            .article-number {
+                align-self: flex-start;
+            }
+            
+            .article-card {
+                padding: 16px;
+            }
+            
+            .article-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .article-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .article-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .journal-group-title {
+                font-size: 1em;
+                padding: 10px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="weekly-container">
+        <a href="../index.html" class="back-link">← 返回主页</a>
+        
+        <div class="weekly-header">
+            <h1>🔬 周报</h1>
+            <div class="date-range">2026-02-02 至 2026-02-08</div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">25</div>
+                <div class="stat-label">本周文献</div>
+            </div>
+            <div class="stat-card ferro">
+                <div class="stat-value">13</div>
+                <div class="stat-label">⚡ 磁性/铁电</div>
+            </div>
+            <div class="stat-card ai">
+                <div class="stat-value">13</div>
+                <div class="stat-label">🤖 AI/机器学习</div>
+            </div>
+            <div class="stat-card both">
+                <div class="stat-value">1</div>
+                <div class="stat-label">🔀 交叉研究</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 本周总览</h2>
+            <p class="overview-text">本周（2026-02-02至2026-02-08）凝聚态物理与人工智能领域共发表25篇核心文献。研究重点集中在拓扑莫尔磁性、高压铁电不稳定性、6G自旋电子器件，以及利用机器学习加速电池寿命预测和量子比特调优。重要发现包括在扭曲MoTe2中观测到任意子三重子，以及在CrI3中发现跨越多个莫尔单元的超级莫尔旋转纹理。</p>
+            
+            <div class="overview-article-list"><div class="overview-group both-group"><h3 class="overview-group-title">🔀 交叉研究 (1篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-9da304cbf089" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        结合神经网络模型与元动力学模拟，无需先验分析即可获得铁电材料精确的从头算自由能表面。
+                    </a>
+                </li></ul></div><div class="overview-group ferro-group"><h3 class="overview-group-title">⚡ 磁性/铁电材料 (12篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-8a9999cea575" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        研究了表现出非线性霍尔效应材料中的光传播，揭示了非线性麦克斯韦-玻尔兹曼方程与钟摆运动的映射关系。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-433d55f1c194" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        在CrSBr中观察到几乎单向传播的表面反铁磁磁振子模式，为自旋电子学提供了新平台。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-491fae32b6d4" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        通过光致发光光谱在分数陈绝缘体态中观测到由任意子与三重子结合形成的激子复合物。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-3cb1efd2c115" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        开发出基于单晶YIG的梯形自旋波滤波器，实现了高带宽、低损耗及多倍频程的频率调谐。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-d99c8c0ee6f7" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        利用基于自旋电流自相关函数的方法在数字量子模拟器上探测量子自旋系统的输运现象。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-f8aaad39c75a" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        研究了磁性材料中通过无序复合增强反常霍尔效应和能斯特效应的新机制。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-fbc3d0b977e8" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        发现电场可在量子材料中诱导非线性磁化，并由希尔伯特空间中的量子克里斯托菲尔符号描述。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-3c7e73ebb664" class="overview-link">
+                        <span class="overview-journal">[Nature Nanotechnology]</span>
+                        集成磁性纳米颗粒与酶驱动技术，开发出具备成像引导导航和超声触发载荷释放功能的微型机器人。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-d85ba1dd8549" class="overview-link">
+                        <span class="overview-journal">[Nature Nanotechnology]</span>
+                        在扭曲双双层三碘化铬中发现尺度远超莫尔晶胞的超级莫尔磁态，表现为反铁磁尼尔型斯格明子。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-5fd014ea352b" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        实验证实了理论预测的钙钛矿铁电体在高压状态下重新进入极地不稳定性的现象。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-eadf63d2453b" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        揭示了在飞秒尺度下非平衡态粒子驱动的多层膜超快磁化反转物理机制。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-5fd014ea352b" class="overview-link">
+                        <span class="overview-journal">[Phys. Rev. Lett.]</span>
+                        同上，强调了静水压力对铁电不稳定性抑制后的重新诱导过程。
+                    </a>
+                </li></ul></div><div class="overview-group ai-group"><h3 class="overview-group-title">🤖 AI/机器学习 (12篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-69db1af18a37" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        提出一种结合AI力场与深度学习的两阶段方法，用于高速、高精度评估生成分子的3D构象。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-23b880e900e6" class="overview-link">
+                        <span class="overview-journal">[Nature Machine Intelligence]</span>
+                        探讨了大语言模型在学术引用和知识归属方面的局限性及潜在的偏见问题。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-b2463d263b84" class="overview-link">
+                        <span class="overview-journal">[Nature Machine Intelligence]</span>
+                        开发了一种自监督图转换器方法，无需已知配体-受体对即可识别空间转录组中的细胞间相互作用。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-c891bfeea655" class="overview-link">
+                        <span class="overview-journal">[Nature Machine Intelligence]</span>
+                        分析了FDA授权的预测型AI医疗设备的监管现状，并讨论了其面临的道德挑战。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-75f12ad3c47d" class="overview-link">
+                        <span class="overview-journal">[Nature Machine Intelligence]</span>
+                        通过神经心理学工具包评估发现，顶尖视觉语言模型在处理基本视觉概念方面存在明显缺陷。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-a1951c1aeaaf" class="overview-link">
+                        <span class="overview-journal">[Nature Reviews Chemistry]</span>
+                        综述了生成式AI在化学教育中辅助可视化学习的应用，并强调了AI素养的重要性。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-6698a83fd5ce" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        开发PARM模型预测全基因组启动子活性，揭示了转录因子结合位点的位置偏好和语法特征。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-acd5bee86d6d" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        提出“发现学习”架构，集成主动学习与零样本学习，极大减少了预测新设计电池寿命所需的实验量。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-0c79e69816e0" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        讨论了机器学习如何通过历史数据和早期循环特征加速储能系统的研发反馈。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-fb45a0ce39fa" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        评述了当前AI在复杂任务表现与人类智能水平之间的差距及评估标准。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-23ee9d107396" class="overview-link">
+                        <span class="overview-journal">[Nature Electronics]</span>
+                        集成深度学习与贝叶斯优化，在锗硅纳米线器件中实现了从接地到拉比振荡的量子比特自主调优。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-a614cbb7f09d" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        对利用机器学习预测实验室模拟地震相关研究的出版更正。
+                    </a>
+                </li></ul></div></div>
+        </div>
+        
+        <div class="section both-section"><h2>🔀 交叉研究（AI + 磁性/铁电）</h2>
+                <div class="article-card" id="article-9da304cbf089">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/bpz5-2pyw" target="_blank">适当铁电体的从头算体自由能表面</a>
+                            </h4>
+                            <p class="article-title-en">Ab Initio Bulk Free Energy Surface of Proper Ferroelectrics</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Pinchen Xie, Yixiao Chen, Xinyu Xu, Zhi Yao, Weinan E, and Roberto Car</div>
+                        <div class="article-ai-analysis">该研究结合神经网络与元动力学，实现了无需预设多项式模型的铁电体自由能表面精确构建。这一创新提升了相变模拟精度，为理解铁电热力学行为及材料设计提供了重要理论支撑。</div>
+                        <div class="article-abstract-preview">作者：Pinchen Xie、Yixiao Chen、Xinyu Xu、Zhi Yao、Weinan E 和 Roberto Car 通过第一性原理技术、神经网络模型和元动力学模拟的结合，现在可以获得铁材料的精确自由能表面，而无需对基于多项式的能量模型进行先验分析。 [物理。莱特牧师。 136, 0...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-9da304cbf089')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-9da304cbf089-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Pinchen Xie、Yixiao Chen、Xinyu Xu、Zhi Yao、Weinan E 和 Roberto Car 通过第一性原理技术、神经网络模型和元动力学模拟的结合，现在可以获得铁材料的精确自由能表面，而无需对基于多项式的能量模型进行先验分析。 [物理。莱特牧师。 136, 056801] 2026 年 2 月 4 日星期三发布</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Pinchen Xie, Yixiao Chen, Xinyu Xu, Zhi Yao, Weinan E, and Roberto Car Through a combination of first-principles techniques, neural network models, and metadynamics simulations accurate free energy surfaces of ferroic materials can now be obtained without an a priori ansatz of the polynomial-based energy model. [Phys. Rev. Lett. 136, 056801] Published Wed Feb 04, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span><span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-04</div>
+                        <a href="http://link.aps.org/doi/10.1103/bpz5-2pyw" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
+        
+        <div class="section ferro-section"><h2>⚡ 磁性/铁电材料</h2>
+                <div class="article-card" id="article-8a9999cea575">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/grjy-22gq" target="_blank">时间反转不变材料中光偏振的非线性法拉第旋转</a>
+                            </h4>
+                            <p class="article-title-en">Nonlinear Faraday Rotation of Light Polarization in Time-Reversal-Invariant Materials</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Falko Pientka and Inti Sodemann Villadiego</div>
+                        <div class="article-ai-analysis">该研究揭示时间反转不变材料中的非线性法拉第旋转，由非线性霍尔效应驱动。通过类摆模型突破了磁性限制，为探测量子几何提供新手段，对非线性光电器件研发意义重大。</div>
+                        <div class="article-abstract-preview">作者：Falko Pientka 和 Inti Sodemann Villadiego 我们研究电磁波通过表现出非线性霍尔效应的材料的传播。行波的耦合麦克斯韦-玻尔兹曼方程可以映射到类似于钟摆运动的常微分方程。在弱非线性条件下...... [物理。莱特牧师。 136, 056901] 发布于 202...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-8a9999cea575')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-8a9999cea575-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Falko Pientka 和 Inti Sodemann Villadiego 我们研究电磁波通过表现出非线性霍尔效应的材料的传播。行波的耦合麦克斯韦-玻尔兹曼方程可以映射到类似于钟摆运动的常微分方程。在弱非线性条件下...... [物理。莱特牧师。 136, 056901] 发布于 2026 年 2 月 6 日星期五</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Falko Pientka and Inti Sodemann Villadiego We investigate the propagation of electromagnetic waves through materials displaying a nonlinear Hall effect. The coupled Maxwell-Boltzmann equations for traveling waves can be mapped onto ordinary differential equations that resemble those for the motion of a pendulum. In the weakly nonlinear regim… [Phys. Rev. Lett. 136, 056901] Published Fri Feb 06, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-06</div>
+                        <a href="http://link.aps.org/doi/10.1103/grjy-22gq" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-433d55f1c194">
+                    <div class="article-header">
+                        <div class="article-number">2</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/bkzn-qpqg" target="_blank">范德华反铁磁体中的表面磁振子传播</a>
+                            </h4>
+                            <p class="article-title-en">Surface Magnon Propagation in a van der Waals Antiferromagnet</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Jilei Chen, Kei Yamamoto, Chenxu Kang, Rundong Yuan, Kanglin Yu, Chenyan Hu, Junfeng Hu, Lutong Sheng, Jinlong Wang, Song Liu, Dapeng Yu, Jean-Philippe Ansermet, Yu-Jia Zeng, Sadamichi Maekawa, and Haiming Yu</div>
+                        <div class="article-ai-analysis">该研究在范德华反铁磁体CrSBr中首次观测到表面磁振子的单向传播。其核心创新在于实现了非互易磁子传输，为研制新型非互易器件及拓扑自旋电路提供了实验支撑，对低功耗量子信息技术的发展具有重要意义。</div>
+                        <div class="article-abstract-preview">作者：Jilei Chen、Kei Yamamoto、Chenxu Kang、Rundong Yuan、Kanglin Yu、Chenyan Hu、Junfeng Hu、Lutong Shen、Jinlong Wang、Song Liu、Dapeng Yu、Jean-Philippe Anserme...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-433d55f1c194')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-433d55f1c194-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Jilei Chen、Kei Yamamoto、Chenxu Kang、Rundong Yuan、Kanglin Yu、Chenyan Hu、Junfeng Hu、Lutong Shen、Jinlong Wang、Song Liu、Dapeng Yu、Jean-Philippe Ansermet、Yu-Jia Zeng、Sadamichi Maekawa 和 Haiming Yu 最近开发的范德华磁体为自旋电子学和磁子学提供了一个有前景的平台。在这里，我们报告了范德华反铁磁体 CrSBr 中表面磁振子传播的观察结果。我们发现反铁磁磁振子模式几乎单向传播，这出现了……[物理。莱特牧师。 136, 056702] 发布于 2026 年 2 月 5 日星期四</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Jilei Chen, Kei Yamamoto, Chenxu Kang, Rundong Yuan, Kanglin Yu, Chenyan Hu, Junfeng Hu, Lutong Sheng, Jinlong Wang, Song Liu, Dapeng Yu, Jean-Philippe Ansermet, Yu-Jia Zeng, Sadamichi Maekawa, and Haiming Yu The recently developed van der Waals magnets provide a promising platform for spintronics and magnonics. Here, we report the observation of surface magnon propagation in the van der Waals antiferromagnet CrSBr. We find a nearly unidirectional propagation of antiferromagnetic magnon modes, which emer… [Phys. Rev. Lett. 136, 056702] Published Thu Feb 05, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-05</div>
+                        <a href="http://link.aps.org/doi/10.1103/bkzn-qpqg" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-491fae32b6d4">
+                    <div class="article-header">
+                        <div class="article-number">3</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41586-026-10101-w" target="_blank">扭曲 MoTe 2 中任意子三重子的分数电荷特征</a>
+                            </h4>
+                            <p class="article-title-en">Signatures of fractional charges via anyon–trions in twisted MoTe 2</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Weijie Li, Christiano Wang Beach, Chaowei Hu 等10位作者</div>
+                        <div class="article-ai-analysis">该研究在扭曲MoTe2中发现“任意子-三重子”，通过光谱学证实了分数陈绝缘体的分数电荷特性。该发现为拓扑准粒子提供了直接证据，并开辟了光学探测与调控拓扑态的新路径，对量子计算意义重大。</div>
+                        <div class="article-abstract-preview">电子电荷的分裂是强电子-电子相互作用引起的最引人注目的现象之一。一个著名的例子是分数量子霍尔效应 (FQHE) 态中带有分数电荷的任意子的出现1,2,3,4,5,6,7,8,9,10,11,12,13。最近，零场分数陈绝缘体 (FCI)14,15,16,17,18,19 已实现，它是无朗道能级形成的...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-491fae32b6d4')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-491fae32b6d4-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>电子电荷的分裂是强电子-电子相互作用引起的最引人注目的现象之一。一个著名的例子是分数量子霍尔效应 (FQHE) 态中带有分数电荷的任意子的出现1,2,3,4,5,6,7,8,9,10,11,12,13。最近，零场分数陈绝缘体 (FCI)14,15,16,17,18,19 已实现，它是无朗道能级形成的 FQHE 态的晶格类似物20,21。 FCI 提供了一个独特的平台来研究任意子，但它们的检测仍然是一个挑战。在这里，我们报告了对任意子-三重子的观察，这是一种通过将三重子与扭曲的 MoTe2 双层中的分数电荷结合而形成的新型激子复合物。量子限制激子的光致发光光谱揭示了仅出现在轻微掺杂的 FCI 态中的出现峰。新的光谱特征相对于未掺杂 FCI 中的 Trion 发生红移，但具有相同的电场、温度和磁场依赖性。这些观察表明它们起源于与基本准粒子结合的三重子，即任意子三重子。至关重要的是，-2/3 和 -3/5 FCI 状态下任意子-三重子之间的结合能比与预期的分数电荷比 e/3 toe/5 相匹配。这为 FCI 中的分数电荷（任意子的基本属性）提供了有力的证据。我们的结果解决了 FCI 物理学中的一个基本问题，并将 Trion 光谱学建立为分数带电激发的强大探针，与基于传输和隧道的方法相补充。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Fractionalization of the electron chargeeis one of the most striking phenomena arising from strong electron–electron interactions. A celebrated example is the emergence of anyons with fractional charges in fractional quantum Hall effect (FQHE) states1,2,3,4,5,6,7,8,9,10,11,12,13. Recently, zero-field fractional Chern insulators (FCIs)14,15,16,17,18,19, lattice analogues of the FQHE states that form without Landau levels, have been realized20,21. FCIs provide a unique platform to investigate anyons, yet their detection remains a challenge. Here we report the observation of anyon–trions, a new type of excitonic complex formed by binding a trion with a fractional charge in twisted MoTe2bilayers. Photoluminescence spectroscopy of quantum-confined excitons reveals emergent peaks that appear only within slightly doped FCI states. The new spectral features are red-shifted relative to the trions in undoped FCIs, but share the same electric field, temperature and magnetic field dependence. These observations suggest their origin as trions binding with elementary quasi-particles, that is, anyon–trions. Crucially, the ratio of binding energies between the anyon–trions in the −2/3 and −3/5 FCI states matches the expected fractional charge ratio ofe/3 toe/5. This provides strong evidence for fractional charges in FCI—an essential property of anyons. Our results address a fundamental question in FCI physics and establish trion spectroscopy as a powerful probe of fractionally charged excitations, complementary to transport- and tunnelling-based approaches.
+
+[原始信息] Nature, Published online: 04 February 2026; doi:10.1038/s41586-026-10101-w Fractionally charged excitations at zero magnetic field in twisted MoTe2 bilayers, a recently discovered fractional quantum anomalous Hall system, are observed via anyon-trions, excitonic complexes formed by binding a trion to a fractional charge.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-04</div>
+                        <a href="https://www.nature.com/articles/s41586-026-10101-w" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-3cb1efd2c115">
+                    <div class="article-header">
+                        <div class="article-number">4</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41586-025-10057-3" target="_blank">用于 6G 通信的自旋波带通滤波器</a>
+                            </h4>
+                            <p class="article-title-en">Spin-wave band-pass filters for 6G communication</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Connor Devitt, Sudhanshu Tiwari, Bill Zivasatienraj 等4位作者</div>
+                        <div class="article-ai-analysis">{
+  "analysis_summary": "该研究通过微机械加工实现自旋波滤波器的晶圆级制备。其创新点在于兼顾低损耗、宽带宽与多倍频程调谐，解决了杂散干扰难题。这为6G通信提供了高性能、小型化的</div>
+                        <div class="article-abstract-preview">使用单晶钇铁石榴石 (YIG) 的自旋波 (SW) 滤波器是集成在频率可调或频率可调通信系统中的一项极具吸引力的技术。然而，现有的软件设备没有足够的带宽用于未来的 5G 和 6G 通信系统2、3，或者太大或具有很强的杂散通带，从而产生无意的跨通道干扰。在这里，我们报告了一种仅需要单个外部磁偏置的软件...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-3cb1efd2c115')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-3cb1efd2c115-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>使用单晶钇铁石榴石 (YIG) 的自旋波 (SW) 滤波器是集成在频率可调或频率可调通信系统中的一项极具吸引力的技术。然而，现有的软件设备没有足够的带宽用于未来的 5G 和 6G 通信系统2、3，或者太大或具有很强的杂散通带，从而产生无意的跨通道干扰。在这里，我们报告了一种仅需要单个外部磁偏置的软件梯形滤波器架构，这是通过能够进行晶圆级生产的现代微机械制造方法实现的。这项工作中开发的滤波器具有低至 2.54 dB 的损耗、高达 663 MHz 的带宽、7.08 至 21.6 GHz 多个倍频程的中心频率调谐以及高线性度，通带中输入参考三阶截取点超过 11 dBm。滤波器的操作也在频率可调无线电系统中进行了实验演示。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Spin-wave (SW) filters using single-crystal yttrium iron garnet (YIG) is an attractive technology for integration in frequency-adjustable or frequency-tunable communication systems1. However, existing SW devices do not have sufficient bandwidth for future 5G and 6G communication systems2,3, are too large or have strong spurious passbands, creating unintentional cross-channel interference. Here we report a SW ladder filter architecture requiring only a single external magnetic bias, which is enabled by modern micromachining fabrication methods capable of wafer-scale production. The filters developed in this work demonstrate loss as low as 2.54 dB, bandwidths up to 663 MHz, centre-frequency tuning over several octaves from 7.08 to 21.6 GHz and high linearity with an input-referred third-order intercept point of more than 11 dBm in the passband. The operation of the filter is also experimentally demonstrated in a frequency-tunable radio system.
+
+[原始信息] Nature, Published online: 04 February 2026; doi:10.1038/s41586-025-10057-3 A spin-wave ladder architecture based on single-crystal yttrium iron garnet requiring only one external magnetic bias for manufacturing tunable compact filters using modern micromachining fabrication methods is described, demonstrating applications in future communications systems.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-04</div>
+                        <a href="https://www.nature.com/articles/s41586-025-10057-3" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-d99c8c0ee6f7">
+                    <div class="article-header">
+                        <div class="article-number">5</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/mx9k-kdlj" target="_blank">自旋输运的数字量子模拟</a>
+                            </h4>
+                            <p class="article-title-en">Digital Quantum Simulation of Spin Transport</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Yi-Ting Lee, Bibek Pokharel, Jeffrey Cohn, André Schleife, and Arnab Banerjee</div>
+                        <div class="article-ai-analysis">该研究利用数字量子模拟创新探究自旋输运，通过优化自旋电流相关函数计算，提升了多体动力学模拟精度。这不仅深化了对输运机制的理解，更为自旋电子器件研发与量子位优化提供了关键理论支撑。</div>
+                        <div class="article-abstract-preview">作者：Yi-Ting Lee、Bibek Pokharel、Jeffrey Cohn、André Schleife 和 Arnab Banerjee 量子自旋系统中的传输现象因其在自旋电子器件和自旋量子位中的潜在应用而长期以来一直引起物理学家的兴趣。自旋-自旋自相关函数 (ACF) 的量子模拟已被用...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-d99c8c0ee6f7')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-d99c8c0ee6f7-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Yi-Ting Lee、Bibek Pokharel、Jeffrey Cohn、André Schleife 和 Arnab Banerjee 量子自旋系统中的传输现象因其在自旋电子器件和自旋量子位中的潜在应用而长期以来一直引起物理学家的兴趣。自旋-自旋自相关函数 (ACF) 的量子模拟已被用来探测自旋输运，但基于自旋电流 ACF 的方法...... [Phys。莱特牧师。 136, 050603] 2026 年 2 月 4 日星期三发布</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Yi-Ting Lee, Bibek Pokharel, Jeffrey Cohn, André Schleife, and Arnab Banerjee Transport phenomena in quantum spin systems have long intrigued physicists due to their potential applications in spintronic devices and spin qubits. Quantum simulations of the spin-spin autocorrelation function (ACF) have been used to probe spin transport, but methods based on the spin-current ACF … [Phys. Rev. Lett. 136, 050603] Published Wed Feb 04, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-04</div>
+                        <a href="http://link.aps.org/doi/10.1103/mx9k-kdlj" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-f8aaad39c75a">
+                    <div class="article-header">
+                        <div class="article-number">6</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/g18j-1h8w" target="_blank">通过无序复合形成增强横向电子传输</a>
+                            </h4>
+                            <p class="article-title-en">Enhanced Transverse Electron Transport via Disordered Composite Formation</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Sang J. Park, Hojun Lee, Jongjun M. Lee, Jangwoo Ha, Hyun-Woo Lee, and Hyungyu Jin</div>
+                        <div class="article-ai-analysis">该研究突破传统贝里曲率机制，创新提出通过无序复合结构增强横向电子传输。此举显著提升了反常霍尔与能斯特效应，为高性能自旋电子器件及热电转换提供了新策略与应用指导。</div>
+                        <div class="article-abstract-preview">作者：Sang J. Park、Hojun Lee、Jongjun M. Lee、Jangwoo Ha、Hyun-Woo Lee 和 Hyungyu Jin 磁性材料中的横向电子传输（例如反常霍尔效应和能斯特效应）为自旋电子和热电应用带来了希望。增强横向传输的努力主要集中在寻找具有大贝里曲率、偏斜散...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-f8aaad39c75a')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-f8aaad39c75a-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Sang J. Park、Hojun Lee、Jongjun M. Lee、Jangwoo Ha、Hyun-Woo Lee 和 Hyungyu Jin 磁性材料中的横向电子传输（例如反常霍尔效应和能斯特效应）为自旋电子和热电应用带来了希望。增强横向传输的努力主要集中在寻找具有大贝里曲率、偏斜散射或侧跳的量子材料。莱特牧师。 136, 056301] 发布于 2026 年 2 月 3 日星期二</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Sang J. Park, Hojun Lee, Jongjun M. Lee, Jangwoo Ha, Hyun-Woo Lee, and Hyungyu Jin Transverse electron transport in magnetic materials such as the anomalous Hall and Nernst effects holds promise for spintronic and thermoelectric applications. Efforts to enhance transverse transport have focused on finding quantum materials with large Berry curvature, skew scattering, or side jump.… [Phys. Rev. Lett. 136, 056301] Published Tue Feb 03, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-03</div>
+                        <a href="http://link.aps.org/doi/10.1103/g18j-1h8w" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-fbc3d0b977e8">
+                    <div class="article-header">
+                        <div class="article-number">7</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/4kmy-59l9" target="_blank">量子克里斯托弗非线性磁化</a>
+                            </h4>
+                            <p class="article-title-en">Quantum Christoffel Nonlinear Magnetization</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Xiao-Bin Qiang, Xiaoxiong Liu, Hai-Zhou Lu, and X. C. Xie</div>
+                        <div class="article-ai-analysis">[
+  "该文将克里斯托弗符号引入量子空间，揭示了非线性磁化的几何本质。此创新为理解量子材料非平衡态响应提供了新范式，对开发高性能量子磁电器件具有重要指导价值。"
+]</div>
+                        <div class="article-abstract-preview">作者：强晓斌、刘晓雄、陆海舟、谢晓昌 克里斯托菲尔符号是爱因斯坦广义相对论中的一个基本量。我们发现电场可以在量子材料中引起非线性磁化，用量子态希尔伯特空间中定义的克里斯托菲尔符号（量子克里斯托菲尔符号）来描述。 Qui... [物理。莱特牧师。 136, 056302] 发布于 2026 年 2 月...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-fbc3d0b977e8')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-fbc3d0b977e8-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：强晓斌、刘晓雄、陆海舟、谢晓昌 克里斯托菲尔符号是爱因斯坦广义相对论中的一个基本量。我们发现电场可以在量子材料中引起非线性磁化，用量子态希尔伯特空间中定义的克里斯托菲尔符号（量子克里斯托菲尔符号）来描述。 Qui... [物理。莱特牧师。 136, 056302] 发布于 2026 年 2 月 3 日星期二</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Xiao-Bin Qiang, Xiaoxiong Liu, Hai-Zhou Lu, and X. C. Xie The Christoffel symbol is an essential quantity in Einstein’s general theory of relativity. We discover that an electric field can induce a nonlinear magnetization in quantum materials, described by a Christoffel symbol defined in the Hilbert space of quantum states (quantum Christoffel symbol). Qui… [Phys. Rev. Lett. 136, 056302] Published Tue Feb 03, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-03</div>
+                        <a href="http://link.aps.org/doi/10.1103/4kmy-59l9" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-3c7e73ebb664">
+                    <div class="article-header">
+                        <div class="article-number">8</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41565-025-02109-6" target="_blank">酶促微泡机器人</a>
+                            </h4>
+                            <p class="article-title-en">Enzymatic microbubble robots</p>
+                            <div class="article-journal">📚 Nature Nanotechnology</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Songsong Tang, Hong Han, Xiaotian Ma 等15位作者</div>
+                        <div class="article-ai-analysis">[
+  "研制了集酶促、磁控与成像于一体的微泡机器人。其创新在于结合多模态驱动与超声空化实现组织深层渗透。该平台克服了微机器人体内成像与递送难题，为肿瘤精准诊疗提供了多功能化方案。"
+]</div>
+                        <div class="article-abstract-preview">微型和纳米机器人的发展扩大了生物医学应用中对智能多功能机器的需求，但大多数微型机器人系统都难以实现这些应用所需的属性。在这里，我们介绍酶微泡机器人，它具有可操纵的运动、增强的生物降解性、高体内成像对比度以及有效靶向和渗透疾病部位。这些微型机器人具有用脲酶修饰的天然蛋白质外壳，可分解生物可利用的尿素以...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-3c7e73ebb664')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-3c7e73ebb664-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>微型和纳米机器人的发展扩大了生物医学应用中对智能多功能机器的需求，但大多数微型机器人系统都难以实现这些应用所需的属性。在这里，我们介绍酶微泡机器人，它具有可操纵的运动、增强的生物降解性、高体内成像对比度以及有效靶向和渗透疾病部位。这些微型机器人具有用脲酶修饰的天然蛋白质外壳，可分解生物可利用的尿素以进行自主推进，而内部微泡则充当超声成像造影剂，用于深层组织成像和导航。磁性纳米颗粒集成可实现成像引导的磁控运动，过氧化氢酶功能化可促进向过氧化氢梯度的趋化运动，将机器人引导至肿瘤部位。聚焦超声波触发机器人外壳塌陷和释放的微泡的惯性空化，产生机械力，增强治疗有效负载的穿透力。体内研究验证了这些机器人的肿瘤靶向和治疗功效，证明了增强的抗肿瘤作用。这种多功能微泡机器人平台有可能改变医疗干预和精准治疗。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">The development of micro- and nanorobots has amplified the demand for intelligent multifunctional machines in biomedical applications, but most microrobotic systems struggle to achieve the attributes needed for those applications. Here we introduce enzymatic microbubble robots that exhibit steerable motion, enhanced biodegradability, high in vivo imaging contrast, and effective targeting and penetration of disease sites. These microrobots feature natural protein shells modified with urease to decompose bioavailable urea for autonomous propulsion, whereas an internal microbubble serves as an ultrasound imaging contrast agent for deep tissue imaging and navigation. Magnetic nanoparticle integration enables imaging-guided magnetically controlled motion and catalase functionalization facilitates chemotactic movement towards hydrogen peroxide gradients, directing robots to tumour sites. Focused ultrasound triggers robot shell collapse and inertial cavitation of the released microbubbles, creating mechanical forces that enhance therapeutic payload penetration. In vivo studies validate the tumour-targeting and therapeutic efficacy of these robots, demonstrating enhanced antitumour effects. This multifunctional microbubble robotic platform has the potential to transform medical interventions and precision therapies.
+
+[原始信息] Nature Nanotechnology, Published online: 02 February 2026; doi:10.1038/s41565-025-02109-6 Biodegradable enzymatic microbubble robots self-propel in urea, are magnetically or chemotactically guided, provide ultrasound imaging and enhance intratumoural drug delivery with focused ultrasound.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-02</div>
+                        <a href="https://www.nature.com/articles/s41565-025-02109-6" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-d85ba1dd8549">
+                    <div class="article-header">
+                        <div class="article-number">9</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41565-025-02103-y" target="_blank">扭曲二维反铁磁体中的超级莫尔旋转纹理</a>
+                            </h4>
+                            <p class="article-title-en">Super-moiré spin textures in twisted two-dimensional antiferromagnets</p>
+                            <div class="article-journal">📚 Nature Nanotechnology</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 King Cho Wong, Ruoming Peng, Eric Anderson 等18位作者</div>
+                        <div class="article-ai-analysis">研究在扭曲三碘化铬中发现了跨越多个周期的“超级莫尔”磁纹理。创新点在于观测到受扭转角调控的反铁磁尼尔型斯格明子，突破了传统尺度局限。这为设计新型拓扑磁态及高性能自旋电子器件提供了重要物理指导。</div>
+                        <div class="article-abstract-preview">堆叠二维层状材料提供了一个设计电子和磁态的平台。一般来说，产生的状态（例如莫尔磁性）在莫尔晶胞的长度尺度上具有周期性。在这里，我们通过扫描氮空位显微镜研究了扭曲双双层三碘化铬中的磁序。我们观察到延伸到单个莫尔晶胞之外的长程磁性纹理，我们将其称为超级莫尔磁态。在小扭转角下，自发磁性纹理的大小随着扭转角...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-d85ba1dd8549')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-d85ba1dd8549-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>堆叠二维层状材料提供了一个设计电子和磁态的平台。一般来说，产生的状态（例如莫尔磁性）在莫尔晶胞的长度尺度上具有周期性。在这里，我们通过扫描氮空位显微镜研究了扭曲双双层三碘化铬中的磁序。我们观察到延伸到单个莫尔晶胞之外的长程磁性纹理，我们将其称为超级莫尔磁态。在小扭转角下，自发磁性纹理的大小随着扭转角的增加而增加，这与底层莫尔波长相反。在 1.1° 扭曲的器件中，自旋纹理尺寸达到最大值约 300 nm，比底层莫尔波长大一个数量级，并且在扭曲角度超过 2° 时消失。获得的磁场图表明跨越多个莫尔细胞的反铁磁尼尔型斯格明子的形成。依赖于扭转角的研究与大规模原子蒙特卡罗模拟相结合，表明 Dzyaloshinskii-Moriya 相互作用、磁各向异性和交换相互作用之间的磁性竞争（所有这些都取决于各层的相对旋转）产生了以超级莫尔自旋顺序出现的拓扑纹理。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Stacking two-dimensional layered materials offers a platform to engineer electronic and magnetic states. In general, the resulting states—such as moiré magnetism—have a periodicity at the length scale of the moiré unit cell. Here we study magnetic order in twisted double-bilayer chromium triiodide by means of scanning nitrogen-vacancy microscopy. We observe long-range magnetic textures extending beyond the single moiré unit cell, which we dub a super-moiré magnetic state. At small twist angles, the size of the spontaneous magnetic texture increases with twist angle, opposite to the underlying moiré wavelength. The spin-texture size reaches a maximum of about 300 nm in 1.1° twisted devices, an order of magnitude larger than the underlying moiré wavelength, and vanishes at twist angles above 2°. The obtained magnetic field maps suggest the formation of antiferromagnetic Néel-type skyrmions spanning multiple moiré cells. The twist-angle-dependent study, combined with large-scale atomistic Monte Carlo simulations, suggests that the magnetic competition between the Dzyaloshinskii–Moriya interaction, magnetic anisotropy and exchange interactions—which all depend on the relative rotation of the layers—produces the topological textures that emerge in the super-moiré spin order.
+
+[原始信息] Nature Nanotechnology, Published online: 02 February 2026; doi:10.1038/s41565-025-02103-y Scanning nitrogen-vacancy microscopy unveils super-moiré spin textures emerging in twisted double-bilayer CrI3 and provides real-space evidence of antiferromagnetic Néel-type skyrmions spanning multiple moiré cells.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-02</div>
+                        <a href="https://www.nature.com/articles/s41565-025-02103-y" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-f6c153467291">
+                    <div class="article-header">
+                        <div class="article-number">10</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/vwp9-tr7b" target="_blank">${\mathrm{KNbO}}_{3}$ 中高压下极地不稳定性的重新出现</a>
+                            </h4>
+                            <p class="article-title-en">Re-emergence of a Polar Instability at High Pressure in ${\mathrm{KNbO}}_{3}$</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Mohamad Baker Shoker, Sitaram Ramakrishnan, Boris Croes, Olivier Cregut, Nicolas Beyer, Kokou D. Dorkenoo, Pierre Rodière, Björn Wehinger, Gaston Garbarino, Mohamed Mezouar, Marine Verseils, Pierre Fertey, Salia Cherifi-Hertel, Pierre Bouvier, and Mael Guennou</div>
+                        <div class="article-ai-analysis">该研究首次实验证实了铌酸钾高压下极性不稳定性重现的预言，揭示了压力对铁电性的非单调调控，打破了压力仅抑制铁电性的传统认知，为极端条件下铁电物理研究提供了关键支撑。</div>
+                        <div class="article-abstract-preview">作者：Mohamad Baker Shoker、Sitaram Ramakrishnan、Boris Croes、Olivier Cregut、Nicolas Beyer、Kokou D. Dorkenoo、Pierre Rodière、Björn Wehinger、Gaston Garbarino...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-f6c153467291')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-f6c153467291-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Mohamad Baker Shoker、Sitaram Ramakrishnan、Boris Croes、Olivier Cregut、Nicolas Beyer、Kokou D. Dorkenoo、Pierre Rodière、Björn Wehinger、Gaston Garbarino、Mohamed Mezouar、Marine Verseils、Pierre Fertey、Salia Cherifi-Hertel、Pierre Bouvier 和 Mael Guennou Ferroelectric已知钙钛矿的不稳定性可以通过适度的静水压力来抑制。它们在更高压力状态下重新进入的预测在理论上已被广泛接受，但仍缺乏结论性的实验证实。在这里，我们展示了它的出现...... [物理。莱特牧师。 136, 056101] 发布于 2026 年 2 月 2 日星期一</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Mohamad Baker Shoker, Sitaram Ramakrishnan, Boris Croes, Olivier Cregut, Nicolas Beyer, Kokou D. Dorkenoo, Pierre Rodière, Björn Wehinger, Gaston Garbarino, Mohamed Mezouar, Marine Verseils, Pierre Fertey, Salia Cherifi-Hertel, Pierre Bouvier, and Mael Guennou Ferroelectric instabilities in perovskites are known to be suppressed by a moderate hydrostatic pressure. The prediction of their re-entrance in a much higher pressure regime is well accepted theoretically, but a conclusive experimental confirmation is still missing. Here, we show its occurrence in … [Phys. Rev. Lett. 136, 056101] Published Mon Feb 02, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-02</div>
+                        <a href="http://link.aps.org/doi/10.1103/vwp9-tr7b" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-eadf63d2453b">
+                    <div class="article-header">
+                        <div class="article-number">11</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/z2sz-2tdz" target="_blank">超快自旋积累驱动多层磁化反转</a>
+                            </h4>
+                            <p class="article-title-en">Ultrafast Spin Accumulations Drive Magnetization Reversal in Multilayers</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Harjinder Singh, Alberto Anadón, Junta Igarashi, Quentin Remy, Stéphane Mangin, Michel Hehn, Jon Gorchon, and Gregory Malinowski</div>
+                        <div class="article-ai-analysis">该研究通过超快自旋积累实现了飞秒量级的多层磁化反转，揭示了非平衡态自旋输运的微观机制。这一创新突破了传统磁化翻转的速度瓶颈，为构建超高频、高性能自旋电子器件奠定了理论与实验基础。</div>
+                        <div class="article-abstract-preview">作者：Harjinder Singh、Alberto Anadón、Junta Igarashi、Quentin Remy、Stéphane Mangin、Michel Hehn、Jon Gorchon 和 Gregory Malinowski 在自旋电子器件中对飞秒时间尺度上的热和自旋输运进行工程...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-eadf63d2453b')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-eadf63d2453b-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Harjinder Singh、Alberto Anadón、Junta Igarashi、Quentin Remy、Stéphane Mangin、Michel Hehn、Jon Gorchon 和 Gregory Malinowski 在自旋电子器件中对飞秒时间尺度上的热和自旋输运进行工程和控制开辟了以前所未有的速度操纵磁化的新方法。然而，由于探测超快、非平衡态粒子的挑战，人们对潜在的逆转机制仍然知之甚少……[物理。莱特牧师。 136, 056701] 发布于 2026 年 2 月 2 日星期一</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Harjinder Singh, Alberto Anadón, Junta Igarashi, Quentin Remy, Stéphane Mangin, Michel Hehn, Jon Gorchon, and Gregory Malinowski Engineering and controlling heat and spin transport on the femtosecond timescale in spintronic devices opens up new ways to manipulate magnetization with unprecedented speed. Yet the underlying reversal mechanisms remain poorly understood due to the challenges of probing ultrafast, nonequilibrium sp… [Phys. Rev. Lett. 136, 056701] Published Mon Feb 02, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-02</div>
+                        <a href="http://link.aps.org/doi/10.1103/z2sz-2tdz" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-5fd014ea352b">
+                    <div class="article-header">
+                        <div class="article-number">12</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="http://link.aps.org/doi/10.1103/vwp9-tr7b" target="_blank">${\mathrm{KNbO}}_{3}$ 中高压下极地不稳定性的重新出现</a>
+                            </h4>
+                            <p class="article-title-en">Reemergence of a Polar Instability at High Pressure in ${\mathrm{KNbO}}_{3}$</p>
+                            <div class="article-journal">📚 Phys. Rev. Lett.</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Mohamad Baker Shoker, Sitaram Ramakrishnan, Boris Croes, Olivier Cregut, Nicolas Beyer, Kokou D. Dorkenoo, Pierre Rodière, Björn Wehinger, Gaston Garbarino, Mohamed Mezouar, Marine Verseils, Pierre Fertey, Salia Cherifi-Hertel, Pierre Bouvier, and Mael Guennou</div>
+                        <div class="article-ai-analysis">该研究实验证实了KNbO3高压下极性不稳定性重新出现，突破了压力抑制铁电性的认知。此发现验证了理论预言，为理解复杂相变及设计高压功能材料提供了关键实验依据。</div>
+                        <div class="article-abstract-preview">作者：Mohamad Baker Shoker、Sitaram Ramakrishnan、Boris Croes、Olivier Cregut、Nicolas Beyer、Kokou D. Dorkenoo、Pierre Rodière、Björn Wehinger、Gaston Garbarino...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-5fd014ea352b')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-5fd014ea352b-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>作者：Mohamad Baker Shoker、Sitaram Ramakrishnan、Boris Croes、Olivier Cregut、Nicolas Beyer、Kokou D. Dorkenoo、Pierre Rodière、Björn Wehinger、Gaston Garbarino、Mohamed Mezouar、Marine Verseils、Pierre Fertey、Salia Cherifi-Hertel、Pierre Bouvier 和 Mael Guennou Ferroelectric已知钙钛矿的不稳定性可以通过适度的静水压力来抑制。它们在更高压力状态下重新进入的预测在理论上已被广泛接受，但仍缺乏结论性的实验证实。在这里，我们展示了它的出现...... [物理。莱特牧师。 136, 056101] 发布于 2026 年 2 月 2 日星期一</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Author(s): Mohamad Baker Shoker, Sitaram Ramakrishnan, Boris Croes, Olivier Cregut, Nicolas Beyer, Kokou D. Dorkenoo, Pierre Rodière, Björn Wehinger, Gaston Garbarino, Mohamed Mezouar, Marine Verseils, Pierre Fertey, Salia Cherifi-Hertel, Pierre Bouvier, and Mael Guennou Ferroelectric instabilities in perovskites are known to be suppressed by a moderate hydrostatic pressure. The prediction of their re-entrance in a much higher pressure regime is well accepted theoretically, but a conclusive experimental confirmation is still missing. Here, we show its occurrence in … [Phys. Rev. Lett. 136, 056101] Published Mon Feb 02, 2026</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-02</div>
+                        <a href="http://link.aps.org/doi/10.1103/vwp9-tr7b" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
+        
+        <div class="section ai-section"><h2>🤖 AI/机器学习</h2>
+                <div class="article-card" id="article-69db1af18a37">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-026-69303-5" target="_blank">评估深度学习生成的 3D 分子的构象有效性和合理性</a>
+                            </h4>
+                            <p class="article-title-en">Assessing conformation validity and rationality of deep learning-generated 3D molecules</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Fan Fan, Bin Xi, Xianghu Meng 等15位作者</div>
+                        <div class="article-ai-analysis">该研究通过AI力场与DFT精度的两阶段耦合，解决了3D分子评估中效率与精度的失衡。该方案实现了量子级精度的高速评估，为AI模型优化及药物筛选提供了标准化工具。</div>
+                        <div class="article-abstract-preview">人工智能 (AI) 的最新进展彻底改变了 3D 分子生成领域。然而，缺乏有效的 3D 构象评估方法限制了进一步的改进。目前的技术，为了达到评估大量人工智能生成的分子所需的速度，通常依赖于不能充分捕获各种构象异常的经验几何度量，或者依赖于精度低且缺乏原子或扭转细节的分子力学能量度量。为了解决这一差距，...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-69db1af18a37')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-69db1af18a37-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>人工智能 (AI) 的最新进展彻底改变了 3D 分子生成领域。然而，缺乏有效的 3D 构象评估方法限制了进一步的改进。目前的技术，为了达到评估大量人工智能生成的分子所需的速度，通常依赖于不能充分捕获各种构象异常的经验几何度量，或者依赖于精度低且缺乏原子或扭转细节的分子力学能量度量。为了解决这一差距，我们提出了一种两阶段方法，可以实现高速和量子力学级别的精度。第一阶段被称为有效性测试，采用人工智能衍生的力场来识别由于不可信的邻近环境而具有较高能量的原子。第二阶段称为合理性测试，利用经过密度泛函理论精度的数据训练的深度学习网络来检测具有高扭转能量的可旋转键。为了演示我们的评估系统的功能，我们将我们的方法应用于最近报告的 5 个 3D 分子生成 AI 模型，涵盖有用诱饵增强数据集目录中的 102 个目标。为了方便学术界的访问，我们的方法作为开源包提供。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Recent advancements in artificial intelligence (AI) have revolutionized the field of 3D molecule generation. However, the lack of effective evaluation methods for 3D conformations limits further improvements. Current techniques, in order to achieve the necessary speed for evaluating large number of AI-generated molecules, often rely on empirical geometric metrics that do not adequately capture various conformational anomalies, or on molecular mechanics energy metrics that exhibit low accuracy and lack atomic or torsional details. To address this gap, we propose a two-stage approach that achieves both high speed and quantum mechanical level accuracy. The first stage, termed the validity test, employs an AI-derived force field to identify atoms with elevated energy resulting from implausible neighboring environments. The second stage, known as the rationality test, utilizes a deep learning network trained on data with density functional theory accuracy to detect rotatable bonds with high torsional energies. To demonstrate the functionality of our evaluation system, we applied our approach to five recently reported 3D molecule generation AI models across 102 targets in Directory of Useful Decoys-Enhanced dataset. To facilitate accessibility for the academic community, our method is available as an open-source package.
+
+[原始信息] Nature Communications, Published online: 07 February 2026; doi:10.1038/s41467-026-69303-5 The rapid expansion of 3D molecule generation models underscores the need for reliable conformation evaluation. Here, the authors present a fast two-stage framework that detects atomic and torsional errors with quantum-mechanical accuracy.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-07</div>
+                        <a href="https://www.nature.com/articles/s41467-026-69303-5" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-23b880e900e6">
+                    <div class="article-header">
+                        <div class="article-number">2</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s42256-026-01193-0" target="_blank">知识的归属和定位不能交给语言模型</a>
+                            </h4>
+                            <p class="article-title-en">Attributing and situating knowledge cannot be left to language models</p>
+                            <div class="article-journal">📚 Nature Machine Intelligence</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Roxana Radu, Luc Rocher</div>
+                        <div class="article-ai-analysis">[
+  {
+    "summary": "本文深刻揭示了大型语言模型在处理知识归属与学术定位时的局限性，批判了过度依赖AI进行引文分析的风险。研究强调了保护科研主体性与学术诚信的必要性，对于纠正AI</div>
+                        <div class="article-abstract-preview">Hofstra, B. 等人。国家科学院。科学。美国117，9284–9291（2020）。文章谷歌学术 Budrikis，Z.Nat。物理修订版 2, 346 (2020)。文章谷歌学者 Rosa, F. R.、Anastácio, K.、Pereira de Jesus, M. V. 和 Ver...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-23b880e900e6')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-23b880e900e6-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>Hofstra, B. 等人。国家科学院。科学。美国117，9284–9291（2020）。文章谷歌学术 Budrikis，Z.Nat。物理修订版 2, 346 (2020)。文章谷歌学者 Rosa, F. R.、Anastácio, K.、Pereira de Jesus, M. V. 和 Veras, H. J. A.Telecommun。政策 48, 102734 (2024)。文章Google Scholar Koffi, M.、Pongou, R. 和 Wantchekon, L.《思想的色彩：经济学中的种族动态和引用》工作论文 33150（国家经济研究局，2024 年）。米姆斯，F. M. Science284，55-56 (1999)。文章谷歌学术 Kavanagh，K.Nature646, 269–270 (2025)。文章谷歌学者 Pearson，H.Nature646, 778–791 (2025)。 Google 学术搜索 Earp, B. D.、Yuan, H.、Koplin, J. 和 Porsdam Mann, S.Nat。马赫。 Intel.7，1889–1890 (2025)。文章谷歌学术 Algaba, A. 等人。大型语言模型反映了具有高度引用偏差的人类引用模式。计算语言学协会的调查结果：NAACL 2025（Chiruzzo, L. 等编辑）6829–6864（ACL，2025）。下载参考文献 英国牛津大学布拉瓦尼克政府学院 Roxana Radu 英国牛津大学牛津互联网研究所 Luc Rocher 搜索作者：PubMedGoogle 学术搜索 作者：PubMedGoogle Scholar 通讯作者：Roxana Radu。作者声明没有竞争利益。转载和许可 Radu, R., Rocher, L. 知识的归属和定位不能留给语言模型。Nat Mach Intelll(2026)。 https://doi.org/10.1038/s42256-026-01193-0 下载引文 发布日期：2026 年 2 月 6 日 记录版本：2026 年 2 月 6 日 DOI：https://doi.org/10.1038/s42256-026-01193-0 与您共享以下链接的任何人都可以阅读此内容：抱歉，可共享链接目前不适用于本文。由 Springer Nature SharedIt 内容共享计划提供</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Hofstra, B. et al.Proc. Natl Acad. Sci. USA117, 9284–9291 (2020). ArticleGoogle Scholar Budrikis, Z.Nat. Rev. Phys.2, 346 (2020). ArticleGoogle Scholar Rosa, F. R., Anastácio, K., Pereira de Jesus, M. V. & Veras, H. J. A.Telecommun. Policy48, 102734 (2024). ArticleGoogle Scholar Koffi, M., Pongou, R. & Wantchekon, L.The Color of Ideas: Racial Dynamics and Citations in EconomicsWorking Paper 33150 (National Bureau of Economic Research, 2024). Mims, F. M.Science284, 55–56 (1999). ArticleGoogle Scholar Kavanagh, K.Nature646, 269–270 (2025). ArticleGoogle Scholar Pearson, H.Nature646, 778–791 (2025). Google Scholar Earp, B. D., Yuan, H., Koplin, J. & Porsdam Mann, S.Nat. Mach. Intell.7, 1889–1890 (2025). ArticleGoogle Scholar Algaba, A. et al. Large language models reflect human citation patterns with a heightened citation bias. InFindings of the Association for Computational Linguistics: NAACL 2025(eds Chiruzzo, L. et al.) 6829–6864 (ACL, 2025). Download references Blavatnik School of Government, University of Oxford, Oxford, UK Roxana Radu Oxford Internet Institute, University of Oxford, Oxford, UK Luc Rocher Search author on:PubMedGoogle Scholar Search author on:PubMedGoogle Scholar Correspondence toRoxana Radu. The authors declare no competing interests. Reprints and permissions Radu, R., Rocher, L. Attributing and situating knowledge cannot be left to language models.Nat Mach Intell(2026). https://doi.org/10.1038/s42256-026-01193-0 Download citation Published:06 February 2026 Version of record:06 February 2026 DOI:https://doi.org/10.1038/s42256-026-01193-0 Anyone you share the following link with will be able to read this content: Sorry, a shareable link is not currently available for this article. Provided by the Springer Nature SharedIt content-sharing initiative
+
+[原始信息] Nature Machine Intelligence, Published online: 06 February 2026; doi:10.1038/s42256-026-01193-0 Attributing and situating knowledge cannot be left to language models</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-06</div>
+                        <a href="https://www.nature.com/articles/s42256-026-01193-0" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-b2463d263b84">
+                    <div class="article-header">
+                        <div class="article-number">3</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s42256-026-01191-2" target="_blank">使用图转换器识别空间单细胞级相互作用</a>
+                            </h4>
+                            <p class="article-title-en">Identifying spatial single-cell-level interactions with graph transformer</p>
+                            <div class="article-journal">📚 Nature Machine Intelligence</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Xiangzheng Cheng, Suoqin Jin</div>
+                        <div class="article-ai-analysis">[
+  "该研究创新性地利用自监督图转换器，突破了对已知配体-受体对的依赖，实现了单细胞级空间互作的精准识别。这有效弥补了成像转录组的数据局限，为揭示复杂组织微环境中的新型细胞通讯机制提供了高效的计算</div>
+                        <div class="article-abstract-preview">从基于成像的空间转录组学中识别细胞间相互作用受到有限的基因组的影响。一种新的基于自监督图转换器的方法可以解决空间单细胞水平的相互作用，而不需要已知的配体-受体对。 Armingol, E.、Baghdassarian, H. M. 和 Lewis, N. E.Nat。 Rev. Genet.25, ...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-b2463d263b84')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-b2463d263b84-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>从基于成像的空间转录组学中识别细胞间相互作用受到有限的基因组的影响。一种新的基于自监督图转换器的方法可以解决空间单细胞水平的相互作用，而不需要已知的配体-受体对。 Armingol, E.、Baghdassarian, H. M. 和 Lewis, N. E.Nat。 Rev. Genet.25, 381–400 (2024)。文章谷歌学者 Cheng, X. 等人。预印本https://doi.org/10.48550/arXiv.2512.03497(2025)。马克思，V.Nat。方法 18, 9–14 (2021)。文章Google Scholar Zhu, J. et al.Nat。方法21，1830-1842（2024）。文章谷歌学者肖 X.、张 L.、赵 H. 和王 Z.Nat。马赫。 Intel.8，42–58 (2026)。文章Google Scholar 张，M. 等人。Nature598, 137–143 (2021)。文章谷歌学者 Gabitto, M. I. 等人，Nat。神经科学.27, 2366–2383 (2024)。文章谷歌学者 Jin, S. 等人，Nat。通讯 12, 1088 (2021)。文章谷歌学者 Vandereyken, K.、Sifrim, A.、Thienpont, B. 和 Voet, T.Nat。 Rev. Genet.24, 494–515 (2023)。文章Google Scholar Bunne, C. et al.Cell187, 7045–7063 (2024)。文章Google Scholar 下载参考文献 中国武汉市武汉大学数学与统计学院 程向正 & 金锁勤 搜索作者：PubMedGoogle 学术搜索 作者：PubMedGoogle Scholar 通讯作者：Suoqin Jin。作者声明没有竞争利益。转载和许可 Cheng, X., Jin, S. 利用图转换器识别空间单细胞级交互。Nat Mach Intelll(2026)。 https://doi.org/10.1038/s42256-026-01191-2 下载引文 发布日期：2026 年 2 月 6 日 记录版本：2026 年 2 月 6 日 DOI：https://doi.org/10.1038/s42256-026-01191-2 与您共享以下链接的任何人都可以阅读此内容：抱歉，可共享链接目前不适用于本文。由 Springer Nature SharedIt 内容共享计划提供</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Identifying cell–cell interactions from imaging-based spatial transcriptomics suffers from limited gene panels. A new self-supervised graph transformer-based method can resolve spatial single-cell-level interactions without requiring known ligand–receptor pairs. Armingol, E., Baghdassarian, H. M. & Lewis, N. E.Nat. Rev. Genet.25, 381–400 (2024). ArticleGoogle Scholar Cheng, X. et al. Preprint athttps://doi.org/10.48550/arXiv.2512.03497(2025). Marx, V.Nat. Methods18, 9–14 (2021). ArticleGoogle Scholar Zhu, J. et al.Nat. Methods21, 1830–1842 (2024). ArticleGoogle Scholar Xiao, X., Zhang, L., Zhao, H. & Wang, Z.Nat. Mach. Intell.8, 42–58 (2026). ArticleGoogle Scholar Zhang, M. et al.Nature598, 137–143 (2021). ArticleGoogle Scholar Gabitto, M. I. et al.Nat. Neurosci.27, 2366–2383 (2024). ArticleGoogle Scholar Jin, S. et al.Nat. Commun.12, 1088 (2021). ArticleGoogle Scholar Vandereyken, K., Sifrim, A., Thienpont, B. & Voet, T.Nat. Rev. Genet.24, 494–515 (2023). ArticleGoogle Scholar Bunne, C. et al.Cell187, 7045–7063 (2024). ArticleGoogle Scholar Download references School of Mathematics and Statistics, Wuhan University, Wuhan, China Xiangzheng Cheng & Suoqin Jin Search author on:PubMedGoogle Scholar Search author on:PubMedGoogle Scholar Correspondence toSuoqin Jin. The authors declare no competing interests. Reprints and permissions Cheng, X., Jin, S. Identifying spatial single-cell-level interactions with graph transformer.Nat Mach Intell(2026). https://doi.org/10.1038/s42256-026-01191-2 Download citation Published:06 February 2026 Version of record:06 February 2026 DOI:https://doi.org/10.1038/s42256-026-01191-2 Anyone you share the following link with will be able to read this content: Sorry, a shareable link is not currently available for this article. Provided by the Springer Nature SharedIt content-sharing initiative
+
+[原始信息] Nature Machine Intelligence, Published online: 06 February 2026; doi:10.1038/s42256-026-01191-2 Identifying cell–cell interactions from imaging-based spatial transcriptomics suffers from limited gene panels. A new self-supervised graph transformer-based method can resolve spatial single-cell-level interactions without requiring known ligand–receptor pairs.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-06</div>
+                        <a href="https://www.nature.com/articles/s42256-026-01191-2" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-c891bfeea655">
+                    <div class="article-header">
+                        <div class="article-number">4</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s42256-025-01171-y" target="_blank">预后AI医疗器械授权</a>
+                            </h4>
+                            <p class="article-title-en">Authorization of prognostic AI medical devices</p>
+                            <div class="article-journal">📚 Nature Machine Intelligence</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Urs J. Muehlematter, Kerstin Noelle Vokinger</div>
+                        <div class="article-ai-analysis">[
+  "该文揭示了预后AI器械授权占比极低的现状，剖析了预测性AI在监管与伦理上的独特挑战。其核心价值在于指出了医疗AI从诊断向预后转型的趋势，为完善器械评价体系、优化临床长期风险决策提供了重要的理</div>
+                        <div class="article-abstract-preview">美国食品和药物管理局授权的人工智能设备中只有不到 2% 具有预测功能，预测期限从几分钟到几年不等。随着预测人工智能设备数量的增加，解决随之而来的监管和道德挑战非常重要。 Thomas, J. M.、Cooney, L.M. 和 Fried, T. R.JAMA 实习生。医学杂志 179, 820 (...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-c891bfeea655')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-c891bfeea655-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>美国食品和药物管理局授权的人工智能设备中只有不到 2% 具有预测功能，预测期限从几分钟到几年不等。随着预测人工智能设备数量的增加，解决随之而来的监管和道德挑战非常重要。 Thomas, J. M.、Cooney, L.M. 和 Fried, T. R.JAMA 实习生。医学杂志 179, 820 (2019)。文章Google Scholar Riley, R. D., D. van der Windt, Croft, P. & Moons, K. G. M.（编辑）。医疗保健预后研究：概念、方法和影响，第 1 版（牛津大学出版社，2019 年）。奥伯迈耶 (Obermeyer)，Z. 和伊曼纽尔 (E. J.N)英语。医学杂志 375, 1216–1219 (2016)。文章Google Scholar Collins, G. S. et al.BMJ385, e078378 (2024)。文章谷歌学者 Van Smeden, M.、Reitsma, J. B.、Riley, R. D.、Collins, G. S. 和 Moons, K. G.J.临床。流行病学.132, 142–145 (2021)。文章 Google Scholar FDA. 人工智能和机器学习 (AI/ML) 支持的医疗设备（2025 年 8 月 1 日访问）；https://go.nature.com/45EMGbY Muehlematter, U. J., Daniore, P. & Vokinger, K. N.Lancet Digit。健康 3，e195–e203 (2021)。文章谷歌学术人工智能支持的设备软件功能：生命周期管理和营销提交建议。工业和食品药品监督管理局工作人员指南草案（FDA，2025）。 Mikhael, P. G. 等人。JCO41, 2191–2200 (2023)。文章Google Scholar FDA.2022 年工业和食品药品管理局工作人员指南。https://go.nature.com/4sToz3s（2025 年 8 月 7 日访问）。 Senders, J. T. et al.Neurosurgery86, E184–E192 (2020)。文章Google Scholar 医疗器械协调小组。《条例 (EU) 2017/745 和条例 (EU) 2017/746 2023(2023)》第 5(5) 条规定的医疗机构豁免指南。 Chan, K. 等人，Lancet403, 2606–2618 (2024)。文章谷歌学者 Lehmann, L. S. 等人 Ann.实习生。医学版 175, 1322–1323 (2022)。文章Google Scholar Begoli, E.、Bhattacharya, T. 和 Kusnezov, D.Nat。马赫。 Intel.1，20-23 (2019)。文章谷歌学术下载参考文献 瑞士苏黎世大学苏黎世大学医院核医学系 Urs J. Muehlematter 瑞士苏黎世大学法学院法律、医学和技术监管学术主席 Kerstin Noelle Vokinger 瑞士苏黎世联邦理工学院健康科学与技术系法律、医学和技术监管学术主席 Kerstin Noelle Vokinger 搜索作者：PubMedGoogle 学术搜索作者上：PubMed Google Scholar 通讯作者 J. Muehlematter。作者声明没有竞争利益。转载和许可 Muehlematter, U.J., Vokinger, K.N.预后人工智能医疗设备授权。Nat Mach Intelll（2026）。 https://doi.org/10.1038/s42256-025-01171-y 下载引文 发布日期：2026 年 2 月 6 日 记录版本：2026 年 2 月 6 日 DOI：https://doi.org/10.1038/s42256-025-01171-y 与您共享以下链接的任何人都可以阅读此内容：抱歉，可共享链接目前不适用于本文。由 Springer Nature SharedIt 内容共享计划提供</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Less than 2% of artificial intelligence devices authorized by the US Food and Drug Agency are prognostic, with prediction horizons ranging from minutes to several years. As the number of prognostic AI devices could increase, it is important to address the accompanying regulatory and ethical challenges. Thomas, J. M., Cooney, L. M. & Fried, T. R.JAMA Intern. Med.179, 820 (2019). ArticleGoogle Scholar Riley, R. D., D. van der Windt, Croft, P. & Moons, K. G. M. (eds).Prognosis Research in Healthcare: Concepts, Methods, and Impact, 1st edn (Oxford Univ. Press, 2019). Obermeyer, Z. & Emanuel, E. J.N. Engl. J. Med.375, 1216–1219 (2016). ArticleGoogle Scholar Collins, G. S. et al.BMJ385, e078378 (2024). ArticleGoogle Scholar Van Smeden, M., Reitsma, J. B., Riley, R. D., Collins, G. S. & Moons, K. G.J. Clin. Epidemiol.132, 142–145 (2021). ArticleGoogle Scholar FDA.Artificial Intelligence and Machine Learning (AI/ML)-Enabled Medical Devices(accessed 1 August 2025);https://go.nature.com/45EMGbY Muehlematter, U. J., Daniore, P. & Vokinger, K. N.Lancet Digit. Health3, e195–e203 (2021). ArticleGoogle Scholar Artificial Intelligence-Enabled Device Software Functions: Lifecycle Management and Marketing Submission Recommendations. Draft Guidance for Industry and Food and Drug Administration Staff(FDA, 2025). Mikhael, P. G. et al.JCO41, 2191–2200 (2023). ArticleGoogle Scholar FDA.Guidance for Industry and Food and Drug Administration Staff 2022.https://go.nature.com/4sToz3s(accessed 7 August 2025). Senders, J. T. et al.Neurosurgery86, E184–E192 (2020). ArticleGoogle Scholar Medical Device Coordination Group.Guidance on the Health Institution Exemption under Article 5(5) of Regulation (EU) 2017/745 and Regulation (EU) 2017/746 2023(2023). Chan, K. et al.Lancet403, 2606–2618 (2024). ArticleGoogle Scholar Lehmann, L. S. et al.Ann. Intern. Med.175, 1322–1323 (2022). ArticleGoogle Scholar Begoli, E., Bhattacharya, T. & Kusnezov, D.Nat. Mach. Intell.1, 20–23 (2019). ArticleGoogle Scholar Download references Department of Nuclear Medicine, University Hospital Zurich, University of Zurich, Zurich, Switzerland Urs J. Muehlematter Academic Chair for Regulaion in Law, Medicine and Technology, Faculty of Law, University of Zurich, Zurich, Switzerland Kerstin Noelle Vokinger Academic Chair for Regulation in Law, Medicine and Technology, Department of Health Sciences and Technology, ETH Zurich, Zurich, Switzerland Kerstin Noelle Vokinger Search author on:PubMedGoogle Scholar Search author on:PubMedGoogle Scholar Correspondence toUrs J. Muehlematter. The authors declare no competing interests. Reprints and permissions Muehlematter, U.J., Vokinger, K.N. Authorization of prognostic AI medical devices.Nat Mach Intell(2026). https://doi.org/10.1038/s42256-025-01171-y Download citation Published:06 February 2026 Version of record:06 February 2026 DOI:https://doi.org/10.1038/s42256-025-01171-y Anyone you share the following link with will be able to read this content: Sorry, a shareable link is not currently available for this article. Provided by the Springer Nature SharedIt content-sharing initiative
+
+[原始信息] Nature Machine Intelligence, Published online: 06 February 2026; doi:10.1038/s42256-025-01171-y Less than 2% of artificial intelligence devices authorized by the US Food and Drug Agency are prognostic, with prediction horizons ranging from minutes to several years. As the number of prognostic AI devices could increase, it is important to address the accompanying regulatory and ethical challenges.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-06</div>
+                        <a href="https://www.nature.com/articles/s42256-025-01171-y" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-75f12ad3c47d">
+                    <div class="article-header">
+                        <div class="article-number">5</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s42256-026-01179-y" target="_blank">视觉语言模型在神经心理学测试中显示出广泛的视觉缺陷</a>
+                            </h4>
+                            <p class="article-title-en">Visual language models show widespread visual deficits on neuropsychological tests</p>
+                            <div class="article-journal">📚 Nature Machine Intelligence</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Gene Tangtartharakul, Katherine R. Storrs</div>
+                        <div class="article-ai-analysis">{
+  "analysis_summary": "该研究创新性引入神经心理学量表，揭示了AI在复杂识别与基础感知间的显著脱节。这界定了人机视觉系统的本质鸿沟，为优化模型视觉逻辑、提升鲁棒性提供了关键指</div>
+                        <div class="article-abstract-preview">视觉语言模型 (VLM) 在视觉推理任务中表现出卓越的性能，成功解决了需要对图像进行高水平理解的大学水平挑战。然而，最近一些关于 VLM 难以推理基本视觉概念（例如方向、位置、连续性和遮挡）的报告表明，人类和 VLM 视觉之间存在潜在的鸿沟。目前，很少有评估能够直接比较人类和 VLM 的性能，这限制...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-75f12ad3c47d')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-75f12ad3c47d-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>视觉语言模型 (VLM) 在视觉推理任务中表现出卓越的性能，成功解决了需要对图像进行高水平理解的大学水平挑战。然而，最近一些关于 VLM 难以推理基本视觉概念（例如方向、位置、连续性和遮挡）的报告表明，人类和 VLM 视觉之间存在潜在的鸿沟。目前，很少有评估能够直接比较人类和 VLM 的性能，这限制了我们衡量两个系统之间一致性的能力。在这里，我们使用神经心理学工具包系统地评估了三种最先进的 VLM 在低、中和高视觉领域的能力。我们使用从 6 个临床和实验心理学组中抽取的 51 项测试，描述了领先 VLM 的视觉能力相对于健康成年人的规范表现的特征。虽然这些模型在简单的物体识别任务中表现出色，但我们发现中低级视觉能力普遍存在缺陷，而这些缺陷在人类中被认为具有临床意义。这些选择性缺陷通过经过验证的测试电池进行分析，表明人工系统可以实现复杂的物体识别，而无需开发人类不需要明确训练的基本视觉概念。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Visual language models (VLMs) show remarkable performance in visual reasoning tasks, successfully tackling college-level challenges that require a high-level understanding of images. However, some recent reports of VLMs struggling to reason about elemental visual concepts such as orientation, position, continuity and occlusion suggest a potential gulf between human and VLM vision. Currently, few assessments enable a direct comparison between human and VLM performance, which limits our ability to measure alignment between the two systems. Here we use the toolkit of neuropsychology to systematically evaluate the capabilities of three state-of-the-art VLMs across low, mid and high visual domains. Using 51 tests drawn from 6 clinical and experimental psychology batteries, we characterize the visual abilities of leading VLMs relative to normative performance in healthy adults. While the models excel in straightforward object recognition tasks, we find widespread deficits in low- and mid-level visual abilities that would be considered clinically significant in humans. These selective deficits, profiled through validated test batteries, suggest that an artificial system can achieve complex object recognition without developing foundational visual concepts that in humans require no explicit training.
+
+[原始信息] Nature Machine Intelligence, Published online: 06 February 2026; doi:10.1038/s42256-026-01179-y Tangtartharakul and Storrs use standardized neuropsychological tests to compare human visual abilities with those of visual language models (VLMs). They report that while VLMs excel in high-level object recognition, they show deficits in low- and mid-level visual abilities.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-06</div>
+                        <a href="https://www.nature.com/articles/s42256-026-01179-y" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-a1951c1aeaaf">
+                    <div class="article-header">
+                        <div class="article-number">6</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41570-026-00799-7" target="_blank">在化学教育中迈向有效且合乎道德的 GenAI</a>
+                            </h4>
+                            <p class="article-title-en">Towards effective and ethical GenAI in chemistry education</p>
+                            <div class="article-journal">📚 Nature Reviews Chemistry</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Kirsty Tinto, Lorraine Gibson van Mil, Fraser J. Scott</div>
+                        <div class="article-ai-analysis">研究探讨GenAI在化学教育中的融合，创新提出利用AI辅助概念可视化并重构实验探究。其价值在于确立了技术赋能与伦理素养并重的范式，助力化学教育智能化转型。</div>
+                        <div class="article-abstract-preview">2025 年，化学教育研究将走向更成熟、更关键的生成人工智能 (GenAI) 应用。最近的研究表明 GenAI 如何支持抽象化学概念的可视化和学习，同时强调需要强大的人工智能素养来管理错误、道德和滥用。 Erümit, A. K. 和 Sarıalioğlu, R. Ö。科学和化学教育中的人工智能：...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-a1951c1aeaaf')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-a1951c1aeaaf-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>2025 年，化学教育研究将走向更成熟、更关键的生成人工智能 (GenAI) 应用。最近的研究表明 GenAI 如何支持抽象化学概念的可视化和学习，同时强调需要强大的人工智能素养来管理错误、道德和滥用。 Erümit, A. K. 和 Sarıalioğlu, R. Ö。科学和化学教育中的人工智能：系统评价。Discov。教育.4, 178 (2025)。文章谷歌学者 Moores, A. 和 Zuin Zeidler, V. G. 不要让生成式人工智能塑造我们对化学的看法。 Rev. Chem.9, 649–650 (2025)。文章 PubMedGoogle 学者 Akaygun, S. 和 Kilic, I. 生成人工智能 (GenAI) 作为化学视觉艺术家：化学预科教师对 GenAI.J 创建的视觉效果的反思。化学。第 102 版，2549–2564 (2025)。文章CASGoogle 学者 Reyes, R. L. 和 Regala, J. D. 重新构想化学教育中的实验哲学：将人工智能作为科学探究的工具。 ＆Educ.https://doi.org/10.1007/s11191-025-00667-8(2025)。文章Google Scholar Blonder, R. 和 Feldman-Maggor, Y. 化学教学中的人工智能：负责任的人工智能和道德考虑。化学。教。 Int.6，385–395 (2024)。文章谷歌学者 Uçar, S.-Ş.、Lopez-Gazpio, I. 和 Lopez-Gazpio, J. 评估和挑战化学教育中生成式人工智能的推理能力。教育。信息。技术 30, 11463–11482 (2025)。文章谷歌学者 Feldman-Maggor, Y.、Blonder, R. 和 Alexandron, G. TPACK 框架内化学教育中生成式 AI 的观点。科学。教育。技术.34, 1–12 (2025)。文章Google 学术搜索 下载参考文献 英国格拉斯哥斯特拉斯克莱德大学纯粹与应用化学系 Kirsty Tinto、Lorraine Gibson van Mil 和 Fraser J. Scott 搜索作者：PubMedGoogle 学术搜索 作者：PubMedGoogle 学术搜索 作者：PubMedGoogle Scholar 通讯作者：Fraser J. Scott。作者声明没有竞争利益。 AdvanceHE 关于将人工智能嵌入课程的声明：https://www.advance-he.ac.uk/news-and-views/embedding-ai-curriculum 英国皇家学会关于使用人工智能的声明：https://royalsociety.org/about-us/terms-conditions-policies/use-of-ai/ 英国教育部关于生成式人工智能的政策文件教育：https://www.gov.uk/government/publications/generative-artificial-intelligence-in-education/generative-artificial-intelligence-ai-in-education?pStoreID=contenttest&#introduction UKRI 关于在申请准备和申请中使用生成式人工智能的政策评估：https://www.ukri.org/publications/generative-artificial-intelligence-in-application-and-assessment-policy/use-of-generative-artificial-intelligence-in-application-preparation-and-assessment/ 转载和许可 Tinto, K., Gibson van Mil, L. & Scott, F.J. 在化学教育中迈向有效和道德的 GenAI。Nat Rev化学（2026）。 https://doi.org/10.1038/s41570-026-00799-7 下载引文 发布日期：2026 年 2 月 6 日 记录版本：2026 年 2 月 6 日 DOI：https://doi.org/10.1038/s41570-026-00799-7 与您共享以下链接的任何人都可以阅读此内容：抱歉，可共享链接目前不适用于本文。由 Springer Nature SharedIt 内容共享计划提供</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">In 2025, chemistry education research moved towards more mature and critical uses of generative artificial intelligence (GenAI). Recent studies show how GenAI can support visualization and learning of abstract chemical concepts, while highlighting the need for strong AI literacy to manage errors, ethics and misuse. Erümit, A. K. & Sarıalioğlu, R. Ö. Artificial intelligence in science and chemistry education: a systematic review.Discov. Educ.4, 178 (2025). ArticleGoogle Scholar Moores, A. & Zuin Zeidler, V. G. Don’t let generative AI shape how we see chemistry.Nat. Rev. Chem.9, 649–650 (2025). ArticlePubMedGoogle Scholar Akaygun, S. & Kilic, I. Generative artificial intelligence (GenAI) as the artist of chemistry visuals: Chemistry preservice teachers’ reflections on visuals created by GenAI.J. Chem. Ed.102, 2549–2564 (2025). ArticleCASGoogle Scholar Reyes, R. L. & Regala, J. D. Reimagining the philosophy of experimentation in chemistry education: embracing AI as a tool for scientific enquiry.Sci. & Educ.https://doi.org/10.1007/s11191-025-00667-8(2025). ArticleGoogle Scholar Blonder, R. & Feldman-Maggor, Y. AI for chemistry teaching: Responsible AI and ethical considerations.Chem. Teach. Int.6, 385–395 (2024). ArticleGoogle Scholar Uçar, S.-Ş., Lopez-Gazpio, I. & Lopez-Gazpio, J. Evaluating and challenging the reasoning capabilities of generative AI in chemistry education.Educ. Inf. Technol.30, 11463–11482 (2025). ArticleGoogle Scholar Feldman-Maggor, Y., Blonder, R. & Alexandron, G. Perspectives of generative AI in chemistry education within the TPACK framework.J. Sci. Educ. Technol.34, 1–12 (2025). ArticleGoogle Scholar Download references Department of Pure and Applied Chemistry, University of Strathclyde, Glasgow, UK Kirsty Tinto, Lorraine Gibson van Mil & Fraser J. Scott Search author on:PubMedGoogle Scholar Search author on:PubMedGoogle Scholar Search author on:PubMedGoogle Scholar Correspondence toFraser J. Scott. The authors declare no competing interests. AdvanceHE statement on embedding AI into the curriculum:https://www.advance-he.ac.uk/news-and-views/embedding-ai-curriculum Royal Society statement on the use of AI:https://royalsociety.org/about-us/terms-conditions-policies/use-of-ai/ UK Department for Education policy paper on generative AI in education:https://www.gov.uk/government/publications/generative-artificial-intelligence-in-education/generative-artificial-intelligence-ai-in-education?pStoreID=contenttest&#introduction UKRI policy on the use of generative AI in application preparation and assessment:https://www.ukri.org/publications/generative-artificial-intelligence-in-application-and-assessment-policy/use-of-generative-artificial-intelligence-in-application-preparation-and-assessment/ Reprints and permissions Tinto, K., Gibson van Mil, L. & Scott, F.J. Towards effective and ethical GenAI in chemistry education.Nat Rev Chem(2026). https://doi.org/10.1038/s41570-026-00799-7 Download citation Published:06 February 2026 Version of record:06 February 2026 DOI:https://doi.org/10.1038/s41570-026-00799-7 Anyone you share the following link with will be able to read this content: Sorry, a shareable link is not currently available for this article. Provided by the Springer Nature SharedIt content-sharing initiative
+
+[原始信息] Nature Reviews Chemistry, Published online: 06 February 2026; doi:10.1038/s41570-026-00799-7 In 2025, chemistry education research moved towards more mature and critical uses of generative artificial intelligence (GenAI). Recent studies show how GenAI can support visualization and learning of abstract chemical concepts, while highlighting the need for strong AI literacy to manage errors, ethics and misuse.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-06</div>
+                        <a href="https://www.nature.com/articles/s41570-026-00799-7" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-6698a83fd5ce">
+                    <div class="article-header">
+                        <div class="article-number">7</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41586-025-10093-z" target="_blank">基于 MPRA 的深度学习揭示人类启动子的调控语法</a>
+                            </h4>
+                            <p class="article-title-en">Regulatory grammar in human promoters uncovered by MPRA-based deep learning</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Lucía Barbadilla-Martínez, Noud Klaassen, Vinícius H. Franceschini-Santos 等21位作者</div>
+                        <div class="article-ai-analysis">开发PARM模型通过MPRA揭示了调控语法。核心创新在于发现转录因子位置偏好与基序交互。这提升了活性预测精度，为合成启动子设计与调控解析提供了经济、高效的策略。</div>
+                        <div class="article-abstract-preview">启动子是所有基因的核心调控元件。它们的活性确保了每个基因的正确转录水平，这对于细胞稳态和对各种信号的反应至关重要。基因组学的主要挑战之一是建立计算模型，根据调控元件的序列准确预测全基因组基因表达。在这里，我们提出启动子活性调节模型（PARM），这是一种细胞类型特异性深度学习模型，经过专门设计的大规模...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-6698a83fd5ce')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-6698a83fd5ce-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>启动子是所有基因的核心调控元件。它们的活性确保了每个基因的正确转录水平，这对于细胞稳态和对各种信号的反应至关重要。基因组学的主要挑战之一是建立计算模型，根据调控元件的序列准确预测全基因组基因表达。在这里，我们提出启动子活性调节模型（PARM），这是一种细胞类型特异性深度学习模型，经过专门设计的大规模并行报告分析（MPRA）训练，用于查询人类启动子序列。 PARM 在实验和计算上都是轻量级的，因此可以生成细胞类型特异性和条件特异性模型，仅根据 DNA 序列可靠地预测整个基因组中的自主启动子活性。 PARM还可以设计纯合成的强启动子。我们利用 PARM 系统地识别可能有助于每个天然人类启动子活性的转录因子的结合位点，并检测细胞受到各种刺激后这些调节相互作用的重新连接。我们还发现并通过实验证实了转录因子的实质性位置偏好，这些位置偏好在激活和抑制调节功能之间存在差异，以及基序-基序相互作用的复杂语法。我们的方法提供了一种高度经济的策略，可以更深入地了解转录因子对人类启动子的动态调节。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Promoters are the core regulatory elements of all genes. Their activity ensures the correct transcription level of each individual gene, which is essential for cellular homeostasis and responses to a wide range of signals. One of the major challenges in genomics is to build computational models that accurately predict genome-wide gene expression from the sequences of regulatory elements1. Here we present promoter activity regulatory model (PARM), a cell-type-specific deep-learning model trained on specially designed massively parallel reporter assays (MPRAs) that query human promoter sequences. PARM is experimentally and computationally lightweight so that cell-type-specific and condition-specific models can be generated that reliably predict autonomous promoter activity across the genome from the DNA sequence alone. PARM can also design purely synthetic strong promoters. We leveraged PARM to systematically identify binding sites of transcription factors that probably contribute to the activity of each natural human promoter and to detect the rewiring of these regulatory interactions after various stimuli to the cells. We also uncovered and experimentally confirmed substantial positional preferences of transcription factors that differ between activating and repressive regulatory functions and a complex grammar of motif–motif interactions. Our approach provides a highly economic strategy towards a deeper understanding of the dynamic regulation of human promoters by transcription factors.
+
+[原始信息] Nature, Published online: 04 February 2026; doi:10.1038/s41586-025-10093-z PARM is a deep-learning model trained on data from massively parallel reporter assays to help predict promoter activity in different human cell types, design synthetic promoters and identify key features of regulatory promoter grammar.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-04</div>
+                        <a href="https://www.nature.com/articles/s41586-025-10093-z" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-acd5bee86d6d">
+                    <div class="article-header">
+                        <div class="article-number">8</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41586-025-09951-7" target="_blank">发现学习通过最少的实验预测电池循环寿命</a>
+                            </h4>
+                            <p class="article-title-en">Discovery Learning predicts battery cycle life from minimal experiments</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Jiawei Zhang, Yifei Zhang, Baozhao Yi 等8位作者</div>
+                        <div class="article-ai-analysis">该研究提出“发现学习”架构，结合物理规律与类人推理，实现极少量实验下的电池寿命精准预测。该方法突破了数据依赖瓶颈，极大缩减研发成本，为加速电池技术创新提供高效方案。</div>
+                        <div class="article-abstract-preview">在电池等复杂物理系统中快速可靠地验证新设计对于加速技术创新至关重要。然而，电池开发仍然受到评估新设计寿命所需的高时间和能源成本的瓶颈1,2。值得注意的是，现有的寿命预测方法需要包含目标设计的电池寿命标签的数据集来提高准确性，并且无法在原型设计之前做出可靠的预测，从而限制了快速反馈3,4。在这里，我们...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-acd5bee86d6d')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-acd5bee86d6d-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>在电池等复杂物理系统中快速可靠地验证新设计对于加速技术创新至关重要。然而，电池开发仍然受到评估新设计寿命所需的高时间和能源成本的瓶颈1,2。值得注意的是，现有的寿命预测方法需要包含目标设计的电池寿命标签的数据集来提高准确性，并且无法在原型设计之前做出可靠的预测，从而限制了快速反馈3,4。在这里，我们介绍发现学习，这是一种科学的机器学习方法，从教育心理学中汲取灵感，将主动学习5、物理引导学习6和零样本学习7集成到类人推理循环中。发现学习可以从历史电池设计中学习并减少原型设计的需要，从而通过最少的实验来预测新设计的寿命。为了测试 Discovery Learning，我们提供了由 123 个大型锂离子软包电池组成的工业级电池数据，其中包括不同的材料设计组合和循环协议。在与我们不同的电池设计的公共数据集上进行训练后，Discovery Learning 使用 51% 电池原型的前 50 个循环的物理特征来预测循环寿命，实现了 7.2% 的测试误差。保守假设下，与传统做法相比，这可节省 98% 的时间和 95% 的能源。发现学习代表了准确高效的电池寿命预测方面的关键进步，更广泛地说，有助于实现机器学习加速科学发现的承诺8。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Fast and reliable validation of new designs in complex physical systems such as batteries is critical to accelerating technological innovation. However, battery development remains bottlenecked by the high time and energy costs required to evaluate the lifetime of new designs1,2. Notably, existing lifetime forecasting approaches require datasets containing battery lifetime labels for target designs to improve accuracy and cannot make reliable predictions before prototyping, thus limiting rapid feedback3,4. Here we introduce Discovery Learning, a scientific machine learning approach that integrates active learning5, physics-guided learning6and zero-shot learning7into a human-like reasoning loop, drawing inspiration from educational psychology. Discovery Learning can learn from historical battery designs and reduce the need for prototyping, thereby predicting the lifetime of new designs from minimal experiments. To test Discovery Learning, we present industrial-grade battery data comprising 123 large-format lithium-ion pouch cells, including diverse material–design combinations and cycling protocols. Trained on public datasets of cell designs different from ours, Discovery Learning achieves 7.2% test error in predicting cycle life using physical features from the first 50 cycles of 51% of cell prototypes. Under conservative assumptions, this results in savings of 98% in time and 95% in energy compared with conventional practices. Discovery Learning represents a key advance in accurate and efficient battery lifetime prediction and, more broadly, helps realize the promise of machine learning to accelerate scientific discovery8.
+
+[原始信息] Nature, Published online: 04 February 2026; doi:10.1038/s41586-025-09951-7 Discovery Learning, a machine learning approach integrating active learning, physics-guided learning and zero-shot learning into a human-like reasoning loop, is described for predicting the battery cycle life of new designs from minimal experiments, reducing prototyping requirements.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-04</div>
+                        <a href="https://www.nature.com/articles/s41586-025-09951-7" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-0c79e69816e0">
+                    <div class="article-header">
+                        <div class="article-number">9</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/d41586-026-00168-w" target="_blank">机器学习减少了计算电池寿命所需的测试</a>
+                            </h4>
+                            <p class="article-title-en">Machine learning slashes the testing needed to work out battery lifetimes</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Chao Hu</div>
+                        <div class="article-ai-analysis">[
+  "该研究利用机器学习从早期数据预测电池寿命，核心创新在于大幅减少物理测试需求。这显著缩短了研发周期，降低了实验成本，为加速电池技术迭代与规模化应用提供了高效工具。"
+]</div>
+                        <div class="article-abstract-preview">张，J. 等人，Nature650, 110–115 (2026)。文章Google Scholar Ramadass, P.、Haran, B.、Gomadam, P. M.、White, R. 和 Popov, B. N.J. Electrochem。 Soc.151，A196 (2004)。文...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-0c79e69816e0')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-0c79e69816e0-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>张，J. 等人，Nature650, 110–115 (2026)。文章Google Scholar Ramadass, P.、Haran, B.、Gomadam, P. M.、White, R. 和 Popov, B. N.J. Electrochem。 Soc.151，A196 (2004)。文章谷歌学术 Ramadesigan, V.et al.J.电化学。 Soc.158，A1048 (2011)。文章Google Scholar Birkl, C. R.、Roberts, M. R.、McTurk, E.、Bruce, P. G. 和 Howey, D. A.J.电源341, 373–386 (2017)。文章谷歌学者 Shen, S.、Sadoughi, M.、Li, M.、Wang, Z. 和 Hu, C.Appl。 Energy260, 114296 (2020)。文章谷歌学术 Figgener, J.et al.Nature Energy9, 1438–1447 (2024)。文章谷歌学术 Severson, K. A. et al.Nature Energy4, 383–391 (2019)。文章谷歌学术下载参考文献</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Zhang, J.et al.Nature650, 110–115 (2026). ArticleGoogle Scholar Ramadass, P., Haran, B., Gomadam, P. M., White, R. & Popov, B. N.J. Electrochem. Soc.151, A196 (2004). ArticleGoogle Scholar Ramadesigan, V.et al.J. Electrochem. Soc.158, A1048 (2011). ArticleGoogle Scholar Birkl, C. R., Roberts, M. R., McTurk, E., Bruce, P. G. & Howey, D. A.J. Power Sources341, 373–386 (2017). ArticleGoogle Scholar Shen, S., Sadoughi, M., Li, M., Wang, Z. & Hu, C.Appl. Energy260, 114296 (2020). ArticleGoogle Scholar Figgener, J.et al.Nature Energy9, 1438–1447 (2024). ArticleGoogle Scholar Severson, K. A.et al.Nature Energy4, 383–391 (2019). ArticleGoogle Scholar Download references
+
+[原始信息] Nature, Published online: 04 February 2026; doi:10.1038/d41586-026-00168-w A machine-learning method that reasons and adapts has been developed to solve one of the most time-consuming bottlenecks in battery development.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-04</div>
+                        <a href="https://www.nature.com/articles/d41586-026-00168-w" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-fb45a0ce39fa">
+                    <div class="article-header">
+                        <div class="article-number">10</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/d41586-026-00285-6" target="_blank">AI已经具备人类水平的智能了吗？证据很清楚</a>
+                            </h4>
+                            <p class="article-title-en">Does AI already have human-level intelligence? The evidence is clear</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Eddy Keming Chen, Mikhail Belkin, Leon Bergen 等4位作者</div>
+                        <div class="article-ai-analysis">[
+  "该文系统评估了AI智能，创新性地结合图灵测试与前沿实证，揭示了AI在复杂认知上的局限。其意义在于明确了当前AI与通用人工智能的差距，为未来研发与伦理治理提供了关键参考。"
+]</div>
+                        <div class="article-abstract-preview">图灵，A.M.MindLIX，433–460 (1950)。文章Google Scholar Jones, C. R. 和 Bergen, B. K. arXiv 预印本 https://doi.org/10.48550/arXiv.2503.23674(2025)。 Chakrabarty, T....</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-fb45a0ce39fa')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-fb45a0ce39fa-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>图灵，A.M.MindLIX，433–460 (1950)。文章Google Scholar Jones, C. R. 和 Bergen, B. K. arXiv 预印本 https://doi.org/10.48550/arXiv.2503.23674(2025)。 Chakrabarty, T.、Ginsburg, J. C. 和 Dhillon, P. arXiv 预印本 https://doi.org/10.48550/arXiv.2510.13939(2025)。 Bubeck, S.et al. arXiv 预印本 https://doi.org/10.48550/arXiv.2511.16072(2025)。 Rizvi, S. A. 等人。bioRxiv 的预印本 https://doi.org/10.1101/2025.04.14.648850(2025)。 Morris，M. R. 等人。第41国际。会议。马赫。学习.235, 36308–36321 (PMLR, 2024)。谷歌学者 Hendrycks, D.et al. arXiv 预印本 https://doi.org/10.48550/arXiv.2510.18212(2025)。布洛克，N.Phil。 Rev.90, 5–43 (1981)。文章谷歌学者 Bender, E. M.、Gebru, T.、McMillan-Major, A. 和 Shmitchell, S. inProc。 2021 年 ACM 会议公平账户。透明度 610–623（计算机协会，2021 年）。 Google Scholar Bubeck, S.et al. arXiv 预印本 https://doi.org/10.48550/arXiv.2303.12712(2023)。 Dai, Y.、Gao, Z.、Sattar, Y.、Dean, S. 和 Sun, J. arXiv 预印本 https://doi.org/10.48550/arXiv.2506.07298(2025)。 Ma, Y.等人。arXiv 预印本https://doi.org/10.48550/arXiv.2309.16298(2023)。英伟达。预印本位于 arXiv https://doi.org/10.48550/arXiv.2501.03575(2025)。下载参考资料</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Turing, A. M.MindLIX, 433–460 (1950). ArticleGoogle Scholar Jones, C. R. & Bergen, B. K. Preprint at arXivhttps://doi.org/10.48550/arXiv.2503.23674(2025). Chakrabarty, T., Ginsburg, J. C. & Dhillon, P. Preprint at arXivhttps://doi.org/10.48550/arXiv.2510.13939(2025). Bubeck, S.et al.Preprint at arXivhttps://doi.org/10.48550/arXiv.2511.16072(2025). Rizvi, S. A.et al.Preprint at bioRxivhttps://doi.org/10.1101/2025.04.14.648850(2025). Morris, M. R.et al.Proc. 41st Int. Conf. Mach. Learn.235, 36308–36321 (PMLR, 2024). Google Scholar Hendrycks, D.et al.Preprint at arXivhttps://doi.org/10.48550/arXiv.2510.18212(2025). Block, N.Phil. Rev.90, 5–43 (1981). ArticleGoogle Scholar Bender, E. M., Gebru, T., McMillan-Major, A. & Shmitchell, S. inProc. 2021 ACM Conf. Fairness Account. Transparency610–623 (Association for Computing Machinery, 2021). Google Scholar Bubeck, S.et al.Preprint at arXivhttps://doi.org/10.48550/arXiv.2303.12712(2023). Dai, Y., Gao, Z., Sattar, Y., Dean, S. & Sun, J. Preprint at arXivhttps://doi.org/10.48550/arXiv.2506.07298(2025). Ma, Y.et al.Preprint at arXivhttps://doi.org/10.48550/arXiv.2309.16298(2023). NVIDIA. Preprint at arXivhttps://doi.org/10.48550/arXiv.2501.03575(2025). Download references
+
+[原始信息] Nature, Published online: 02 February 2026; doi:10.1038/d41586-026-00285-6 The vision of human-level machine intelligence laid out by Alan Turing in the 1950s is now a reality. Eyes unclouded by dread or hype will help us to prepare for what comes next.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-02</div>
+                        <a href="https://www.nature.com/articles/d41586-026-00285-6" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-23ee9d107396">
+                    <div class="article-header">
+                        <div class="article-number">11</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41928-025-01562-4" target="_blank">自旋量子位的完全自主调谐</a>
+                            </h4>
+                            <p class="article-title-en">Fully autonomous tuning of a spin qubit</p>
+                            <div class="article-journal">📚 Nature Electronics</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Jonas Schuff, Miguel J. Carballido, Madeleine Kotzagiannidis 等17位作者</div>
+                        <div class="article-ai-analysis">该研究整合深度学习与贝叶斯优化，实现半导体量子位全自主调谐。该技术攻克了复杂参数调谐难题，显著提升研发效率，为大规模量子芯片性能统计与自动化扩展奠定基础。</div>
+                        <div class="article-abstract-preview">大规模半导体量子电路的发展受到有效调谐和操作此类电路的困难的限制。确定这些量子位的最佳操作条件尤其复杂，并且涉及对巨大参数空间的探索。在这里，我们报告了半导体量子位的自主调谐，从接地设备到拉比振荡。我们的方法集成了深度学习、贝叶斯优化和计算机视觉技术。我们在锗硅核壳纳米线器件中演示了这种自动化。为了...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-23ee9d107396')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-23ee9d107396-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>大规模半导体量子电路的发展受到有效调谐和操作此类电路的困难的限制。确定这些量子位的最佳操作条件尤其复杂，并且涉及对巨大参数空间的探索。在这里，我们报告了半导体量子位的自主调谐，从接地设备到拉比振荡。我们的方法集成了深度学习、贝叶斯优化和计算机视觉技术。我们在锗硅核壳纳米线器件中演示了这种自动化。为了说明完全自动化的潜力，我们描述了拉比频率和 g 因子如何依赖于算法找到的量子位之一的势垒门电压。我们希望我们的自动化算法适用于一系列半导体量子位设备，从而可以对量子位质量指标进行统计研究。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">The development of large-scale semiconductor quantum circuits is limited by the difficulties involved in efficiently tuning and operating such circuits. Identifying optimal operating conditions for these qubits is, in particular, complex and involves the exploration of vast parameter spaces. Here we report the autonomous tuning of a semiconductor qubit, from a grounded device to Rabi oscillations. Our approach integrates deep learning, Bayesian optimization and computer vision techniques. We demonstrate this automation in a germanium–silicon core–shell nanowire device. To illustrate the potential of full automation, we characterize how the Rabi frequency andg-factor depend on barrier gate voltages for one of the qubits found by the algorithm. We expect our automation algorithm to be applicable to a range of semiconductor qubit devices, allowing for the statistical studies of qubit-quality metrics.
+
+[原始信息] Nature Electronics, Published online: 02 February 2026; doi:10.1038/s41928-025-01562-4 An algorithm that combines deep learning, Bayesian optimization and computer vision techniques can be used to autonomously tune a semiconductor spin qubit from a grounded device to Rabi oscillations.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-02</div>
+                        <a href="https://www.nature.com/articles/s41928-025-01562-4" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-a614cbb7f09d">
+                    <div class="article-header">
+                        <div class="article-number">12</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-025-67571-1" target="_blank">出版商更正：机器学习预测米级实验室地震</a>
+                            </h4>
+                            <p class="article-title-en">Publisher Correction: Machine learning predicts meter-scale laboratory earthquakes</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Reiju Norisugi, Yoshihiro Kaneko, Bertrand Rouet-Leduc</div>
+                        <div class="article-ai-analysis">该研究利用机器学习预测米级实验室地震，实现物理实验与智能算法深度融合。通过捕捉断层失稳前兆揭示演化规律，为提升地震预警准确性及防灾减灾提供了关键技术支撑。</div>
+                        <div class="article-abstract-preview">更正：Nature Communications https://doi.org/10.1038/s41467-025-64542-4，2025 年 10 月 30 日在线发布 这篇最初发表的文章的 PDF 版本是未经更正的证明；它现已被更正后的版本所取代。原文章已更正。日本京都大学地球物理系 Re...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-a614cbb7f09d')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-a614cbb7f09d-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>更正：Nature Communications https://doi.org/10.1038/s41467-025-64542-4，2025 年 10 月 30 日在线发布 这篇最初发表的文章的 PDF 版本是未经更正的证明；它现已被更正后的版本所取代。原文章已更正。日本京都大学地球物理系 Reiju Norisugi 和 Yoshihiro Kaneko 防灾研究所，日本京都大学 Bertrand Rouet-Leduc 搜索 作者：PubMedGoogle 学术搜索 作者：PubMedGoogle 学术搜索 作者：PubMedGoogle 学术搜索 作者：Reiju Norisugi。开放获取本文根据 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License 获得许可，该许可允许以任何媒介或格式进行任何非商业使用、共享、分发和复制，只要您对原始作者和来源给予适当的认可，提供知识共享许可的链接，并表明您是否修改了许可材料。根据本许可，您无权共享源自本文或其部分内容的改编材料。本文中的图像或其他第三方材料包含在文章的知识共享许可中，除非材料的信用额度中另有说明。如果文章的知识共享许可中未包含材料，并且您的预期用途不受法律法规允许或超出了允许的用途，则您需要直接获得版权所有者的许可。要查看此许可证的副本，请访问http://creativecommons.org/licenses/by-nc-nd/4.0/。转载和许可 Norisugi, R.、Kaneko, Y. 和 Rouet-Leduc, B. 出版商更正：机器学习预测米级实验室地震。Nat Commun17, 1208 (2026)。 https://doi.org/10.1038/s41467-025-67571-1 下载引文 发布日期：2026 年 2 月 2 日 记录版本：2026 年 2 月 2 日 DOI：https://doi.org/10.1038/s41467-025-67571-1 与您共享以下链接的任何人都可以阅读此内容：抱歉，可共享链接目前不适用于本文。由 Springer Nature SharedIt 内容共享计划提供</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Correction to:Nature Communicationshttps://doi.org/10.1038/s41467-025-64542-4, published online 30 October 2025 The PDF version of this originally published article was the uncorrected proof; it has now been replaced by the corrected version. The original article has been corrected. Department of Geophysics, Kyoto University, Kyoto, Japan Reiju Norisugi & Yoshihiro Kaneko Disaster Prevention Research Institute, Kyoto University, Kyoto, Japan Bertrand Rouet-Leduc Search author on:PubMedGoogle Scholar Search author on:PubMedGoogle Scholar Search author on:PubMedGoogle Scholar Correspondence toReiju Norisugi. Open AccessThis article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visithttp://creativecommons.org/licenses/by-nc-nd/4.0/. Reprints and permissions Norisugi, R., Kaneko, Y. & Rouet-Leduc, B. Publisher Correction: Machine learning predicts meter-scale laboratory earthquakes.Nat Commun17, 1208 (2026). https://doi.org/10.1038/s41467-025-67571-1 Download citation Published:02 February 2026 Version of record:02 February 2026 DOI:https://doi.org/10.1038/s41467-025-67571-1 Anyone you share the following link with will be able to read this content: Sorry, a shareable link is not currently available for this article. Provided by the Springer Nature SharedIt content-sharing initiative
+
+[原始信息] Nature Communications, Published online: 02 February 2026; doi:10.1038/s41467-025-67571-1 Publisher Correction: Machine learning predicts meter-scale laboratory earthquakes</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-02</div>
+                        <a href="https://www.nature.com/articles/s41467-025-67571-1" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
+        
+        <div class="section"><h2>📚 期刊分布</h2>
+            <div class="journal-stat">
+                <div class="journal-name">Phys. Rev. Lett.</div>
+                <div class="journal-count">9 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature</div>
+                <div class="journal-count">6 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Machine Intelligence</div>
+                <div class="journal-count">4 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Nanotechnology</div>
+                <div class="journal-count">2 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Communications</div>
+                <div class="journal-count">2 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Reviews Chemistry</div>
+                <div class="journal-count">1 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Electronics</div>
+                <div class="journal-count">1 篇</div>
+            </div>
+            </div>
+        
+        <div class="generated-by">
+            由 gemini 生成 | 2026-02-08 03:29
+        </div>
+    </div>
+    
+    <script>
+        // 主题支持
+        const theme = localStorage.getItem('literature_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // 展开/折叠摘要功能
+        function toggleAbstract(articleId) {
+            const abstractDiv = document.getElementById(articleId + '-abstract');
+            const btn = event.target;
+            
+            if (abstractDiv.style.display === 'none') {
+                abstractDiv.style.display = 'block';
+                btn.textContent = '📖 收起摘要';
+                btn.style.background = 'var(--accent-secondary)';
+            } else {
+                abstractDiv.style.display = 'none';
+                btn.textContent = '📖 查看完整摘要';
+                btn.style.background = 'var(--accent-primary)';
+            }
+        }
+    </script>
+</body>
+</html>
