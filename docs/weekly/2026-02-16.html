@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周报 - 2026-02-16 至 2026-02-22</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .weekly-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .weekly-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.35);
+        }
+        
+        .weekly-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        
+        .weekly-header .date-range {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-card.ferro {
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .stat-card.ai {
+            border-left: 4px solid #10b981;
+        }
+        
+        .stat-card.both {
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+        
+        .section {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .section h2 {
+            margin: 0 0 20px 0;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section.ferro-section h2 {
+            border-bottom-color: #f59e0b;
+        }
+        
+        .section.ai-section h2 {
+            border-bottom-color: #10b981;
+        }
+        
+        .section.both-section h2 {
+            border-bottom-color: #8b5cf6;
+        }
+        
+        .overview-text {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+        
+        .overview-article-list {
+            margin-top: 25px;
+        }
+        
+        .overview-group {
+            margin-bottom: 30px;
+        }
+        
+        .overview-group-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+        
+        .overview-group.both-group .overview-group-title {
+            border-left-color: #8b5cf6;
+        }
+        
+        .overview-group.ferro-group .overview-group-title {
+            border-left-color: #f59e0b;
+        }
+        
+        .overview-group.ai-group .overview-group-title {
+            border-left-color: #10b981;
+        }
+        
+        .overview-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .overview-item {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .overview-item:hover {
+            background: var(--bg-card);
+            border-left-color: var(--accent-primary);
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .overview-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: block;
+            line-height: 1.6;
+        }
+        
+        .overview-link:hover {
+            color: var(--accent-primary);
+        }
+        
+        .overview-journal {
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-right: 8px;
+            font-size: 0.9em;
+        }
+        
+        .article-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            transition: all var(--transition-fast);
+        }
+        
+        .article-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .article-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .article-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .article-title {
+            margin: 0 0 8px 0;
+            font-size: 1.05em;
+            line-height: 1.4;
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-title-en {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .article-journal {
+            font-size: 0.9em;
+            color: var(--accent-primary);
+            margin: 8px 0 0 0;
+            font-weight: 600;
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        
+        .journal-badge {
+            background: var(--accent-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .all-articles-section {
+            background: var(--bg-card);
+        }
+        
+        .section-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .journal-group-title {
+            color: var(--text-primary);
+            font-size: 1.2em;
+            font-weight: 700;
+            margin: 35px 0 20px 0;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .article-list {
+            margin-bottom: 30px;
+            display: grid;
+            gap: 20px;
+        }
+        
+        .article-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-color: var(--accent-primary);
+        }
+        
+        .article-card:hover::before {
+            opacity: 1;
+        }
+        
+        .article-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        
+        .article-number {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .article-title-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .article-title {
+            margin: 0 0 8px 0;
+            font-size: 1.15em;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-title-en {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .article-journal {
+            font-size: 0.9em;
+            color: var(--accent-primary);
+            margin: 8px 0 0 0;
+            font-weight: 600;
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .article-body {
+            margin: 16px 0;
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--border-color);
+        }
+        
+        .article-authors {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-ai-analysis {
+            font-size: 0.95em;
+            color: var(--accent-primary);
+            line-height: 1.7;
+            margin: 12px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            font-weight: 500;
+        }
+        
+        .article-abstract-preview {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 12px 0 8px 0;
+            opacity: 0.9;
+        }
+        
+        .toggle-abstract-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            cursor: pointer;
+            margin: 8px 0;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .toggle-abstract-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .article-abstract-full {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .abstract-section {
+            margin-bottom: 16px;
+        }
+        
+        .abstract-section strong {
+            color: var(--text-primary);
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .abstract-section p {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .abstract-en {
+            font-style: italic;
+            color: var(--text-muted);
+        }
+        
+        .article-abstract {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .article-type-tag {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .article-type-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .ferro-tag {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .ai-tag {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .article-date {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .article-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 2px solid var(--accent-primary);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .article-link:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateX(4px);
+        }
+        
+        .authors {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+        
+        .article-abstract {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 10px 0 0 0;
+        }
+        
+        .article-abstract-en {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.5;
+            margin: 8px 0 0 0;
+        }
+        
+        .journal-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+        
+        .journal-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .journal-count {
+            background: var(--accent-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .generated-by {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .no-articles {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 30px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 767px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .article-item {
+                flex-direction: column;
+            }
+            
+            .article-number {
+                align-self: flex-start;
+            }
+            
+            .article-card {
+                padding: 16px;
+            }
+            
+            .article-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .article-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .article-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .journal-group-title {
+                font-size: 1em;
+                padding: 10px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="weekly-container">
+        <a href="../index.html" class="back-link">← 返回主页</a>
+        
+        <div class="weekly-header">
+            <h1>🔬 周报</h1>
+            <div class="date-range">2026-02-16 至 2026-02-22</div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">7</div>
+                <div class="stat-label">本周文献</div>
+            </div>
+            <div class="stat-card ferro">
+                <div class="stat-value">3</div>
+                <div class="stat-label">⚡ 磁性/铁电</div>
+            </div>
+            <div class="stat-card ai">
+                <div class="stat-value">5</div>
+                <div class="stat-label">🤖 AI/机器学习</div>
+            </div>
+            <div class="stat-card both">
+                <div class="stat-value">1</div>
+                <div class="stat-label">🔀 交叉研究</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 本周总览</h2>
+            <p class="overview-text">本周（2026-02-16至2026-02-22）共发表7篇相关领域高水平论文，重点聚焦于铁电异质结光伏效率提升、大块莫尔金属的合成以及AI在蛋白质动力学和临床诊断中的深度应用。重要发现包括利用铁电极化协同效应使钙钛矿电池效率达到26.62%，以及首次在热力学平衡下合成出具有相干莫尔超晶格的大块范德华晶体。此外，生成式AI在无序蛋白质集成预测和罕见病诊断代理系统方面取得了突破性进展。</p>
+            
+            <div class="overview-article-list"><div class="overview-group both-group"><h3 class="overview-group-title">🔀 交叉研究 (1篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-062e76f00e6d" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        利用大数据挖掘和网络分析，为八坐标镧系配合物的几何形状和对称性控制提供了精确的结构设计路线图。
+                    </a>
+                </li></ul></div><div class="overview-group ferro-group"><h3 class="overview-group-title">⚡ 磁性/铁电材料 (2篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-b163ac03ad84" class="overview-link">
+                        <span class="overview-journal">[Nature Communications]</span>
+                        通过引入铁电异质结架构，利用自发极化增强内置电场并调节结晶动力学，实现了26.62%的冠军器件效率。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-3edc73c04487" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        提出一种在热力学平衡下合成高迁移率大块莫尔材料的新方法，揭示了不通约范德华晶体中相干的莫尔超晶格特性。
+                    </a>
+                </li></ul></div><div class="overview-group ai-group"><h3 class="overview-group-title">🤖 AI/机器学习 (4篇)</h3><ul class="overview-list">
+                <li class="overview-item">
+                    <a href="#article-394c5399be8a" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        开发了结合物理力场与多模态生成深度学习的STARLING框架，实现了本质无序蛋白质构象集的快速准确预测。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-19b008765574" class="overview-link">
+                        <span class="overview-journal">[Nature]</span>
+                        构建了名为DeepRare的多智能体AI系统，通过集成40多种专业工具，实现了具有透明推理过程的罕见病高精度诊断。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-d6ac48eb9629" class="overview-link">
+                        <span class="overview-journal">[Nature Computational Science]</span>
+                        基于几何向量感知器的图神经网络，实现了无需手工设定集体变量即可从原子坐标直接预测分子转变的提交者函数。
+                    </a>
+                </li>
+                <li class="overview-item">
+                    <a href="#article-59ac53ed5181" class="overview-link">
+                        <span class="overview-journal">[Nature Machine Intelligence]</span>
+                        通过高分辨率颅内记录证明了人类大脑处理语言的分层结构与循环自动语音识别模型内部表征之间存在深度一致性。
+                    </a>
+                </li></ul></div></div>
+        </div>
+        
+        <div class="section both-section"><h2>🔀 交叉研究（AI + 磁性/铁电）</h2>
+                <div class="article-card" id="article-062e76f00e6d">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-026-69445-6" target="_blank">控制镧系元素中心周围几何形状和对称性的策略，以实现定制的发光和磁性</a>
+                            </h4>
+                            <p class="article-title-en">Strategies to control the geometry and symmetry around lanthanide centres for tailored luminescence and magnetism</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Thomas E. Karpiuk, Daniel B. Leznoff</div>
+                        <div class="article-ai-analysis">利用大数据分析揭示镧系配合物几何演变规律，创新提出基于配体特性的调控路线图。精准定制配位对称性，为量子信息、生物成像等领域功能材料的理性设计提供关键理论支撑。</div>
+                        <div class="article-abstract-preview">三价镧系元素 (Ln3+) 的发光和磁性特性对于许多新兴技术来说是不可或缺的，但对这些特性的精确控制需要了解如何有目的地设计 Ln3+ 中心的配位几何形状和位点对称性。在这里，我们使用剑桥结构数据库提取 12,670 个八坐标 Ln3+ 中心的结构，并使用连续形状测量、连续对称操作测量和新的基于结构...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-062e76f00e6d')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-062e76f00e6d-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>三价镧系元素 (Ln3+) 的发光和磁性特性对于许多新兴技术来说是不可或缺的，但对这些特性的精确控制需要了解如何有目的地设计 Ln3+ 中心的配位几何形状和位点对称性。在这里，我们使用剑桥结构数据库提取 12,670 个八坐标 Ln3+ 中心的结构，并使用连续形状测量、连续对称操作测量和新的基于结构相似性的网络分析来调查几何和结构趋势。然后利用这项调查提供具体策略，使用熟悉的概念（如 Ln3+ 金属尺寸和配体密度、咬合角、灵活性、形状、对称性和尺寸）来控制八坐标 Ln3+ 中心的配位几何形状。最终，我们提出了针对六种常见八坐标几何形状（六角双锥、立方、正方反棱柱、十二面体、双帽三棱柱和短蝶形）中每一种的路线图，这些几何形状均被证明在不同的研究领域具有独特的用例。还说明了晶体堆积和非共价相互作用的影响，从而可以对 Ln3+ 中心的几何形状和对称性进行细粒度控制。这项工作最终为数据存储、量子信息处理、照明、测温和医学生物成像等应用的 Ln3+ 配位配合物和材料的精心设计提供信息。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">The luminescent and magnetic properties of trivalent lanthanides (Ln3+) are indispensable for many emerging technologies, but exacting fine control over these properties requires an understanding of how to purposefully engineer the coordination geometry and site symmetry of Ln3+centres. Here, we use the Cambridge Structural Database to extract the structures of 12,670 eight-coordinate Ln3+centres and use Continuous Shape Measures, Continuous Symmetry Operation Measures, and a new structural similarity-based network analysis to survey geometry and structure trends. This survey is then leveraged to deliver concrete strategies for controlling the coordination geometry of eight-coordinate Ln3+centres using familiar concepts like Ln3+metal size and ligand denticity, bite angle, flexibility, shape, symmetry, and size. Ultimately, we present a roadmap for targeting each of the six common eight-coordinate geometries – hexagonal bipyramidal, cubic, square antiprismatic, dodecahedral, bicapped trigonal prismatic, and snub disphenoid – which are each demonstrated to have unique use-cases in diverse research areas. The effects of crystal packing and non-covalent interactions are also illustrated, allowing fine-grained control over the geometry and symmetry of Ln3+centres. This work ultimately serves to inform the deliberate design of Ln3+coordination complexes and materials for applications including data-storage, quantum information processing, lighting, thermometry, and medical bioimaging.
+
+[原始信息] Nature Communications, Published online: 17 February 2026; doi:10.1038/s41467-026-69445-6 The luminescent and magnetic properties of trivalent lanthanides are indispensable for many emerging technologies, but exacting fine control over these properties requires an understanding of the coordination geometry and site symmetry of Ln3+ centres. Here, the authors leverage an analysis of 12,670 eight-coordinate Ln3+ centres in the Cambridge Structural Database to prescribe useful strategies for controlling coordination geometry.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span><span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-17</div>
+                        <a href="https://www.nature.com/articles/s41467-026-69445-6" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
+        
+        <div class="section ferro-section"><h2>⚡ 磁性/铁电材料</h2>
+                <div class="article-card" id="article-b163ac03ad84">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41467-026-69391-3" target="_blank">通过铁电异质结调制实现钙钛矿太阳能电池的高开路电压-填充因子积</a>
+                            </h4>
+                            <p class="article-title-en">High Open-Circuit Voltage–Fill factor product in perovskite solar cells enabled by ferroelectric heterojunction modulation</p>
+                            <div class="article-journal">📚 Nature Communications</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Nan Wu, Haofei Ni, Tianqi Niu 等16位作者</div>
+                        <div class="article-ai-analysis">该研究引入铁电异质结，利用自发极化增强电场并优化结晶，协同提升了开路电压与填充因子。该策略抑制了非辐射复合，使效率超26%，为高性能钙钛矿电池提供了新路径。</div>
+                        <div class="article-abstract-preview">克服钙钛矿-钙钛矿异质结在同时提高内置电势和抑制非辐射复合方面的固有局限性仍然是钙钛矿太阳能电池的一个关键挑战。在这里，我们介绍了一种基于铁电的异质结架构，它通过协同机制解决这一双重挑战。首先，铁电异质结固有的自发极化显着放大了内置电场，增强了电荷分离和传输，从而将开路电压从1.16 V提高到1.2...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-b163ac03ad84')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-b163ac03ad84-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>克服钙钛矿-钙钛矿异质结在同时提高内置电势和抑制非辐射复合方面的固有局限性仍然是钙钛矿太阳能电池的一个关键挑战。在这里，我们介绍了一种基于铁电的异质结架构，它通过协同机制解决这一双重挑战。首先，铁电异质结固有的自发极化显着放大了内置电场，增强了电荷分离和传输，从而将开路电压从1.16 V提高到1.21 V。其次，铁电核通过溶解-再结晶调节有效调节钙钛矿结晶动力学，有效抑制陷阱态并将填充因子从83.6%提高到86.8%。冠军器件的功率转换效率为 26.62%（认证为 26.07%），开路电压填充因子积为 1.05 V，达到 Shockley-Queisser 极限的 90.3%。此外，改进后的器件表现出增强的运行稳定性，在最大功率点跟踪 500 小时后保留了超过 85% 的效率，为高性能光伏电池绘制了清晰的路径。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Overcoming the inherent limitations of perovskite-perovskite heterojunctions in simultaneously boosting built-in potential and suppressing non-radiative recombination remains a critical challenge in perovskite solar cells. Here, we introduce a ferroelectric-based heterojunction architecture that addresses this dual challenge through synergistic mechanisms. Firstly, the spontaneous polarization inherent to the ferroelectric-based heterojunction significantly amplifies the built-in electric field, enhancing charge separation and transport, thereby increasing open-circuit voltage from 1.16 to 1.21 V. Secondly, ferroelectric nuclei effectively regulate perovskite crystallization kinetics via dissolution-recrystallization modulation, effectively suppressing trap states and elevating fill factor from 83.6% to 86.8%. The champion devices achieve a power conversion efficiency of 26.62% (certified 26.07%) with an open-circuit voltage-fill factor product of 1.05 V, reaching 90.3% of the Shockley-Queisser limit. Furthermore, the modified devices demonstrate enhanced operational stability with over 85% efficiency reservation after 500 h of maximum power point tracking, charting clear pathways towards high-performance photovoltaic cells.
+
+[原始信息] Nature Communications, Published online: 18 February 2026; doi:10.1038/s41467-026-69391-3 Wu et al. report a strategy of incorporating either Dion-Jacobson phase or Ruddlesden-Popper phase ferroelectric perovskite with FAPbI3 to form bulk heterojunctions, increasing the open-circuit voltage-fill factor product and enabling single junction solar cells with an efficiency of 26.62%.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-18</div>
+                        <a href="https://www.nature.com/articles/s41467-026-69391-3" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-3edc73c04487">
+                    <div class="article-header">
+                        <div class="article-number">2</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41586-026-10173-8" target="_blank">大块莫尔金属的高维费米学</a>
+                            </h4>
+                            <p class="article-title-en">Higher-dimensional Fermiology in bulk moiré metals</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Kevin P. Nuckolls, Nisarga Paul, Alan Chen 等13位作者</div>
+                        <div class="article-ai-analysis">该研究创新地合成了热力学平衡的大块莫尔晶体，利用高维超空间理论揭示了其复杂的费米学。这实现了莫尔物理从二维到三维的跨越，为探索强关联态提供了全新的物质平台。</div>
+                        <div class="article-abstract-preview">在过去的十年中，莫尔材料彻底改变了我们设计和控制物质量子相的方式1,2。它们是强相关电子现象 3,4 的多功能平台，并支持新的铁电态 5,6、磁态 7 和超导态 8。在不相称材料9中，莫尔材料是非周期复合晶体10,11，其长波长超晶格能够在不化学改变其层的情况下实现可调特性。到目前为止，几乎所有莫尔...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-3edc73c04487')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-3edc73c04487-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>在过去的十年中，莫尔材料彻底改变了我们设计和控制物质量子相的方式1,2。它们是强相关电子现象 3,4 的多功能平台，并支持新的铁电态 5,6、磁态 7 和超导态 8。在不相称材料9中，莫尔材料是非周期复合晶体10,11，其长波长超晶格能够在不化学改变其层的情况下实现可调特性。到目前为止，几乎所有莫尔材料的报告都研究了远离热力学平衡（T < 150 °C）组装的范德华异质结构1,2。在这里，我们介绍了一种在热力学平衡下合成高迁移率莫尔材料的概念新方法。我们报告了一个新的叶状超晶格材料 (Sr6TaS8)1+δ(TaS2)8 家族，它们是可剥离的、不通约晶格的范德华晶体。交替层之间的晶格不匹配会产生莫尔超晶格，类似于二维莫尔异双层超晶格，它们在整个晶体中是相干的，并且可以通过合成条件进行调节，而不改变其化学成分。量子振荡测量绘制了这些莫尔金属的复杂费米学12,13,14，表明结构最简单的莫尔金属的费米表面包含 40 多个不同的横截面区域。通过提出这些大块莫尔金属以与不相称晶格的成熟晶体学方法平行的方式编码高维超空间晶体的电子特性，可以自然地理解这一点15,16。更广泛地说，我们的工作展示了一种可扩展的合成方法，可能能够生产用于电子应用的大面积莫尔材料，并证明了一种新的材料设计概念，用于访问更高维度中提出的现象17,18,19,20,21。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">In the past decade, moiré materials have revolutionized how we engineer and control quantum phases of matter1,2. They are versatile platforms for strongly correlated electronic phenomena3,4and support new ferroelectric5,6, magnetic7and superconducting states8. Among incommensurate materials9, moiré materials are aperiodic composite crystals10,11whose long-wavelength superlattices enable tunable properties without chemically modifying their layers. So far, nearly all reports of moiré materials have investigated van der Waals heterostructures assembled far from thermodynamic equilibrium (T< 150 °C)1,2. Here we introduce a conceptually new approach to synthesizing high-mobility moiré materials in thermodynamic equilibrium. We report a new family of foliated superlattice materials (Sr6TaS8)1+δ(TaS2)8that are exfoliatable, incommensurate-lattice, van der Waals crystals. Lattice mismatches between alternating layers generate moiré superlattices, analogous to 2D moiré heterobilayer superlattices, which are coherent throughout these crystals and tunable through synthesis conditions without altering their chemical composition. Quantum oscillation measurements map the complex Fermiology of these moiré metals12,13,14, showing that the Fermi surface of the structurally simplest moiré metal comprises more than 40 distinct cross-sectional areas. This is naturally understood by proposing that these bulk moiré metals encode electronic properties of higher-dimensional superspace crystals in ways paralleling well-established crystallographic methods for incommensurate lattices15,16. More broadly, our work demonstrates a scalable synthesis approach potentially capable of producing large-area moiré materials for electronics applications and evidences a new material design concept for accessing phenomena proposed in higher dimensions17,18,19,20,21.
+
+[原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-026-10173-8 Aperiodic composite crystals were discovered that emulate 2D moiré materials, demonstrating a potentially scalable approach for producing moiré materials for next-generation electronics and a generalizable approach for realizing theoretical predictions of higher-dimensional quantum phenomena.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ferro-tag">⚡ 磁性/铁电</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-18</div>
+                        <a href="https://www.nature.com/articles/s41586-026-10173-8" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
+        
+        <div class="section ai-section"><h2>🤖 AI/机器学习</h2>
+                <div class="article-card" id="article-394c5399be8a">
+                    <div class="article-header">
+                        <div class="article-number">1</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41586-026-10141-2" target="_blank">使用 STARLING 准确预测无序蛋白质整体</a>
+                            </h4>
+                            <p class="article-title-en">Accurate predictions of disordered protein ensembles with STARLING</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Borna Novak, Jeffrey M. Lotthammer, Ryan J. Emenecker 等4位作者</div>
+                        <div class="article-ai-analysis">{
+  "analysis_result": "该研究开发STARLING框架，融合物理力场与生成式AI，实现无序蛋白质构象集合的精准预测。创新点在于环境敏感性与高效表征，将IDR设计效率提升至秒级，</div>
+                        <div class="article-abstract-preview">本质上无序的蛋白质和区域（统称为 IDR）存在于所有生命王国中，并且在几乎每个真核细胞过程中都发挥着关键作用1。 IDR 存在于结构不同的构象的广泛集合中。这种结构可塑性促进了不同的分子识别和功能2,3,4。在这里，我们将基于物理的力场的进步与多模态生成深度学习的力量相结合，开发了 STARLING...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-394c5399be8a')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-394c5399be8a-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>本质上无序的蛋白质和区域（统称为 IDR）存在于所有生命王国中，并且在几乎每个真核细胞过程中都发挥着关键作用1。 IDR 存在于结构不同的构象的广泛集合中。这种结构可塑性促进了不同的分子识别和功能2,3,4。在这里，我们将基于物理的力场的进步与多模态生成深度学习的力量相结合，开发了 STARLING，这是一个用于从序列快速生成准确的 IDR 集成和集成感知表示的框架。 STARLING 支持跨离子强度的环境调节，并展示了生成模型超出其训练领域的插值能力的概念证明。此外，我们使用贝叶斯最大熵重新加权方案在实验约束下实现集成细化。除了整体表征之外，STARLING 序列表示还可以以多种方式使用。我们展示了两个例子：首先，STARLING 让我们能够对“生物物理相似者”进行基于集合的搜索。其次，我们演示了如何使用这些潜在表示来将集成优先的序列设计从每个候选者的几周或几小时缩短到几秒钟，从而实现图书馆规模的设计。总之，STARLING 通过新兴生物物理特性的视角，显着降低了 IDR 功能计算询问的障碍，补充了生物信息学蛋白质序列分析。我们根据现有实验数据评估 STARLING 的准确性，并提供一系列插图说明 STARLING 如何实现 IDR 函数的快速假设生成并帮助解释实验数据。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Intrinsically disordered proteins and regions (collectively IDRs) are found across all kingdoms of life and have critical roles in virtually every eukaryotic cellular process1. IDRs exist in a broad ensemble of structurally distinct conformations. This structural plasticity facilitates diverse molecular recognition and function2,3,4. Here we combine advances in physics-based force fields with the power of multi-modal generative deep learning to develop STARLING, a framework for rapid generation of accurate IDR ensembles and ensemble-aware representations from sequence. STARLING supports environmental conditioning across ionic strengths and demonstrates proof of concept for the interpolative ability of generative models beyond their training domain. Moreover, we enable ensemble refinement under experimental constraints using a Bayesian maximum-entropy reweighting scheme. Beyond ensemble characterization, STARLING sequence representations can be used in multiple ways. We showcase two examples: first, STARLING lets us perform ensemble-based search for ‘biophysical look-alikes’. Second, we demonstrate how these latent representations can be used to accelerate ensemble-first sequence design from weeks or hours per candidate to seconds, enabling library-scale designs. Together, STARLING dramatically lowers the barrier to the computational interrogation of IDR function through the lens of emergent biophysical properties, complementing bioinformatic protein sequence analysis. We evaluate the accuracy of STARLING against extant experimental data and offer a series of vignettes illustrating how STARLING can enable rapid hypothesis generation for IDR function and aid the interpretation of experimental data.
+
+[原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-026-10141-2 The deep learning model STARLING can generate accurate ensembles of intrinsically disordered regions of proteins using only protein sequence as input.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-18</div>
+                        <a href="https://www.nature.com/articles/s41586-026-10141-2" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-19b008765574">
+                    <div class="article-header">
+                        <div class="article-number">2</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s41586-025-10097-9" target="_blank">具有可追溯推理的罕见疾病诊断代理系统</a>
+                            </h4>
+                            <p class="article-title-en">An agentic system for rare disease diagnosis with traceable reasoning</p>
+                            <div class="article-journal">📚 Nature</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Weike Zhao, Chaoyi Wu, Yanjie Fan 等15位作者</div>
+                        <div class="article-ai-analysis">DeepRare创新性地构建了集成多模态数据与可追溯推理的多智能体系统。该研究通过透明逻辑显著提升了罕见病诊断准确率，对缩短患者诊断周期、辅助复杂临床决策具有重大的应用价值与社会意义。</div>
+                        <div class="article-abstract-preview">罕见病影响着全球超过 3 亿人1,2,3，但及时、准确的诊断仍然是一项紧迫的挑战1,3,4,5。患者往往要经历超过 5 年的漫长“诊断之旅”，其特点是反复转诊、误诊和不必要的干预，导致治疗延误和巨大的情感和经济负担4,5。在这里，我们介绍 DeepRare——一种用于罕见疾病鉴别诊断决策支持的多智能...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-19b008765574')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-19b008765574-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>罕见病影响着全球超过 3 亿人1,2,3，但及时、准确的诊断仍然是一项紧迫的挑战1,3,4,5。患者往往要经历超过 5 年的漫长“诊断之旅”，其特点是反复转诊、误诊和不必要的干预，导致治疗延误和巨大的情感和经济负担4,5。在这里，我们介绍 DeepRare——一种用于罕见疾病鉴别诊断决策支持的多智能体系统6,7,8，由大型语言模型提供支持，集成了 40 多种专业工具和最新知识源。 DeepRare 处理异构临床输入，包括自由文本描述、结构化人类表型本体术语和基因检测结果，以生成排名的诊断假设，并具有与可验证的医学证据相关的透明推理。 DeepRare 对来自亚洲、北美和欧洲 14 个医学专业的文献、病例报告和临床中心的 9 个数据集进行了评估，在 2,919 种疾病上表现出了卓越的性能。在基于人类表型本体的任务中，它的平均 Recall@1 达到 57.18%，比次优方法高出 23.79%；在多模态测试中，它达到了 69.1%，而 Exomiser 在 168 例中的测试结果为 55.9%。专家评审对其推理链达成了95.4%的一致性，证实了其有效性和可追溯性。我们的工作不仅推进了罕见疾病的诊断，还展示了最新强大的大语言模型驱动的代理系统如何重塑当前的临床工作流程。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Rare diseases affect more than 300 million people worldwide1,2,3, yet timely and accurate diagnosis remains an urgent challenge1,3,4,5. Patients often endure a prolonged ‘diagnostic odyssey’ exceeding 5 years, marked by repeated referrals, misdiagnoses and unnecessary interventions, leading to delayed treatment and substantial emotional and economic burden4,5. Here we present DeepRare—a multi-agent system for rare disease differential diagnosis decision support6,7,8powered by large language models, integrating more than 40 specialized tools and up-to-date knowledge sources. DeepRare processes heterogeneous clinical inputs, including free-text descriptions, structured human phenotype ontology terms and genetic testing results to generate ranked diagnostic hypotheses with transparent reasoning linked to verifiable medical evidence. Evaluated across nine datasets from literature, case reports and clinical centres across Asia, North America and Europe spanning 14 medical specialties, DeepRare demonstrates exceptional performance on 2,919 diseases. In human-phenotype-ontology-based tasks, it achieves an average Recall@1 of 57.18%, outperforming the next best method by 23.79%; in multi-modal tests, it reaches 69.1% compared with Exomiser’s 55.9% on 168 cases. Expert review achieved 95.4% agreement on its reasoning chains, confirming their validity and traceability. Our work not only advances rare disease diagnosis but also demonstrates how the latest powerful large-language-model-driven agentic systems can reshape current clinical workflows.
+
+[原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-025-10097-9 DeepRare—a multi-agent system for rare disease differential diagnosis decision support powered by large language models, integrating specialized tools and up-to-date knowledge sources—has the potential to reduce healthcare disparities in rare disease diagnosis.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-18</div>
+                        <a href="https://www.nature.com/articles/s41586-025-10097-9" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-d6ac48eb9629">
+                    <div class="article-header">
+                        <div class="article-number">3</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s43588-026-00958-2" target="_blank">在没有集体变量的情况下学习提交者</a>
+                            </h4>
+                            <p class="article-title-en">Learning the committor without collective variables</p>
+                            <div class="article-journal">📚 Nature Computational Science</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Sergio Contreras Arredondo, Chenyu Tang, Radu A. Talmazan 等6位作者</div>
+                        <div class="article-ai-analysis">该研究利用几何向量感知器，实现了无需集体变量的提交者函数预测。其创新在于提供原子级可解释性，能自动识别反应坐标并估算速率，为动力学研究提供无偏、高效的新范式。</div>
+                        <div class="article-abstract-preview">在这里，我们介绍了一种基于几何向量感知器构建的图神经网络架构，可以直接从原子坐标预测提交者函数，从而绕过手工制作的集体变量的需要。该方法提供了原子级的可解释性，无需依赖先前的假设即可精确定位复杂转变中的关键原子参与者。该方法应用于不同的分子系统，可以准确地推断出提交子功能，并强调每个重原子在转变机制...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-d6ac48eb9629')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-d6ac48eb9629-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>在这里，我们介绍了一种基于几何向量感知器构建的图神经网络架构，可以直接从原子坐标预测提交者函数，从而绕过手工制作的集体变量的需要。该方法提供了原子级的可解释性，无需依赖先前的假设即可精确定位复杂转变中的关键原子参与者。该方法应用于不同的分子系统，可以准确地推断出提交子功能，并强调每个重原子在转变机制中的重要性。它还可以对基础过程的速率常数进行精确估计。所提出的方法通过实现无集体变量学习和自动识别复杂分子过程的物理上有意义的反应坐标，有助于理解和建模复杂的动力学。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Here we introduce a graph neural network architecture built on geometric vector perceptrons to predict the committor function directly from atomic coordinates, bypassing the need for hand-crafted collective variables. The method offers atom-level interpretability, pinpointing the key atomic players in complex transitions without relying on prior assumptions. Applied across diverse molecular systems, the method accurately infers the committor function and highlights the importance of each heavy atom in the transition mechanism. It also yields precise estimates of the rate constants for the underlying processes. The proposed approach assists in understanding and modeling complex dynamics, by enabling collective-variable-free learning and automated identification of physically meaningful reaction coordinates of complex molecular processes.
+
+[原始信息] Nature Computational Science, Published online: 17 February 2026; doi:10.1038/s43588-026-00958-2 By learning directly from atomic motion, without the need for handcrafted descriptors, a graph neural network reveals how molecular systems change state, delivering accurate kinetics and atom-level insight into complex transitions.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-17</div>
+                        <a href="https://www.nature.com/articles/s43588-026-00958-2" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                
+                <div class="article-card" id="article-59ac53ed5181">
+                    <div class="article-header">
+                        <div class="article-number">4</div>
+                        <div class="article-title-wrapper">
+                            <h4 class="article-title">
+                                <a href="https://www.nature.com/articles/s42256-026-01185-0" target="_blank">人类听觉皮层语言表示的并行分层编码和循环自动语音识别系统</a>
+                            </h4>
+                            <p class="article-title-en">Parallel hierarchical encoding of linguistic representations in the human auditory cortex and recurrent automatic speech recognition systems</p>
+                            <div class="article-journal">📚 Nature Machine Intelligence</div>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-authors">👤 Menoua Keshishian, Gavin Mischler, Samuel Thomas 等7位作者</div>
+                        <div class="article-ai-analysis">该研究揭示了人脑与循环语音识别模型在声学到语义处理上的并行分层对齐。创新性地证实了生物与人工系统计算策略的趋同，为理解大脑语言表征及优化类脑智能提供了重要理论支撑。</div>
+                        <div class="article-abstract-preview">将连续的声学语音信号转换为离散的语言意义是人脑和现代人工智能共同完成的一项非凡的计算壮举。一个关键的科学问题是，尽管这些生物和人工系统的架构不同，但它们是否会采用相似的策略来解决这一挑战。尽管自动语音识别系统现在已经达到了人类水平的性能，但对其与大脑的相似之处的研究受到了生物学上不可信的、非因果模型...</div>
+                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-59ac53ed5181')">📖 查看完整摘要</button>
+                        <div class="article-abstract-full" id="article-59ac53ed5181-abstract" style="display: none;">
+                            <div class="abstract-section"><strong>中文摘要：</strong><p>将连续的声学语音信号转换为离散的语言意义是人脑和现代人工智能共同完成的一项非凡的计算壮举。一个关键的科学问题是，尽管这些生物和人工系统的架构不同，但它们是否会采用相似的策略来解决这一挑战。尽管自动语音识别系统现在已经达到了人类水平的性能，但对其与大脑的相似之处的研究受到了生物学上不可信的、非因果模型和比较的限制，这些模型和比较仅限于预测大脑活动，而没有详细说明底层表征的对齐情况。此外，使用基于文本的模型的研究忽略了语音处理的关键声学阶段。在这里，我们使用高分辨率颅内记录和因果循环自动语音识别模型，发现大脑处理层次结构与模型内部表征之间的惊人对应关系，从而弥补了这些差距。具体来说，我们展示了他们的算法方法的深度一致性：不同皮质区域的神经活动在地形上映射到相应的模型层，并且关键的是，每个阶段的表征内容都遵循从声学到语音、词汇和语义信息的并行进展。因此，这项工作超越了展示简单的模型-大脑对齐，指定了每个处理阶段共享的底层表示，提供了直接证据，表明两个系统都收敛于类似的计算策略，将声音转化为意义。</p></div>
+                            <div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">Transforming continuous acoustic speech signals into discrete linguistic meaning is a remarkable computational feat accomplished by both the human brain and modern artificial intelligence. A key scientific question is whether these biological and artificial systems, despite their different architectures, converge on similar strategies to solve this challenge. Although automatic speech recognition systems now achieve human-level performance, research on their parallels with the brain has been limited by biologically implausible, non-causal models and comparisons that stop at predicting brain activity without detailing the alignment of the underlying representations. Furthermore, studies using text-based models overlook the crucial acoustic stages of speech processing. Here we bridge these gaps by uncovering a striking correspondence between the brain’s processing hierarchy and the model’s internal representations using high-resolution intracranial recordings and a causal, recurrent automatic speech recognition model. Specifically, we demonstrate a deep alignment in their algorithmic approach: neural activity in distinct cortical regions maps topographically to corresponding model layers, and critically, the representational content at each stage follows a parallel progression from acoustic to phonetic, lexical and semantic information. This work thus moves beyond demonstrating simple model–brain alignment to specifying the shared underlying representations at each stage of processing, providing direct evidence that both systems converge on a similar computational strategy for transforming sound into meaning.
+
+[原始信息] Nature Machine Intelligence, Published online: 17 February 2026; doi:10.1038/s42256-026-01185-0 Keshishian, Mischler et al. report that a recurrent automatic speech recognition system aligns closely with brain organization: model layers map to distinct cortical regions and naturally learn to encode a parallel progression from acoustic to phonetic, lexical and semantic content.</p></div>
+                        </div>
+                    </div>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            <span class="article-type-tag ai-tag">🤖 AI/机器学习</span>
+                        </div>
+                        <div class="article-date">📅 2026-02-17</div>
+                        <a href="https://www.nature.com/articles/s42256-026-01185-0" target="_blank" class="article-link">阅读原文 →</a>
+                    </div>
+                </div>
+                </div>
+        
+        <div class="section"><h2>📚 期刊分布</h2>
+            <div class="journal-stat">
+                <div class="journal-name">Nature</div>
+                <div class="journal-count">3 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Communications</div>
+                <div class="journal-count">2 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Computational Science</div>
+                <div class="journal-count">1 篇</div>
+            </div>
+            
+            <div class="journal-stat">
+                <div class="journal-name">Nature Machine Intelligence</div>
+                <div class="journal-count">1 篇</div>
+            </div>
+            </div>
+        
+        <div class="generated-by">
+            由 gemini 生成 | 2026-02-19 04:45
+        </div>
+    </div>
+    
+    <script>
+        // 主题支持
+        const theme = localStorage.getItem('literature_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // 展开/折叠摘要功能
+        function toggleAbstract(articleId) {
+            const abstractDiv = document.getElementById(articleId + '-abstract');
+            const btn = event.target;
+            
+            if (abstractDiv.style.display === 'none') {
+                abstractDiv.style.display = 'block';
+                btn.textContent = '📖 收起摘要';
+                btn.style.background = 'var(--accent-secondary)';
+            } else {
+                abstractDiv.style.display = 'none';
+                btn.textContent = '📖 查看完整摘要';
+                btn.style.background = 'var(--accent-primary)';
+            }
+        }
+    </script>
+</body>
+</html>
