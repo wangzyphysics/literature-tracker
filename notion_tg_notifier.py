@@ -15,10 +15,10 @@ class NotionTGNotifier:
                         k, v = line.strip().split("=", 1)
                         self.config[k] = v.strip('"')
         
-        self.bot_token = self.config.get("TG_LIT_BOT_TOKEN")
-        self.chat_id = self.config.get("TG_LIT_CHAT_ID")
+        self.bot_token = os.environ.get("TG_LIT_BOT_TOKEN") or self.config.get("TG_LIT_BOT_TOKEN")
+        self.chat_id = os.environ.get("TG_LIT_CHAT_ID") or self.config.get("TG_LIT_CHAT_ID")
         self.notion_token = os.environ.get("NOTION_API_KEY") or self.config.get("NOTION_API_KEY")
-        self.parent_id = self.config.get("NOTION_LIT_PARENT_ID")
+        self.parent_id = os.environ.get("NOTION_LIT_PARENT_ID") or self.config.get("NOTION_LIT_PARENT_ID")
         self.proxy = os.environ.get("http_proxy") or "http://127.0.0.1:7897"
         
         self.notion_headers = {
@@ -89,6 +89,9 @@ class NotionTGNotifier:
         return r.status_code == 200
 
     def sync_article(self, article_data, ai_analysis):
+        if not self.notion_token or not self.parent_id:
+            print("Notion credentials missing, skip Notion sync")
+            return
         # 1. Get/Create Month Page
         now = datetime.now()
         month_str = now.strftime("%Y年%m月")
@@ -137,32 +140,38 @@ class NotionTGNotifier:
 
     def send_daily_report(self, summary_data):
         # 1. Telegram
-        msg = f"<b>📊 每日文献汇总报告 ({summary_data['date']})</b>\n\n"
-        msg += f"今日收录: {summary_data['total']} 篇\n\n"
-        msg += f"<b>💡 总览：</b>\n{summary_data.get('overview', '无')}\n\n"
-        
-        # Add full list to TG
-        msg += "<b>📋 文献列表：</b>\n"
-        for i, item in enumerate(summary_data.get('full_list', []), 1):
-            # Ensure titles and summaries exist
-            t_en = item.get('title_en', 'Untitled')
-            t_zh = item.get('title_zh', '')
-            summary_text = item.get('summary', '')
-            link = item.get('link', '#')
+        if self.bot_token and self.chat_id:
+            msg = f"<b>📊 每日文献汇总报告 ({summary_data['date']})</b>\n\n"
+            msg += f"今日收录: {summary_data['total']} 篇\n\n"
+            msg += f"<b>💡 总览：</b>\n{summary_data.get('overview', '无')}\n\n"
             
-            line = f"{i}. <a href='{link}'>{t_en}</a>\n"
-            if t_zh: line += f"   <i>{t_zh}</i>\n"
-            if summary_text: line += f"   📝 {summary_text}\n"
-            line += "\n"
+            # Add full list to TG
+            msg += "<b>📋 文献列表：</b>\n"
+            for i, item in enumerate(summary_data.get('full_list', []), 1):
+                # Ensure titles and summaries exist
+                t_en = item.get('title_en', 'Untitled')
+                t_zh = item.get('title_zh', '')
+                summary_text = item.get('summary', '')
+                link = item.get('link', '#')
+                
+                line = f"{i}. <a href='{link}'>{t_en}</a>\n"
+                if t_zh: line += f"   <i>{t_zh}</i>\n"
+                if summary_text: line += f"   📝 {summary_text}\n"
+                line += "\n"
+                
+                if len(msg) + len(line) > 3800:
+                    msg += "... (列表过长，更多内容请查阅 Notion)\n"
+                    break
+                msg += line
             
-            if len(msg) + len(line) > 3800:
-                msg += "... (列表过长，更多内容请查阅 Notion)\n"
-                break
-            msg += line
-        
-        self.send_tg_message(msg)
+            self.send_tg_message(msg)
+        else:
+            print("TG credentials missing, skip Telegram daily report")
         
         # 2. Notion
+        if not self.notion_token or not self.parent_id:
+            print("Notion credentials missing, skip Notion daily report")
+            return
         month_str = datetime.now().strftime("%Y年%m月")
         month_page_id = self.get_or_create_page(self.parent_id, month_str)
         day_str = summary_data['date']
