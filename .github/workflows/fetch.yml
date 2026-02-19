@@ -1,11 +1,10 @@
-name: 定时抓取文献
+name: 定时抓取文献 + 每日摘要
 
 on:
   schedule:
-    # 每12小时运行一次：UTC 0:00、12:00（北京时间 08:00、20:00）
-    # 日报在 main.py 中固定为「北京时间昨天」，保证总结的是前一天完整一天的文献
+    # UTC 0:00,12:00 (北京时间 08:00、20:00)
     - cron: '0 0,12 * * *'
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,33 +14,46 @@ permissions:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
-      
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
       - name: 设置Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-      
+
       - name: 安装依赖
         run: pip install -r requirements.txt
-      
-      - name: 运行抓取脚本
+
+      - name: 运行优化同步（AI筛选）
         env:
-          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
           AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
-        run: python main.py --once
-      
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_LIT_PARENT_ID: ${{ secrets.NOTION_LIT_PARENT_ID }}
+          TG_LIT_BOT_TOKEN: ${{ secrets.TG_LIT_BOT_TOKEN }}
+          TG_LIT_CHAT_ID: ${{ secrets.TG_LIT_CHAT_ID }}
+        run: python run_optimized_sync.py
+
+      - name: 生成每日摘要页面（AI筛选）
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
+        run: |
+          python generate_daily_pages.py
+
       - name: 复制数据到docs目录
         run: |
           mkdir -p docs/data
-          cp -r data/* docs/data/
-      
+          if [ -d "data" ]; then
+            cp -r data/* docs/data/
+          fi
+
       - name: 提交更改
         run: |
           git config --local user.email "action@github.com"
@@ -63,18 +75,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
-      
       - name: 拉取最新代码
         run: git pull origin main
-      
       - name: 设置Pages
         uses: actions/configure-pages@v4
-      
       - name: 上传artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'docs'
-      
       - name: 部署到GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

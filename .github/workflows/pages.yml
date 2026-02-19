@@ -1,11 +1,6 @@
 name: 部署GitHub Pages
 
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - 'docs/**'
-      - 'data/**'
   workflow_dispatch:
 
 permissions:
@@ -26,22 +21,18 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
-      
       - name: 准备数据
         run: |
           mkdir -p docs/data
           if [ -d "data" ]; then
             cp -r data/* docs/data/
           fi
-      
       - name: 设置Pages
         uses: actions/configure-pages@v4
-      
       - name: 上传artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'docs'
-      
       - name: 部署到GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
