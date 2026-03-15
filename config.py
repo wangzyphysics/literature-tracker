@@ -152,8 +152,10 @@ except ImportError:
 
 AI_CONFIG = {
     "enabled": True,  # 是否启用AI摘要
-    "provider": _local_ai_config.get("provider") or os.environ.get("AI_PROVIDER", "gemini"),  # gemini, siliconflow, groq, deepseek
+    "provider": _local_ai_config.get("provider") or os.environ.get("AI_PROVIDER", "gemini"),  # gemini, openrouter, siliconflow, groq, deepseek
     "api_key": _local_ai_config.get("api_key") or os.environ.get("AI_API_KEY", ""),  # API密钥（优先从config.local.py读取）
+    # OpenRouter / OpenAI-compatible model id (used when provider=openrouter)
+    "model": _local_ai_config.get("model") or os.environ.get("AI_MODEL", ""),
 }
 
 # 去重配置

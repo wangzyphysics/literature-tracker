@@ -23,11 +23,11 @@ def main():
 
     provider = AI_CONFIG.get("provider") or "gemini"
     api_key = (AI_CONFIG.get("api_key") or "").strip()
-    model = AI_CONFIG.get("model") or "z-ai/glm-4.5-air:free"
+    model = AI_CONFIG.get("model") or "stepfun/step-3.5-flash:free"
 
     print("\n1. 配置")
     print("   provider:", provider)
-    print("   api_key:  len=%d, 前8位=%s" % (len(api_key), (api_key[:8] + "...") if len(api_key) >= 8 else "(空)"))
+    print("   api_key configured:", bool(api_key))
     print("   model:   ", model)
 
     if not api_key:
@@ -43,7 +43,7 @@ def main():
 
     print("\n2. 初始化 AISummarizer 并调用 API...")
     try:
-        summarizer = AISummarizer(provider, api_key)
+        summarizer = AISummarizer(provider, api_key, model=model)
         reply = summarizer.provider.call_api("请用一句话回答：1+1等于几？")
         print("   状态: 成功")
         print("   回复: ", reply.strip()[:200] + ("..." if len(reply) > 200 else ""))

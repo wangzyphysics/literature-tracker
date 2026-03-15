@@ -16,8 +16,9 @@
    ```python
    # AI配置
    AI_CONFIG = {
-       "provider": "gemini",  # gemini, siliconflow, groq, deepseek
+       "provider": "openrouter",  # gemini, openrouter, siliconflow, groq, deepseek
        "api_key": "YOUR_API_KEY_HERE",  # 在这里填入你的API密钥
+       "model": "stepfun/step-3.5-flash:free",  # OpenRouter 模型（provider=openrouter 时生效）
    }
    ```
 
@@ -29,8 +30,9 @@
 ## 支持的配置项
 
 ### AI配置 (AI_CONFIG)
-- `provider`: AI服务提供商（"gemini", "siliconflow", "groq", "deepseek"）
+- `provider`: AI服务提供商（"gemini", "openrouter", "siliconflow", "groq", "deepseek"）
 - `api_key`: API密钥
+- `model`: 模型名称（如 OpenRouter 的 `stepfun/step-3.5-flash:free`，或 Gemini 的 model id）
 
 ### 邮件配置 (EMAIL_CONFIG)
 - `sender_email`: 发件人邮箱
@@ -58,8 +60,9 @@
 
 # AI配置
 AI_CONFIG = {
-    "provider": "gemini",
+    "provider": "openrouter",
     "api_key": "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "model": "stepfun/step-3.5-flash:free",
 }
 
 # 邮件配置（可选）

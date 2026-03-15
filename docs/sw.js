@@ -3,7 +3,7 @@
  * 实现离线缓存和PWA支持
  */
 
-const CACHE_NAME = 'literature-tracker-v1';
+const CACHE_NAME = 'literature-tracker-v2';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
@@ -14,7 +14,7 @@ const STATIC_ASSETS = [
     '/manifest.json'
 ];
 
-const DATA_CACHE_NAME = 'literature-data-v1';
+const DATA_CACHE_NAME = 'literature-data-v2';
 
 // 安装事件 - 缓存静态资源
 self.addEventListener('install', event => {
@@ -53,6 +53,12 @@ self.addEventListener('fetch', event => {
     // 数据文件使用 Network First 策略
     if (url.pathname.includes('/data/') || url.pathname.endsWith('.json')) {
         event.respondWith(networkFirst(event.request, DATA_CACHE_NAME));
+        return;
+    }
+
+    // 每日/周报与 HTML 页面：优先网络，避免长时间看到旧摘要
+    if (url.pathname.includes('/daily/') || url.pathname.includes('/weekly/') || url.pathname.endsWith('.html')) {
+        event.respondWith(networkFirst(event.request, CACHE_NAME));
         return;
     }
 

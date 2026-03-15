@@ -35,7 +35,8 @@ jobs:
           python weekly_summary.py
         env:
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
-          AI_PROVIDER: gemini
+          AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
+          AI_MODEL: ${{ secrets.AI_MODEL }}
 
       - name: Commit and push changes
         run: |

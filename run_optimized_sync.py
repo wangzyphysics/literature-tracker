@@ -14,6 +14,7 @@ from deep_analyser import DeepAnalyser
 from notion_tg_notifier import NotionTGNotifier
 from translator import translate_text
 from ai_summarizer import AISummarizer
+from zh_enricher import enrich_articles_zh
 
 def get_beijing_time():
     beijing_tz = timezone(timedelta(hours=8))
@@ -51,10 +52,29 @@ def run_optimized_sync():
                 existing_articles = json.load(f).get('articles', [])
         except: pass
     
-    existing_links = {a['link'] for a in existing_articles}
+    existing_links = {a.get('link') for a in existing_articles if a.get('link')}
+    new_count = 0
     for a in filtered:
-        if a.link not in existing_links:
+        if a.link and a.link not in existing_links:
             existing_articles.append(a.to_dict())
+            new_count += 1
+
+    # Enrich zh fields (title_zh/abstract_zh) for newest missing items
+    ai_key = (os.environ.get("AI_API_KEY") or AI_CONFIG.get("api_key") or "").strip()
+    ai_provider = (os.environ.get("AI_PROVIDER") or AI_CONFIG.get("provider") or "gemini").strip()
+    ai_model = (os.environ.get("AI_MODEL") or AI_CONFIG.get("model") or "").strip() or None
+    zh_max_items = int(os.environ.get("AI_ZH_MAX_ITEMS", "120"))
+    zh_updated = enrich_articles_zh(
+        existing_articles,
+        provider_name=ai_provider,
+        api_key=ai_key,
+        model=ai_model,
+        max_items=zh_max_items,
+    )
+    if zh_updated:
+        print(f"🌐 已补全中文标题/摘要: {zh_updated} 篇 (本次新增: {new_count})")
+    elif new_count:
+        print(f"🌐 本次新增: {new_count} 篇 (中文字段补全: 0)")
     
     existing_articles.sort(key=lambda x: x.get('pub_date', ''), reverse=True)
     with open(full_data_path, 'w', encoding='utf-8') as f:
@@ -62,8 +82,20 @@ def run_optimized_sync():
     print(f"📊 索引文件已更新 (Total: {len(existing_articles[:5000])})")
 
     # 2. Deep Filter with Gemini
-    analyser = DeepAnalyser()
+    # Use the same AI config path as summarizer
+    analyser = DeepAnalyser(api_key=ai_key, provider=ai_provider, model=ai_model)
     notifier = NotionTGNotifier()
+
+    # Ensure ai_relevant.json exists and load it once
+    ai_relevant_path = "data/ai_relevant.json"
+    ai_relevant_list = []
+    if os.path.exists(ai_relevant_path):
+        try:
+            with open(ai_relevant_path, "r", encoding="utf-8") as f:
+                ai_relevant_list = json.load(f) or []
+        except Exception:
+            ai_relevant_list = []
+    existing_relevant_links = {a.get("link") for a in ai_relevant_list if isinstance(a, dict)}
     
     processed_file = "data/deep_history.json"
     processed_ids = set()
@@ -96,30 +128,30 @@ def run_optimized_sync():
         if analysis.get('is_relevant') and analysis.get('score', 0) >= 6:
             print(f"  🔥 判定相关! 分数: {analysis['score']}")
             
-            # Translate for relevant papers only
-            article.title_zh = translate_text(article.title)
-            article.abstract_zh = translate_text(article.abstract)
+            # Ensure zh fields exist (prefer the already enriched index; fallback to translator)
+            if not article.title_zh:
+                for a in existing_articles[:500]:  # only scan a small prefix (newest) for speed
+                    if a.get("link") == article.link:
+                        article.title_zh = a.get("title_zh") or ""
+                        article.abstract_zh = a.get("abstract_zh") or ""
+                        break
+            if not article.title_zh:
+                article.title_zh = translate_text(article.title)
+            if article.abstract and not article.abstract_zh:
+                article.abstract_zh = translate_text(article.abstract)
             
             # Save to AI-relevant pool for daily pages
-            ai_relevant_path = "data/ai_relevant.json"
-            try:
-                existing = []
-                if os.path.exists(ai_relevant_path):
-                    with open(ai_relevant_path, "r", encoding="utf-8") as f:
-                        existing = json.load(f)
-            except Exception:
-                existing = []
-            existing_links = {a.get('link') for a in existing}
-            if article.link not in existing_links:
+            if article.link and article.link not in existing_relevant_links:
                 item = article.to_dict()
-                item.update({
-                    "ai_score": analysis.get('score'),
-                    "ai_explanation": analysis.get('explanation'),
-                    "ai_detailed_summary": analysis.get('detailed_summary'),
-                })
-                existing.append(item)
-                with open(ai_relevant_path, "w", encoding="utf-8") as f:
-                    json.dump(existing, f, ensure_ascii=False, indent=2)
+                item.update(
+                    {
+                        "ai_score": analysis.get("score"),
+                        "ai_explanation": analysis.get("explanation"),
+                        "ai_detailed_summary": analysis.get("detailed_summary"),
+                    }
+                )
+                ai_relevant_list.append(item)
+                existing_relevant_links.add(article.link)
             
             # Immediate Push
             msg = f"<b>🆕 发现高度相关文献 (Score: {analysis['score']})</b>\n\n"
@@ -136,6 +168,10 @@ def run_optimized_sync():
         processed_ids.add(article.link)
         with open(processed_file, "w") as f:
             json.dump(list(processed_ids), f)
+
+    # Persist ai_relevant.json even if empty (stable downstream daily generation)
+    with open(ai_relevant_path, "w", encoding="utf-8") as f:
+        json.dump(ai_relevant_list, f, ensure_ascii=False, indent=2)
             
     print(f"\n✅ 同步完成！发现并推送 {newly_relevant_count} 篇高价值文献")
 
@@ -159,7 +195,7 @@ def send_daily_summary():
         return
         
     api_key = os.environ.get('AI_API_KEY') or os.environ.get('GEMINI_API_KEY')
-    provider = os.environ.get('AI_PROVIDER', 'gemini')
+    provider = os.environ.get('AI_PROVIDER') or 'gemini'
     
     summarizer = AISummarizer(provider, api_key)
     summary = summarizer.generate_daily_summary(today_articles, today)

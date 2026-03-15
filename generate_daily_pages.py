@@ -9,6 +9,8 @@
 """
 import os
 import json
+import html
+from urllib.parse import urlparse
 from datetime import datetime, timezone, timedelta
 from typing import List, Dict
 
@@ -18,6 +20,27 @@ from ai_summarizer import AISummarizer
 def beijing_today() -> str:
     tz = timezone(timedelta(hours=8))
     return datetime.now(tz).strftime('%Y-%m-%d')
+
+def beijing_yesterday() -> str:
+    tz = timezone(timedelta(hours=8))
+    return (datetime.now(tz) - timedelta(days=1)).strftime('%Y-%m-%d')
+
+
+def safe_text(value: str) -> str:
+    return html.escape(value or "", quote=True)
+
+
+def safe_url(value: str) -> str:
+    url = (value or "").strip()
+    if not url:
+        return "#"
+    try:
+        p = urlparse(url)
+        if p.scheme not in ("http", "https"):
+            return "#"
+    except Exception:
+        return "#"
+    return html.escape(url, quote=True)
 
 
 def load_relevant(path: str) -> List[Dict]:
@@ -35,22 +58,23 @@ def ensure_dirs():
 
 
 def render_daily_html(date_str: str, summary: Dict) -> str:
+    items = summary.get("full_list") or summary.get("summaries") or []
     items_html = "".join([
         f"""
         <div class=\"article-card\">
             <div class=\"article-header\">
-                <div class=\"article-title-en\">{item.get('title_en','')}</div>
-                <div class=\"article-title-zh\">{item.get('title_zh','')}</div>
+                <div class=\"article-title-en\">{safe_text(item.get('title_en',''))}</div>
+                <div class=\"article-title-zh\">{safe_text(item.get('title_zh',''))}</div>
             </div>
-            <div class=\"article-summary\">{item.get('summary','')}</div>
-            <div class=\"article-link\"><a href=\"{item.get('link','')}\" target=\"_blank\">🔗 原文链接</a></div>
+            <div class=\"article-summary\">{safe_text(item.get('summary',''))}</div>
+            <div class=\"article-link\"><a href=\"{safe_url(item.get('link',''))}\" target=\"_blank\" rel=\"noopener noreferrer\">🔗 原文链接</a></div>
         </div>
         """
-        for item in summary.get('summaries', [])
+        for item in items
     ])
 
-    overview = summary.get('overview', '')
-    trends = summary.get('trends', '')
+    overview = safe_text(summary.get('overview', ''))
+    trends = safe_text(summary.get('trends', ''))
 
     return f"""<!DOCTYPE html>
 <html lang=\"zh-CN\">
@@ -107,10 +131,11 @@ def update_index(date_str: str, total: int):
 def main():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--date', default=None, help='YYYY-MM-DD (Beijing)')
+    parser.add_argument('--date', default=None, help='YYYY-MM-DD (Beijing). 默认使用北京时间昨天以保证日报完整。')
     args = parser.parse_args()
 
-    date_str = args.date or beijing_today()
+    # 默认生成“北京时间昨天”的日报：与 Actions 的抓取频率 (08:00/20:00) 匹配，避免当天数据不全导致“摘要缺失/为0”。
+    date_str = args.date or beijing_yesterday()
     ensure_dirs()
 
     relevant = load_relevant('data/ai_relevant.json')
@@ -121,7 +146,7 @@ def main():
         summary = {"date": date_str, "total": 0, "overview": "今日无相关文献", "trends": "", "summaries": []}
     else:
         api_key = os.environ.get('AI_API_KEY') or os.environ.get('GEMINI_API_KEY')
-        provider = os.environ.get('AI_PROVIDER', 'gemini')
+        provider = os.environ.get('AI_PROVIDER') or 'gemini'
         summarizer = AISummarizer(provider, api_key)
         summary = summarizer.generate_daily_summary(day_articles, date_str)
 

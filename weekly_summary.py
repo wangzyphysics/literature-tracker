@@ -6,9 +6,11 @@
 import os
 import json
 import requests
+import html
+from urllib.parse import urlparse
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
-from ai_summarizer import GeminiProvider
+from ai_summarizer import build_provider
 from abstract_scraper import AbstractScraper
 from translator import translate_text
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -20,6 +22,33 @@ try:
     from config import AI_CONFIG as DEFAULT_AI_CONFIG
 except ImportError:
     DEFAULT_AI_CONFIG = {}
+
+
+def _safe_text(value) -> str:
+    return html.escape(str(value or ""), quote=True)
+
+
+def _safe_multiline(value) -> str:
+    return _safe_text(value).replace("\n", "<br/>")
+
+
+def _safe_url(value) -> str:
+    url = str(value or "").strip()
+    if not url:
+        return "#"
+    try:
+        p = urlparse(url)
+        if p.scheme not in ("http", "https"):
+            return "#"
+    except Exception:
+        return "#"
+    return html.escape(url, quote=True)
+
+
+def _safe_id(value) -> str:
+    raw = str(value or "")
+    cleaned = "".join(c if (c.isalnum() or c in "-_") else "_" for c in raw)
+    return cleaned or "x"
 
 
 class WeeklySummarizer:
@@ -75,13 +104,27 @@ class WeeklySummarizer:
         '机器学习', '深度学习', '神经网络', '人工智能', '生成式', '卷积神经网络', '循环神经网络'
     ]
     
-    def __init__(self, api_key: str = None):
+    def __init__(self, api_key: str = None, provider: str = None, model: str = None):
         """初始化周报生成器"""
-        if not api_key:
-            api_key = (DEFAULT_AI_CONFIG.get('api_key') or '').strip()
+        api_key = (
+            (api_key or "").strip()
+            or (os.environ.get("AI_API_KEY") or "").strip()
+            or (DEFAULT_AI_CONFIG.get("api_key") if isinstance(DEFAULT_AI_CONFIG, dict) else "")  # type: ignore[arg-type]
+        )
+        provider = (
+            (provider or "").strip()
+            or (os.environ.get("AI_PROVIDER") or "").strip()
+            or (DEFAULT_AI_CONFIG.get("provider") if isinstance(DEFAULT_AI_CONFIG, dict) else "gemini")  # type: ignore[arg-type]
+            or "gemini"
+        )
+        model = (
+            (model or "").strip()
+            or (os.environ.get("AI_MODEL") or "").strip()
+            or (DEFAULT_AI_CONFIG.get("model") if isinstance(DEFAULT_AI_CONFIG, dict) else "")  # type: ignore[arg-type]
+        ) or None
         
         if api_key:
-            self.provider = GeminiProvider(api_key)
+            self.provider = build_provider(provider, api_key, model=model)
         else:
             self.provider = None
             print("⚠️ 未配置AI API密钥，将使用基础模板")
@@ -960,7 +1003,7 @@ class WeeklySummarizer:
                 continue
             
             # 生成文章ID用于锚点
-            article_id = f"article-{article.get('id', hash(link) % 100000)}"
+            article_id = f"article-{_safe_id(article.get('id', hash(link) % 100000))}"
             
             # 判断类型
             is_ferro = article.get('is_ferro', False)
@@ -987,11 +1030,13 @@ class WeeklySummarizer:
             html += f'<h3 class="overview-group-title">🔀 交叉研究 ({len(both_summaries)}篇)</h3>'
             html += '<ul class="overview-list">'
             for item in both_summaries:
+                journal_escaped = _safe_text(item.get('journal', ''))
+                one_sentence_escaped = _safe_text(item.get('one_sentence', ''))
                 html += f'''
                 <li class="overview-item">
                     <a href="#{item['article_id']}" class="overview-link">
-                        <span class="overview-journal">[{item.get('journal', '')}]</span>
-                        {item['one_sentence']}
+                        <span class="overview-journal">[{journal_escaped}]</span>
+                        {one_sentence_escaped}
                     </a>
                 </li>'''
             html += '</ul></div>'
@@ -1001,11 +1046,13 @@ class WeeklySummarizer:
             html += f'<h3 class="overview-group-title">⚡ 磁性/铁电材料 ({len(ferro_summaries)}篇)</h3>'
             html += '<ul class="overview-list">'
             for item in ferro_summaries:
+                journal_escaped = _safe_text(item.get('journal', ''))
+                one_sentence_escaped = _safe_text(item.get('one_sentence', ''))
                 html += f'''
                 <li class="overview-item">
                     <a href="#{item['article_id']}" class="overview-link">
-                        <span class="overview-journal">[{item.get('journal', '')}]</span>
-                        {item['one_sentence']}
+                        <span class="overview-journal">[{journal_escaped}]</span>
+                        {one_sentence_escaped}
                     </a>
                 </li>'''
             html += '</ul></div>'
@@ -1015,11 +1062,13 @@ class WeeklySummarizer:
             html += f'<h3 class="overview-group-title">🤖 AI/机器学习 ({len(ai_summaries)}篇)</h3>'
             html += '<ul class="overview-list">'
             for item in ai_summaries:
+                journal_escaped = _safe_text(item.get('journal', ''))
+                one_sentence_escaped = _safe_text(item.get('one_sentence', ''))
                 html += f'''
                 <li class="overview-item">
                     <a href="#{item['article_id']}" class="overview-link">
-                        <span class="overview-journal">[{item.get('journal', '')}]</span>
-                        {item['one_sentence']}
+                        <span class="overview-journal">[{journal_escaped}]</span>
+                        {one_sentence_escaped}
                     </a>
                 </li>'''
             html += '</ul></div>'
@@ -1044,28 +1093,38 @@ class WeeklySummarizer:
             total_articles = len(articles)
             
             for i, article in enumerate(articles, 1):
-                title_zh = article.get('title_zh', '')
-                title_en = article.get('title', '')
-                title = title_zh or title_en
-                journal = article.get('journal', '')
-                link = article.get('link', '#')
-                date = article.get('pub_date', article.get('date', ''))
+                raw_title_zh = (article.get('title_zh') or '').strip()
+                raw_title_en = (article.get('title') or '').strip()
+                raw_title = raw_title_zh or raw_title_en
+                raw_journal = (article.get('journal') or '').strip()
+                raw_link = (article.get('link') or '#').strip()
+                raw_date = (article.get('pub_date') or article.get('date') or '').strip()
+
+                title_zh = _safe_text(raw_title_zh)
+                title_en = _safe_text(raw_title_en)
+                title = _safe_text(raw_title)
+                journal = _safe_text(raw_journal)
+                link = _safe_url(raw_link)
+                date = _safe_text(raw_date)
                 
                 # 获取摘要
-                abstract_zh = article.get('abstract_zh', '')
-                abstract_en = article.get('abstract', '')
+                raw_abstract_zh = (article.get('abstract_zh') or '').strip()
+                raw_abstract_en = (article.get('abstract') or '').strip()
+                abstract_zh = _safe_multiline(raw_abstract_zh)
+                abstract_en = _safe_multiline(raw_abstract_en)
                 
                 # 获取作者
                 authors = article.get('authors', [])
-                authors_str = ''
+                authors_str_raw = ''
                 if authors:
                     if isinstance(authors, list):
                         if len(authors) <= 3:
-                            authors_str = ', '.join(authors)
+                            authors_str_raw = ', '.join([str(a) for a in authors])
                         else:
-                            authors_str = ', '.join(authors[:3]) + f' 等{len(authors)}位作者'
+                            authors_str_raw = ', '.join([str(a) for a in authors[:3]]) + f' 等{len(authors)}位作者'
                     else:
-                        authors_str = str(authors)
+                        authors_str_raw = str(authors)
+                authors_str = _safe_text(authors_str_raw)
                 
                 # 确定文章类型标签
                 tags = []
@@ -1077,20 +1136,45 @@ class WeeklySummarizer:
                 tags_html = ''.join(tags) if tags else ''
                 
                 # 获取AI简要分析（已在前面并行处理）
-                ai_analysis = article.get('ai_analysis', '')
+                ai_analysis_raw = (article.get('ai_analysis') or '').strip()
                 
                 # 如果没有AI分析，使用摘要预览
-                if not ai_analysis:
-                    if abstract_zh or abstract_en:
-                        preview = (abstract_zh or abstract_en)[:100]
-                        ai_analysis = preview + "..." if len(preview) == 100 else preview
+                if not ai_analysis_raw:
+                    if raw_abstract_zh or raw_abstract_en:
+                        preview = (raw_abstract_zh or raw_abstract_en)[:100]
+                        ai_analysis_raw = preview + ("..." if len(preview) == 100 else "")
+                ai_analysis = _safe_multiline(ai_analysis_raw)
                 
                 # 构建HTML - 添加展开/折叠功能
-                article_id = f"article-{article.get('id', i)}"
-                has_abstract_zh = bool(abstract_zh and abstract_en)  # 有中英文摘要才显示展开按钮
+                article_id = f"article-{_safe_id(article.get('id', i))}"
+                has_abstract_zh = bool(raw_abstract_zh and raw_abstract_en)  # 有中英文摘要才显示展开按钮
                 
                 # 先构建按钮HTML，避免在f-string表达式内使用反斜杠
                 toggle_btn = f'<button class="toggle-abstract-btn" onclick="toggleAbstract(\'{article_id}\')">📖 查看完整摘要</button>' if has_abstract_zh else ''
+
+                title_en_block = f'<p class="article-title-en">{title_en}</p>' if raw_title_en and raw_title_zh else ''
+                journal_block = f'<div class="article-journal">📚 {journal}</div>' if raw_journal else ''
+                authors_block = f'<div class="article-authors">👤 {authors_str}</div>' if authors_str_raw else ''
+                ai_analysis_block = f'<div class="article-ai-analysis">{ai_analysis}</div>' if ai_analysis_raw else ''
+
+                preview_src = (raw_abstract_zh or raw_abstract_en)
+                preview_block = ''
+                if preview_src:
+                    preview_text = _safe_text(preview_src[:150])
+                    preview_block = f'<div class="article-abstract-preview">{preview_text}...</div>'
+
+                abstract_full_parts = []
+                if raw_abstract_zh:
+                    abstract_full_parts.append(
+                        f'<div class="abstract-section"><strong>中文摘要：</strong><p>{abstract_zh}</p></div>'
+                    )
+                if raw_abstract_en:
+                    abstract_full_parts.append(
+                        f'<div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">{abstract_en}</p></div>'
+                    )
+                abstract_full_html = ''.join(abstract_full_parts)
+
+                date_block = f'<div class="article-date">📅 {date}</div>' if raw_date else ''
                 
                 html += f'''
                 <div class="article-card" id="{article_id}">
@@ -1098,28 +1182,27 @@ class WeeklySummarizer:
                         <div class="article-number">{i}</div>
                         <div class="article-title-wrapper">
                             <h4 class="article-title">
-                                <a href="{link}" target="_blank">{title}</a>
+                                <a href="{link}" target="_blank" rel="noopener noreferrer">{title}</a>
                             </h4>
-                            {f'<p class="article-title-en">{title_en}</p>' if title_en and title_zh else ''}
-                            {f'<div class="article-journal">📚 {journal}</div>' if journal else ''}
+                            {title_en_block}
+                            {journal_block}
                         </div>
                     </div>
                     <div class="article-body">
-                        {f'<div class="article-authors">👤 {authors_str}</div>' if authors_str else ''}
-                        {f'<div class="article-ai-analysis">{ai_analysis}</div>' if ai_analysis else ''}
-                        {f'<div class="article-abstract-preview">{abstract_zh[:150] if abstract_zh else (abstract_en[:150] if abstract_en else "")}...</div>' if (abstract_zh or abstract_en) else ''}
+                        {authors_block}
+                        {ai_analysis_block}
+                        {preview_block}
                         {toggle_btn}
                         <div class="article-abstract-full" id="{article_id}-abstract" style="display: none;">
-                            {f'<div class="abstract-section"><strong>中文摘要：</strong><p>{abstract_zh}</p></div>' if abstract_zh else ''}
-                            {f'<div class="abstract-section"><strong>English Abstract：</strong><p class="abstract-en">{abstract_en}</p></div>' if abstract_en else ''}
+                            {abstract_full_html}
                         </div>
                     </div>
                     <div class="article-footer">
                         <div class="article-tags">
                             {tags_html}
                         </div>
-                        {f'<div class="article-date">📅 {date}</div>' if date else ''}
-                        <a href="{link}" target="_blank" class="article-link">阅读原文 →</a>
+                        {date_block}
+                        <a href="{link}" target="_blank" rel="noopener noreferrer" class="article-link">阅读原文 →</a>
                     </div>
                 </div>
                 '''
@@ -1135,9 +1218,10 @@ class WeeklySummarizer:
         journal_stats_html = ''
         by_journal = summary.get('by_journal', {})
         for journal, arts in sorted(by_journal.items(), key=lambda x: -len(x[1])):
+            journal_escaped = _safe_text(journal)
             journal_stats_html += f'''
             <div class="journal-stat">
-                <div class="journal-name">{journal}</div>
+                <div class="journal-name">{journal_escaped}</div>
                 <div class="journal-count">{len(arts)} 篇</div>
             </div>
             '''
@@ -1850,7 +1934,7 @@ class WeeklySummarizer:
         
         <div class="section">
             <h2>📊 本周总览</h2>
-            <p class="overview-text">{summary.get('overview', '')}</p>
+            <p class="overview-text">{_safe_multiline(summary.get('overview', ''))}</p>
             
             {self._generate_overview_article_list(summary)}
         </div>
@@ -1864,7 +1948,7 @@ class WeeklySummarizer:
         {f'<div class="section"><h2>📚 期刊分布</h2>{journal_stats_html}</div>' if journal_stats_html else ''}
         
         <div class="generated-by">
-            由 {summary.get('generated_by', 'AI')} 生成 | {datetime.now().strftime('%Y-%m-%d %H:%M')}
+            由 {_safe_text(summary.get('generated_by', 'AI'))} 生成 | {datetime.now().strftime('%Y-%m-%d %H:%M')}
         </div>
     </div>
     
@@ -2133,7 +2217,7 @@ class WeeklySummarizer:
         
         <div class="section">
             <h2>📊 本周总览</h2>
-            <p>{summary.get('overview', '')}</p>
+            <p>{_safe_multiline(summary.get('overview', ''))}</p>
         </div>
         
         {f'<div class="section"><h2>⭐ 重点文献</h2>{highlights_html}</div>' if highlights_html else ''}
@@ -2147,7 +2231,7 @@ class WeeklySummarizer:
         {f'<div class="section"><h2>📚 期刊分布</h2>{journal_stats_html}</div>' if journal_stats_html else ''}
         
         <div class="generated-by">
-            由 {summary.get('generated_by', 'AI')} 生成 | {datetime.now().strftime('%Y-%m-%d %H:%M')}
+            由 {_safe_text(summary.get('generated_by', 'AI'))} 生成 | {datetime.now().strftime('%Y-%m-%d %H:%M')}
         </div>
     </div>
     
