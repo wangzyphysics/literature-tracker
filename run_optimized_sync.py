@@ -110,6 +110,12 @@ def run_optimized_sync():
     
     # Target: new papers from today/yesterday not yet deep-analyzed
     recent_papers = [a for a in filtered if a.pub_date in [today, yesterday] and a.link not in processed_ids]
+
+    # 防止一次性深度分析过多导致 Actions 超时 / 触发限流
+    deep_max = int(os.environ.get("AI_DEEP_MAX_ITEMS", "40"))
+    if deep_max > 0 and len(recent_papers) > deep_max:
+        recent_papers = recent_papers[:deep_max]
+        print(f"⚠️ 近期文献过多，本次仅深度分析前 {deep_max} 篇（可通过 AI_DEEP_MAX_ITEMS 调整）")
     
     print(f"需要深度分析的近期文献数: {len(recent_papers)}")
     
@@ -135,10 +141,12 @@ def run_optimized_sync():
                         article.title_zh = a.get("title_zh") or ""
                         article.abstract_zh = a.get("abstract_zh") or ""
                         break
+            # 避免在 Actions 中依赖第三方网页翻译（可能被墙/限流/卡住）。
+            # 若仍缺失中文字段，降级为使用英文原文（后续由 enrich_articles_zh 渐进补全）。
             if not article.title_zh:
-                article.title_zh = translate_text(article.title)
+                article.title_zh = article.title
             if article.abstract and not article.abstract_zh:
-                article.abstract_zh = translate_text(article.abstract)
+                article.abstract_zh = article.abstract
             
             # Save to AI-relevant pool for daily pages
             if article.link and article.link not in existing_relevant_links:
