@@ -85,11 +85,14 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
     def render_item(item: Dict) -> str:
         journal = safe_text(item.get("journal", ""))
         authors = safe_text(format_authors(item.get("authors")))
+        ai_score = item.get("ai_score")
         meta_parts = []
         if journal:
             meta_parts.append(f"<span class='meta-journal'>📖 {journal}</span>")
         if authors:
             meta_parts.append(f"<span class='meta-authors'>👤 {authors}</span>")
+        if ai_score is not None and str(ai_score).strip() != "":
+            meta_parts.append(f"<span class='meta-score'>🔥 {safe_text(ai_score)}</span>")
         meta_html = f"<div class='article-meta'>{' | '.join(meta_parts)}</div>" if meta_parts else ""
 
         return f"""
@@ -172,12 +175,21 @@ def main():
     date_str = args.date or beijing_yesterday()
     ensure_dirs()
 
-    # Prefer full daily list from index.json; fallback to ai_relevant.json if index is missing.
-    articles = load_index_articles("data/index.json")
-    if not articles:
-        articles = load_relevant("data/ai_relevant.json")
+    # Prefer full daily list from index.json, but always union with ai_relevant.json
+    # to avoid omitting focus-relevant papers.
+    index_articles = load_index_articles("data/index.json")
+    relevant_articles = load_relevant("data/ai_relevant.json")
 
-    day_articles = [a for a in articles if (a.get("pub_date") or "").startswith(date_str)]
+    relevant_day = [a for a in relevant_articles if (a.get("pub_date") or "").startswith(date_str)]
+    relevant_links = {a.get("link") for a in relevant_day if a.get("link")}
+
+    index_day = [
+        a for a in index_articles
+        if (a.get("pub_date") or "").startswith(date_str) and (a.get("link") not in relevant_links)
+    ]
+
+    # Relevant first
+    day_articles = relevant_day + index_day
 
     if not day_articles:
         # still generate empty page so index shows date
