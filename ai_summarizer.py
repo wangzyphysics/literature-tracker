@@ -7,6 +7,7 @@ AI摘要生成器 - 使用免费AI API生成每日文献摘要
 
 import os
 import json
+import time
 import requests
 from datetime import datetime
 from typing import List, Dict, Optional, Any
@@ -36,6 +37,10 @@ class GeminiProvider(AIProvider):
         self.max_retries = 3
     
     def call_api(self, prompt: str) -> str:
+        wait_max_seconds = int(os.environ.get("AI_WAIT_MAX_SECONDS", "0") or "0")
+        wait_base_seconds = float(os.environ.get("AI_WAIT_BASE_SECONDS", "10") or "10")
+        wait_max_sleep_seconds = float(os.environ.get("AI_WAIT_MAX_SLEEP_SECONDS", "300") or "300")
+
         headers = {"Content-Type": "application/json"}
         data = {
             "contents": [{"role": "user", "parts": [{"text": prompt}]}],
@@ -55,27 +60,40 @@ class GeminiProvider(AIProvider):
         }
         
         url = f"{self.base_url}/{self.model}:generateContent?key={self.api_key}"
-        
-        for attempt in range(self.max_retries):
+
+        start = time.monotonic()
+        attempt = 0
+        last_err: Optional[Exception] = None
+
+        while True:
+            attempt += 1
             try:
                 response = requests.post(url, headers=headers, json=data, timeout=120)
-                if response.status_code == 429:
-                    import time
-                    time.sleep((attempt + 1) * 10)
-                    continue
-                
-                if response.status_code != 200:
+                if response.status_code == 200:
+                    result = response.json()
+                    if 'candidates' not in result or not result['candidates']:
+                        raise Exception("Gemini API返回空响应")
+                    return result['candidates'][0]['content']['parts'][0]['text']
+
+                # Retryable
+                if response.status_code in (429, 500, 502, 503, 504):
+                    last_err = Exception(f"Gemini API错误 ({response.status_code}): {response.text}")
+                else:
                     raise Exception(f"Gemini API错误 ({response.status_code}): {response.text}")
-                
-                result = response.json()
-                if 'candidates' not in result or not result['candidates']:
-                    raise Exception("Gemini API返回空响应")
-                
-                return result['candidates'][0]['content']['parts'][0]['text']
             except Exception as e:
-                if attempt == self.max_retries - 1: raise e
-                import time
-                time.sleep(5)
+                last_err = e
+
+            elapsed = time.monotonic() - start
+            if wait_max_seconds > 0:
+                if elapsed >= wait_max_seconds:
+                    raise last_err or Exception("Gemini API failed")
+            else:
+                if attempt >= self.max_retries:
+                    raise last_err or Exception("Gemini API failed")
+
+            sleep_s = min(wait_base_seconds * (2 ** max(0, attempt - 1)), wait_max_sleep_seconds)
+            # Keep a bit of jitterless wait to reduce flakiness in CI.
+            time.sleep(min(sleep_s, max(1.0, (wait_max_seconds - elapsed) if wait_max_seconds > 0 else sleep_s)))
         return ""
 
 class OpenRouterProvider(AIProvider):
@@ -122,6 +140,10 @@ class OpenRouterProvider(AIProvider):
         if not self.api_key:
             raise ValueError("OpenRouter api_key is empty (set AI_API_KEY).")
 
+        wait_max_seconds = int(os.environ.get("AI_WAIT_MAX_SECONDS", "0") or "0")
+        wait_base_seconds = float(os.environ.get("AI_WAIT_BASE_SECONDS", "10") or "10")
+        wait_max_sleep_seconds = float(os.environ.get("AI_WAIT_MAX_SLEEP_SECONDS", "300") or "300")
+
         payload: Dict[str, Any] = {
             "model": self.model,
             "messages": [{"role": "user", "content": prompt}],
@@ -132,33 +154,62 @@ class OpenRouterProvider(AIProvider):
         if (os.environ.get("AI_RESPONSE_JSON", "") or "").strip().lower() in ("1", "true", "yes"):
             payload["response_format"] = {"type": "json_object"}
 
-        for attempt in range(self.max_retries):
+        start = time.monotonic()
+        attempt = 0
+        last_err: Optional[Exception] = None
+
+        while True:
+            attempt += 1
+            response = None
             try:
                 response = requests.post(
                     self.base_url, headers=self._headers(), json=payload, timeout=self.timeout
                 )
-                if response.status_code in (429, 502, 503, 504):
-                    import time
-                    time.sleep((attempt + 1) * 10)
-                    continue
 
-                if response.status_code != 200:
+                if response.status_code == 200:
+                    data = response.json()
+                    choices = data.get("choices") or []
+                    if not choices:
+                        raise Exception("OpenRouter API返回空 choices")
+                    msg = (choices[0] or {}).get("message") or {}
+                    content = msg.get("content")
+                    if not content:
+                        raise Exception("OpenRouter API返回空 content")
+                    return content
+
+                # Retryable server / rate limit errors
+                if response.status_code in (429, 500, 502, 503, 504):
+                    last_err = Exception(f"OpenRouter API错误 ({response.status_code}): {response.text}")
+                else:
                     raise Exception(f"OpenRouter API错误 ({response.status_code}): {response.text}")
-
-                data = response.json()
-                choices = data.get("choices") or []
-                if not choices:
-                    raise Exception("OpenRouter API返回空 choices")
-                msg = (choices[0] or {}).get("message") or {}
-                content = msg.get("content")
-                if not content:
-                    raise Exception("OpenRouter API返回空 content")
-                return content
             except Exception as e:
-                if attempt == self.max_retries - 1:
-                    raise e
-                import time
-                time.sleep(5)
+                last_err = e
+
+            elapsed = time.monotonic() - start
+            if wait_max_seconds > 0:
+                if elapsed >= wait_max_seconds:
+                    raise last_err or Exception("OpenRouter API failed")
+            else:
+                if attempt >= self.max_retries:
+                    raise last_err or Exception("OpenRouter API failed")
+
+            retry_after = 0.0
+            if response is not None:
+                try:
+                    ra = (response.headers.get("Retry-After") or "").strip()
+                    if ra:
+                        retry_after = float(ra)
+                except Exception:
+                    retry_after = 0.0
+
+            sleep_s = min(wait_base_seconds * (2 ** max(0, attempt - 1)), wait_max_sleep_seconds)
+            if retry_after > 0:
+                sleep_s = max(sleep_s, retry_after)
+
+            if wait_max_seconds > 0:
+                remaining = max(0.0, wait_max_seconds - elapsed)
+                sleep_s = min(sleep_s, max(1.0, remaining))
+            time.sleep(sleep_s)
         return ""
 
 
@@ -187,51 +238,88 @@ class AISummarizer:
     def generate_daily_summary(self, articles: List[Dict], date: str) -> Dict:
         if not articles:
             return self.fallback_summary(articles, date)
-        
-        try:
-            max_per_call = int(os.environ.get("AI_DAILY_MAX_PER_CALL", "40"))
-            if len(articles) <= max_per_call:
-                prompt = self._build_prompt(articles, date)
-                response = self.provider.call_api(prompt)
-                summary = self._parse_response(response, articles, date)
-                # compat alias (some callers expect `summaries`)
-                if "summaries" not in summary:
-                    summary["summaries"] = summary.get("full_list", [])
+
+        wait_max_seconds = int(os.environ.get("AI_DAILY_WAIT_MAX_SECONDS") or os.environ.get("AI_WAIT_MAX_SECONDS", "0") or "0")
+        wait_base_seconds = float(os.environ.get("AI_DAILY_WAIT_BASE_SECONDS") or os.environ.get("AI_WAIT_BASE_SECONDS", "10") or "10")
+        wait_max_sleep_seconds = float(os.environ.get("AI_DAILY_WAIT_MAX_SLEEP_SECONDS") or os.environ.get("AI_WAIT_MAX_SLEEP_SECONDS", "300") or "300")
+        no_fallback = (os.environ.get("AI_DAILY_NO_FALLBACK") or os.environ.get("AI_NO_FALLBACK") or "").strip().lower() in ("1", "true", "yes")
+
+        start = time.monotonic()
+        attempt = 0
+        last_err: Optional[Exception] = None
+
+        while True:
+            attempt += 1
+            try:
+                max_per_call = int(os.environ.get("AI_DAILY_MAX_PER_CALL", "40"))
+                if len(articles) <= max_per_call:
+                    prompt = self._build_prompt(articles, date)
+                    response = self.provider.call_api(prompt)
+                    summary = self._parse_response(response, articles, date)
+                    # compat alias (some callers expect `summaries`)
+                    if "summaries" not in summary:
+                        summary["summaries"] = summary.get("full_list", [])
+                    return summary
+
+                # Chunking to avoid context overflow and missing items.
+                chunks = [articles[i:i + max_per_call] for i in range(0, len(articles), max_per_call)]
+                merged_full_list: List[Dict] = []
+                merged_ml: List[Dict] = []
+                merged_ferro: List[Dict] = []
+
+                for chunk in chunks:
+                    prompt = self._build_prompt(chunk, date)
+                    response = self.provider.call_api(prompt)
+                    part = self._parse_response(response, chunk, date)
+                    merged_full_list.extend(part.get("full_list", []))
+                    merged_ml.extend(part.get("ml_highlights", []))
+                    merged_ferro.extend(part.get("ferro_highlights", []))
+
+                # Overview/trends: second-pass with titles only (cheap prompt).
+                overview, trends = self._build_overview_trends(articles, date)
+
+                summary = {
+                    "date": date,
+                    "total": len(articles),
+                    "overview": overview,
+                    "trends": trends,
+                    "full_list": merged_full_list,
+                    "ml_highlights": merged_ml[:20],
+                    "ferro_highlights": merged_ferro[:20],
+                    "generated_by": self.provider_name,
+                }
+                summary["summaries"] = summary.get("full_list", [])
                 return summary
 
-            # Chunking to avoid context overflow and missing items.
-            chunks = [articles[i:i + max_per_call] for i in range(0, len(articles), max_per_call)]
-            merged_full_list: List[Dict] = []
-            merged_ml: List[Dict] = []
-            merged_ferro: List[Dict] = []
+            except Exception as e:
+                last_err = e
+                print(f"❌ AI 摘要生成失败 (attempt={attempt}): {e}")
 
-            for chunk in chunks:
-                prompt = self._build_prompt(chunk, date)
-                response = self.provider.call_api(prompt)
-                part = self._parse_response(response, chunk, date)
-                merged_full_list.extend(part.get("full_list", []))
-                merged_ml.extend(part.get("ml_highlights", []))
-                merged_ferro.extend(part.get("ferro_highlights", []))
+                # Fatal errors: waiting won't help (e.g., missing/invalid API key).
+                msg_lower = str(e).lower()
+                is_fatal = (
+                    isinstance(e, ValueError)
+                    and ("api_key is empty" in msg_lower or "api key is empty" in msg_lower)
+                ) or ("401" in msg_lower) or ("403" in msg_lower)
 
-            # Overview/trends: second-pass with titles only (cheap prompt).
-            overview, trends = self._build_overview_trends(articles, date)
+                if is_fatal:
+                    if no_fallback:
+                        raise last_err
+                    return self.fallback_summary(articles, date)
 
-            summary = {
-                "date": date,
-                "total": len(articles),
-                "overview": overview,
-                "trends": trends,
-                "full_list": merged_full_list,
-                "ml_highlights": merged_ml[:20],
-                "ferro_highlights": merged_ferro[:20],
-                "generated_by": self.provider_name,
-            }
-            summary["summaries"] = summary.get("full_list", [])
-            return summary
-            
-        except Exception as e:
-            print(f"❌ AI API调用失败: {e}")
-            return self.fallback_summary(articles, date)
+                elapsed = time.monotonic() - start
+                if wait_max_seconds > 0 and elapsed < wait_max_seconds:
+                    sleep_s = min(wait_base_seconds * (2 ** max(0, attempt - 1)), wait_max_sleep_seconds)
+                    remaining = max(0.0, wait_max_seconds - elapsed)
+                    sleep_s = min(sleep_s, max(1.0, remaining))
+                    print(f"⏳ 等待 {sleep_s:.0f}s 后重试（已等待 {elapsed:.0f}s / {wait_max_seconds}s）")
+                    time.sleep(sleep_s)
+                    continue
+
+                if no_fallback:
+                    raise last_err
+
+                return self.fallback_summary(articles, date)
 
     def _build_overview_trends(self, articles: List[Dict], date: str) -> (str, str):
         titles = []
@@ -241,16 +329,37 @@ class AISummarizer:
         titles_str = "\n".join(titles)
 
         prompt = f"""你是一位专业的计算材料科学文献分析助手。\n请基于以下 {date} 的文献标题列表，输出今日文献总览与研究热点分析。\n\n标题列表:\n{titles_str}\n\n请严格输出 JSON：\n{{\n  \"overview\": \"今日文献总览（中文，2-3句）\",\n  \"trends\": \"研究热点分析（中文，3-5句）\"\n}}\n不要输出除 JSON 以外的任何内容。"""
-        try:
-            response = self.provider.call_api(prompt)
-            import re
-            m = re.search(r'\{[\s\S]*\}', response)
-            if not m:
-                return "", ""
-            data = json.loads(m.group())
-            return data.get("overview", ""), data.get("trends", "")
-        except Exception:
-            return "", ""
+        wait_max_seconds = int(os.environ.get("AI_DAILY_WAIT_MAX_SECONDS") or os.environ.get("AI_WAIT_MAX_SECONDS", "0") or "0")
+        wait_base_seconds = float(os.environ.get("AI_DAILY_WAIT_BASE_SECONDS") or os.environ.get("AI_WAIT_BASE_SECONDS", "10") or "10")
+        wait_max_sleep_seconds = float(os.environ.get("AI_DAILY_WAIT_MAX_SLEEP_SECONDS") or os.environ.get("AI_WAIT_MAX_SLEEP_SECONDS", "300") or "300")
+
+        start = time.monotonic()
+        attempt = 0
+
+        while True:
+            attempt += 1
+            try:
+                response = self.provider.call_api(prompt)
+                import re
+                m = re.search(r'\{[\s\S]*\}', response)
+                if not m:
+                    raise ValueError("overview/trends: no JSON object found")
+                raw = m.group()
+                try:
+                    data = json.loads(raw)
+                except json.JSONDecodeError:
+                    raw2 = re.sub(r",\s*([}\]])", r"\1", raw)
+                    data = json.loads(raw2)
+                return data.get("overview", ""), data.get("trends", "")
+            except Exception:
+                if wait_max_seconds <= 0:
+                    return "", ""
+                elapsed = time.monotonic() - start
+                if elapsed >= wait_max_seconds:
+                    return "", ""
+                sleep_s = min(wait_base_seconds * (2 ** max(0, attempt - 1)), wait_max_sleep_seconds)
+                remaining = max(0.0, wait_max_seconds - elapsed)
+                time.sleep(min(sleep_s, max(1.0, remaining)))
     
     def _build_prompt(self, articles: List[Dict], date: str) -> str:
         """构建提示词，增加序列号锚点防止链接错位"""
@@ -311,7 +420,13 @@ class AISummarizer:
             import re
             json_match = re.search(r'\{[\s\S]*\}', response)
             if not json_match: raise ValueError("Invalid JSON response")
-            data = json.loads(json_match.group())
+            raw = json_match.group()
+            try:
+                data = json.loads(raw)
+            except json.JSONDecodeError:
+                # Common model mistake: trailing commas.
+                raw2 = re.sub(r",\s*([}\]])", r"\1", raw)
+                data = json.loads(raw2)
             
             # 建立序号到原始文章的映射 (1-based index)
             # original_articles 是按顺序传入的
@@ -379,7 +494,7 @@ class AISummarizer:
             }
         except Exception as e:
             print(f"解析响应并映射链接失败: {e}")
-            return self.fallback_summary(original_articles, date)
+            raise
 
     def _is_ml_related(self, article: Dict) -> bool:
         text = (article.get('title', '') + article.get('abstract', '')).lower()
@@ -393,7 +508,8 @@ class AISummarizer:
         data = {
             'date': date,
             'total': len(articles),
-            'overview': f"今日共收录{len(articles)}篇文献（由于AI总结繁忙，仅提供列表）。",
+            'overview': f"今日共收录{len(articles)}篇文献。",
+            'trends': "",
             'full_list': [
                 {
                     "title_en": a.get('title'),

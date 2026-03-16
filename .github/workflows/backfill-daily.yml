@@ -46,6 +46,10 @@ jobs:
           AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
           AI_MODEL: ${{ secrets.AI_MODEL }}
           AI_DAILY_MAX_PER_CALL: "20"
+          AI_DAILY_WAIT_MAX_SECONDS: "3600"
+          AI_DAILY_WAIT_BASE_SECONDS: "20"
+          AI_DAILY_WAIT_MAX_SLEEP_SECONDS: "300"
+          AI_DAILY_NO_FALLBACK: "1"
         run: |
           if [ "${{ inputs.force }}" = "true" ]; then
             python generate_daily_pages.py --days "${{ inputs.days }}" --force
@@ -69,4 +73,3 @@ jobs:
           git fetch origin main
           git rebase origin/main || git rebase --abort
           git push origin main
-
