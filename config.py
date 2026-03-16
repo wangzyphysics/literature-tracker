@@ -54,6 +54,10 @@ RSS_FEEDS = [
     "https://onlinelibrary.wiley.com/action/showFeed?jc=21983844&type=etoc&feed=rss",
     "https://rss.arxiv.org/rss/cond-mat",
     "https://rss.arxiv.org/rss/physics",
+    # AI 相关 arXiv 分类（用于 AI×材料/物理/化学交叉，提升召回）
+    "https://rss.arxiv.org/rss/cs.LG",
+    "https://rss.arxiv.org/rss/stat.ML",
+    "https://rss.arxiv.org/rss/cs.AI",
     "https://chemrxiv.org/engage/rss/chemrxiv",
     "https://www.researchsquare.com/rss.xml",
     "https://rss.arxiv.org/rss/cond-mat.supr-con+cond-mat.mtrl-sci+cond-mat.str-el+physics.comp-ph+physics.chem-ph",

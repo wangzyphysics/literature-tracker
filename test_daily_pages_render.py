@@ -19,6 +19,8 @@ def main() -> int:
                 "title_zh": "测试中文标题",
                 "summary": "测试中文一句话总结",
                 "link": "https://example.com/paper",
+                "journal": "arXiv",
+                "authors": ["Alice", "Bob", "Carol"],
             }
         ],
     }
@@ -27,6 +29,8 @@ def main() -> int:
     assert "测试中文标题" in html
     assert "测试中文一句话总结" in html
     assert "https://example.com/paper" in html
+    assert "arXiv" in html
+    assert "Alice" in html
 
     summary_summaries_only = {
         "overview": "总览测试2",
@@ -50,4 +54,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

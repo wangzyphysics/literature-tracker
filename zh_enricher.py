@@ -12,7 +12,7 @@ from __future__ import annotations
 import json
 import os
 import time
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 from ai_summarizer import build_provider
 
@@ -74,12 +74,20 @@ def enrich_articles_zh(
             batch_payload = []
             for i, a in enumerate(batch, 1):
                 title = (a.get("title") or "").strip()
+                journal = (a.get("journal") or "").strip()
+                authors = a.get("authors") or []
+                if isinstance(authors, list):
+                    authors_str = ", ".join([str(x) for x in authors[:6]]) + (" 等" if len(authors) > 6 else "")
+                else:
+                    authors_str = str(authors or "")
                 abstract = (a.get("abstract") or "").strip()
                 abstract = abstract[:abstract_char_limit]
                 batch_payload.append(
                     {
                         "index": i,
                         "title": title,
+                        "journal": journal,
+                        "authors": authors_str,
                         "abstract": abstract,
                     }
                 )
@@ -135,10 +143,12 @@ def enrich_articles_zh(
 def _build_batch_prompt(items: List[Dict[str, str]]) -> str:
     lines = []
     for item in items:
-        lines.append(f"[{item['index']}] Title: {item['title']}\nAbstract: {item['abstract']}\n")
+        lines.append(
+            f"[{item['index']}] Title: {item['title']}\nJournal: {item.get('journal','')}\nAuthors: {item.get('authors','')}\nAbstract: {item['abstract']}\n"
+        )
     joined = "\n".join(lines)
 
-    return f"""你是专业的学术翻译与摘要助手。请对以下每条文献生成中文标题与中文摘要。\n\n输入列表:\n{joined}\n\n请严格输出 JSON（不要 markdown，不要多余解释）：\n{{\n  \"items\": [\n    {{\"index\": 1, \"title_zh\": \"中文标题\", \"abstract_zh\": \"中文摘要(2-4句,忠实且简洁)\"}},\n    ...\n  ]\n}}\n\n要求:\n1. items 必须包含全部输入条目，index 与输入的 [序号] 严格一致。\n2. abstract_zh 若原摘要为空，可输出空字符串。\n3. 不要输出任何链接。\n"""
+    return f"""你是专业的学术翻译与摘要助手。请对以下每条文献生成中文标题与中文摘要。\n\n输入列表:\n{joined}\n\n请严格输出 JSON（不要 markdown，不要多余解释）：\n{{\n  \"items\": [\n    {{\"index\": 1, \"title_zh\": \"中文标题\", \"abstract_zh\": \"中文摘要(2-4句,忠实且简洁)\"}},\n    ...\n  ]\n}}\n\n要求:\n1. items 必须包含全部输入条目，index 与输入的 [序号] 严格一致。\n2. 如果原摘要为空/过短/仅为元数据（如 EarlyView、Published online 等），abstract_zh 仍应给出基于标题与期刊信息的谨慎概述（不要编造具体数值/结论，允许以“该工作围绕...展开，详情需查阅原文”表述）。\n3. 不要输出任何链接。\n"""
 
 
 def _parse_batch_result(data: Any) -> Dict[int, Dict[str, str]]:
@@ -163,4 +173,3 @@ def _parse_batch_result(data: Any) -> Dict[int, Dict[str, str]]:
             "abstract_zh": str(item.get("abstract_zh", "") or ""),
         }
     return mapping
-

@@ -1,0 +1,78 @@
+name: Backfill zh fields (one-shot)
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch_size:
+        description: "LLM batch size per request"
+        required: false
+        default: "16"
+      max_passes:
+        description: "Max passes over dataset (retry remaining missing)"
+        required: false
+        default: "20"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "backfill-zh"
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run backfill (zh)
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
+          AI_MODEL: ${{ secrets.AI_MODEL }}
+          AI_ZH_BATCH_SIZE: ${{ inputs.batch_size }}
+          AI_ZH_MAX_PASSES: ${{ inputs.max_passes }}
+        run: |
+          python backfill_zh.py || true
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --staged --quiet || git commit -m "🔁 Backfill zh fields"
+          git fetch origin main
+          git rebase origin/main || git rebase --abort
+          git push origin main
+
+      - name: Verify completion (fail if still missing)
+        run: |
+          python - <<'PY'
+          import json
+          with open("data/index.json","r",encoding="utf-8") as f:
+            articles = (json.load(f) or {}).get("articles", []) or []
+          missing = 0
+          for a in articles:
+            if not (a.get("title_zh") or "").strip():
+              missing += 1
+              continue
+            if not (a.get("abstract_zh") or "").strip():
+              missing += 1
+              continue
+          print("missing", missing)
+          raise SystemExit(0 if missing == 0 else 1)
+          PY
+

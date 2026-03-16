@@ -255,10 +255,19 @@ class AISummarizer:
         articles_text = []
         for i, article in enumerate(articles, 1):
             title = article.get('title', 'Unknown Title')
+            journal = article.get("journal", "")
+            authors = article.get("authors", [])
+            if isinstance(authors, list):
+                authors = ", ".join([str(a) for a in authors[:6]]) + (" 等" if len(authors) > 6 else "")
+            else:
+                authors = str(authors or "")
+
             abstract = (article.get('abstract', ''))[:300]
             # 不在提示词里给链接，防止 AI 试图复述链接导致出错
-            # 仅给序号、标题、摘要
-            articles_text.append(f"[{i}] Title: {title}\nAbstract: {abstract}\n")
+            # 仅给序号、标题、期刊、作者、摘要
+            articles_text.append(
+                f"[{i}] Title: {title}\nJournal: {journal}\nAuthors: {authors}\nAbstract: {abstract}\n"
+            )
         
         articles_str = '\n'.join(articles_text)
         
@@ -305,7 +314,15 @@ class AISummarizer:
             # original_articles 是按顺序传入的
             
             full_list = []
-            summaries_map = {item['index']: item for item in data.get('summaries', [])}
+            summaries_map = {}
+            for item in data.get("summaries", []) or []:
+                if not isinstance(item, dict):
+                    continue
+                try:
+                    idx = int(item.get("index"))
+                except Exception:
+                    continue
+                summaries_map[idx] = item
             
             for i, article in enumerate(original_articles, 1):
                 ai_info = summaries_map.get(i, {})
@@ -313,7 +330,10 @@ class AISummarizer:
                     "title_en": article.get('title'),
                     "title_zh": ai_info.get('title_zh') or article.get('title_zh') or "标题翻译失败",
                     "summary": ai_info.get('one_sentence_summary') or "总结生成失败",
-                    "link": article.get('link') # 核心：直接使用 Python 里的原始链接
+                    "link": article.get('link'),  # 核心：直接使用 Python 里的原始链接
+                    "journal": article.get("journal", ""),
+                    "authors": article.get("authors", []),
+                    "pub_date": article.get("pub_date", ""),
                 })
             
             # 处理 highlights
@@ -367,7 +387,10 @@ class AISummarizer:
                     "title_en": a.get('title'),
                     "title_zh": a.get('title_zh') or "待翻译",
                     "summary": "请查阅原文了解详情",
-                    "link": a.get('link')
+                    "link": a.get('link'),
+                    "journal": a.get("journal", ""),
+                    "authors": a.get("authors", []),
+                    "pub_date": a.get("pub_date", ""),
                 } for a in articles
             ],
             'generated_by': 'fallback'

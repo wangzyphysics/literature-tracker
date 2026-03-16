@@ -82,6 +82,9 @@ class WeeklySummarizer:
         'PRL',
         'Advanced Materials',
         'Adv. Mater.'
+        ,
+        # arXiv（允许非常相关的预印本出现在周报）
+        'arXiv'
     ]
     
     # 磁性/铁电关键词

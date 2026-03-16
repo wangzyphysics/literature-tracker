@@ -45,6 +45,16 @@ def safe_url(value: str) -> str:
         return "#"
     return html.escape(url, quote=True)
 
+def format_authors(authors) -> str:
+    if not authors:
+        return ""
+    if isinstance(authors, list):
+        names = [str(a) for a in authors if str(a).strip()]
+        if len(names) <= 6:
+            return ", ".join(names)
+        return ", ".join(names[:6]) + f" 等{len(names)}位作者"
+    return str(authors)
+
 
 def load_relevant(path: str) -> List[Dict]:
     if not os.path.exists(path):
@@ -72,19 +82,29 @@ def ensure_dirs():
 
 def render_daily_html(date_str: str, summary: Dict) -> str:
     items = summary.get("full_list") or summary.get("summaries") or []
-    items_html = "".join([
-        f"""
+    def render_item(item: Dict) -> str:
+        journal = safe_text(item.get("journal", ""))
+        authors = safe_text(format_authors(item.get("authors")))
+        meta_parts = []
+        if journal:
+            meta_parts.append(f"<span class='meta-journal'>📖 {journal}</span>")
+        if authors:
+            meta_parts.append(f"<span class='meta-authors'>👤 {authors}</span>")
+        meta_html = f"<div class='article-meta'>{' | '.join(meta_parts)}</div>" if meta_parts else ""
+
+        return f"""
         <div class=\"article-card\">
             <div class=\"article-header\">
                 <div class=\"article-title-en\">{safe_text(item.get('title_en',''))}</div>
                 <div class=\"article-title-zh\">{safe_text(item.get('title_zh',''))}</div>
             </div>
+            {meta_html}
             <div class=\"article-summary\">{safe_text(item.get('summary',''))}</div>
             <div class=\"article-link\"><a href=\"{safe_url(item.get('link',''))}\" target=\"_blank\" rel=\"noopener noreferrer\">🔗 原文链接</a></div>
         </div>
         """
-        for item in items
-    ])
+
+    items_html = "".join(render_item(item) for item in items)
 
     overview = safe_text(summary.get('overview', ''))
     trends = safe_text(summary.get('trends', ''))
@@ -96,18 +116,19 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
   <title>{date_str} 每日摘要 - 文献追踪系统</title>
   <link rel=\"stylesheet\" href=\"../style.css\" />
-  <style>
-    .daily-container {{ max-width: 960px; margin: 0 auto; padding: 20px; }}
-    .section {{ margin: 18px 0; padding: 16px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-md); }}
-    .article-card {{ margin: 14px 0; padding: 16px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }}
-    .article-title-en {{ font-weight: 600; margin-bottom: 6px; }}
-    .article-title-zh {{ color: var(--text-secondary); margin-bottom: 8px; }}
-    .article-summary {{ color: var(--text-primary); }}
-    .article-link a {{ color: var(--accent-primary); text-decoration: none; }}
-    .article-link a:hover {{ text-decoration: underline; }}
-    .back-link {{ display: inline-block; margin-bottom: 14px; color: var(--accent-primary); text-decoration: none; }}
-    .back-link:hover {{ text-decoration: underline; }}
-  </style>
+	  <style>
+	    .daily-container {{ max-width: 960px; margin: 0 auto; padding: 20px; }}
+	    .section {{ margin: 18px 0; padding: 16px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-md); }}
+	    .article-card {{ margin: 14px 0; padding: 16px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }}
+	    .article-title-en {{ font-weight: 600; margin-bottom: 6px; }}
+	    .article-title-zh {{ color: var(--text-secondary); margin-bottom: 8px; }}
+	    .article-meta {{ color: var(--text-muted); font-size: 0.92em; margin: 6px 0 10px; }}
+	    .article-summary {{ color: var(--text-primary); }}
+	    .article-link a {{ color: var(--accent-primary); text-decoration: none; }}
+	    .article-link a:hover {{ text-decoration: underline; }}
+	    .back-link {{ display: inline-block; margin-bottom: 14px; color: var(--accent-primary); text-decoration: none; }}
+	    .back-link:hover {{ text-decoration: underline; }}
+	  </style>
 </head>
 <body>
   <div class=\"daily-container\">
