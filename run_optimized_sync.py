@@ -51,7 +51,7 @@ def run_optimized_sync():
     ai_provider = (os.environ.get("AI_PROVIDER") or AI_CONFIG.get("provider") or "gemini").strip()
     ai_model = (os.environ.get("AI_MODEL") or AI_CONFIG.get("model") or "").strip() or None
 
-    # 2) High-recall relevance scan for recent papers (today/yesterday, ALL feeds incl arXiv)
+    # 2) High-recall relevance scan for recent papers (default: yesterday only, ALL feeds incl arXiv)
     today = get_beijing_today()
     yesterday = (get_beijing_time() - timedelta(days=1)).strftime("%Y-%m-%d")
 
@@ -64,8 +64,12 @@ def run_optimized_sync():
         except Exception:
             processed_ids = set()
 
-    recent_candidates = [a for a in all_articles if a.pub_date in [today, yesterday] and a.link not in processed_ids]
-    print(f"近期(全量)待相关性分析: {len(recent_candidates)} 篇 (范围: {yesterday}, {today})")
+    analysis_dates = [yesterday]
+    if (os.environ.get("AI_RELEVANCE_INCLUDE_TODAY", "0") or "").strip().lower() in ("1", "true", "yes"):
+        analysis_dates.append(today)
+
+    recent_candidates = [a for a in all_articles if a.pub_date in analysis_dates and a.link not in processed_ids]
+    print(f"近期(全量)待相关性分析: {len(recent_candidates)} 篇 (日期: {', '.join(analysis_dates)})")
 
     ai_relevant_path = "data/ai_relevant.json"
     ai_relevant_list = []
