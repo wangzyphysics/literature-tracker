@@ -1,0 +1,72 @@
+name: Backfill Daily Pages (one-shot)
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Generate past N days ending at Beijing yesterday"
+        required: false
+        default: "60"
+      force:
+        description: "Force regenerate (ignore digest cache)"
+        required: false
+        default: "true"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "backfill-daily"
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Generate daily pages
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
+          AI_MODEL: ${{ secrets.AI_MODEL }}
+          AI_DAILY_MAX_PER_CALL: "20"
+        run: |
+          if [ "${{ inputs.force }}" = "true" ]; then
+            python generate_daily_pages.py --days "${{ inputs.days }}" --force
+          else
+            python generate_daily_pages.py --days "${{ inputs.days }}"
+          fi
+
+      - name: Copy data to docs
+        run: |
+          mkdir -p docs/data
+          if [ -d "data" ]; then
+            cp -r data/* docs/data/
+          fi
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --staged --quiet || git commit -m "📰 Backfill daily pages"
+          git fetch origin main
+          git rebase origin/main || git rebase --abort
+          git push origin main
+
