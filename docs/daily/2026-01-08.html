@@ -1,176 +1,150 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>每日摘要 - 2026-01-08</title>
-    <link rel="stylesheet" href="../style.css">
-    <style>
-        .summary-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .summary-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .summary-stats {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        .stat-box {
-            background: var(--bg-card);
-            padding: 15px 25px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box.ml {
-            border-left: 4px solid #10b981;
-        }
-        .stat-box.ferro {
-            border-left: 4px solid #f59e0b;
-        }
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: var(--accent-primary);
-        }
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.9em;
-        }
-        .section {
-            background: var(--bg-card);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-md);
-        }
-        .section h3 {
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-        .section.ml-section {
-            border-left: 4px solid #10b981;
-        }
-        .section.ferro-section {
-            border-left: 4px solid #f59e0b;
-        }
-        .highlight-card {
-            border-left: 4px solid var(--accent-primary);
-            padding: 15px;
-            margin-bottom: 15px;
-            background: var(--bg-primary);
-            border-radius: 0 8px 8px 0;
-        }
-        .highlight-card h4 {
-            margin: 0 0 8px 0;
-        }
-        .highlight-card h4 a {
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-        .highlight-card h4 a:hover {
-            color: var(--accent-primary);
-        }
-        .highlight-meta {
-            font-size: 0.85em;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-        .highlight-tag {
-            background: var(--accent-primary);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-left: 8px;
-        }
-        .highlight-summary {
-            color: var(--text-secondary);
-            margin: 8px 0;
-        }
-        .highlight-reason {
-            font-size: 0.85em;
-            color: var(--color-ai-tag);
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: var(--accent-primary);
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .generated-by {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85em;
-            margin-top: 30px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026-01-08 文献日报 - 文献追踪系统</title>
+  <link rel="stylesheet" href="../style.css" />
+	  <style>
+	    body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); }
+	    .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
+	    .daily-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+	    .daily-topbar-left, .daily-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+	    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+	    .back-link:hover { color: var(--accent-hover); }
+	    .daily-mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.75); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; backdrop-filter: blur(8px); }
+	    .daily-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; }
+	    .daily-article { background: rgba(255,255,255,0.76); border: 1px solid rgba(148,163,184,0.28); border-radius: 28px; box-shadow: var(--shadow-lg); backdrop-filter: blur(14px); padding: 32px; }
+	    .daily-hero { padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
+	    .daily-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(99,102,241,0.12); color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em; }
+	    .daily-title { margin: 18px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.03em; }
+	    .daily-subtitle { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 18px; }
+	    .daily-quote { margin: 0; padding: 16px 18px; border-left: 4px solid var(--accent-primary); border-radius: 16px; background: rgba(99,102,241,0.08); color: var(--text-secondary); font-size: 1rem; }
+	    .daily-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 22px; }
+	    .daily-tag { display: inline-flex; align-items: center; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,0.92); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; }
+	    .daily-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+	    .daily-stat { padding: 18px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)); border: 1px solid var(--border-color); }
+	    .daily-stat-label { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
+	    .daily-stat-value { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; }
+	    .daily-section { margin-top: 28px; }
+	    .daily-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+	    .daily-section-index { font-size: 0.92rem; font-weight: 800; color: var(--accent-primary); padding: 5px 10px; border-radius: 999px; background: rgba(99,102,241,0.1); }
+	    .daily-section-title { font-size: 1.45rem; letter-spacing: -0.02em; }
+	    .daily-summary-card { padding: 18px 20px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+	    .daily-summary-card p + p { margin-top: 12px; }
+	    .daily-news-list, .daily-paper-list { list-style: none; margin: 0; padding: 0; }
+	    .daily-news-item, .daily-paper-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 20px; border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,250,251,0.92)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+	    .daily-news-item + .daily-news-item, .daily-paper-card + .daily-paper-card { margin-top: 16px; }
+	    .daily-news-index, .daily-paper-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: var(--gradient-accent); box-shadow: var(--shadow-sm); flex-shrink: 0; }
+	    .daily-news-title-zh, .daily-paper-title-zh { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
+	    .daily-news-title-en, .daily-paper-title-en { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.6; }
+	    .daily-news-meta, .daily-paper-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+	    .daily-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.88rem; color: var(--text-secondary); background: rgba(99,102,241,0.08); }
+	    .daily-chip-authors { background: rgba(16,185,129,0.08); }
+	    .daily-chip-score { background: rgba(245,158,11,0.12); }
+	    .daily-news-summary, .daily-paper-summary { color: var(--text-primary); line-height: 1.8; }
+	    .daily-news-reason { margin-top: 10px; color: var(--text-secondary); }
+	    .daily-paper-actions, .daily-news-link { margin-top: 14px; }
+	    .daily-news-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+	    .daily-news-link:hover { color: var(--accent-hover); }
+	    .daily-paper-head { display: flex; gap: 16px; align-items: flex-start; }
+	    .daily-paper-titles { min-width: 0; }
+	    .daily-toc { position: sticky; top: 24px; }
+	    .daily-toc-card { padding: 18px; border-radius: 20px; background: rgba(255,255,255,0.78); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); backdrop-filter: blur(12px); }
+	    .daily-toc-title { font-size: 0.95rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+	    .daily-toc a { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px; color: var(--text-secondary); text-decoration: none; }
+	    .daily-toc a:hover { background: rgba(99,102,241,0.08); color: var(--accent-primary); }
+	    .daily-footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.94rem; }
+	    @media (max-width: 980px) {
+	      .daily-layout { grid-template-columns: 1fr; }
+	      .daily-toc { position: static; order: -1; }
+	    }
+	    @media (max-width: 720px) {
+	      .daily-shell { padding: 16px 12px 36px; }
+	      .daily-article { padding: 22px 16px; border-radius: 22px; }
+	      .daily-stats { grid-template-columns: 1fr; }
+	      .daily-news-item, .daily-paper-card { grid-template-columns: 1fr; }
+	      .daily-news-index, .daily-paper-number { width: 38px; height: 38px; }
+	      .daily-paper-head { flex-direction: column; gap: 12px; }
+	    }
+	  </style>
 </head>
 <body>
-    <div class="summary-container">
+  <div class="daily-shell">
+    <div class="daily-topbar">
+      <div class="daily-topbar-left">
         <a href="../index.html" class="back-link">← 返回主页</a>
-        
-        <div class="summary-header">
-            <h1>📰 每日文献摘要</h1>
-            <h2>2026-01-08</h2>
-        </div>
-        
-        <div class="summary-stats">
-            <div class="stat-box">
-                <div class="stat-value">1</div>
-                <div class="stat-label">总文献数</div>
-            </div>
-            <div class="stat-box ml">
-                <div class="stat-value">1</div>
-                <div class="stat-label">🤖 ML相关</div>
-            </div>
-            <div class="stat-box ferro">
-                <div class="stat-value">0</div>
-                <div class="stat-label">⚡ 铁性相关</div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h3>📊 今日总览</h3>
-            <p>今日共分析1篇文献，主要研究方向为深度学习在物理化学动力学中的应用。其中涉及机器学习（ML）文献1篇，未发现铁性材料相关研究。</p>
-        </div>
-        
-        <div class="section">
-            <h3>🔥 研究趋势</h3>
-            <p>当前计算物理领域正趋向于利用深度学习加速复杂动力学方程的求解。特别是针对高维刚性常微分方程（ODE）的优化，对于提升多尺度物理模拟的效率具有重要意义。</p>
-        </div>
-        
-        <div class="section ml-section"><h3>🤖 机器学习亮点</h3>
-            <div class="highlight-card">
-                <h4><a href="https://www.sciencedirect.com/science/article/pii/S0010465525005144?dgcid=rss_sd_all" target="_blank">DFODE-Kit：利用高维刚性常微分方程求解火焰化学动力学的深度学习包</a></h4>
-                <div class="highlight-meta">📚 Computer Physics Communications <span class="highlight-tag">Deep Learning / Stiff ODE Solver</span></div>
-                <p class="highlight-summary">开发了DFODE-Kit开源包，利用深度学习高效解决化学动力学中的高维刚性常微分方程求解难题。</p>
-                <div class="highlight-reason">💡 针对物理模拟中的刚性方程瓶颈，提供了高效的深度学习解决方案。</div>
-            </div>
-            </div>
-        
-        
-        
-        
-        
-        <div class="generated-by">
-            由 gemini 生成 | 2026-01-08 12:34
-        </div>
+        <span class="daily-mini-chip">AI × Science Daily</span>
+      </div>
+      <div class="daily-topbar-right">
+        <span class="daily-mini-chip">2026-01-08</span>
+      </div>
     </div>
-    
-    <script>
-        // 主题支持
-        const theme = localStorage.getItem('literature_theme') || 'light';
-        document.documentElement.setAttribute('data-theme', theme);
-    </script>
+    <div class="daily-layout">
+      <article class="daily-article">
+        <header class="daily-hero">
+          <div class="daily-kicker">AI 文献日报</div>
+          <h1 class="daily-title">AI × Science 文献日报 2026/01/08</h1>
+          <p class="daily-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯版式，重构为更适合 AI × 物理 / 化学 / 材料交叉文献阅读的日报页面。</p>
+          <blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+          <div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
+          <div class="daily-stats">
+            <div class="daily-stat">
+              <div class="daily-stat-label">收录文献</div>
+              <div class="daily-stat-value">0</div>
+            </div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">期刊 / 来源</div>
+              <div class="daily-stat-value">0</div>
+            </div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">arXiv 相关</div>
+              <div class="daily-stat-value">0</div>
+            </div>
+          </div>
+        </header>
+
+        <section id="summary" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">01</span>
+            <h2 class="daily-section-title">今日摘要</h2>
+          </div>
+          <div class="daily-summary-card">
+            <p><strong>总览：</strong>📊 今日总览 今日共分析1篇文献，主要研究方向为深度学习在物理化学动力学中的应用。其中涉及机器学习（ML）文献1篇，未发现铁性材料相关研究。</p>
+            <p><strong>热点：</strong>🔥 研究趋势 当前计算物理领域正趋向于利用深度学习加速复杂动力学方程的求解。特别是针对高维刚性常微分方程（ODE）的优化，对于提升多尺度物理模拟的效率具有重要意义。</p>
+          </div>
+        </section>
+
+        <section id="highlights" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">02</span>
+            <h2 class="daily-section-title">交叉重点</h2>
+          </div>
+          <div class="daily-summary-card"><p>暂无重点论文。</p></div>
+        </section>
+
+        <section id="papers" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">03</span>
+            <h2 class="daily-section-title">完整速览</h2>
+          </div>
+          <div class="daily-summary-card"><p>今日无文献。</p></div>
+        </section>
+
+        <div class="daily-footer">
+          本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要信息，便于快速筛选与深度阅读。
+        </div>
+      </article>
+
+      <aside class="daily-toc">
+        <div class="daily-toc-card">
+          <div class="daily-toc-title">目录</div>
+          <a href="#summary"><span>今日摘要</span><span>01</span></a>
+          <a href="#highlights"><span>交叉重点</span><span>02</span></a>
+          <a href="#papers"><span>完整速览</span><span>03</span></a>
+        </div>
+      </aside>
+    </div>
+  </div>
 </body>
 </html>

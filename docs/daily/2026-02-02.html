@@ -1,239 +1,150 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>每日摘要 - 2026-02-02</title>
-    <link rel="stylesheet" href="../style.css">
-    <style>
-        .summary-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .summary-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .summary-stats {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        .stat-box {
-            background: var(--bg-card);
-            padding: 15px 25px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box.ml {
-            border-left: 4px solid #10b981;
-        }
-        .stat-box.ferro {
-            border-left: 4px solid #f59e0b;
-        }
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: var(--accent-primary);
-        }
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.9em;
-        }
-        .section {
-            background: var(--bg-card);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-md);
-        }
-        .section h3 {
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-        .section.ml-section {
-            border-left: 4px solid #10b981;
-        }
-        .section.ferro-section {
-            border-left: 4px solid #f59e0b;
-        }
-        .highlight-card {
-            border-left: 4px solid var(--accent-primary);
-            padding: 15px;
-            margin-bottom: 15px;
-            background: var(--bg-primary);
-            border-radius: 0 8px 8px 0;
-        }
-        .highlight-card h4 {
-            margin: 0 0 8px 0;
-        }
-        .highlight-card h4 a {
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-        .highlight-card h4 a:hover {
-            color: var(--accent-primary);
-        }
-        .highlight-meta {
-            font-size: 0.85em;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-        .highlight-tag {
-            background: var(--accent-primary);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-left: 8px;
-        }
-        .highlight-summary {
-            color: var(--text-secondary);
-            margin: 8px 0;
-        }
-        .highlight-reason {
-            font-size: 0.85em;
-            color: var(--color-ai-tag);
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: var(--accent-primary);
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .generated-by {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85em;
-            margin-top: 30px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026-02-02 文献日报 - 文献追踪系统</title>
+  <link rel="stylesheet" href="../style.css" />
+	  <style>
+	    body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); }
+	    .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
+	    .daily-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+	    .daily-topbar-left, .daily-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+	    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+	    .back-link:hover { color: var(--accent-hover); }
+	    .daily-mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.75); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; backdrop-filter: blur(8px); }
+	    .daily-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; }
+	    .daily-article { background: rgba(255,255,255,0.76); border: 1px solid rgba(148,163,184,0.28); border-radius: 28px; box-shadow: var(--shadow-lg); backdrop-filter: blur(14px); padding: 32px; }
+	    .daily-hero { padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
+	    .daily-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(99,102,241,0.12); color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em; }
+	    .daily-title { margin: 18px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.03em; }
+	    .daily-subtitle { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 18px; }
+	    .daily-quote { margin: 0; padding: 16px 18px; border-left: 4px solid var(--accent-primary); border-radius: 16px; background: rgba(99,102,241,0.08); color: var(--text-secondary); font-size: 1rem; }
+	    .daily-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 22px; }
+	    .daily-tag { display: inline-flex; align-items: center; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,0.92); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; }
+	    .daily-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+	    .daily-stat { padding: 18px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)); border: 1px solid var(--border-color); }
+	    .daily-stat-label { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
+	    .daily-stat-value { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; }
+	    .daily-section { margin-top: 28px; }
+	    .daily-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+	    .daily-section-index { font-size: 0.92rem; font-weight: 800; color: var(--accent-primary); padding: 5px 10px; border-radius: 999px; background: rgba(99,102,241,0.1); }
+	    .daily-section-title { font-size: 1.45rem; letter-spacing: -0.02em; }
+	    .daily-summary-card { padding: 18px 20px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+	    .daily-summary-card p + p { margin-top: 12px; }
+	    .daily-news-list, .daily-paper-list { list-style: none; margin: 0; padding: 0; }
+	    .daily-news-item, .daily-paper-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 20px; border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,250,251,0.92)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+	    .daily-news-item + .daily-news-item, .daily-paper-card + .daily-paper-card { margin-top: 16px; }
+	    .daily-news-index, .daily-paper-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: var(--gradient-accent); box-shadow: var(--shadow-sm); flex-shrink: 0; }
+	    .daily-news-title-zh, .daily-paper-title-zh { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
+	    .daily-news-title-en, .daily-paper-title-en { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.6; }
+	    .daily-news-meta, .daily-paper-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+	    .daily-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.88rem; color: var(--text-secondary); background: rgba(99,102,241,0.08); }
+	    .daily-chip-authors { background: rgba(16,185,129,0.08); }
+	    .daily-chip-score { background: rgba(245,158,11,0.12); }
+	    .daily-news-summary, .daily-paper-summary { color: var(--text-primary); line-height: 1.8; }
+	    .daily-news-reason { margin-top: 10px; color: var(--text-secondary); }
+	    .daily-paper-actions, .daily-news-link { margin-top: 14px; }
+	    .daily-news-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+	    .daily-news-link:hover { color: var(--accent-hover); }
+	    .daily-paper-head { display: flex; gap: 16px; align-items: flex-start; }
+	    .daily-paper-titles { min-width: 0; }
+	    .daily-toc { position: sticky; top: 24px; }
+	    .daily-toc-card { padding: 18px; border-radius: 20px; background: rgba(255,255,255,0.78); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); backdrop-filter: blur(12px); }
+	    .daily-toc-title { font-size: 0.95rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+	    .daily-toc a { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px; color: var(--text-secondary); text-decoration: none; }
+	    .daily-toc a:hover { background: rgba(99,102,241,0.08); color: var(--accent-primary); }
+	    .daily-footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.94rem; }
+	    @media (max-width: 980px) {
+	      .daily-layout { grid-template-columns: 1fr; }
+	      .daily-toc { position: static; order: -1; }
+	    }
+	    @media (max-width: 720px) {
+	      .daily-shell { padding: 16px 12px 36px; }
+	      .daily-article { padding: 22px 16px; border-radius: 22px; }
+	      .daily-stats { grid-template-columns: 1fr; }
+	      .daily-news-item, .daily-paper-card { grid-template-columns: 1fr; }
+	      .daily-news-index, .daily-paper-number { width: 38px; height: 38px; }
+	      .daily-paper-head { flex-direction: column; gap: 12px; }
+	    }
+	  </style>
 </head>
 <body>
-    <div class="summary-container">
+  <div class="daily-shell">
+    <div class="daily-topbar">
+      <div class="daily-topbar-left">
         <a href="../index.html" class="back-link">← 返回主页</a>
-        
-        <div class="summary-header">
-            <h1>📰 每日文献摘要</h1>
-            <h2>2026-02-02</h2>
-        </div>
-        
-        <div class="summary-stats">
-            <div class="stat-box">
-                <div class="stat-value">176</div>
-                <div class="stat-label">总文献数</div>
-            </div>
-            <div class="stat-box ml">
-                <div class="stat-value">32</div>
-                <div class="stat-label">🤖 ML相关</div>
-            </div>
-            <div class="stat-box ferro">
-                <div class="stat-value">39</div>
-                <div class="stat-label">⚡ 铁性相关</div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h3>📊 今日总览</h3>
-            <p>今日文献分析涵盖176篇新发表论文，重点集中在磁性莫尔超晶格、铁电畴壁应用及高通量机器学习表征。其中，机器学习相关文献约15篇，铁性材料（含铁磁、铁电及多铁性）相关研究约32篇，界面动力学与拓扑磁性成为跨领域关注焦点。</p>
-        </div>
-        
-        <div class="section">
-            <h3>🔥 研究趋势</h3>
-            <p>研究热点正从单一性质预测转向复杂异质结界面的动力学模拟，如利用机器学习力场探究固态电解质界面；铁性材料领域，莫尔磁性纹理与铁电畴壁的功能化器件化（如数据安全、拓扑手性切换）成为前沿，且实验与计算的结合愈发紧密，特别是在原子尺度操控和原位应变表征方面。</p>
-        </div>
-        
-        <div class="section ml-section"><h3>🤖 机器学习亮点</h3>
-            <div class="highlight-card">
-                <h4><a href="https://arxiv.org/abs/2601.22612" target="_blank">Deciphering the boosted interfacial conductivity in ZrO2-Li2ZrCl6 composites via machine learning molecular dynamics simulations</a></h4>
-                <div class="highlight-meta">📚 arXiv (cond-mat) <span class="highlight-tag">神经进化势 (NEP)</span></div>
-                <p class="highlight-summary">开发精确机器学习力场，揭示了ZrO2纳米颗粒通过界面结构扭曲增强卤化物电解质离子电导率的原子级机制。</p>
-                <div class="highlight-reason">💡 成功利用MLMD弥合了复杂异质界面建模的时空尺度限制。</div>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://arxiv.org/abs/2601.22173" target="_blank">A universal and fast machine learning model for predicting non-convoluted and convoluted X-ray absorption spectra</a></h4>
-                <div class="highlight-meta">📚 arXiv (cond-mat) <span class="highlight-tag">通用深度学习模型</span></div>
-                <p class="highlight-summary">提出一种可直接从3D结构预测非卷积及卷积XANES光谱的通用模型，涵盖硬X射线与软X射线范围。</p>
-                <div class="highlight-reason">💡 为材料表征提供了高效的定量分析工具，具有极强的通用性。</div>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://arxiv.org/abs/2601.22671" target="_blank">Incorporating Gibbs free energy into interatomic potential fitting</a></h4>
-                <div class="highlight-meta">📚 arXiv (cond-mat) <span class="highlight-tag">哈密顿热力学积分 + 参数拟合</span></div>
-                <p class="highlight-summary">开发了一种将高温吉布斯自由能数据直接纳入原子间势拟合的方法，显著提升了势函数在相平衡预测中的准确性。</p>
-                <div class="highlight-reason">💡 解决了势函数开发中热力学稳定性难以精确拟合的关键痛点。</div>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://iopscience.iop.org/article/10.1088/2632-2153/ae365e" target="_blank">Machine learning-based inverse design of broadband metasurfaces with interdependent unit cells</a></h4>
-                <div class="highlight-meta">📚 Machine Learning: Science and Technology <span class="highlight-tag">cGAN (条件生成对抗网络)</span></div>
-                <p class="highlight-summary">首次演示了考虑元原子间相互依赖性的超表面逆向设计方法，实现了宽带相位掩模的复杂光学响应优化。</p>
-                <div class="highlight-reason">💡 突破了传统独立元原子设计的局限，提升了复杂材料设计的自由度。</div>
-            </div>
-            </div>
-        
-        <div class="section ferro-section"><h3>⚡ 铁性材料亮点</h3>
-            <div class="highlight-card">
-                <h4><a href="https://www.sciencedirect.com/science/article/pii/S1369702126000611?dgcid=rss_sd_all" target="_blank">Bitstream data security enabled by ferroelectric domain wall optoelectronic devices</a></h4>
-                <div class="highlight-meta">📚 Materials Today <span class="highlight-tag">铁电薄膜 / 畴壁器件</span></div>
-                <p class="highlight-summary">利用铁电畴壁的独特光电响应特性构建硬件加密逻辑，实现了比特流数据的安全传输与存储。</p>
-                <div class="highlight-reason">💡 展示了铁电畴壁从基础物理研究向实际安全应用的重要跨越。</div>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://arxiv.org/abs/2601.22827" target="_blank">Ferroelectric switching at edge dislocations in BaTiO3 modeled at the atomic scale</a></h4>
-                <div class="highlight-meta">📚 arXiv (cond-mat) <span class="highlight-tag">BaTiO3 (钛酸钡)</span></div>
-                <p class="highlight-summary">原子模拟揭示了边缘位错核心根据电场方向分别充当铁电翻转的成核中心或钉扎中心，提供了缺陷控制极化的新图景。</p>
-                <div class="highlight-reason">💡 填补了位错对铁电翻转影响机制在原子尺度认识的空白。</div>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://arxiv.org/abs/2505.01759" target="_blank">Ferroelectric switchable chirality in topological superconductivity</a></h4>
-                <div class="highlight-meta">📚 arXiv (cond-mat) <span class="highlight-tag">MnBi2Te4 / Fe(Se,Te) 异质结</span></div>
-                <p class="highlight-summary">提出通过层间滑动诱导的铁电性来控制拓扑超导的手性，实现了自发极化对量子态的非易失性切换。</p>
-                <div class="highlight-reason">💡 典型的多场耦合交叉研究，为拓扑量子计算提供了新思路。</div>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41565-025-02103-y" target="_blank">Super-moiré rotational textures in twisted 2D antiferromagnets</a></h4>
-                <div class="highlight-meta">📚 Nature Nanotechnology <span class="highlight-tag">扭曲双双层 CrI3</span></div>
-                <p class="highlight-summary">观察到延伸至单个莫尔晶胞之外的“超级莫尔”磁纹理，形成了跨越多个细胞的尼尔型斯格明子。</p>
-                <div class="highlight-reason">💡 在二维磁性材料中发现了全新的空间尺度关联磁序。</div>
-            </div>
-            </div>
-        
-        <div class="section"><h3>📚 其他推荐</h3>
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41928-025-01562-4" target="_blank">Fully autonomous tuning of spin qubits</a></h4>
-                <div class="highlight-meta">📚 Nature Electronics </div>
-                <p class="highlight-summary">集成深度学习与贝叶斯优化，实现了半导体量子位从初始设备到拉比振荡的完全自动化调谐。</p>
-                <div class="highlight-reason">💡 极大提升了量子芯片实验效率，是AI辅助量子实验的里程碑。</div>
-            </div>
-            
-            <div class="highlight-card">
-                <h4><a href="https://www.nature.com/articles/s41557-025-02063-9" target="_blank">A comprehensive model of the electric double layer of stepped Pt electrodes</a></h4>
-                <div class="highlight-meta">📚 Nature Chemistry </div>
-                <p class="highlight-summary">结合连续介质模型与从头算分子动力学，系统阐明了铂电极阶梯结构对双电层电容及零电荷电势的影响。</p>
-                <div class="highlight-reason">💡 对电催化基础理论的重大补充，揭示了表面微观结构对电化学环境的决定性作用。</div>
-            </div>
-            </div>
-        
-        <div class="generated-by">
-            由 gemini 生成 | 2026-02-03 12:49
-        </div>
+        <span class="daily-mini-chip">AI × Science Daily</span>
+      </div>
+      <div class="daily-topbar-right">
+        <span class="daily-mini-chip">2026-02-02</span>
+      </div>
     </div>
-    
-    <script>
-        // 主题支持
-        const theme = localStorage.getItem('literature_theme') || 'light';
-        document.documentElement.setAttribute('data-theme', theme);
-    </script>
+    <div class="daily-layout">
+      <article class="daily-article">
+        <header class="daily-hero">
+          <div class="daily-kicker">AI 文献日报</div>
+          <h1 class="daily-title">AI × Science 文献日报 2026/02/02</h1>
+          <p class="daily-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯版式，重构为更适合 AI × 物理 / 化学 / 材料交叉文献阅读的日报页面。</p>
+          <blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+          <div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
+          <div class="daily-stats">
+            <div class="daily-stat">
+              <div class="daily-stat-label">收录文献</div>
+              <div class="daily-stat-value">0</div>
+            </div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">期刊 / 来源</div>
+              <div class="daily-stat-value">0</div>
+            </div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">arXiv 相关</div>
+              <div class="daily-stat-value">0</div>
+            </div>
+          </div>
+        </header>
+
+        <section id="summary" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">01</span>
+            <h2 class="daily-section-title">今日摘要</h2>
+          </div>
+          <div class="daily-summary-card">
+            <p><strong>总览：</strong>📊 今日总览 今日文献分析涵盖176篇新发表论文，重点集中在磁性莫尔超晶格、铁电畴壁应用及高通量机器学习表征。其中，机器学习相关文献约15篇，铁性材料（含铁磁、铁电及多铁性）相关研究约32篇，界面动力学与拓扑磁性成为跨领域关注焦点。</p>
+            <p><strong>热点：</strong>🔥 研究趋势 研究热点正从单一性质预测转向复杂异质结界面的动力学模拟，如利用机器学习力场探究固态电解质界面；铁性材料领域，莫尔磁性纹理与铁电畴壁的功能化器件化（如数据安全、拓扑手性切换）成为前沿，且实验与计算的结合愈发紧密，特别是在原子尺度操控和原位应变表征方面。</p>
+          </div>
+        </section>
+
+        <section id="highlights" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">02</span>
+            <h2 class="daily-section-title">交叉重点</h2>
+          </div>
+          <div class="daily-summary-card"><p>暂无重点论文。</p></div>
+        </section>
+
+        <section id="papers" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">03</span>
+            <h2 class="daily-section-title">完整速览</h2>
+          </div>
+          <div class="daily-summary-card"><p>今日无文献。</p></div>
+        </section>
+
+        <div class="daily-footer">
+          本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要信息，便于快速筛选与深度阅读。
+        </div>
+      </article>
+
+      <aside class="daily-toc">
+        <div class="daily-toc-card">
+          <div class="daily-toc-title">目录</div>
+          <a href="#summary"><span>今日摘要</span><span>01</span></a>
+          <a href="#highlights"><span>交叉重点</span><span>02</span></a>
+          <a href="#papers"><span>完整速览</span><span>03</span></a>
+        </div>
+      </aside>
+    </div>
+  </div>
 </body>
 </html>

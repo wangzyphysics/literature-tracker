@@ -31,6 +31,10 @@ def main() -> int:
     assert "https://example.com/paper" in html
     assert "arXiv" in html
     assert "Alice" in html
+    assert "AI × Science 文献日报" in html
+    assert "今日摘要" in html
+    assert "交叉重点" in html
+    assert "完整速览" in html
 
     summary_summaries_only = {
         "overview": "总览测试2",
@@ -47,6 +51,7 @@ def main() -> int:
     html2 = render_daily_html(date_str, summary_summaries_only)
     assert "Test2 EN" in html2
     assert "测试2中文" in html2
+    assert "完整速览" in html2
 
     print("[OK] daily renderer sanity checks passed")
     return 0

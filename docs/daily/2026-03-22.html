@@ -3,341 +3,708 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2026-03-22 每日摘要 - 文献追踪系统</title>
+  <title>2026-03-22 文献日报 - 文献追踪系统</title>
   <link rel="stylesheet" href="../style.css" />
 	  <style>
-	    .daily-container { max-width: 960px; margin: 0 auto; padding: 20px; }
-	    .section { margin: 18px 0; padding: 16px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-md); }
-	    .article-card { margin: 14px 0; padding: 16px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
-	    .article-title-en { font-weight: 600; margin-bottom: 6px; }
-	    .article-title-zh { color: var(--text-secondary); margin-bottom: 8px; }
-	    .article-meta { color: var(--text-muted); font-size: 0.92em; margin: 6px 0 10px; }
-	    .article-summary { color: var(--text-primary); }
-	    .article-link a { color: var(--accent-primary); text-decoration: none; }
-	    .article-link a:hover { text-decoration: underline; }
-	    .back-link { display: inline-block; margin-bottom: 14px; color: var(--accent-primary); text-decoration: none; }
-	    .back-link:hover { text-decoration: underline; }
+	    body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); }
+	    .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
+	    .daily-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+	    .daily-topbar-left, .daily-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+	    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+	    .back-link:hover { color: var(--accent-hover); }
+	    .daily-mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.75); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; backdrop-filter: blur(8px); }
+	    .daily-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; }
+	    .daily-article { background: rgba(255,255,255,0.76); border: 1px solid rgba(148,163,184,0.28); border-radius: 28px; box-shadow: var(--shadow-lg); backdrop-filter: blur(14px); padding: 32px; }
+	    .daily-hero { padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
+	    .daily-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(99,102,241,0.12); color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em; }
+	    .daily-title { margin: 18px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.03em; }
+	    .daily-subtitle { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 18px; }
+	    .daily-quote { margin: 0; padding: 16px 18px; border-left: 4px solid var(--accent-primary); border-radius: 16px; background: rgba(99,102,241,0.08); color: var(--text-secondary); font-size: 1rem; }
+	    .daily-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 22px; }
+	    .daily-tag { display: inline-flex; align-items: center; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,0.92); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; }
+	    .daily-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+	    .daily-stat { padding: 18px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)); border: 1px solid var(--border-color); }
+	    .daily-stat-label { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
+	    .daily-stat-value { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; }
+	    .daily-section { margin-top: 28px; }
+	    .daily-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+	    .daily-section-index { font-size: 0.92rem; font-weight: 800; color: var(--accent-primary); padding: 5px 10px; border-radius: 999px; background: rgba(99,102,241,0.1); }
+	    .daily-section-title { font-size: 1.45rem; letter-spacing: -0.02em; }
+	    .daily-summary-card { padding: 18px 20px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+	    .daily-summary-card p + p { margin-top: 12px; }
+	    .daily-news-list, .daily-paper-list { list-style: none; margin: 0; padding: 0; }
+	    .daily-news-item, .daily-paper-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 20px; border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,250,251,0.92)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+	    .daily-news-item + .daily-news-item, .daily-paper-card + .daily-paper-card { margin-top: 16px; }
+	    .daily-news-index, .daily-paper-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: var(--gradient-accent); box-shadow: var(--shadow-sm); flex-shrink: 0; }
+	    .daily-news-title-zh, .daily-paper-title-zh { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
+	    .daily-news-title-en, .daily-paper-title-en { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.6; }
+	    .daily-news-meta, .daily-paper-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+	    .daily-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.88rem; color: var(--text-secondary); background: rgba(99,102,241,0.08); }
+	    .daily-chip-authors { background: rgba(16,185,129,0.08); }
+	    .daily-chip-score { background: rgba(245,158,11,0.12); }
+	    .daily-news-summary, .daily-paper-summary { color: var(--text-primary); line-height: 1.8; }
+	    .daily-news-reason { margin-top: 10px; color: var(--text-secondary); }
+	    .daily-paper-actions, .daily-news-link { margin-top: 14px; }
+	    .daily-news-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+	    .daily-news-link:hover { color: var(--accent-hover); }
+	    .daily-paper-head { display: flex; gap: 16px; align-items: flex-start; }
+	    .daily-paper-titles { min-width: 0; }
+	    .daily-toc { position: sticky; top: 24px; }
+	    .daily-toc-card { padding: 18px; border-radius: 20px; background: rgba(255,255,255,0.78); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); backdrop-filter: blur(12px); }
+	    .daily-toc-title { font-size: 0.95rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+	    .daily-toc a { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px; color: var(--text-secondary); text-decoration: none; }
+	    .daily-toc a:hover { background: rgba(99,102,241,0.08); color: var(--accent-primary); }
+	    .daily-footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.94rem; }
+	    @media (max-width: 980px) {
+	      .daily-layout { grid-template-columns: 1fr; }
+	      .daily-toc { position: static; order: -1; }
+	    }
+	    @media (max-width: 720px) {
+	      .daily-shell { padding: 16px 12px 36px; }
+	      .daily-article { padding: 22px 16px; border-radius: 22px; }
+	      .daily-stats { grid-template-columns: 1fr; }
+	      .daily-news-item, .daily-paper-card { grid-template-columns: 1fr; }
+	      .daily-news-index, .daily-paper-number { width: 38px; height: 38px; }
+	      .daily-paper-head { flex-direction: column; gap: 12px; }
+	    }
 	  </style>
 </head>
 <body>
-  <div class="daily-container">
-    <a href="../index.html" class="back-link">← 返回主页</a>
-    <h1>📰 2026-03-22 每日文献摘要</h1>
-    <div class="section"><strong>总览：</strong> 今日文献以医学与健康科学为主导，涵盖老年医学、慢性病管理、公共卫生及AI辅助诊断等多个子领域。同时，材料科学（如高频器件、超导自旋电子学）与量子计算（如QAOA扩展）取得重要进展。跨学科研究特征显著，例如将深度学习应用于病理风险分层，以及工程可靠性分析在医疗设备筛查中的应用。</div>
-    <div class="section"><strong>热点：</strong> 研究热点集中于：1) 老龄化社会相关的健康挑战，包括老年谵妄筛查、功能依赖预测及乳腺癌预后研究；2) 人工智能与医疗深度融合，体现在胰腺囊肿安全分诊、前列腺癌复发风险预测及数字健康平台开发；3) 先进材料与器件创新，如100GHz频段Hall整流天线、无能耗自旋传输的超导反铁磁体及光诱导二维钙钛矿图案化；4) 全球公共卫生议题，涉及青少年头痛流行趋势、HIV检测培训效果及COVID-19对疾病负担的影响；5) 量子计算算法优化（如Snapshot-QAOA）与工程可靠性评估（如通信网络抗震）的交叉探索。</div>
-    <div class="section">
-      <h2>今日文献（每日摘要）</h2>
-      
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">A Hall &#x27;rectenna&#x27; can detect signals over a 100 GHz frequency range</div>
-                <div class="article-title-zh">一种Hall‘整流天线’可检测100 GHz以上频率信号</div>
+  <div class="daily-shell">
+    <div class="daily-topbar">
+      <div class="daily-topbar-left">
+        <a href="../index.html" class="back-link">← 返回主页</a>
+        <span class="daily-mini-chip">AI × Science Daily</span>
+      </div>
+      <div class="daily-topbar-right">
+        <span class="daily-mini-chip">2026-03-22</span>
+      </div>
+    </div>
+    <div class="daily-layout">
+      <article class="daily-article">
+        <header class="daily-hero">
+          <div class="daily-kicker">AI 文献日报</div>
+          <h1 class="daily-title">AI × Science 文献日报 2026/03/22</h1>
+          <p class="daily-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯版式，重构为更适合 AI × 物理 / 化学 / 材料交叉文献阅读的日报页面。</p>
+          <blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+          <div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
+          <div class="daily-stats">
+            <div class="daily-stat">
+              <div class="daily-stat-label">收录文献</div>
+              <div class="daily-stat-value">31</div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Physics News</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">研究提出利用霍尔效应实现宽频电磁波到直流电信号的直接转换，为高频无线通信与传感提供新型无源器件方案。</div>
-            <div class="article-link"><a href="https://phys.org/news/2026-03-hall-rectenna-ghz-frequency-range.html" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Superconducting altermagnets could carry spin without energy loss</div>
-                <div class="article-title-zh">超导反铁磁体可能实现无能耗自旋传输</div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">期刊 / 来源</div>
+              <div class="daily-stat-value">5</div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Physics News</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">理论计算表明，一类新型反铁磁材料（altermagnets）可能将超导体的零电阻特性延伸至电子自旋自由度，为低功耗自旋电子学奠定基础。</div>
-            <div class="article-link"><a href="https://phys.org/news/2026-03-superconducting-altermagnets-energy-loss.html" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Mapping a career in electron microscopy</div>
-                <div class="article-title-zh">电子显微学职业生涯回顾</div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">arXiv 相关</div>
+              <div class="daily-stat-value">0</div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Nature Reviews Chemistry</span> | <span class='meta-authors'>👤 Paul A. Midgley, Stephanie Greed</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">剑桥大学Paul Midgley教授在访谈中回顾了其利用电子显微学解析材料微观结构与性能关系的学术历程与洞见。</div>
-            <div class="article-link"><a href="https://www.nature.com/articles/s41570-026-00816-9" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">[ASAP] Light-Induced Ordered Pattern Formation in 2D Copper Halide Perovskites</div>
-                <div class="article-title-zh">二维铜卤化物钙钛矿中的光诱导有序图案形成</div>
+          </div>
+        </header>
+
+        <section id="summary" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">01</span>
+            <h2 class="daily-section-title">今日摘要</h2>
+          </div>
+          <div class="daily-summary-card">
+            <p><strong>总览：</strong>今日文献以医学与健康科学为主导，涵盖老年医学、慢性病管理、公共卫生及AI辅助诊断等多个子领域。同时，材料科学（如高频器件、超导自旋电子学）与量子计算（如QAOA扩展）取得重要进展。跨学科研究特征显著，例如将深度学习应用于病理风险分层，以及工程可靠性分析在医疗设备筛查中的应用。</p>
+            <p><strong>热点：</strong>研究热点集中于：1) 老龄化社会相关的健康挑战，包括老年谵妄筛查、功能依赖预测及乳腺癌预后研究；2) 人工智能与医疗深度融合，体现在胰腺囊肿安全分诊、前列腺癌复发风险预测及数字健康平台开发；3) 先进材料与器件创新，如100GHz频段Hall整流天线、无能耗自旋传输的超导反铁磁体及光诱导二维钙钛矿图案化；4) 全球公共卫生议题，涉及青少年头痛流行趋势、HIV检测培训效果及COVID-19对疾病负担的影响；5) 量子计算算法优化（如Snapshot-QAOA）与工程可靠性评估（如通信网络抗震）的交叉探索。</p>
+          </div>
+        </section>
+
+        <section id="highlights" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">02</span>
+            <h2 class="daily-section-title">交叉重点</h2>
+          </div>
+          <ol class="daily-news-list">
+        <li class="daily-news-item">
+            <div class="daily-news-index">01</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">一种Hall‘整流天线’可检测100 GHz以上频率信号</div>
+                <div class="daily-news-title-en">A Hall &#x27;rectenna&#x27; can detect signals over a 100 GHz frequency range</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+                <p class="daily-news-summary">研究提出利用霍尔效应实现宽频电磁波到直流电信号的直接转换，为高频无线通信与传感提供新型无源器件方案。</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-hall-rectenna-ghz-frequency-range.html" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Nano Letters: Latest Articles (ACS Publications)</span> | <span class='meta-authors'>👤 Atreyie Ghosh, Joseph L. Spellberg, Matthew Du, Yixuan Dou, Arashdeep S. Thind, Shengdong Qi, Janek Rieger, Calvin Raab, Suriyanarayanan Vaikuntanathan, Robert F. Klie, Lina Quan, and Sarah B. King</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">实验发现二维铜卤化物钙钛矿在光照下可自发形成纳米级有序图案，揭示了光热耦合驱动下材料自组织的动态过程。</div>
-            <div class="article-link"><a href="http://dx.doi.org/10.1021/acs.nanolett.6c00133" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">[ASAP] Membrane-Based Assembly and Interactions in Immune Receptors</div>
-                <div class="article-title-zh">免疫受体在膜环境中的组装与相互作用</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">02</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">超导反铁磁体可能实现无能耗自旋传输</div>
+                <div class="daily-news-title-en">Superconducting altermagnets could carry spin without energy loss</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+                <p class="daily-news-summary">理论计算表明，一类新型反铁磁材料（altermagnets）可能将超导体的零电阻特性延伸至电子自旋自由度，为低功耗自旋电子学奠定基础。</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-superconducting-altermagnets-energy-loss.html" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 ACS</span> | <span class='meta-authors'>👤 Matthew E. Call and Melissa J. Call</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">综述系统阐述了膜流动性、脂质组成等物理因素如何调控免疫受体复合物的空间组织与信号激活机制。</div>
-            <div class="article-link"><a href="http://dx.doi.org/10.1021/acs.chemrev.5c00993" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Understanding how digital training enhances healthcare worker perceptions of HIV index case testing: a qualitative explanatory analysis</div>
-                <div class="article-title-zh">数字培训如何提升马拉维医护人员对HIV指数病例检测的认知：定性解释性分析</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">03</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">电子显微学职业生涯回顾</div>
+                <div class="daily-news-title-en">Mapping a career in electron microscopy</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Nature Reviews Chemistry</span><span class='daily-chip daily-chip-authors'>👤 Paul A. Midgley, Stephanie Greed</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+                <p class="daily-news-summary">剑桥大学Paul Midgley教授在访谈中回顾了其利用电子显微学解析材料微观结构与性能关系的学术历程与洞见。</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+                <a class="daily-news-link" href="https://www.nature.com/articles/s41570-026-00816-9" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 T, a, p, i, w, a 等194位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">在马拉维的聚类随机试验中，数字培训显著改善了医护人员对HIV指数病例检测的认知与实施意愿，为资源有限地区提供培训新模式。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8853616/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Clinical performance of an ultra-brief delirium screening tool in hospitalized older adults</div>
-                <div class="article-title-zh">超简短谵妄筛查工具在住院老年患者中的临床性能评估</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">04</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">二维铜卤化物钙钛矿中的光诱导有序图案形成</div>
+                <div class="daily-news-title-en">[ASAP] Light-Induced Ordered Pattern Formation in 2D Copper Halide Perovskites</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Nano Letters: Latest Articles (ACS Publications)</span><span class='daily-chip daily-chip-authors'>👤 Atreyie Ghosh, Joseph L. Spellberg, Matthew Du, Yixuan Dou, Arashdeep S. Thind, Shengdong Qi 等12位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+                <p class="daily-news-summary">实验发现二维铜卤化物钙钛矿在光照下可自发形成纳米级有序图案，揭示了光热耦合驱动下材料自组织的动态过程。</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00133" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 M, A, R, I, A, N 等59位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">研究验证了一种仅需1-2分钟的极简谵妄筛查工具在老年住院患者中的高敏感性与特异性，有助于提升临床诊断率。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8722630/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Predictors and Diagnostic Threshold Values of Functional Dependency in Individuals Aged 80 and Over: A Retrospective Cross-Sectional Study</div>
-                <div class="article-title-zh">80岁以上人群功能依赖的预测因素与诊断阈值：一项回顾性横断面研究</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">05</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">免疫受体在膜环境中的组装与相互作用</div>
+                <div class="daily-news-title-en">[ASAP] Membrane-Based Assembly and Interactions in Immune Receptors</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 ACS</span><span class='daily-chip daily-chip-authors'>👤 Matthew E. Call and Melissa J. Call</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+                <p class="daily-news-summary">综述系统阐述了膜流动性、脂质组成等物理因素如何调控免疫受体复合物的空间组织与信号激活机制。</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.chemrev.5c00993" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 A, b, d, u, l, k 等32位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">在土耳其Balıkesir地区，认知障碍、营养不良与抑郁是80岁以上老人功能依赖的主要预测因素，研究提供了关键临床阈值。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8909415/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Perceptions, Challenges, and Innovations in Educational Rehabilitation for Students with Intellectual Disabilities in Saudi Arabia</div>
-                <div class="article-title-zh">沙特阿拉伯智力障碍学生教育康复的认知、挑战与创新</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">06</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">数字培训如何提升马拉维医护人员对HIV指数病例检测的认知：定性解释性分析</div>
+                <div class="daily-news-title-en">Understanding how digital training enhances healthcare worker perceptions of HIV index case testing: a qualitative explanatory analysis</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 T, a, p, i, w, a 等194位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+                <p class="daily-news-summary">在马拉维的聚类随机试验中，数字培训显著改善了医护人员对HIV指数病例检测的认知与实施意愿，为资源有限地区提供培训新模式。</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8853616/latest" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 M, u, b, a, r, a 等19位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">调查显示沙特教育康复项目在意识提升与创新方法上取得进展，但仍面临资源分配与社会偏见等系统性挑战。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8736173/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Metrology-Driven Optical NDE for Screening ICT Probe-Induced Indentations on PCB Pads</div>
-                <div class="article-title-zh">基于计量学的光学无损检测用于筛选ICT探针在PCB焊盘上引起的压痕</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">07</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">超简短谵妄筛查工具在住院老年患者中的临床性能评估</div>
+                <div class="daily-news-title-en">Clinical performance of an ultra-brief delirium screening tool in hospitalized older adults</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 M, A, R, I, A, N 等59位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+                <p class="daily-news-summary">研究验证了一种仅需1-2分钟的极简谵妄筛查工具在老年住院患者中的高敏感性与特异性，有助于提升临床诊断率。</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8722630/latest" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 R, a, f, a, e, l 等90位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">开发了一种非接触式光学测量方法，可定量评估在线路板测试中弹簧探针造成的微米级压痕，保障电子制造可靠性。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8502691/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Transforming Pathways from Vulnerability to Resilience among Internally Displaced Populations in Myanmar Using a Constructive Grounded Theory Approach</div>
-                <div class="article-title-zh">运用建构扎根理论探索缅甸境内流离失所者从脆弱到韧性的转变路径</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">08</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">80岁以上人群功能依赖的预测因素与诊断阈值：一项回顾性横断面研究</div>
+                <div class="daily-news-title-en">Predictors and Diagnostic Threshold Values of Functional Dependency in Individuals Aged 80 and Over: A Retrospective Cross-Sectional Study</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 A, b, d, u, l, k 等32位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+                <p class="daily-news-summary">在土耳其Balıkesir地区，认知障碍、营养不良与抑郁是80岁以上老人功能依赖的主要预测因素，研究提供了关键临床阈值。</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8909415/latest" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 H, e, i, n, M, i 等50位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">通过质性研究发现，缅甸流离失所者的韧性构建依赖于社区互助、生计多样化与心理社会支持等复合干预。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8939700/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Very short-term monitoring of Romosozumab longitudinal effects in a cohort of postmenopausal women by means of Radiofrequency Echographic Multi-Spectrometry (REMS) technology</div>
-                <div class="article-title-zh">采用射频超声多谱技术短期监测绝经后女性使用Romosozumab的纵向效应</div>
+        </li>
+        </ol>
+        </section>
+
+        <section id="papers" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">03</span>
+            <h2 class="daily-section-title">完整速览</h2>
+          </div>
+          <ol class="daily-paper-list">
+        <li class="daily-paper-card" id="paper-1">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">01</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">一种Hall‘整流天线’可检测100 GHz以上频率信号</div>
+                    <div class="daily-paper-title-en">A Hall &#x27;rectenna&#x27; can detect signals over a 100 GHz frequency range</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 A, n, g, e, l, o 等137位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">研究证实无辐射的射频超声多谱技术可快速评估骨质疏松新药Romosozumab治疗后的骨密度变化，优于传统DXA扫描。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9116907/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Impact of Prostate Radiotherapy on Urinary Bacterial Profiles and the Emergence of Multidrug-Resistant Organisms: A Prospective Study</div>
-                <div class="article-title-zh">前列腺放疗对尿路细菌谱及多重耐药菌出现的影响：一项前瞻性研究</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">研究提出利用霍尔效应实现宽频电磁波到直流电信号的直接转换，为高频无线通信与传感提供新型无源器件方案。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-hall-rectenna-ghz-frequency-range.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 H, a, s, s, a, n 等68位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">前列腺癌放疗后患者尿路感染中多重耐药菌定植风险显著升高，提示需加强抗感染策略与微生物监测。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9035707/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Performance of Medical Schools and Students in a Rapid Expansion Era: A Cross-sectional Analysis</div>
-                <div class="article-title-zh">快速扩张时期医学院校与学生的表现：一项横断面分析</div>
+        <li class="daily-paper-card" id="paper-2">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">02</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">超导反铁磁体可能实现无能耗自旋传输</div>
+                    <div class="daily-paper-title-en">Superconducting altermagnets could carry spin without energy loss</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 G, u, i, l, h, e 等44位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">巴西医学院大规模扩招后，私立院校学生通过率与公立院校差距拉大，引发对教育质量均等化的担忧。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8622396/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Development of a Mobile Health Self-Management Platform for Patients with Urinary Calculi Based on the Chronic Disease Self-Management Program Model</div>
-                <div class="article-title-zh">基于慢性病自我管理模式的尿路结石患者移动健康平台开发</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">理论计算表明，一类新型反铁磁材料（altermagnets）可能将超导体的零电阻特性延伸至电子自旋自由度，为低功耗自旋电子学奠定基础。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-superconducting-altermagnets-energy-loss.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 H, e, q, i, P, e 等81位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">设计并验证了一款整合饮食、饮水、疼痛管理的移动健康应用，旨在降低尿路结石复发率并改善患者自我效能。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8986027/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Temporal trends, social inequalities, and COVID-19 impacts of migraine and tension-type headache in adolescents across China, Germany, and the USA from 1990 to 2021</div>
-                <div class="article-title-zh">1990-2021年中国、德国、美国青少年偏头痛与紧张型头痛的时间趋势、社会不平等及COVID-19影响</div>
+        <li class="daily-paper-card" id="paper-3">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">03</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">电子显微学职业生涯回顾</div>
+                    <div class="daily-paper-title-en">Mapping a career in electron microscopy</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 L, i, n, Z, h, u 等52位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">全球疾病负担研究显示，三国青少年头痛疾病负担均上升，社会剥夺指数高的地区增长更显著，COVID-19疫情加剧了不平等。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9014566/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Revisional OAGB Versus SADI-S After Failed Bariatric Surgery: A Comparative Study of Metabolic, Nutritional, and Quality-of-Life Outcomes</div>
-                <div class="article-title-zh">失败减重手术后 revisions：OAGB与SADI-S的代谢、营养与生活质量结局比较</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Nature Reviews Chemistry</span><span class='daily-chip daily-chip-authors'>👤 Paul A. Midgley, Stephanie Greed</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">剑桥大学Paul Midgley教授在访谈中回顾了其利用电子显微学解析材料微观结构与性能关系的学术历程与洞见。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.nature.com/articles/s41570-026-00816-9" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 I, v, a, n, K, u 等124位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">回顾性比较发现，单吻合口胃旁路术（OAGB）与单吻合口十二指肠回肠旁路联合袖状胃切除术（SADI-S）在再手术患者中疗效与并发症谱相似。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9072993/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">ADC-Based MRI Achieves Superior Accuracy in Preoperative LVSI Prediction for Endometrial Cancer</div>
-                <div class="article-title-zh">基于ADC的MRI在子宫内膜癌术前LVSI预测中准确性更优</div>
+        <li class="daily-paper-card" id="paper-4">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">04</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">二维铜卤化物钙钛矿中的光诱导有序图案形成</div>
+                    <div class="daily-paper-title-en">[ASAP] Light-Induced Ordered Pattern Formation in 2D Copper Halide Perovskites</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 A, l, i, s, a, M 等98位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">定量表观扩散系数（ADC）分析比传统DWI影像更准确预测子宫内膜癌淋巴脉管间隙浸润（LVSI），有助于术前风险分层。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9151794/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Influence of preoperative glycosylated Hemoglobin (HbA1c) level on long-term outcomes after coronary artery bypass grafting</div>
-                <div class="article-title-zh">术前糖化血红蛋白（HbA1c）水平对冠状动脉旁路移植术长期结局的影响</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Nano Letters: Latest Articles (ACS Publications)</span><span class='daily-chip daily-chip-authors'>👤 Atreyie Ghosh, Joseph L. Spellberg, Matthew Du, Yixuan Dou, Arashdeep S. Thind, Shengdong Qi 等12位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">实验发现二维铜卤化物钙钛矿在光照下可自发形成纳米级有序图案，揭示了光热耦合驱动下材料自组织的动态过程。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00133" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 V, i, a, n, a, C 等100位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">术前HbA1c升高与冠脉搭桥术后长期死亡率及心血管事件风险增加独立相关，强调术前血糖控制的重要性。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9125088/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Cybersecurity Hacking in HIPAA-Covered Entities: A Longitudinal Trend Analysis</div>
-                <div class="article-title-zh">HIPAA覆盖实体中网络安全黑客攻击的纵向趋势分析</div>
+        <li class="daily-paper-card" id="paper-5">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">05</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">免疫受体在膜环境中的组装与相互作用</div>
+                    <div class="daily-paper-title-en">[ASAP] Membrane-Based Assembly and Interactions in Immune Receptors</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 T, i, f, f, a, n 等51位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">分析6374起大规模医疗数据泄露事件发现，第三方业务伙伴成为黑客攻击新入口，需强化供应链网络安全监管。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9151808/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Uncertainty-Aware Explainable AI for Pancreatic Cysts: Identifying Deep Learning Vulnerabilities and Ensuring Safe Clinical Triage in IPMN Management</div>
-                <div class="article-title-zh">不确定性感知可解释AI在胰腺囊肿管理中的应用：识别深度学习漏洞并确保IPMN管理中的安全临床分诊</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 ACS</span><span class='daily-chip daily-chip-authors'>👤 Matthew E. Call and Melissa J. Call</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">综述系统阐述了膜流动性、脂质组成等物理因素如何调控免疫受体复合物的空间组织与信号激活机制。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.chemrev.5c00993" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 H, a, l, i, l, E 等381位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">该首个多中心研究系统分析了病变特征对IPMN恶性风险分层模型行为的影响，并提供了全面的可解释性分析，以识别AI漏洞并保障临床安全。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9096790/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Randomized Comparison of Health Examination Nonparticipation and Questionnaire Nonresponse in the Healthy Finland Survey</div>
-                <div class="article-title-zh">健康芬兰调查中健康体检非参与与问卷无响应的随机比较研究</div>
+        <li class="daily-paper-card" id="paper-6">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">06</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">数字培训如何提升马拉维医护人员对HIV指数病例检测的认知：定性解释性分析</div>
+                    <div class="daily-paper-title-en">Understanding how digital training enhances healthcare worker perceptions of HIV index case testing: a qualitative explanatory analysis</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 T, o, m, m, i, H 等76位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">研究通过随机比较发现，健康体检调查与问卷调查的非参与均具有选择性，会降低样本代表性，即使经过社会人口学调整后仍可能引入偏差。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8959646/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Prognostic Factors and Survival in Elderly Breast Cancer Patients: Roles of Age, Stage and Inflammatory Markers</div>
-                <div class="article-title-zh">老年乳腺癌患者的预后因素与生存：年龄、分期及炎症标志物的作用</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 T, a, p, i, w, a 等194位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">在马拉维的聚类随机试验中，数字培训显著改善了医护人员对HIV指数病例检测的认知与实施意愿，为资源有限地区提供培训新模式。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8853616/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 D, o, g, a, n, c 等92位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">研究探讨了老年乳腺癌患者的临床病理特征与总生存期，并分析了年龄、肿瘤分期及炎症标志物在该人群预后评估中的独立作用。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8909658/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Calcium–Phosphorus Metabolism in Patients with Sickle Cell Disease: A Study from Yaoundé, Cameroon</div>
-                <div class="article-title-zh">喀麦隆雅温得镰状细胞病患者钙磷代谢的研究</div>
+        <li class="daily-paper-card" id="paper-7">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">07</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">超简短谵妄筛查工具在住院老年患者中的临床性能评估</div>
+                    <div class="daily-paper-title-en">Clinical performance of an ultra-brief delirium screening tool in hospitalized older adults</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 K, é, v, i, n, B 等164位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">该研究评估了撒哈拉以南非洲地区镰状细胞病患者钙磷代谢相关生物参数，揭示了该群体中钙磷紊乱作为被低估的致病因子的现状。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9003511/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Prognostic Value of Delta Fibrinogen for tPA-Related Intracranial Hemorrhage: A Prospective Emergency Department Cohort Study</div>
-                <div class="article-title-zh">Delta纤维蛋白原对tPA相关颅内出血的预后价值：一项前瞻性急诊队列研究</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 M, A, R, I, A, N 等59位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">研究验证了一种仅需1-2分钟的极简谵妄筛查工具在老年住院患者中的高敏感性与特异性，有助于提升临床诊断率。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8722630/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 S, e, r, h, a, t 等71位作者</span> | <span class='meta-score'>🔥 5</span></div>
-            <div class="article-summary">研究通过前瞻性队列发现，Delta纤维蛋白原可作为急性缺血性卒中患者静脉溶栓后颅内出血的早期实用生物标志物，有助于预测出血并发症。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8890921/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Snapshot-QAOA: Extending QAOA to Quantum Hamiltonian Simulation</div>
-                <div class="article-title-zh">快照QAOA：将QAOA扩展至量子哈密顿模拟</div>
+        <li class="daily-paper-card" id="paper-8">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">08</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">80岁以上人群功能依赖的预测因素与诊断阈值：一项回顾性横断面研究</div>
+                    <div class="daily-paper-title-en">Predictors and Diagnostic Threshold Values of Functional Dependency in Individuals Aged 80 and Over: A Retrospective Cross-Sectional Study</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 R, e, u, b, e, n 等96位作者</span> | <span class='meta-score'>🔥 1</span></div>
-            <div class="article-summary">提出快照QAOA这一变体算法，将量子近似优化算法从组合优化问题扩展应用于寻找大规模量子哈密顿量的近似基态。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9171925/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Cognitive–emotional pathways linking non-restorative sleep to erectile dysfunction: the role of rumination profiles and resilience</div>
-                <div class="article-title-zh">非恢复性睡眠与勃起功能障碍的认知-情绪路径：反刍思维模式与韧性的作用</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 A, b, d, u, l, k 等32位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">在土耳其Balıkesir地区，认知障碍、营养不良与抑郁是80岁以上老人功能依赖的主要预测因素，研究提供了关键临床阈值。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8909415/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 P, a, n, G, a, o 等114位作者</span></div>
-            <div class="article-summary">研究揭示了非恢复性睡眠通过反刍思维这一心理中介路径影响勃起功能障碍，且个体韧性在其中起到调节作用。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9086033/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Severe Chronic Enteropathy Associated with SLCO2A1 Mutation in a Male Child Complicated by Extensive Jejunal Strictures and Perforation: A Case Report</div>
-                <div class="article-title-zh">SLCO2A1突变相关严重慢性肠病1例：男性儿童伴广泛空肠狭窄及穿孔</div>
+        <li class="daily-paper-card" id="paper-9">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">09</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">沙特阿拉伯智力障碍学生教育康复的认知、挑战与创新</div>
+                    <div class="daily-paper-title-en">Perceptions, Challenges, and Innovations in Educational Rehabilitation for Students with Intellectual Disabilities in Saudi Arabia</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 Y, u, y, o, u, n 等23位作者</span></div>
-            <div class="article-summary">报告一例罕见的SLCO2A1突变相关慢性肠病男性患儿，其病情严重，出现广泛空肠狭窄与穿孔，突破了该病多见于女性且病程温和的典型特征。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8843708/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Advance Bat Algorithm Inspired Algorithm for Fast Convergence and High Accuracy in Solving Numerical Optimisation Problems</div>
-                <div class="article-title-zh">受高级蝙蝠算法启发的算法：在数值优化问题中实现快速收敛与高精度</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 M, u, b, a, r, a 等19位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">调查显示沙特教育康复项目在意识提升与创新方法上取得进展，但仍面临资源分配与社会偏见等系统性挑战。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8736173/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 M, ., R, ., R, a 等38位作者</span></div>
-            <div class="article-summary">提出高级蝙蝠算法，通过引入三个关键创新机制，有效解决了标准蝙蝠算法在高维搜索空间中收敛慢与易陷局部最优的持久挑战。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9045548/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Probabilistic seismic reliability assessment of telecommunication networks under mainshock–aftershock sequences: a Chilean case study</div>
-                <div class="article-title-zh">主震-余震序列下电信网络概率抗震可靠性评估：以智利为例</div>
+        <li class="daily-paper-card" id="paper-10">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">10</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">基于计量学的光学无损检测用于筛选ICT探针在PCB焊盘上引起的压痕</div>
+                    <div class="daily-paper-title-en">Metrology-Driven Optical NDE for Screening ICT Probe-Induced Indentations on PCB Pads</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 J, i, m, é, n, e 等46位作者</span></div>
-            <div class="article-summary">基于概率地震危险性分析的蒙特卡洛框架，量化了余震对智利国家电信网络连通性的额外损害，超越了仅考虑主震的传统评估。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-8981395/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Deep learning from routine histology improves risk stratification for biochemical recurrence in prostate cancer</div>
-                <div class="article-title-zh">从常规组织学深度学习改善前列腺癌生化复发的风险分层</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 R, a, f, a, e, l 等90位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">开发了一种非接触式光学测量方法，可定量评估在线路板测试中弹簧探针造成的微米级压痕，保障电子制造可靠性。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8502691/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Preprints</span> | <span class='meta-authors'>👤 C, l, é, m, e, n 等229位作者</span></div>
-            <div class="article-summary">利用深度学习分析常规病理切片，可超越传统粗粒度病理描述，显著提升前列腺癌根治术后生化复发预测的准确性，辅助治疗决策。</div>
-            <div class="article-link"><a href="https://www.researchsquare.com/article/rs-9013424/latest" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
+        <li class="daily-paper-card" id="paper-11">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">11</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">运用建构扎根理论探索缅甸境内流离失所者从脆弱到韧性的转变路径</div>
+                    <div class="daily-paper-title-en">Transforming Pathways from Vulnerability to Resilience among Internally Displaced Populations in Myanmar Using a Constructive Grounded Theory Approach</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 H, e, i, n, M, i 等50位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">通过质性研究发现，缅甸流离失所者的韧性构建依赖于社区互助、生计多样化与心理社会支持等复合干预。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8939700/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-12">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">12</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">采用射频超声多谱技术短期监测绝经后女性使用Romosozumab的纵向效应</div>
+                    <div class="daily-paper-title-en">Very short-term monitoring of Romosozumab longitudinal effects in a cohort of postmenopausal women by means of Radiofrequency Echographic Multi-Spectrometry (REMS) technology</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 A, n, g, e, l, o 等137位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">研究证实无辐射的射频超声多谱技术可快速评估骨质疏松新药Romosozumab治疗后的骨密度变化，优于传统DXA扫描。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9116907/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-13">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">13</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">前列腺放疗对尿路细菌谱及多重耐药菌出现的影响：一项前瞻性研究</div>
+                    <div class="daily-paper-title-en">Impact of Prostate Radiotherapy on Urinary Bacterial Profiles and the Emergence of Multidrug-Resistant Organisms: A Prospective Study</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 H, a, s, s, a, n 等68位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">前列腺癌放疗后患者尿路感染中多重耐药菌定植风险显著升高，提示需加强抗感染策略与微生物监测。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9035707/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-14">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">14</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">快速扩张时期医学院校与学生的表现：一项横断面分析</div>
+                    <div class="daily-paper-title-en">Performance of Medical Schools and Students in a Rapid Expansion Era: A Cross-sectional Analysis</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 G, u, i, l, h, e 等44位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">巴西医学院大规模扩招后，私立院校学生通过率与公立院校差距拉大，引发对教育质量均等化的担忧。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8622396/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-15">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">15</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">基于慢性病自我管理模式的尿路结石患者移动健康平台开发</div>
+                    <div class="daily-paper-title-en">Development of a Mobile Health Self-Management Platform for Patients with Urinary Calculi Based on the Chronic Disease Self-Management Program Model</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 H, e, q, i, P, e 等81位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">设计并验证了一款整合饮食、饮水、疼痛管理的移动健康应用，旨在降低尿路结石复发率并改善患者自我效能。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8986027/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-16">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">16</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">1990-2021年中国、德国、美国青少年偏头痛与紧张型头痛的时间趋势、社会不平等及COVID-19影响</div>
+                    <div class="daily-paper-title-en">Temporal trends, social inequalities, and COVID-19 impacts of migraine and tension-type headache in adolescents across China, Germany, and the USA from 1990 to 2021</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 L, i, n, Z, h, u 等52位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">全球疾病负担研究显示，三国青少年头痛疾病负担均上升，社会剥夺指数高的地区增长更显著，COVID-19疫情加剧了不平等。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9014566/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-17">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">17</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">失败减重手术后 revisions：OAGB与SADI-S的代谢、营养与生活质量结局比较</div>
+                    <div class="daily-paper-title-en">Revisional OAGB Versus SADI-S After Failed Bariatric Surgery: A Comparative Study of Metabolic, Nutritional, and Quality-of-Life Outcomes</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 I, v, a, n, K, u 等124位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">回顾性比较发现，单吻合口胃旁路术（OAGB）与单吻合口十二指肠回肠旁路联合袖状胃切除术（SADI-S）在再手术患者中疗效与并发症谱相似。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9072993/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-18">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">18</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">基于ADC的MRI在子宫内膜癌术前LVSI预测中准确性更优</div>
+                    <div class="daily-paper-title-en">ADC-Based MRI Achieves Superior Accuracy in Preoperative LVSI Prediction for Endometrial Cancer</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 A, l, i, s, a, M 等98位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">定量表观扩散系数（ADC）分析比传统DWI影像更准确预测子宫内膜癌淋巴脉管间隙浸润（LVSI），有助于术前风险分层。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9151794/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-19">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">19</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">术前糖化血红蛋白（HbA1c）水平对冠状动脉旁路移植术长期结局的影响</div>
+                    <div class="daily-paper-title-en">Influence of preoperative glycosylated Hemoglobin (HbA1c) level on long-term outcomes after coronary artery bypass grafting</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 V, i, a, n, a, C 等100位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">术前HbA1c升高与冠脉搭桥术后长期死亡率及心血管事件风险增加独立相关，强调术前血糖控制的重要性。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9125088/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-20">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">20</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">HIPAA覆盖实体中网络安全黑客攻击的纵向趋势分析</div>
+                    <div class="daily-paper-title-en">Cybersecurity Hacking in HIPAA-Covered Entities: A Longitudinal Trend Analysis</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 T, i, f, f, a, n 等51位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">分析6374起大规模医疗数据泄露事件发现，第三方业务伙伴成为黑客攻击新入口，需强化供应链网络安全监管。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9151808/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-21">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">21</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">不确定性感知可解释AI在胰腺囊肿管理中的应用：识别深度学习漏洞并确保IPMN管理中的安全临床分诊</div>
+                    <div class="daily-paper-title-en">Uncertainty-Aware Explainable AI for Pancreatic Cysts: Identifying Deep Learning Vulnerabilities and Ensuring Safe Clinical Triage in IPMN Management</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 H, a, l, i, l, E 等381位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">该首个多中心研究系统分析了病变特征对IPMN恶性风险分层模型行为的影响，并提供了全面的可解释性分析，以识别AI漏洞并保障临床安全。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9096790/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-22">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">22</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">健康芬兰调查中健康体检非参与与问卷无响应的随机比较研究</div>
+                    <div class="daily-paper-title-en">Randomized Comparison of Health Examination Nonparticipation and Questionnaire Nonresponse in the Healthy Finland Survey</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 T, o, m, m, i, H 等76位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">研究通过随机比较发现，健康体检调查与问卷调查的非参与均具有选择性，会降低样本代表性，即使经过社会人口学调整后仍可能引入偏差。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8959646/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-23">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">23</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">老年乳腺癌患者的预后因素与生存：年龄、分期及炎症标志物的作用</div>
+                    <div class="daily-paper-title-en">Prognostic Factors and Survival in Elderly Breast Cancer Patients: Roles of Age, Stage and Inflammatory Markers</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 D, o, g, a, n, c 等92位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">研究探讨了老年乳腺癌患者的临床病理特征与总生存期，并分析了年龄、肿瘤分期及炎症标志物在该人群预后评估中的独立作用。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8909658/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-24">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">24</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">喀麦隆雅温得镰状细胞病患者钙磷代谢的研究</div>
+                    <div class="daily-paper-title-en">Calcium–Phosphorus Metabolism in Patients with Sickle Cell Disease: A Study from Yaoundé, Cameroon</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 K, é, v, i, n, B 等164位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">该研究评估了撒哈拉以南非洲地区镰状细胞病患者钙磷代谢相关生物参数，揭示了该群体中钙磷紊乱作为被低估的致病因子的现状。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9003511/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-25">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">25</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">Delta纤维蛋白原对tPA相关颅内出血的预后价值：一项前瞻性急诊队列研究</div>
+                    <div class="daily-paper-title-en">Prognostic Value of Delta Fibrinogen for tPA-Related Intracranial Hemorrhage: A Prospective Emergency Department Cohort Study</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 S, e, r, h, a, t 等71位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
+            <div class="daily-paper-summary">研究通过前瞻性队列发现，Delta纤维蛋白原可作为急性缺血性卒中患者静脉溶栓后颅内出血的早期实用生物标志物，有助于预测出血并发症。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8890921/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-26">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">26</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">快照QAOA：将QAOA扩展至量子哈密顿模拟</div>
+                    <div class="daily-paper-title-en">Snapshot-QAOA: Extending QAOA to Quantum Hamiltonian Simulation</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 R, e, u, b, e, n 等96位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 1</span></div>
+            <div class="daily-paper-summary">提出快照QAOA这一变体算法，将量子近似优化算法从组合优化问题扩展应用于寻找大规模量子哈密顿量的近似基态。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9171925/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-27">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">27</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">非恢复性睡眠与勃起功能障碍的认知-情绪路径：反刍思维模式与韧性的作用</div>
+                    <div class="daily-paper-title-en">Cognitive–emotional pathways linking non-restorative sleep to erectile dysfunction: the role of rumination profiles and resilience</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 P, a, n, G, a, o 等114位作者</span></div>
+            <div class="daily-paper-summary">研究揭示了非恢复性睡眠通过反刍思维这一心理中介路径影响勃起功能障碍，且个体韧性在其中起到调节作用。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9086033/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-28">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">28</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">SLCO2A1突变相关严重慢性肠病1例：男性儿童伴广泛空肠狭窄及穿孔</div>
+                    <div class="daily-paper-title-en">Severe Chronic Enteropathy Associated with SLCO2A1 Mutation in a Male Child Complicated by Extensive Jejunal Strictures and Perforation: A Case Report</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 Y, u, y, o, u, n 等23位作者</span></div>
+            <div class="daily-paper-summary">报告一例罕见的SLCO2A1突变相关慢性肠病男性患儿，其病情严重，出现广泛空肠狭窄与穿孔，突破了该病多见于女性且病程温和的典型特征。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8843708/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-29">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">29</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">受高级蝙蝠算法启发的算法：在数值优化问题中实现快速收敛与高精度</div>
+                    <div class="daily-paper-title-en">Advance Bat Algorithm Inspired Algorithm for Fast Convergence and High Accuracy in Solving Numerical Optimisation Problems</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 M, ., R, ., R, a 等38位作者</span></div>
+            <div class="daily-paper-summary">提出高级蝙蝠算法，通过引入三个关键创新机制，有效解决了标准蝙蝠算法在高维搜索空间中收敛慢与易陷局部最优的持久挑战。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9045548/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-30">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">30</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">主震-余震序列下电信网络概率抗震可靠性评估：以智利为例</div>
+                    <div class="daily-paper-title-en">Probabilistic seismic reliability assessment of telecommunication networks under mainshock–aftershock sequences: a Chilean case study</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 J, i, m, é, n, e 等46位作者</span></div>
+            <div class="daily-paper-summary">基于概率地震危险性分析的蒙特卡洛框架，量化了余震对智利国家电信网络连通性的额外损害，超越了仅考虑主震的传统评估。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-8981395/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-31">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">31</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">从常规组织学深度学习改善前列腺癌生化复发的风险分层</div>
+                    <div class="daily-paper-title-en">Deep learning from routine histology improves risk stratification for biochemical recurrence in prostate cancer</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 C, l, é, m, e, n 等229位作者</span></div>
+            <div class="daily-paper-summary">利用深度学习分析常规病理切片，可超越传统粗粒度病理描述，显著提升前列腺癌根治术后生化复发预测的准确性，辅助治疗决策。</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9013424/latest" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        </ol>
+        </section>
+
+        <div class="daily-footer">
+          本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要信息，便于快速筛选与深度阅读。
+        </div>
+      </article>
+
+      <aside class="daily-toc">
+        <div class="daily-toc-card">
+          <div class="daily-toc-title">目录</div>
+          <a href="#summary"><span>今日摘要</span><span>01</span></a>
+          <a href="#highlights"><span>交叉重点</span><span>02</span></a>
+          <a href="#papers"><span>完整速览</span><span>03</span></a>
+        </div>
+      </aside>
     </div>
   </div>
 </body>

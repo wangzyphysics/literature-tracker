@@ -3,481 +3,918 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2026-03-11 每日摘要 - 文献追踪系统</title>
+  <title>2026-03-11 文献日报 - 文献追踪系统</title>
   <link rel="stylesheet" href="../style.css" />
 	  <style>
-	    .daily-container { max-width: 960px; margin: 0 auto; padding: 20px; }
-	    .section { margin: 18px 0; padding: 16px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-md); }
-	    .article-card { margin: 14px 0; padding: 16px; background: var(--bg-card); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
-	    .article-title-en { font-weight: 600; margin-bottom: 6px; }
-	    .article-title-zh { color: var(--text-secondary); margin-bottom: 8px; }
-	    .article-meta { color: var(--text-muted); font-size: 0.92em; margin: 6px 0 10px; }
-	    .article-summary { color: var(--text-primary); }
-	    .article-link a { color: var(--accent-primary); text-decoration: none; }
-	    .article-link a:hover { text-decoration: underline; }
-	    .back-link { display: inline-block; margin-bottom: 14px; color: var(--accent-primary); text-decoration: none; }
-	    .back-link:hover { text-decoration: underline; }
+	    body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); }
+	    .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
+	    .daily-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+	    .daily-topbar-left, .daily-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+	    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+	    .back-link:hover { color: var(--accent-hover); }
+	    .daily-mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.75); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; backdrop-filter: blur(8px); }
+	    .daily-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; }
+	    .daily-article { background: rgba(255,255,255,0.76); border: 1px solid rgba(148,163,184,0.28); border-radius: 28px; box-shadow: var(--shadow-lg); backdrop-filter: blur(14px); padding: 32px; }
+	    .daily-hero { padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
+	    .daily-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(99,102,241,0.12); color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em; }
+	    .daily-title { margin: 18px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.03em; }
+	    .daily-subtitle { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 18px; }
+	    .daily-quote { margin: 0; padding: 16px 18px; border-left: 4px solid var(--accent-primary); border-radius: 16px; background: rgba(99,102,241,0.08); color: var(--text-secondary); font-size: 1rem; }
+	    .daily-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 22px; }
+	    .daily-tag { display: inline-flex; align-items: center; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,0.92); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; }
+	    .daily-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+	    .daily-stat { padding: 18px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)); border: 1px solid var(--border-color); }
+	    .daily-stat-label { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
+	    .daily-stat-value { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; }
+	    .daily-section { margin-top: 28px; }
+	    .daily-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+	    .daily-section-index { font-size: 0.92rem; font-weight: 800; color: var(--accent-primary); padding: 5px 10px; border-radius: 999px; background: rgba(99,102,241,0.1); }
+	    .daily-section-title { font-size: 1.45rem; letter-spacing: -0.02em; }
+	    .daily-summary-card { padding: 18px 20px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+	    .daily-summary-card p + p { margin-top: 12px; }
+	    .daily-news-list, .daily-paper-list { list-style: none; margin: 0; padding: 0; }
+	    .daily-news-item, .daily-paper-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 20px; border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,250,251,0.92)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+	    .daily-news-item + .daily-news-item, .daily-paper-card + .daily-paper-card { margin-top: 16px; }
+	    .daily-news-index, .daily-paper-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: var(--gradient-accent); box-shadow: var(--shadow-sm); flex-shrink: 0; }
+	    .daily-news-title-zh, .daily-paper-title-zh { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
+	    .daily-news-title-en, .daily-paper-title-en { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.6; }
+	    .daily-news-meta, .daily-paper-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+	    .daily-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.88rem; color: var(--text-secondary); background: rgba(99,102,241,0.08); }
+	    .daily-chip-authors { background: rgba(16,185,129,0.08); }
+	    .daily-chip-score { background: rgba(245,158,11,0.12); }
+	    .daily-news-summary, .daily-paper-summary { color: var(--text-primary); line-height: 1.8; }
+	    .daily-news-reason { margin-top: 10px; color: var(--text-secondary); }
+	    .daily-paper-actions, .daily-news-link { margin-top: 14px; }
+	    .daily-news-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+	    .daily-news-link:hover { color: var(--accent-hover); }
+	    .daily-paper-head { display: flex; gap: 16px; align-items: flex-start; }
+	    .daily-paper-titles { min-width: 0; }
+	    .daily-toc { position: sticky; top: 24px; }
+	    .daily-toc-card { padding: 18px; border-radius: 20px; background: rgba(255,255,255,0.78); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); backdrop-filter: blur(12px); }
+	    .daily-toc-title { font-size: 0.95rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+	    .daily-toc a { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px; color: var(--text-secondary); text-decoration: none; }
+	    .daily-toc a:hover { background: rgba(99,102,241,0.08); color: var(--accent-primary); }
+	    .daily-footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.94rem; }
+	    @media (max-width: 980px) {
+	      .daily-layout { grid-template-columns: 1fr; }
+	      .daily-toc { position: static; order: -1; }
+	    }
+	    @media (max-width: 720px) {
+	      .daily-shell { padding: 16px 12px 36px; }
+	      .daily-article { padding: 22px 16px; border-radius: 22px; }
+	      .daily-stats { grid-template-columns: 1fr; }
+	      .daily-news-item, .daily-paper-card { grid-template-columns: 1fr; }
+	      .daily-news-index, .daily-paper-number { width: 38px; height: 38px; }
+	      .daily-paper-head { flex-direction: column; gap: 12px; }
+	    }
 	  </style>
 </head>
 <body>
-  <div class="daily-container">
-    <a href="../index.html" class="back-link">← 返回主页</a>
-    <h1>📰 2026-03-11 每日文献摘要</h1>
-    <div class="section"><strong>总览：</strong> 今日共收录45篇文献。</div>
-    <div class="section"><strong>热点：</strong> </div>
-    <div class="section">
-      <h2>今日文献（每日摘要）</h2>
-      
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Magnetic field-induced momentum-dependent symmetry breaking in a kagome superconductor</div>
-                <div class="article-title-zh">Kagome 超导体中磁场引起的动量相关对称性破缺</div>
+  <div class="daily-shell">
+    <div class="daily-topbar">
+      <div class="daily-topbar-left">
+        <a href="../index.html" class="back-link">← 返回主页</a>
+        <span class="daily-mini-chip">AI × Science Daily</span>
+      </div>
+      <div class="daily-topbar-right">
+        <span class="daily-mini-chip">2026-03-11</span>
+      </div>
+    </div>
+    <div class="daily-layout">
+      <article class="daily-article">
+        <header class="daily-hero">
+          <div class="daily-kicker">AI 文献日报</div>
+          <h1 class="daily-title">AI × Science 文献日报 2026/03/11</h1>
+          <p class="daily-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯版式，重构为更适合 AI × 物理 / 化学 / 材料交叉文献阅读的日报页面。</p>
+          <blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+          <div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
+          <div class="daily-stats">
+            <div class="daily-stat">
+              <div class="daily-stat-label">收录文献</div>
+              <div class="daily-stat-value">45</div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Nature Physics</span> | <span class='meta-authors'>👤 Jianwei Huang, Zheng Ren, Hengxin Tan, Jounghoon Hyun, Yichen Zhang, Thomas A. Hulse 等20位作者</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.nature.com/articles/s41567-026-03205-7" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">A benchmarking framework for embodied neuromorphic agents</div>
-                <div class="article-title-zh">体现神经形态代理的基准测试框架</div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">期刊 / 来源</div>
+              <div class="daily-stat-value">18</div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Nature Machine Intelligence</span> | <span class='meta-authors'>👤 Giulia D’Angelo, Jens E. Pedersen, Taimoor Hassan, Matteo Cianchetti, Josh Bongard, Fumiya Iida 等12位作者</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.nature.com/articles/s42256-026-01197-w" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Accurate Ground States of SU(2) Lattice Gauge Theory in $2+1\mathrm{D}$ and $3+1\mathrm{D}$</div>
-                <div class="article-title-zh">$2+1\mathrm{D}$ 和 $3+1\mathrm{D}$ 中 SU(2) 晶格规范理论的精确基态</div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">arXiv 相关</div>
+              <div class="daily-stat-value">0</div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Thomas Spriggs, Eliska Greplova, Juan Carrasquilla, and Jannes Nys</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/wsk2-qcvy" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Improved Calculation of Radiative Corrections to $τ→ππ{ν}_{τ}$ Decays</div>
-                <div class="article-title-zh">改进了 $τ→ππ{ν}_{τ}$ 衰变的辐射校正计算</div>
+          </div>
+        </header>
+
+        <section id="summary" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">01</span>
+            <h2 class="daily-section-title">今日摘要</h2>
+          </div>
+          <div class="daily-summary-card">
+            <p><strong>总览：</strong>今日共收录45篇文献。</p>
+            <p><strong>热点：</strong></p>
+          </div>
+        </section>
+
+        <section id="highlights" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">02</span>
+            <h2 class="daily-section-title">交叉重点</h2>
+          </div>
+          <ol class="daily-news-list">
+        <li class="daily-news-item">
+            <div class="daily-news-index">01</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">Kagome 超导体中磁场引起的动量相关对称性破缺</div>
+                <div class="daily-news-title-en">Magnetic field-induced momentum-dependent symmetry breaking in a kagome superconductor</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Nature Physics</span><span class='daily-chip daily-chip-authors'>👤 Jianwei Huang, Zheng Ren, Hengxin Tan, Jounghoon Hyun, Yichen Zhang, Thomas A. Hulse 等20位作者</span></div>
+                <p class="daily-news-summary">请查阅原文了解详情</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Nature Physics</p>
+                <a class="daily-news-link" href="https://www.nature.com/articles/s41567-026-03205-7" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Gilberto Colangelo, Martina Cottini, Martin Hoferichter, and Simon Holz</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/ryk1-x6v1" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Electromagnetic Tomography of Radial Flow in the Quark-Gluon Plasma</div>
-                <div class="article-title-zh">夸克-胶子等离子体中径向流的电磁层析成像</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">02</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">体现神经形态代理的基准测试框架</div>
+                <div class="daily-news-title-en">A benchmarking framework for embodied neuromorphic agents</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Nature Machine Intelligence</span><span class='daily-chip daily-chip-authors'>👤 Giulia D’Angelo, Jens E. Pedersen, Taimoor Hassan, Matteo Cianchetti, Josh Bongard, Fumiya Iida 等12位作者</span></div>
+                <p class="daily-news-summary">请查阅原文了解详情</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Nature Machine Intelligence</p>
+                <a class="daily-news-link" href="https://www.nature.com/articles/s42256-026-01197-w" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Lipei Du and Ulrich Heinz</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/ptyq-cs9m" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Chiral Cavities Made from Lattices of Highly Electromagnetically Chiral Scatterers</div>
-                <div class="article-title-zh">由高电磁手性散射体晶格制成的手性腔</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">03</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">$2+1\mathrm{D}$ 和 $3+1\mathrm{D}$ 中 SU(2) 晶格规范理论的精确基态</div>
+                <div class="daily-news-title-en">Accurate Ground States of SU(2) Lattice Gauge Theory in $2+1\mathrm{D}$ and $3+1\mathrm{D}$</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Thomas Spriggs, Eliska Greplova, Juan Carrasquilla, and Jannes Nys</span></div>
+                <p class="daily-news-summary">请查阅原文了解详情</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/wsk2-qcvy" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Lukas Rebholz, Carsten Rockstuhl, and Ivan Fernandez-Corbaton</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/bchn-b47c" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Designing Lattice Spin Models and Magnon Gaps with Supercurrents</div>
-                <div class="article-title-zh">使用超电流设计晶格自旋模型和磁振子间隙</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">04</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">改进了 $τ→ππ{ν}_{τ}$ 衰变的辐射校正计算</div>
+                <div class="daily-news-title-en">Improved Calculation of Radiative Corrections to $τ→ππ{ν}_{τ}$ Decays</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Gilberto Colangelo, Martina Cottini, Martin Hoferichter, and Simon Holz</span></div>
+                <p class="daily-news-summary">请查阅原文了解详情</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/ryk1-x6v1" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Johanne Bratland Tjernshaugen, Martin Tang Bruland, and Jacob Linder</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/m5bk-7x4q" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Altermagnetic Spin Precession and Spin Transistor</div>
-                <div class="article-title-zh">交变磁自旋进动和自旋晶体管</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">05</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">夸克-胶子等离子体中径向流的电磁层析成像</div>
+                <div class="daily-news-title-en">Electromagnetic Tomography of Radial Flow in the Quark-Gluon Plasma</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Lipei Du and Ulrich Heinz</span></div>
+                <p class="daily-news-summary">请查阅原文了解详情</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/ptyq-cs9m" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Li-Shuo Liu, Kai Shao, Hai-Dong Li, Xiangang Wan, Wei Chen, and D. Y. Xing</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/j3qj-77yj" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Type-II Antiferroelectricity</div>
-                <div class="article-title-zh">II型反铁电</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">06</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">由高电磁手性散射体晶格制成的手性腔</div>
+                <div class="daily-news-title-en">Chiral Cavities Made from Lattices of Highly Electromagnetically Chiral Scatterers</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Lukas Rebholz, Carsten Rockstuhl, and Ivan Fernandez-Corbaton</span></div>
+                <p class="daily-news-summary">请查阅原文了解详情</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/bchn-b47c" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Yang Wang, Zhi-Ming Yu, Chaoxi Cui, Yilin Han, Tingli He, Weikang Wu, Run-Wu Zhang, Shengyuan A. Yang, and Yugui Yao</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/p3xh-f5bx" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Topological Excitonic Insulators in Electron Bilayers Modulated by Twisted Hexagonal Boron Nitride</div>
-                <div class="article-title-zh">扭曲六方氮化硼调制的电子双层中的拓扑激子绝缘体</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">07</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">使用超电流设计晶格自旋模型和磁振子间隙</div>
+                <div class="daily-news-title-en">Designing Lattice Spin Models and Magnon Gaps with Supercurrents</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Johanne Bratland Tjernshaugen, Martin Tang Bruland, and Jacob Linder</span></div>
+                <p class="daily-news-summary">请查阅原文了解详情</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/m5bk-7x4q" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Yongxin Zeng, Allan H. MacDonald, and Nemin Wei</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/3s2h-5x77" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Competing Magnetic Anisotropy and Domain-Wall Density for Optimizing Magnetization-Induced Water-Oxidation Enhancement</div>
-                <div class="article-title-zh">竞争磁各向异性和畴壁密度以优化磁化诱导的水氧化增强</div>
+        <li class="daily-news-item">
+            <div class="daily-news-index">08</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">交变磁自旋进动和自旋晶体管</div>
+                <div class="daily-news-title-en">Altermagnetic Spin Precession and Spin Transistor</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Li-Shuo Liu, Kai Shao, Hai-Dong Li, Xiangang Wan, Wei Chen, and D. Y. Xing</span></div>
+                <p class="daily-news-summary">请查阅原文了解详情</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/j3qj-77yj" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Lett.</span> | <span class='meta-authors'>👤 Anke Yu, Durgesh Kumar, Zizhao Gong, Leonhard Tannesia, Hasibur Rahaman, Pengfei Song, Tianze Wu, Ramu Maddu, Pinkesh Kumar Mishra, Xiao Renshaw Wang, S. N. Piramanayagam, and Zhichuan J. Xu</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/bdr5-bg1j" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Density functional theory study of the interaction between ${\mathrm{NV}}^{−}$ centers and native defects in diamond</div>
-                <div class="article-title-zh">金刚石中NV-中心与原生缺陷相互作用的第一性原理研究</div>
+        </li>
+        </ol>
+        </section>
+
+        <section id="papers" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">03</span>
+            <h2 class="daily-section-title">完整速览</h2>
+          </div>
+          <ol class="daily-paper-list">
+        <li class="daily-paper-card" id="paper-1">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">01</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">Kagome 超导体中磁场引起的动量相关对称性破缺</div>
+                    <div class="daily-paper-title-en">Magnetic field-induced momentum-dependent symmetry breaking in a kagome superconductor</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Editors&#x27; Suggestions</span> | <span class='meta-authors'>👤 Gabriel I. López-Morales, Joanna M. Zajac, Tom Delord, Carlos A. Meriles, and Cyrus E. Dreyer</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/s2n5-jjr9" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Lense–Thirring precessing magnetar engine drives a superluminous supernova</div>
-                <div class="article-title-zh">Lense-Thirring进动磁星引擎驱动超亮超新星</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Nature Physics</span><span class='daily-chip daily-chip-authors'>👤 Jianwei Huang, Zheng Ren, Hengxin Tan, Jounghoon Hyun, Yichen Zhang, Thomas A. Hulse 等20位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.nature.com/articles/s41567-026-03205-7" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Nature</span> | <span class='meta-authors'>👤 Joseph R. Farah, Logan J. Prust, D. Andrew Howell, Yuan Qi Ni, Curtis McCully, Moira Andrews 等14位作者</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.nature.com/articles/s41586-026-10151-0" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Ultra-bright supernova wobbles like a spinning top</div>
-                <div class="article-title-zh">超亮超新星如陀螺般摆动</div>
+        <li class="daily-paper-card" id="paper-2">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">02</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">体现神经形态代理的基准测试框架</div>
+                    <div class="daily-paper-title-en">A benchmarking framework for embodied neuromorphic agents</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Nature</span> | <span class='meta-authors'>👤 Adam Ingram</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.nature.com/articles/d41586-026-00490-3" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">BrainParc: unified lifespan brain parcellation from structural magnetic resonance images</div>
-                <div class="article-title-zh">BrainParc：基于结构磁共振图像的跨生命周期统一脑区划分</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Nature Machine Intelligence</span><span class='daily-chip daily-chip-authors'>👤 Giulia D’Angelo, Jens E. Pedersen, Taimoor Hassan, Matteo Cianchetti, Josh Bongard, Fumiya Iida 等12位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.nature.com/articles/s42256-026-01197-w" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Nature Computational Science</span> | <span class='meta-authors'>👤 Jiameng Liu, Feihong Liu, Kaicong Sun, Zhiming Cui, Tianyang Sun, Zehong Cao 等16位作者</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.nature.com/articles/s43588-026-00963-5" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Equivariant electronic Hamiltonian prediction with many-body message passing</div>
-                <div class="article-title-zh">基于多体消息传递的等变电子哈密顿量预测</div>
+        <li class="daily-paper-card" id="paper-3">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">03</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">$2+1\mathrm{D}$ 和 $3+1\mathrm{D}$ 中 SU(2) 晶格规范理论的精确基态</div>
+                    <div class="daily-paper-title-en">Accurate Ground States of SU(2) Lattice Gauge Theory in $2+1\mathrm{D}$ and $3+1\mathrm{D}$</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 npj Computational Materials</span> | <span class='meta-authors'>👤 Chen Qian, Valdas Vitartas, James R. Kermode, Reinhard J. Maurer</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.nature.com/articles/s41524-026-02020-1" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">[ASAP] Electrocatalysis-Triggered Synergistic Chemo-Immunotherapy Enabled by an Implantable Conductive Hydrogel with a 3D Nanoelectrode Network</div>
-                <div class="article-title-zh">植入式导电水凝胶电催化触发化疗-免疫协同治疗</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Thomas Spriggs, Eliska Greplova, Juan Carrasquilla, and Jannes Nys</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/wsk2-qcvy" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 ACS Nano: Latest Articles (ACS Publications)</span> | <span class='meta-authors'>👤 Defu Qian, Hongyi Zhang, Fuping Han, Yikun Li, Xin Li, Haolan Li, Yinghua Li, Wen Sun, Jianjun Du, Jiangli Fan, and Xiaojun Peng</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://dx.doi.org/10.1021/acsnano.5c20908" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Approaching the critical point through an exact ground-state evolution</div>
-                <div class="article-title-zh">通过精确基态演化逼近临界点</div>
+        <li class="daily-paper-card" id="paper-4">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">04</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">改进了 $τ→ππ{ν}_{τ}$ 衰变的辐射校正计算</div>
+                    <div class="daily-paper-title-en">Improved Calculation of Radiative Corrections to $τ→ππ{ν}_{τ}$ Decays</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Research</span> | <span class='meta-authors'>👤 Jun-Hao Lin, Ke-Xiong Yan, Jie Song, Ye-Hong Chen, and Yan Xia</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/yd3b-r78m" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Analytic quantifying chirality of Néel-type spin twists using interactions between stray fields and magnetic tips</div>
-                <div class="article-title-zh">利用杂散场与磁针相互作用解析量化Néel型自旋扭曲的手性</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Gilberto Colangelo, Martina Cottini, Martin Hoferichter, and Simon Holz</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/ryk1-x6v1" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. B</span> | <span class='meta-authors'>👤 Lingyao Kong, Chunhui Zhang, Weiwei Wang, Yaodong Wu, and Jin Tang</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/6c2v-7qyl" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Emergence of multiple topological spin textures in an all-magnetic van der Waals heterostructure</div>
-                <div class="article-title-zh">全磁性范德华异质结中多种拓扑自旋织构的出现</div>
+        <li class="daily-paper-card" id="paper-5">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">05</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">夸克-胶子等离子体中径向流的电磁层析成像</div>
+                    <div class="daily-paper-title-en">Electromagnetic Tomography of Radial Flow in the Quark-Gluon Plasma</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. B</span> | <span class='meta-authors'>👤 Moritz A. Goerzen, Tim Drevelow, Hendrik Schrautzer, Soumyajyoti Haldar, Stefan Heinze, and Dongzhe Li</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/g149-5gyd" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Disentangling hybrid lattice, orbital, and spin dynamics in ${\mathrm{CoTiO}}_{3}$: Raman scattering in high magnetic fields</div>
-                <div class="article-title-zh">解耦CoTiO3中的混合晶格、轨道与自旋动力学：高磁场下的拉曼散射</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Lipei Du and Ulrich Heinz</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/ptyq-cs9m" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. B</span> | <span class='meta-authors'>👤 M. A. Prosnikov, R. V. Pisarev, and P. C. M. Christianen</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/fb6n-7t2v" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Breakdown of chiral anomaly and emergent phases in Weyl semimetals under orbital magnetic fields</div>
-                <div class="article-title-zh">轨道磁场下外尔半金属中手征反常的破缺与涌现相</div>
+        <li class="daily-paper-card" id="paper-6">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">06</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">由高电磁手性散射体晶格制成的手性腔</div>
+                    <div class="daily-paper-title-en">Chiral Cavities Made from Lattices of Highly Electromagnetically Chiral Scatterers</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. B</span> | <span class='meta-authors'>👤 Faruk Abdulla, Anna Keselman, and Daniel Podolsky</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/q5f9-v6zh" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Ground state of ${\mathrm{CuInP}}_{2}{\mathrm{S}}_{6}$ thin films: A study of the deep potential method</div>
-                <div class="article-title-zh">CuInP2S6薄膜的基态：深势方法的研究</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Lukas Rebholz, Carsten Rockstuhl, and Ivan Fernandez-Corbaton</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/bchn-b47c" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. B</span> | <span class='meta-authors'>👤 Shengxian Li, Jiaren Yuan, Tao Ouyang, Anlian Pan, and Mingxing Chen</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/rp2y-2b5j" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Effect of uniaxial stress on helimagnetic phases in the square-lattice itinerant magnet ${\mathrm{EuAl}}_{4}$</div>
-                <div class="article-title-zh">单轴应力对方正方晶格 itinerant 磁体EuAl4中螺旋磁相的影响</div>
+        <li class="daily-paper-card" id="paper-7">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">07</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">使用超电流设计晶格自旋模型和磁振子间隙</div>
+                    <div class="daily-paper-title-en">Designing Lattice Spin Models and Magnon Gaps with Supercurrents</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. B</span> | <span class='meta-authors'>👤 Masaki Gen, Takuya Nomoto, Hiraku Saito, Taro Nakajima, Yusuke Tokunaga, Rina Takagi, Shinichiro Seki, and Taka-hisa Arima</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/frqw-vng9" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Molecular‐Level Recognition Surfaces Drive Machine‐Learning Discrimination of Homologous Gases</div>
-                <div class="article-title-zh">分子级识别表面驱动同系气体的机器学习区分</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Johanne Bratland Tjernshaugen, Martin Tang Bruland, and Jacob Linder</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/m5bk-7x4q" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Wiley: Advanced Materials: Table of Contents</span> | <span class='meta-authors'>👤 Yu Liu,  Xiaowei Li,  Xinghua Li,  Luyao Niu,  Aoqun Xue,  Liwei Zhang,  Xi Wu,  Wanying Cheng,  Haipeng Dong,  Mengxia Cui,  Mingzhuang Liu,  Chaohan Han,  Jiayu Xin,  Changlu Shao,  Yichun Liu</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202521921?af=R" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Triggered Ferroelectricity in HfO2 From Hybrid Phonons and Higher‐Order Dynamical Charges</div>
-                <div class="article-title-zh">来自杂化声子与高阶动力学电荷的HfO2触发铁电性</div>
+        <li class="daily-paper-card" id="paper-8">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">08</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">交变磁自旋进动和自旋晶体管</div>
+                    <div class="daily-paper-title-en">Altermagnetic Spin Precession and Spin Transistor</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Wiley: Advanced Materials: Table of Contents</span> | <span class='meta-authors'>👤 Seongjoo Jung,  Turan Birol</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202521602?af=R" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Magnetic excitations of the Kitaev model candidate RuBr 3</div>
-                <div class="article-title-zh">Kitaev模型候选材料RuBr3的磁激发</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Li-Shuo Liu, Kai Shao, Hai-Dong Li, Xiangang Wan, Wei Chen, and D. Y. Xing</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/j3qj-77yj" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 npj Quantum Materials</span> | <span class='meta-authors'>👤 Kazuhiro Nawa, Yoshinori Imai, Maiko Kofu, Richard Mole, Hideyuki Fujihara, Takumi Hiraoka 等12位作者</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.nature.com/articles/s41535-026-00868-6" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Nonlinear suppression of dispersion broadening of ultrashort spin-wave pulses in thin yttrium iron garnet films</div>
-                <div class="article-title-zh">薄钇铁石榴石薄膜中超短自旋波脉冲色散展宽的非线性抑制</div>
+        <li class="daily-paper-card" id="paper-9">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">09</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">II型反铁电</div>
+                    <div class="daily-paper-title-en">Type-II Antiferroelectricity</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Applied</span> | <span class='meta-authors'>👤 K.O. Nikolaev, D. Raskhodchikov, J. Bensmann, I.V. Borisenko, E. Lomonte, L. Jin, R. Schmidt, J. Kern, S. Michaelis de Vasconcellos, R. Bratschitsch, S.O. Demokritov, W.H.P. Pernice, and V.E. Demidov</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/wt14-t3dj" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Spectral-crystal efficiency mapping: An analytical tool for visualizing the parametric conversion potential of broadband sources</div>
-                <div class="article-title-zh">光谱-晶体效率映射：可视化宽带源参量转换潜力的分析工具</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Yang Wang, Zhi-Ming Yu, Chaoxi Cui, Yilin Han, Tingli He, Weikang Wu 等9位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/p3xh-f5bx" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Applied</span> | <span class='meta-authors'>👤 Sebastian C. Robarts, Derryck T. Reid, and Richard A. McCracken</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/bpxv-v274" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Freestanding magnetic membranes on graphene for spin-filtering applications</div>
-                <div class="article-title-zh">用于自旋过滤应用的石墨烯上自支撑磁性薄膜</div>
+        <li class="daily-paper-card" id="paper-10">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">10</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">扭曲六方氮化硼调制的电子双层中的拓扑激子绝缘体</div>
+                    <div class="daily-paper-title-en">Topological Excitonic Insulators in Electron Bilayers Modulated by Twisted Hexagonal Boron Nitride</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Applied</span> | <span class='meta-authors'>👤 Luca Nessi, Christian Rinaldi, Riccardo Bertacco, G Rossi, and Matteo Cantoni</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/nmpf-mhdw" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Spin freezing in oscillator Ising machines: When second-harmonic injection impedes computation</div>
-                <div class="article-title-zh">振荡伊辛机中的自旋冻结：二次谐波注入何时阻碍计算</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Yongxin Zeng, Allan H. MacDonald, and Nemin Wei</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/3s2h-5x77" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Phys. Rev. Applied</span> | <span class='meta-authors'>👤 Malihe Farasat, E.M.H.E.B. Ekanayake, and Nikhil Shukla</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="http://link.aps.org/doi/10.1103/6tl1-ny7d" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Researchers mix X-rays and optical light to track speedy electrons in materials</div>
-                <div class="article-title-zh">研究者混合X射线与光追踪材料中快速电子</div>
+        <li class="daily-paper-card" id="paper-11">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">11</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">竞争磁各向异性和畴壁密度以优化磁化诱导的水氧化增强</div>
+                    <div class="daily-paper-title-en">Competing Magnetic Anisotropy and Domain-Wall Density for Optimizing Magnetization-Induced Water-Oxidation Enhancement</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Physics News</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://phys.org/news/2026-03-rays-optical-track-speedy-electrons.html" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Scalable quantum batteries can charge faster than their classical counterparts</div>
-                <div class="article-title-zh">可扩展量子电池充电速度可超越经典电池</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Anke Yu, Durgesh Kumar, Zizhao Gong, Leonhard Tannesia, Hasibur Rahaman, Pengfei Song 等12位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/bdr5-bg1j" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Physics News</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://phys.org/news/2026-03-scalable-quantum-batteries-faster-classical.html" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Watching quantum behavior in action: MagnetoARPES reveals time-reversal symmetry breaking in a kagome superconductor</div>
-                <div class="article-title-zh">观测量子行为：磁ARPES揭示笼目超导体中的时间反演对称性破缺</div>
+        <li class="daily-paper-card" id="paper-12">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">12</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">金刚石中NV-中心与原生缺陷相互作用的第一性原理研究</div>
+                    <div class="daily-paper-title-en">Density functional theory study of the interaction between ${\mathrm{NV}}^{−}$ centers and native defects in diamond</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Physics News</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://phys.org/news/2026-03-quantum-behavior-action-magnetoarpes-reveals.html" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Ultrafast computing: Light-driven logic tops 10 terahertz in WS₂</div>
-                <div class="article-title-zh">超快计算：WS₂中光驱动逻辑运算突破10太赫兹</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Editors&#x27; Suggestions</span><span class='daily-chip daily-chip-authors'>👤 Gabriel I. López-Morales, Joanna M. Zajac, Tom Delord, Carlos A. Meriles, and Cyrus E. Dreyer</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/s2n5-jjr9" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Physics News</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://phys.org/news/2026-03-ultrafast-driven-logic-tops-terahertz.html" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Unexpected magnetic response in gold and silver atomic contacts contradicts previous theoretical predictions</div>
-                <div class="article-title-zh">金和银原子接触中出乎意料的磁响应与先前理论预测相悖</div>
+        <li class="daily-paper-card" id="paper-13">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">13</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">Lense-Thirring进动磁星引擎驱动超亮超新星</div>
+                    <div class="daily-paper-title-en">Lense–Thirring precessing magnetar engine drives a superluminous supernova</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Physics News</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://phys.org/news/2026-03-unexpected-magnetic-response-gold-silver.html" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Accelerated discovery of cell migration regulators using label-free deep learning–based automated tracking</div>
-                <div class="article-title-zh">利用无标签深度学习自动追踪加速发现细胞迁移调控因子</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Nature</span><span class='daily-chip daily-chip-authors'>👤 Joseph R. Farah, Logan J. Prust, D. Andrew Howell, Yuan Qi Ni, Curtis McCully, Moira Andrews 等14位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.nature.com/articles/s41586-026-10151-0" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 AAAS: Science Advances: Table of Contents</span> | <span class='meta-authors'>👤 Tiffany Chu, Yeongseo Lim, Yufei Sun, Fan Wu, Carolina Castillo, Eban Hanna, Denis Wirtz, Pei-Hsun Wu</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.science.org/doi/abs/10.1126/sciadv.aea1492?af=R" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Controlling noisy herds: Temporal network restructuring improves control of indecisive collectives</div>
-                <div class="article-title-zh">控制嘈杂的群体：时间网络重构改善优柔寡断集体的控制</div>
+        <li class="daily-paper-card" id="paper-14">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">14</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">超亮超新星如陀螺般摆动</div>
+                    <div class="daily-paper-title-en">Ultra-bright supernova wobbles like a spinning top</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 AAAS: Science Advances: Table of Contents</span> | <span class='meta-authors'>👤 Tuhin Chakrabortty and Saad Bhamla</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.science.org/doi/abs/10.1126/sciadv.adx6791?af=R" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">40 Tesla miniature magnets</div>
-                <div class="article-title-zh">40特斯拉微型磁体</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Nature</span><span class='daily-chip daily-chip-authors'>👤 Adam Ingram</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.nature.com/articles/d41586-026-00490-3" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 AAAS: Science Advances: Table of Contents</span> | <span class='meta-authors'>👤 Chukun Gao, Pin-Hui Chen, Nicholas Alaniva, James H. J. Ellison, Mairon Frei, Snædís Björgvinsdóttir, Edward P. Saliba, Yanhui Hu, Ioannis Pagonakis, Alexander Däpp, Ronny Gunzenhauser, Michael Urban, Klaus Ensslin, Alexander B. Barnes</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.science.org/doi/abs/10.1126/sciadv.adz5826?af=R" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">A soft electrode array with reconfigurable hydrogel interfaces for high-fidelity neurophysiological monitoring during craniotomy</div>
-                <div class="article-title-zh">一种用于开颅手术期间高保真神经生理监测的、具有可重构水凝胶接口的软电极阵列</div>
+        <li class="daily-paper-card" id="paper-15">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">15</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">BrainParc：基于结构磁共振图像的跨生命周期统一脑区划分</div>
+                    <div class="daily-paper-title-en">BrainParc: unified lifespan brain parcellation from structural magnetic resonance images</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 PNAS</span> | <span class='meta-authors'>👤 Ganguang YangBo PangHangyu GongYuqi QiuCaixin GongSen ZhouQingyang ZhengZhixin WangTianzhao BuShabei XuXiang LuoHaiyan QiaoZhouping YinChangsheng WuHao WuaFlexible Electronics Research Center, State Key Laboratory of Intelligent Manufacturing Equipment and Technology, School of Mechanical Science and Engineering, Huazhong University of Science and Technology, Wuhan, Hubei 430074, ChinabDepartment of Neurology, Tongji Hospital, Tongji Medical College, Huazhong University of Science and Technology, Wuhan, Hubei 430022, ChinacDepartment of Materials Science and Engineering, National University of Singapore, Singapore 117575, SingaporedInstitute for Health Innovation and Technology, National University of Singapore, Singapore 117599, SingaporeeDepartment of Electrical and Computer Engineering, National University of Singapore, Singapore 119276, SingaporefThe N.1 Institute for Health, National University of Singapore, Singapore 117456, SingaporegSchool of Integrated Circuits, Huazhong University of Science and Technology, Wuhan, Hubei 430074, China</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://www.pnas.org/doi/abs/10.1073/pnas.2533145123?af=R" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Basic requirements for potential differences across solid–fluid interfaces</div>
-                <div class="article-title-zh">固-流体界面电位差的基本要求</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Nature Computational Science</span><span class='daily-chip daily-chip-authors'>👤 Jiameng Liu, Feihong Liu, Kaicong Sun, Zhiming Cui, Tianyang Sun, Zehong Cao 等16位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.nature.com/articles/s43588-026-00963-5" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 The Journal of Chemical Physics Current Issue</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://pubs.aip.org/aip/jcp/article/164/10/104705/3383090/Basic-requirements-for-potential-differences" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Many-electron systems with fractional electron number and spin: Exact properties above and below the equilibrium total spin value</div>
-                <div class="article-title-zh">具有分数电子数和自旋的多电子系统：平衡总自旋值上下方的精确性质</div>
+        <li class="daily-paper-card" id="paper-16">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">16</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">基于多体消息传递的等变电子哈密顿量预测</div>
+                    <div class="daily-paper-title-en">Equivariant electronic Hamiltonian prediction with many-body message passing</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 The Journal of Chemical Physics Current Issue</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://pubs.aip.org/aip/jcp/article/164/10/104109/3383083/Many-electron-systems-with-fractional-electron" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Particle trajectory representation learning with masked point modeling</div>
-                <div class="article-title-zh">带掩码点建模的粒子轨迹表征学习</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 npj Computational Materials</span><span class='daily-chip daily-chip-authors'>👤 Chen Qian, Valdas Vitartas, James R. Kermode, Reinhard J. Maurer</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.nature.com/articles/s41524-026-02020-1" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Machine Learning: Science and Technology</span> | <span class='meta-authors'>👤 Samuel Young, Yeon-jae Jwa and Kazuhiro Terao</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://iopscience.iop.org/article/10.1088/2632-2153/ae47b8" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Learning and inverting driven open quantum systems via physics-informed neural networks</div>
-                <div class="article-title-zh">通过物理信息神经网络学习和逆驱动开放量子系统</div>
+        <li class="daily-paper-card" id="paper-17">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">17</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">植入式导电水凝胶电催化触发化疗-免疫协同治疗</div>
+                    <div class="daily-paper-title-en">[ASAP] Electrocatalysis-Triggered Synergistic Chemo-Immunotherapy Enabled by an Implantable Conductive Hydrogel with a 3D Nanoelectrode Network</div>
+                </div>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Machine Learning: Science and Technology</span> | <span class='meta-authors'>👤 Sutirtha Biswas and Emmanuel Paspalakis</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://iopscience.iop.org/article/10.1088/2632-2153/ae4b84" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-header">
-                <div class="article-title-en">Stochastic hierarchical data-driven optimization: application to plasma-surface kinetics</div>
-                <div class="article-title-zh">随机分层数据驱动优化：应用于等离子体-表面动力学</div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 ACS Nano: Latest Articles (ACS Publications)</span><span class='daily-chip daily-chip-authors'>👤 Defu Qian, Hongyi Zhang, Fuping Han, Yikun Li, Xin Li, Haolan Li 等11位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acsnano.5c20908" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
             </div>
-            <div class='article-meta'><span class='meta-journal'>📖 Machine Learning: Science and Technology</span> | <span class='meta-authors'>👤 José Afonso, Vasco Guerra and Pedro Viegas</span></div>
-            <div class="article-summary">请查阅原文了解详情</div>
-            <div class="article-link"><a href="https://iopscience.iop.org/article/10.1088/2632-2153/ae4c16" target="_blank" rel="noopener noreferrer">🔗 原文链接</a></div>
-        </div>
+        </li>
         
+        <li class="daily-paper-card" id="paper-18">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">18</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">通过精确基态演化逼近临界点</div>
+                    <div class="daily-paper-title-en">Approaching the critical point through an exact ground-state evolution</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Research</span><span class='daily-chip daily-chip-authors'>👤 Jun-Hao Lin, Ke-Xiong Yan, Jie Song, Ye-Hong Chen, and Yan Xia</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/yd3b-r78m" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-19">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">19</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">利用杂散场与磁针相互作用解析量化Néel型自旋扭曲的手性</div>
+                    <div class="daily-paper-title-en">Analytic quantifying chirality of Néel-type spin twists using interactions between stray fields and magnetic tips</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Lingyao Kong, Chunhui Zhang, Weiwei Wang, Yaodong Wu, and Jin Tang</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/6c2v-7qyl" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-20">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">20</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">全磁性范德华异质结中多种拓扑自旋织构的出现</div>
+                    <div class="daily-paper-title-en">Emergence of multiple topological spin textures in an all-magnetic van der Waals heterostructure</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Moritz A. Goerzen, Tim Drevelow, Hendrik Schrautzer, Soumyajyoti Haldar, Stefan Heinze, and Dongzhe Li</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/g149-5gyd" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-21">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">21</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">解耦CoTiO3中的混合晶格、轨道与自旋动力学：高磁场下的拉曼散射</div>
+                    <div class="daily-paper-title-en">Disentangling hybrid lattice, orbital, and spin dynamics in ${\mathrm{CoTiO}}_{3}$: Raman scattering in high magnetic fields</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 M. A. Prosnikov, R. V. Pisarev, and P. C. M. Christianen</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/fb6n-7t2v" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-22">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">22</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">轨道磁场下外尔半金属中手征反常的破缺与涌现相</div>
+                    <div class="daily-paper-title-en">Breakdown of chiral anomaly and emergent phases in Weyl semimetals under orbital magnetic fields</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Faruk Abdulla, Anna Keselman, and Daniel Podolsky</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/q5f9-v6zh" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-23">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">23</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">CuInP2S6薄膜的基态：深势方法的研究</div>
+                    <div class="daily-paper-title-en">Ground state of ${\mathrm{CuInP}}_{2}{\mathrm{S}}_{6}$ thin films: A study of the deep potential method</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Shengxian Li, Jiaren Yuan, Tao Ouyang, Anlian Pan, and Mingxing Chen</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/rp2y-2b5j" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-24">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">24</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">单轴应力对方正方晶格 itinerant 磁体EuAl4中螺旋磁相的影响</div>
+                    <div class="daily-paper-title-en">Effect of uniaxial stress on helimagnetic phases in the square-lattice itinerant magnet ${\mathrm{EuAl}}_{4}$</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Masaki Gen, Takuya Nomoto, Hiraku Saito, Taro Nakajima, Yusuke Tokunaga, Rina Takagi 等8位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/frqw-vng9" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-25">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">25</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">分子级识别表面驱动同系气体的机器学习区分</div>
+                    <div class="daily-paper-title-en">Molecular‐Level Recognition Surfaces Drive Machine‐Learning Discrimination of Homologous Gases</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Materials: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Yu Liu, Xiaowei Li, Xinghua Li, Luyao Niu, Aoqun Xue, Liwei Zhang 等15位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202521921?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-26">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">26</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">来自杂化声子与高阶动力学电荷的HfO2触发铁电性</div>
+                    <div class="daily-paper-title-en">Triggered Ferroelectricity in HfO2 From Hybrid Phonons and Higher‐Order Dynamical Charges</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Materials: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Seongjoo Jung, Turan Birol</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202521602?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-27">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">27</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">Kitaev模型候选材料RuBr3的磁激发</div>
+                    <div class="daily-paper-title-en">Magnetic excitations of the Kitaev model candidate RuBr 3</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 npj Quantum Materials</span><span class='daily-chip daily-chip-authors'>👤 Kazuhiro Nawa, Yoshinori Imai, Maiko Kofu, Richard Mole, Hideyuki Fujihara, Takumi Hiraoka 等12位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.nature.com/articles/s41535-026-00868-6" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-28">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">28</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">薄钇铁石榴石薄膜中超短自旋波脉冲色散展宽的非线性抑制</div>
+                    <div class="daily-paper-title-en">Nonlinear suppression of dispersion broadening of ultrashort spin-wave pulses in thin yttrium iron garnet films</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Applied</span><span class='daily-chip daily-chip-authors'>👤 K.O. Nikolaev, D. Raskhodchikov, J. Bensmann, I.V. Borisenko, E. Lomonte, L. Jin 等13位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/wt14-t3dj" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-29">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">29</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">光谱-晶体效率映射：可视化宽带源参量转换潜力的分析工具</div>
+                    <div class="daily-paper-title-en">Spectral-crystal efficiency mapping: An analytical tool for visualizing the parametric conversion potential of broadband sources</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Applied</span><span class='daily-chip daily-chip-authors'>👤 Sebastian C. Robarts, Derryck T. Reid, and Richard A. McCracken</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/bpxv-v274" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-30">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">30</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">用于自旋过滤应用的石墨烯上自支撑磁性薄膜</div>
+                    <div class="daily-paper-title-en">Freestanding magnetic membranes on graphene for spin-filtering applications</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Applied</span><span class='daily-chip daily-chip-authors'>👤 Luca Nessi, Christian Rinaldi, Riccardo Bertacco, G Rossi, and Matteo Cantoni</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/nmpf-mhdw" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-31">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">31</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">振荡伊辛机中的自旋冻结：二次谐波注入何时阻碍计算</div>
+                    <div class="daily-paper-title-en">Spin freezing in oscillator Ising machines: When second-harmonic injection impedes computation</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Applied</span><span class='daily-chip daily-chip-authors'>👤 Malihe Farasat, E.M.H.E.B. Ekanayake, and Nikhil Shukla</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/6tl1-ny7d" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-32">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">32</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">研究者混合X射线与光追踪材料中快速电子</div>
+                    <div class="daily-paper-title-en">Researchers mix X-rays and optical light to track speedy electrons in materials</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-rays-optical-track-speedy-electrons.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-33">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">33</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">可扩展量子电池充电速度可超越经典电池</div>
+                    <div class="daily-paper-title-en">Scalable quantum batteries can charge faster than their classical counterparts</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-scalable-quantum-batteries-faster-classical.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-34">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">34</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">观测量子行为：磁ARPES揭示笼目超导体中的时间反演对称性破缺</div>
+                    <div class="daily-paper-title-en">Watching quantum behavior in action: MagnetoARPES reveals time-reversal symmetry breaking in a kagome superconductor</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-quantum-behavior-action-magnetoarpes-reveals.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-35">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">35</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">超快计算：WS₂中光驱动逻辑运算突破10太赫兹</div>
+                    <div class="daily-paper-title-en">Ultrafast computing: Light-driven logic tops 10 terahertz in WS₂</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-ultrafast-driven-logic-tops-terahertz.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-36">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">36</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">金和银原子接触中出乎意料的磁响应与先前理论预测相悖</div>
+                    <div class="daily-paper-title-en">Unexpected magnetic response in gold and silver atomic contacts contradicts previous theoretical predictions</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://phys.org/news/2026-03-unexpected-magnetic-response-gold-silver.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-37">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">37</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">利用无标签深度学习自动追踪加速发现细胞迁移调控因子</div>
+                    <div class="daily-paper-title-en">Accelerated discovery of cell migration regulators using label-free deep learning–based automated tracking</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 AAAS: Science Advances: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Tiffany Chu, Yeongseo Lim, Yufei Sun, Fan Wu, Carolina Castillo, Eban Hanna 等8位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.science.org/doi/abs/10.1126/sciadv.aea1492?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-38">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">38</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">控制嘈杂的群体：时间网络重构改善优柔寡断集体的控制</div>
+                    <div class="daily-paper-title-en">Controlling noisy herds: Temporal network restructuring improves control of indecisive collectives</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 AAAS: Science Advances: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Tuhin Chakrabortty and Saad Bhamla</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.science.org/doi/abs/10.1126/sciadv.adx6791?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-39">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">39</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">40特斯拉微型磁体</div>
+                    <div class="daily-paper-title-en">40 Tesla miniature magnets</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 AAAS: Science Advances: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Chukun Gao, Pin-Hui Chen, Nicholas Alaniva, James H. J. Ellison, Mairon Frei, Snædís Björgvinsdóttir 等14位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.science.org/doi/abs/10.1126/sciadv.adz5826?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-40">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">40</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">一种用于开颅手术期间高保真神经生理监测的、具有可重构水凝胶接口的软电极阵列</div>
+                    <div class="daily-paper-title-en">A soft electrode array with reconfigurable hydrogel interfaces for high-fidelity neurophysiological monitoring during craniotomy</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 PNAS</span><span class='daily-chip daily-chip-authors'>👤 Ganguang YangBo PangHangyu GongYuqi QiuCaixin GongSen ZhouQingyang ZhengZhixin WangTianzhao BuShabei XuXiang LuoHaiyan QiaoZhouping YinChangsheng WuHao WuaFlexible Electronics Research Center, State Key Laboratory of Intelligent Manufacturing Equipment and Technology, School of Mechanical Science and Engineering, Huazhong University of Science and Technology, Wuhan, Hubei 430074 等29位作者</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://www.pnas.org/doi/abs/10.1073/pnas.2533145123?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-41">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">41</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">固-流体界面电位差的基本要求</div>
+                    <div class="daily-paper-title-en">Basic requirements for potential differences across solid–fluid interfaces</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 The Journal of Chemical Physics Current Issue</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://pubs.aip.org/aip/jcp/article/164/10/104705/3383090/Basic-requirements-for-potential-differences" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-42">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">42</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">具有分数电子数和自旋的多电子系统：平衡总自旋值上下方的精确性质</div>
+                    <div class="daily-paper-title-en">Many-electron systems with fractional electron number and spin: Exact properties above and below the equilibrium total spin value</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 The Journal of Chemical Physics Current Issue</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://pubs.aip.org/aip/jcp/article/164/10/104109/3383083/Many-electron-systems-with-fractional-electron" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-43">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">43</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">带掩码点建模的粒子轨迹表征学习</div>
+                    <div class="daily-paper-title-en">Particle trajectory representation learning with masked point modeling</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Machine Learning: Science and Technology</span><span class='daily-chip daily-chip-authors'>👤 Samuel Young, Yeon-jae Jwa and Kazuhiro Terao</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://iopscience.iop.org/article/10.1088/2632-2153/ae47b8" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-44">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">44</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">通过物理信息神经网络学习和逆驱动开放量子系统</div>
+                    <div class="daily-paper-title-en">Learning and inverting driven open quantum systems via physics-informed neural networks</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Machine Learning: Science and Technology</span><span class='daily-chip daily-chip-authors'>👤 Sutirtha Biswas and Emmanuel Paspalakis</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://iopscience.iop.org/article/10.1088/2632-2153/ae4b84" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-paper-card" id="paper-45">
+            <div class="daily-paper-head">
+                <span class="daily-paper-number">45</span>
+                <div class="daily-paper-titles">
+                    <div class="daily-paper-title-zh">随机分层数据驱动优化：应用于等离子体-表面动力学</div>
+                    <div class="daily-paper-title-en">Stochastic hierarchical data-driven optimization: application to plasma-surface kinetics</div>
+                </div>
+            </div>
+            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Machine Learning: Science and Technology</span><span class='daily-chip daily-chip-authors'>👤 José Afonso, Vasco Guerra and Pedro Viegas</span></div>
+            <div class="daily-paper-summary">请查阅原文了解详情</div>
+            <div class="daily-paper-actions">
+                <a class="daily-news-link" href="https://iopscience.iop.org/article/10.1088/2632-2153/ae4c16" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+            </div>
+        </li>
+        </ol>
+        </section>
+
+        <div class="daily-footer">
+          本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要信息，便于快速筛选与深度阅读。
+        </div>
+      </article>
+
+      <aside class="daily-toc">
+        <div class="daily-toc-card">
+          <div class="daily-toc-title">目录</div>
+          <a href="#summary"><span>今日摘要</span><span>01</span></a>
+          <a href="#highlights"><span>交叉重点</span><span>02</span></a>
+          <a href="#papers"><span>完整速览</span><span>03</span></a>
+        </div>
+      </aside>
     </div>
   </div>
 </body>
