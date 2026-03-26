@@ -99,9 +99,27 @@ ENHANCEMENT_CSS = """
 }
 
 .daily-outline-scroll {
-    max-height: 48vh;
-    overflow: auto;
-    padding-right: 4px;
+    max-height: min(60vh, calc(100vh - 210px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 6px;
+}
+
+.daily-outline-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.daily-outline-scroll::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.daily-outline-scroll::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
 }
 
 .daily-outline-group + .daily-outline-group {

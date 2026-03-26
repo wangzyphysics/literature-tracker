@@ -14,6 +14,7 @@ from ai_summarizer import build_provider
 from abstract_scraper import AbstractScraper
 from translator import translate_text
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from weekly_page_enhancer import enhance_weekly_archive
 import time
 from abstract_scraper import AbstractScraper
 from translator import translate_text
@@ -2126,6 +2127,8 @@ class WeeklySummarizer:
         """更新周报索引（根据 weekly_dir 下已有 HTML 重写 index.json）"""
         n = _write_weekly_index_file(weekly_dir)
         print(f"✅ 周报索引已更新: {n} 个周报")
+        enhanced = enhance_weekly_archive(os.path.join(weekly_dir, 'index.json'))
+        print(f"🧭 Enhanced weekly navigation/TOC for {enhanced} page(s)")
 
 
 def _write_weekly_index_file(weekly_dir: str = 'docs/weekly') -> int:

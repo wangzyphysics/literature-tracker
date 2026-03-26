@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI × Science 周报 - 2025-12-22 至 2025-12-28</title>
-    <link rel="stylesheet" href="../style.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI × Science 周报 - 2025-12-22 至 2025-12-28</title>
+<link href="../style.css" rel="stylesheet"/>
+<style>
         body {
             background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 240px), var(--bg-primary);
         }
@@ -520,369 +521,513 @@
             }
         }
     </style>
-</head>
+<style id="weekly-enhancement-style">
+#weekly-enhancement-top-nav, #weekly-enhancement-bottom-nav {
+    margin-top: 18px;
+}
+
+.weekly-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.weekly-page-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.92);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .weekly-page-nav-link {
+    background: rgba(30,41,59,0.92);
+}
+
+.weekly-page-nav-link:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.35);
+    background: rgba(99,102,241,0.08);
+}
+
+.weekly-page-nav-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.weekly-permalink-link {
+    margin-left: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.weekly-permalink-link:hover {
+    color: var(--accent-primary);
+}
+
+.weekly-inline-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.weekly-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.weekly-inline-link:hover {
+    color: var(--accent-hover);
+}
+
+.weekly-outline-scroll {
+    max-height: min(60vh, calc(100vh - 210px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 6px;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
+.weekly-outline-group + .weekly-outline-group {
+    margin-top: 14px;
+}
+
+.weekly-outline-group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    color: var(--text-primary);
+    text-decoration: none;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(148,163,184,0.18);
+    font-weight: 700;
+}
+
+[data-theme="dark"] .weekly-outline-group-title {
+    background: rgba(30,41,59,0.78);
+}
+
+.weekly-outline-group-title:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.28);
+}
+
+.weekly-outline-list {
+    display: grid;
+    gap: 6px;
+}
+
+.weekly-outline-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(148,163,184,0.14);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .weekly-outline-link {
+    background: rgba(30,41,59,0.70);
+}
+
+.weekly-outline-link:hover {
+    color: var(--accent-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+.weekly-outline-link-highlight {
+    border-color: rgba(99,102,241,0.24);
+}
+
+.weekly-outline-meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 980px) {
+    .weekly-outline-scroll {
+        max-height: none;
+    }
+}
+</style></head>
 <body>
-    <div class="insight-shell">
-        <div class="insight-topbar">
-            <div class="insight-topbar-left">
-                <a href="../index.html" class="insight-back-link">← 返回主页</a>
-                <span class="insight-mini-chip">AI × Science Weekly</span>
-            </div>
-            <div class="insight-topbar-right">
-                <span class="insight-mini-chip">2025-12-22 → 2025-12-28</span>
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
-            </div>
-        </div>
-
-        <div class="insight-layout">
-            <main class="weekly-report-main">
-                <section class="insight-page-hero weekly-report-hero">
-                    <div class="insight-kicker">AI 科学周报</div>
-                    <h1 class="insight-title">AI × Science 周报 2025-12-22 → 2025-12-28</h1>
-                    <p class="insight-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯编排，将一周内 AI × 物理 / 化学 / 材料交叉文献整理为总览、交叉重点、专题速览与期刊分布。</p>
-                    <blockquote class="weekly-report-quote">本周（2025年12月22日至12月28日）凝聚态物理与材料科学领域成果丰硕，共计12篇核心文献。研究重点集中在交变磁体（Altermagnetism）的对称性分类、二维铁电半导体的极化增强、以及动态多铁性理论。此外，人工智能在量子成像领域的应用也展示了跨学科结合的新趋势，整体研究呈现出从基础物理发现向高性能器件应用转化的特征。</blockquote>
-                    <div class="insight-tags"><span class="insight-tag">本周总览</span><span class="insight-tag">交叉研究</span><span class="insight-tag">磁性/铁电</span><span class="insight-tag">AI/机器学习</span><span class="insight-tag">期刊分布</span></div>
-                    <div class="insight-stat-grid">
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">收录文献</div>
-                            <div class="insight-stat-value">12</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">期刊 / 来源</div>
-                            <div class="insight-stat-value">4</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">arXiv / 预印本</div>
-                            <div class="insight-stat-value">0</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">专题版块</div>
-                            <div class="insight-stat-value">4</div>
-                        </div>
-                    </div>
-                    <div class="insight-action-row weekly-hero-actions">
-                        <a class="insight-btn insight-btn-primary" href="./index.html">周报归档</a>
-                        <a class="insight-btn insight-btn-secondary" href="../daily/">查看日报</a>
-                    </div>
-                </section>
-
-                
-            <section id="overview" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">01</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">本周总览</h2>
-                        <p class="insight-panel-subtitle">先把握一周的主线，再进入交叉重点与专题全文速览。</p>
-                    </div>
-                </div>
-                <div class="weekly-summary-grid">
-            <div class="weekly-summary-card">
-                <div class="weekly-summary-title">整体概览</div>
-                <p>本周（2025年12月22日至12月28日）凝聚态物理与材料科学领域成果丰硕，共计12篇核心文献。研究重点集中在交变磁体（Altermagnetism）的对称性分类、二维铁电半导体的极化增强、以及动态多铁性理论。此外，人工智能在量子成像领域的应用也展示了跨学科结合的新趋势，整体研究呈现出从基础物理发现向高性能器件应用转化的特征。</p>
-            </div>
-            
-            <div class="weekly-summary-card">
-                <div class="weekly-summary-title">来源分布</div>
-                <p>本周主要来源包括：Adv. Mater. 6篇、Phys. Rev. Lett. 4篇、Nat. Commun. 1篇、Nat. Nanotechnol. 1篇。</p>
-            </div>
-            
-                <div class="weekly-summary-card">
-                    <div class="weekly-summary-title">阅读提示</div>
-                    <p>先看交叉研究，再按磁性/铁电与 AI 专题分区深读；所有卡片均保留中英标题、期刊、作者与摘要入口。</p>
-                </div>
-                </div><div class="weekly-digest-grid">
-            <div class="weekly-digest-card ferro">
-                <div class="weekly-digest-title"><span>⚡ 磁性/铁电</span><span>11 篇</span></div>
-                <ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-ba86218c6f4e"><span class="weekly-digest-journal">[Nat. Nanotechnol.]</span>该研究在范德华反铁磁体CrSBr中，首次实现自旋激发驱动的激子输运。通过自旋与激子强耦合，为光学能量与信息流操控提供了新途径，对开发高性能磁光器件及光信息处理器件…</a></li><li class="weekly-digest-item"><a href="#article-36164c836aae"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>{ &quot;analysis_summary&quot;: &quot;该研究系统分类了二维交替磁体激子的对称性，揭示了磁序对激子态的调制。其创新在于建立了磁性与光学响应的理论关联，为光学…</a></li><li class="weekly-digest-item"><a href="#article-06e60bec4785"><span class="weekly-digest-journal">[Adv. Mater.]</span>[ &quot;该研究利用2D钙钛矿的铁电特性，实现了传感器内动态计算。核心创新在于通过铁电配置增强弱光特征提取，解决了昏暗识别难题。这为低功耗类脑视觉提供了新方案，具有重…</a></li><li class="weekly-digest-item"><a href="#article-088faeffcf75"><span class="weekly-digest-journal">[Adv. Mater.]</span>揭示了Fe5GeTe2中的介观磁相分离，发现铁缺陷可调控磁性演化。创新点在于打破单一磁序认知，阐明了结构与磁性的关联，为研发高性能二维自旋电子器件提供了关键物理依…</a></li></ul>
-                <div class="weekly-digest-more">+ 7 篇继续下拉查看</div>
-            </div>
-            
-            <div class="weekly-digest-card ai">
-                <div class="weekly-digest-title"><span>🤖 AI / 机器学习</span><span>1 篇</span></div>
-                <ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-5f7469866388"><span class="weekly-digest-journal">[Nat. Commun.]</span>该研究将物理神经网络REC理论引入量子成像，通过识别“特征任务”将成像系统转化为学习设备。该方案仅需优化输出权重即可处理复杂任务，显著提升了采样效率与解析精度，为…</a></li></ul>
-                
-            </div>
-            </div>
-            </section>
-            
-            <section id="ferro" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">02</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">磁性 / 铁电专题</h2>
-                        <p class="insight-panel-subtitle">聚焦自旋、铁电、多铁与相关功能材料研究。</p>
-                    </div>
-                </div>
-                <div class="weekly-paper-list">
-                <article class="weekly-paper-card ferro" id="article-ba86218c6f4e">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">01</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41565-025-02068-y" target="_blank" rel="noopener noreferrer">反铁磁体中由自旋激发驱动的激子输运</a></h3>
-                            <div class="weekly-paper-title-en">Exciton transport driven by spin excitations in an antiferromagnet</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nat. Nanotechnol.</span><span class="weekly-chip weekly-chip-authors">👤 Florian Dirnberger, Sophia Terres, Zakhar A. Iakovlev 等8位作者</span><span class="weekly-chip">📅 2025-12-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究在范德华反铁磁体CrSBr中，首次实现自旋激发驱动的激子输运。通过自旋与激子强耦合，为光学能量与信息流操控提供了新途径，对开发高性能磁光器件及光信息处理器件具有重要价值。</div>
-                    <div class="weekly-paper-preview">Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies developed for electrons, the strong interactions of these excitons with the s…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-ba86218c6f4e', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41565-025-02068-y" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-ba86218c6f4e-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies developed for electrons, the strong interactions of these excitons with the spin degree of freedom may provide innovative solutions for long-standing challenges in optics, such as steering the flow of energy and information. Here we demonstrate the transport of excitons by spin excitations in the van der Waals antiferromagnetic semiconductor CrSBr. Our observations reveal ultrafast, nearly isotropic exciton propagation, substantially enhanced at the Néel temperature, transient contraction and expansion of exciton clouds at low temperatures and superdiffusive behaviour in bilayer samples. These signatures largely defy description by commonly known exciton transport mechanisms. Instead, we attribute them to magnon currents induced by laser excitation. We propose that the drag forces exerted by these currents can effectively imprint characteristic properties of spin excitations onto the motion of excitons. The universal nature of the underlying magnon–exciton scattering promises the driving of excitons by magnons in other magnetic semiconductors and even in non-magnetic materials by proximity in heterostructures, merging the rich physics of magnetotransport with optics and photonics.</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies developed for electrons, the strong interactions of these excitons with the spin degree of freedom may provide innovative solutions for long-standing challenges in optics, such as steering the flow of energy and information. Here we demonstrate the transport of excitons by spin excitations in the van der Waals antiferromagnetic semiconductor CrSBr. Our observations reveal ultrafast, nearly isotropic exciton propagation, substantially enhanced at the Néel temperature, transient contraction and expansion of exciton clouds at low temperatures and superdiffusive behaviour in bilayer samples. These signatures largely defy description by commonly known exciton transport mechanisms. Instead, we attribute them to magnon currents induced by laser excitation. We propose that the drag forces exerted by these currents can effectively imprint characteristic properties of spin excitations onto the motion of excitons. The universal nature of the underlying magnon–exciton scattering promises the driving of excitons by magnons in other magnetic semiconductors and even in non-magnetic materials by proximity in heterostructures, merging the rich physics of magnetotransport with optics and photonics.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-36164c836aae">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">02</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/zn7r-k1xd" target="_blank" rel="noopener noreferrer">二维交替磁体中交替激子的对称分类</a></h3>
-                            <div class="weekly-paper-title-en">Symmetry Classification for Alternating Excitons in Two-Dimensional Altermagnets</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Jiayu David Cao (曹嘉宇), Konstantin S. Denisov, Yuntian Liu (刘云天), and Igor Žutić</span><span class="weekly-chip">📅 2025-12-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>{ &quot;analysis_summary&quot;: &quot;该研究系统分类了二维交替磁体激子的对称性，揭示了磁序对激子态的调制。其创新在于建立了磁性与光学响应的理论关联，为光学探测交替磁体提供了重要框架，对自旋</div>
-                    <div class="weekly-paper-preview">作者：曹嘉宇、Konstantin S. Denisov、刘云天和 Igor Žutić 激子，束缚电子空穴态，通常主导二维 (2D) 材料的光学响应，并反映其固有特性，包括自旋轨道耦合、磁有序或能带拓扑。通过关注越来越多的具有非相对论性的共线反铁磁体...... [物理。莱特牧师。 135, 266703] 发布于 2025 年 12 月 26 日星期五</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-36164c836aae', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/zn7r-k1xd" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-36164c836aae-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：曹嘉宇、Konstantin S. Denisov、刘云天和 Igor Žutić 激子，束缚电子空穴态，通常主导二维 (2D) 材料的光学响应，并反映其固有特性，包括自旋轨道耦合、磁有序或能带拓扑。通过关注越来越多的具有非相对论性的共线反铁磁体...... [物理。莱特牧师。 135, 266703] 发布于 2025 年 12 月 26 日星期五</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Jiayu David Cao (曹嘉宇), Konstantin S. Denisov, Yuntian Liu (刘云天), and Igor Žutić Excitons, bound electron-hole states, often dominate the optical response of two-dimensional (2D) materials and reflect their inherent properties, including spin-orbit coupling, magnetic ordering, or band topology. By focusing on a growing class of collinear antiferromagnets with a nonrelativistic s… [Phys. Rev. Lett. 135, 266703] Published Fri Dec 26, 2025</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-06e60bec4785">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">03</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202520823?af=R" target="_blank" rel="noopener noreferrer">使用 2D 钙钛矿的铁电配置传感器内动态计算用于昏暗物体识别</a></h3>
-                            <div class="weekly-paper-title-en">Ferroelectric‐Configured In‐Sensor Dynamic Computing with 2D Perovskites for Dim Object Recognition</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Jie Liu, Fan Du, Limin Wu, Xiaosheng Fang</span><span class="weekly-chip">📅 2025-12-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>[ &quot;该研究利用2D钙钛矿的铁电特性，实现了传感器内动态计算。核心创新在于通过铁电配置增强弱光特征提取，解决了昏暗识别难题。这为低功耗类脑视觉提供了新方案，具有重要应用价值。&quot; ]</div>
-                    <div class="weekly-paper-preview">先进材料，早期观点。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-06e60bec4785', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202520823?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-06e60bec4785-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-088faeffcf75">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">04</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202515150?af=R" target="_blank" rel="noopener noreferrer">缺铁 Fe5GeTe2 中的介观磁结构相分离</a></h3>
-                            <div class="weekly-paper-title-en">Mesoscale Magnetostructural Phase Separation in Fe‐deficient Fe5GeTe2</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Haoyang Ni, Eric R. Hoglund, Jordan A. Hachtel, Jian‐Min Zuo, Lijun Wu, Yimei Zhu, Andrew F. May, Miaofang Chi</span><span class="weekly-chip">📅 2025-12-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>揭示了Fe5GeTe2中的介观磁相分离，发现铁缺陷可调控磁性演化。创新点在于打破单一磁序认知，阐明了结构与磁性的关联，为研发高性能二维自旋电子器件提供了关键物理依据。</div>
-                    <div class="weekly-paper-preview">先进材料，早期观点。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-088faeffcf75', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202515150?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-088faeffcf75-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-46df7653a841">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">05</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/hdcf-dycj" target="_blank" rel="noopener noreferrer">$\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$中局域重电子磁力的巡回：超越多尼亚赫相图的方向相关相图</a></h3>
-                            <div class="weekly-paper-title-en">Itinerant to Localized Heavy Electron Magnetism in $\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$: A Direction-Dependent Phase Diagram beyond the Doniach Phase Diagram</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Hitoshi Yamaoka, Hiroshi Tanida, Eike F. Schwier, Yoshiya Yamamoto, Shiv Kumar, Masashi Arita, Kenya Shimada, Fumisato Tajima, Renta Onodera, Takashi Nishioka, Hirofumi Ishii, Nozomu Hiraoka, and Jun’ichiro Mizuki</span><span class="weekly-chip">📅 2025-12-24</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过能谱分析揭示了Ce(Ru1-xRhx)2Al10的磁性演化，创新性提出超越多尼亚赫模型的方向相关相图。这阐明了各向异性在重费米子体系中的作用，为理解关联电子系统提供了重要物理依据。</div>
-                    <div class="weekly-paper-preview">作者：Hitoshi Yamaoka、Hiroshi Tanida、Eike F. Schwier、Yoshiya Yamamoto、Shiv Kumar、Masashi Arita、Kenya Shimada、Fumisato Tajima、Renta Onodera、Takashi Nishioka、Hirofumi Ishii、Nozomu Hiraoka 和 Jun’ichiro Mizuki 的电子和晶体结构$\mathrm…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-46df7653a841', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/hdcf-dycj" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-46df7653a841-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Hitoshi Yamaoka、Hiroshi Tanida、Eike F. Schwier、Yoshiya Yamamoto、Shiv Kumar、Masashi Arita、Kenya Shimada、Fumisato Tajima、Renta Onodera、Takashi Nishioka、Hirofumi Ishii、Nozomu Hiraoka 和 Jun’ichiro Mizuki 的电子和晶体结构$\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$ 已使用 X 射线发射光谱、光电子能谱 (PES) 和 X 射线衍射进行了研究。在 $x 以内未观察到结构相变</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Hitoshi Yamaoka, Hiroshi Tanida, Eike F. Schwier, Yoshiya Yamamoto, Shiv Kumar, Masashi Arita, Kenya Shimada, Fumisato Tajima, Renta Onodera, Takashi Nishioka, Hirofumi Ishii, Nozomu Hiraoka, and Jun’ichiro Mizuki Electronic and crystal structures of $\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$ have been studied using x-ray emission spectroscopy, photoelectron spectroscopy (PES), and x-ray diffraction. No structural phase transition was observed up to $x=0.1$, while the x-ray ab… [Phys. Rev. Lett. 135, 266503] Published Wed Dec 24, 2025</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-30e4b690817b">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">06</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/sfvl-3qrg" target="_blank" rel="noopener noreferrer">中心对称晶格中动态 Dzyaloshinskii-Moriya 相互作用引起的能带拓扑和动态多铁性</a></h3>
-                            <div class="weekly-paper-title-en">Band Topology and Dynamic Multiferroicity Induced from Dynamical Dzyaloshinskii-Moriya Interactions in Centrosymmetric Lattices</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Bowen Ma and Z. D. Wang</span><span class="weekly-chip">📅 2025-12-24</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出中心对称晶格中的动态DMI机制，揭示了磁振子-声子拓扑杂化激发，阐明动态多铁性的物理起源。该创新突破了对称性限制，为设计拓扑量子器件与多铁材料提供了关键理论指导。</div>
-                    <div class="weekly-paper-preview">作者：Bowen Ma 和 Z.D. Wang 我们通过一般考虑阳离子和阴离子的振动，发展了中心对称晶体中动态 Dzyaloshinskii-Moriya 相互作用 (dDMI) 的理论。它产生反对称的自旋晶格耦合，诱导磁振子-声子杂化拓扑激发。此外，我们……[物理。莱特牧师。 135, 266702] 2025 年 12 月 24 日星期三发布</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-30e4b690817b', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/sfvl-3qrg" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-30e4b690817b-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Bowen Ma 和 Z.D. Wang 我们通过一般考虑阳离子和阴离子的振动，发展了中心对称晶体中动态 Dzyaloshinskii-Moriya 相互作用 (dDMI) 的理论。它产生反对称的自旋晶格耦合，诱导磁振子-声子杂化拓扑激发。此外，我们……[物理。莱特牧师。 135, 266702] 2025 年 12 月 24 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Bowen Ma and Z. D. Wang We develop a theory of a dynamical Dzyaloshinskii-Moriya interaction (dDMI) in centrosymmetric crystals by generally considering the vibration of both cations and anions. It gives rise to an antisymmetric spin-lattice coupling, inducing magnon-phonon hybridized topological excitations. Moreover, we … [Phys. Rev. Lett. 135, 266702] Published Wed Dec 24, 2025</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-ea59270c06d3">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">07</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202518468?af=R" target="_blank" rel="noopener noreferrer">氧自供合成巨大铁电极化二维Fe2Mo3O8半导体单晶</a></h3>
-                            <div class="weekly-paper-title-en">Oxygen‐Self‐Supply Synthesis of Two‐Dimensional Fe2Mo3O8 Semiconductor Single Crystal With Colossal Ferroelectric Polarization</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Xiaohui Li, Yueyang Jia, Yanan Peng, Jianyong Wei, Luying Song, Hang Sun, Ling Huang, Yuhang Li, Ruihan Xu, Chuxuan Xiao, Zhu Du, Rui Yang, Jun He, Jianping Shi</span><span class="weekly-chip">📅 2025-12-24</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过氧自供策略，制备出具巨大铁电极化的二维Fe2Mo3O8单晶。突破了超薄多铁材料生长瓶颈，为研发高性能非易失存储器及多功能微纳器件奠定了重要基础。</div>
-                    <div class="weekly-paper-preview">先进材料，早期观点。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-ea59270c06d3', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202518468?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-ea59270c06d3-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-3d0dfdbeea22">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">08</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516135?af=R" target="_blank" rel="noopener noreferrer">具有高磁各向异性的 C16 相高熵硼化物</a></h3>
-                            <div class="weekly-paper-title-en">C16 Phase High Entropy Borides With High Magnetic Anisotropy</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Willie B. Beeson, Dhritiman Bhattacharya, Dinesh Bista, Bradley J. Fugetta, Gen Yin, Kai Liu</span><span class="weekly-chip">📅 2025-12-23</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究成功制备出C16相高熵硼化物，核心创新在于利用多主元设计实现了高磁各向异性。这不仅拓展了高熵材料的功能边界，更为研发高性能永磁材料及磁功能器件提供了新路径。</div>
-                    <div class="weekly-paper-preview">先进材料，早期观点。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-3d0dfdbeea22', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516135?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-3d0dfdbeea22-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-7460f1181cd2">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">09</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/jql2-b4c4" target="_blank" rel="noopener noreferrer">铁弹性交变磁体中晶体对称性强制的自旋反转</a></h3>
-                            <div class="weekly-paper-title-en">Spin Inversion Enforced by Crystal Symmetry in Ferroelastic Altermagnets</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Yuqiang Huang, Chenqiang Hua, Runzhang Xu, Junwei Liu, Yi Zheng, and Yunhao Lu</span><span class="weekly-chip">📅 2025-12-22</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出铁弹性与交变磁性耦合的新型多铁机制，通过对称性强制实现自旋反转。这揭示了应变调控磁序的新路径，为高性能自旋电子器件的开发提供了关键理论支撑。</div>
-                    <div class="weekly-paper-preview">作者：黄玉强、华晨强、徐润章、刘俊伟、郑毅和陆云浩 在突破性的预测和无数有希望的应用的推动下，自旋电子学领域见证了人们对交流磁学的兴趣的深刻激增。在这里，我们提出了一种基于对称分析的铁弹性和交变磁性之间的新型多铁机制。通过f...... [物理。莱特牧师。 135, 266701] 发布于 2025 年 12 月 22 日星期一</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-7460f1181cd2', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/jql2-b4c4" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-7460f1181cd2-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：黄玉强、华晨强、徐润章、刘俊伟、郑毅和陆云浩 在突破性的预测和无数有希望的应用的推动下，自旋电子学领域见证了人们对交流磁学的兴趣的深刻激增。在这里，我们提出了一种基于对称分析的铁弹性和交变磁性之间的新型多铁机制。通过f...... [物理。莱特牧师。 135, 266701] 发布于 2025 年 12 月 22 日星期一</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Yuqiang Huang, Chenqiang Hua, Runzhang Xu, Junwei Liu, Yi Zheng, and Yunhao Lu The realm of spintronics has witnessed a profound surge in fascination towards altermagnetism, fueled by groundbreaking predictions and a myriad of promising applications. Here, we propose a novel multiferroic mechanism between ferroelasticity and altermagnetism based on symmetry analysis. Through f… [Phys. Rev. Lett. 135, 266701] Published Mon Dec 22, 2025</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-d68feccaa057">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">10</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202517846?af=R" target="_blank" rel="noopener noreferrer">具有高温自驱动灵敏度和低检测限的Pb(Zr0.52Ti0.48)O3铁电陶瓷X射线探测器</a></h3>
-                            <div class="weekly-paper-title-en">Pb(Zr0.52Ti0.48)O3 Ferroelectric Ceramic X‐Ray Detectors with High‐Temperature Self‐Driven Sensitivity and Low Detection Limit</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Yufei Song, Fuai Hu, Feifei Guo, Yang Li, Jianhui Liu, Zeliang Gao</span><span class="weekly-chip">📅 2025-12-22</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究开发了PZT陶瓷高温自驱动X射线探测器，利用铁电极化场实现高灵敏探测。创新性地突破了高温性能瓶颈与检测限，在工业探伤及极端环境成像领域具有重要的应用价值。</div>
-                    <div class="weekly-paper-preview">先进材料，早期观点。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-d68feccaa057', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202517846?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-d68feccaa057-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-6e8a4379d980">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">11</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202519678?af=R" target="_blank" rel="noopener noreferrer">具有对称提升拓扑表面态的 1.3 T 垂直磁化的无场、确定性巨自旋轨道扭矩切换</a></h3>
-                            <div class="weekly-paper-title-en">Field‐Free, Deterministic Giant Spin‐Orbit Torque Switching of 1.3 T Perpendicular Magnetization With Symmetry‐Lifted Topological Surface States</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 He Ren, Yawen Peng, Meixin Cheng, Yu Shi, Reza Asadi, Adam W. Tsen, Guo‐Xing Miao</span><span class="weekly-chip">📅 2025-12-22</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究利用对称性提升的拓扑表面态，实现了1.3 T强垂直磁化的无场确定性切换。核心创新在于通过拓扑态调控突破了SOT切换对磁场的依赖，为开发高密度、低功耗及高稳定性的非易失性存储器提供了关键技术支撑。</div>
-                    <div class="weekly-paper-preview">先进材料，早期观点。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-6e8a4379d980', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202519678?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-6e8a4379d980-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
-                </article>
-                </div>
-            </section>
-            
-            <section id="ai" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">03</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">AI / 机器学习专题</h2>
-                        <p class="insight-panel-subtitle">覆盖模型、方法与 AI for Science 应用工作。</p>
-                    </div>
-                </div>
-                <div class="weekly-paper-list">
-                <article class="weekly-paper-card ai" id="article-5f7469866388">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">01</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-025-67884-1" target="_blank" rel="noopener noreferrer">通过学习理论推进量子成像</a></h3>
-                            <div class="weekly-paper-title-en">Advancing quantum imaging through learning theory</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nat. Commun.</span><span class="weekly-chip weekly-chip-authors">👤 Yunkai Wang, Changhun Oh, Junyu Liu 等5位作者</span><span class="weekly-chip">📅 2025-12-27</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究将物理神经网络REC理论引入量子成像，通过识别“特征任务”将成像系统转化为学习设备。该方案仅需优化输出权重即可处理复杂任务，显著提升了采样效率与解析精度，为量子成像的实用化提供了重要理论支撑。</div>
-                    <div class="weekly-paper-preview">We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradigm of quantum learning, the imaging system functions as a physical lea…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-5f7469866388', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-025-67884-1" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-5f7469866388-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradigm of quantum learning, the imaging system functions as a physical learning device that maps input parameters to measurable features, while complex practical tasks are handled by training only the output weights, enabled by the systematic identification of well-estimated features (eigentasks) and their corresponding sample thresholds. Using this framework, we analyze both direct imaging and superresolution strategies for compact sources, defined as sources with sizes bounded below the Rayleigh limit. In particular, we introduce the orthogonalized SPADE method—a nontrivial generalization of existing superresolution techniques—that achieves superior performance when multiple compact sources are closely spaced. This method relaxes the earlier superresolution studies’ strong assumption that the entire source must lie within the Rayleigh limit, marking an important step toward developing more general and practically applicable approaches. Using the example of face recognition, which involve complex structured sources, we demonstrate the superior performance of our orthogonalized SPADE method and highlight key advantages of the quantum learning approach—its ability to tackle complex imaging tasks and enhance performance by selectively extracting well-estimated features.</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradigm of quantum learning, the imaging system functions as a physical learning device that maps input parameters to measurable features, while complex practical tasks are handled by training only the output weights, enabled by the systematic identification of well-estimated features (eigentasks) and their corresponding sample thresholds. Using this framework, we analyze both direct imaging and superresolution strategies for compact sources, defined as sources with sizes bounded below the Rayleigh limit. In particular, we introduce the orthogonalized SPADE method—a nontrivial generalization of existing superresolution techniques—that achieves superior performance when multiple compact sources are closely spaced. This method relaxes the earlier superresolution studies’ strong assumption that the entire source must lie within the Rayleigh limit, marking an important step toward developing more general and practically applicable approaches. Using the example of face recognition, which involve complex structured sources, we demonstrate the superior performance of our orthogonalized SPADE method and highlight key advantages of the quantum learning approach—its ability to tackle complex imaging tasks and enhance performance by selectively extracting well-estimated features.</p></div></div>
-                </article>
-                </div>
-            </section>
-            
-            <section id="journals" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">04</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">期刊分布</h2>
-                        <p class="insight-panel-subtitle">按来源快速判断本周成果主要集中在哪些期刊或预印本平台。</p>
-                    </div>
-                </div>
-                <div class="weekly-journal-list"><div class="weekly-journal-item"><div class="weekly-journal-name">Adv. Mater.</div><div class="weekly-journal-count">6 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Phys. Rev. Lett.</div><div class="weekly-journal-count">4 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nat. Commun.</div><div class="weekly-journal-count">1 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nat. Nanotechnol.</div><div class="weekly-journal-count">1 篇</div></div></div>
-            </section>
-            
-
-                <div class="weekly-report-footer">
-                    本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要入口，便于按周追踪 AI × 物理 / 化学 / 材料交叉研究。<br>
+<div class="insight-shell">
+<div class="insight-topbar">
+<div class="insight-topbar-left">
+<a class="insight-back-link" href="../index.html">← 返回主页</a>
+<span class="insight-mini-chip">AI × Science Weekly</span>
+</div>
+<div class="insight-topbar-right">
+<span class="insight-mini-chip">2025-12-22 → 2025-12-28</span>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+</div>
+</div>
+<div class="insight-layout">
+<main class="weekly-report-main">
+<section class="insight-page-hero weekly-report-hero">
+<div class="insight-kicker">AI 科学周报</div>
+<h1 class="insight-title">AI × Science 周报 2025-12-22 → 2025-12-28</h1>
+<p class="insight-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯编排，将一周内 AI × 物理 / 化学 / 材料交叉文献整理为总览、交叉重点、专题速览与期刊分布。</p>
+<blockquote class="weekly-report-quote">本周（2025年12月22日至12月28日）凝聚态物理与材料科学领域成果丰硕，共计12篇核心文献。研究重点集中在交变磁体（Altermagnetism）的对称性分类、二维铁电半导体的极化增强、以及动态多铁性理论。此外，人工智能在量子成像领域的应用也展示了跨学科结合的新趋势，整体研究呈现出从基础物理发现向高性能器件应用转化的特征。</blockquote>
+<div class="insight-tags"><span class="insight-tag">本周总览</span><span class="insight-tag">交叉研究</span><span class="insight-tag">磁性/铁电</span><span class="insight-tag">AI/机器学习</span><span class="insight-tag">期刊分布</span></div>
+<div class="insight-stat-grid">
+<div class="insight-stat">
+<div class="insight-stat-label">收录文献</div>
+<div class="insight-stat-value">12</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">期刊 / 来源</div>
+<div class="insight-stat-value">4</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">arXiv / 预印本</div>
+<div class="insight-stat-value">0</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">专题版块</div>
+<div class="insight-stat-value">4</div>
+</div>
+</div>
+<div class="insight-action-row weekly-hero-actions">
+<a class="insight-btn insight-btn-primary" href="./index.html">周报归档</a>
+<a class="insight-btn insight-btn-secondary" href="../daily/">查看日报</a>
+</div><div class="weekly-page-nav" id="weekly-enhancement-top-nav"><a class="weekly-page-nav-link" href="2025-12-15.html">前一周 · 2025-12-15 → 2025-12-21</a><a class="weekly-page-nav-link" href="2025-12-29.html">后一周 · 2025-12-29 → 2026-01-04</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a><a class="weekly-page-nav-link" href="#overview">本周总览</a><a class="weekly-page-nav-link" href="#article-ba86218c6f4e">全文速览</a><a class="weekly-page-nav-link" href="#journals">期刊分布</a></div>
+</section>
+<section class="insight-panel weekly-report-section" id="overview">
+<div class="weekly-section-head">
+<span class="weekly-section-index">01</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">本周总览<a class="weekly-permalink-link" href="#overview" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">先把握一周的主线，再进入交叉重点与专题全文速览。</p>
+</div>
+</div>
+<div class="weekly-summary-grid">
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">整体概览</div>
+<p>本周（2025年12月22日至12月28日）凝聚态物理与材料科学领域成果丰硕，共计12篇核心文献。研究重点集中在交变磁体（Altermagnetism）的对称性分类、二维铁电半导体的极化增强、以及动态多铁性理论。此外，人工智能在量子成像领域的应用也展示了跨学科结合的新趋势，整体研究呈现出从基础物理发现向高性能器件应用转化的特征。</p>
+</div>
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">来源分布</div>
+<p>本周主要来源包括：Adv. Mater. 6篇、Phys. Rev. Lett. 4篇、Nat. Commun. 1篇、Nat. Nanotechnol. 1篇。</p>
+</div>
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">阅读提示</div>
+<p>先看交叉研究，再按磁性/铁电与 AI 专题分区深读；所有卡片均保留中英标题、期刊、作者与摘要入口。</p>
+</div>
+</div><div class="weekly-digest-grid">
+<div class="weekly-digest-card ferro">
+<div class="weekly-digest-title"><span>⚡ 磁性/铁电</span><span>11 篇</span></div>
+<ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-ba86218c6f4e"><span class="weekly-digest-journal">[Nat. Nanotechnol.]</span>该研究在范德华反铁磁体CrSBr中，首次实现自旋激发驱动的激子输运。通过自旋与激子强耦合，为光学能量与信息流操控提供了新途径，对开发高性能磁光器件及光信息处理器件…</a></li><li class="weekly-digest-item"><a href="#article-36164c836aae"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>{ "analysis_summary": "该研究系统分类了二维交替磁体激子的对称性，揭示了磁序对激子态的调制。其创新在于建立了磁性与光学响应的理论关联，为光学…</a></li><li class="weekly-digest-item"><a href="#article-06e60bec4785"><span class="weekly-digest-journal">[Adv. Mater.]</span>[ "该研究利用2D钙钛矿的铁电特性，实现了传感器内动态计算。核心创新在于通过铁电配置增强弱光特征提取，解决了昏暗识别难题。这为低功耗类脑视觉提供了新方案，具有重…</a></li><li class="weekly-digest-item"><a href="#article-088faeffcf75"><span class="weekly-digest-journal">[Adv. Mater.]</span>揭示了Fe5GeTe2中的介观磁相分离，发现铁缺陷可调控磁性演化。创新点在于打破单一磁序认知，阐明了结构与磁性的关联，为研发高性能二维自旋电子器件提供了关键物理依…</a></li></ul>
+<div class="weekly-digest-more">+ 7 篇继续下拉查看</div>
+</div>
+<div class="weekly-digest-card ai">
+<div class="weekly-digest-title"><span>🤖 AI / 机器学习</span><span>1 篇</span></div>
+<ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-5f7469866388"><span class="weekly-digest-journal">[Nat. Commun.]</span>该研究将物理神经网络REC理论引入量子成像，通过识别“特征任务”将成像系统转化为学习设备。该方案仅需优化输出权重即可处理复杂任务，显著提升了采样效率与解析精度，为…</a></li></ul>
+</div>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="ferro">
+<div class="weekly-section-head">
+<span class="weekly-section-index">02</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">磁性 / 铁电专题<a class="weekly-permalink-link" href="#ferro" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">聚焦自旋、铁电、多铁与相关功能材料研究。</p>
+</div>
+</div>
+<div class="weekly-paper-list">
+<article class="weekly-paper-card ferro" id="article-ba86218c6f4e">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">01</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41565-025-02068-y" rel="noopener noreferrer" target="_blank">反铁磁体中由自旋激发驱动的激子输运</a><a class="weekly-permalink-link" href="#article-ba86218c6f4e" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Exciton transport driven by spin excitations in an antiferromagnet</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nat. Nanotechnol.</span><span class="weekly-chip weekly-chip-authors">👤 Florian Dirnberger, Sophia Terres, Zakhar A. Iakovlev 等8位作者</span><span class="weekly-chip">📅 2025-12-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究在范德华反铁磁体CrSBr中，首次实现自旋激发驱动的激子输运。通过自旋与激子强耦合，为光学能量与信息流操控提供了新途径，对开发高性能磁光器件及光信息处理器件具有重要价值。</div>
+<div class="weekly-paper-preview">Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies developed for electrons, the strong interactions of these excitons with the s…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-ba86218c6f4e', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41565-025-02068-y" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-ba86218c6f4e">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-ba86218c6f4e-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies developed for electrons, the strong interactions of these excitons with the spin degree of freedom may provide innovative solutions for long-standing challenges in optics, such as steering the flow of energy and information. Here we demonstrate the transport of excitons by spin excitations in the van der Waals antiferromagnetic semiconductor CrSBr. Our observations reveal ultrafast, nearly isotropic exciton propagation, substantially enhanced at the Néel temperature, transient contraction and expansion of exciton clouds at low temperatures and superdiffusive behaviour in bilayer samples. These signatures largely defy description by commonly known exciton transport mechanisms. Instead, we attribute them to magnon currents induced by laser excitation. We propose that the drag forces exerted by these currents can effectively imprint characteristic properties of spin excitations onto the motion of excitons. The universal nature of the underlying magnon–exciton scattering promises the driving of excitons by magnons in other magnetic semiconductors and even in non-magnetic materials by proximity in heterostructures, merging the rich physics of magnetotransport with optics and photonics.</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Optical quasiparticles called magnetic excitons recently emerged in magnetic van der Waals materials. Akin to the highly effective strategies developed for electrons, the strong interactions of these excitons with the spin degree of freedom may provide innovative solutions for long-standing challenges in optics, such as steering the flow of energy and information. Here we demonstrate the transport of excitons by spin excitations in the van der Waals antiferromagnetic semiconductor CrSBr. Our observations reveal ultrafast, nearly isotropic exciton propagation, substantially enhanced at the Néel temperature, transient contraction and expansion of exciton clouds at low temperatures and superdiffusive behaviour in bilayer samples. These signatures largely defy description by commonly known exciton transport mechanisms. Instead, we attribute them to magnon currents induced by laser excitation. We propose that the drag forces exerted by these currents can effectively imprint characteristic properties of spin excitations onto the motion of excitons. The universal nature of the underlying magnon–exciton scattering promises the driving of excitons by magnons in other magnetic semiconductors and even in non-magnetic materials by proximity in heterostructures, merging the rich physics of magnetotransport with optics and photonics.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-36164c836aae">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">02</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/zn7r-k1xd" rel="noopener noreferrer" target="_blank">二维交替磁体中交替激子的对称分类</a><a class="weekly-permalink-link" href="#article-36164c836aae" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Symmetry Classification for Alternating Excitons in Two-Dimensional Altermagnets</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Jiayu David Cao (曹嘉宇), Konstantin S. Denisov, Yuntian Liu (刘云天), and Igor Žutić</span><span class="weekly-chip">📅 2025-12-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>{ "analysis_summary": "该研究系统分类了二维交替磁体激子的对称性，揭示了磁序对激子态的调制。其创新在于建立了磁性与光学响应的理论关联，为光学探测交替磁体提供了重要框架，对自旋</div>
+<div class="weekly-paper-preview">作者：曹嘉宇、Konstantin S. Denisov、刘云天和 Igor Žutić 激子，束缚电子空穴态，通常主导二维 (2D) 材料的光学响应，并反映其固有特性，包括自旋轨道耦合、磁有序或能带拓扑。通过关注越来越多的具有非相对论性的共线反铁磁体...... [物理。莱特牧师。 135, 266703] 发布于 2025 年 12 月 26 日星期五</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-36164c836aae', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/zn7r-k1xd" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-36164c836aae">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-36164c836aae-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：曹嘉宇、Konstantin S. Denisov、刘云天和 Igor Žutić 激子，束缚电子空穴态，通常主导二维 (2D) 材料的光学响应，并反映其固有特性，包括自旋轨道耦合、磁有序或能带拓扑。通过关注越来越多的具有非相对论性的共线反铁磁体...... [物理。莱特牧师。 135, 266703] 发布于 2025 年 12 月 26 日星期五</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Jiayu David Cao (曹嘉宇), Konstantin S. Denisov, Yuntian Liu (刘云天), and Igor Žutić Excitons, bound electron-hole states, often dominate the optical response of two-dimensional (2D) materials and reflect their inherent properties, including spin-orbit coupling, magnetic ordering, or band topology. By focusing on a growing class of collinear antiferromagnets with a nonrelativistic s… [Phys. Rev. Lett. 135, 266703] Published Fri Dec 26, 2025</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-06e60bec4785">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">03</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202520823?af=R" rel="noopener noreferrer" target="_blank">使用 2D 钙钛矿的铁电配置传感器内动态计算用于昏暗物体识别</a><a class="weekly-permalink-link" href="#article-06e60bec4785" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Ferroelectric‐Configured In‐Sensor Dynamic Computing with 2D Perovskites for Dim Object Recognition</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Jie Liu, Fan Du, Limin Wu, Xiaosheng Fang</span><span class="weekly-chip">📅 2025-12-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>[ "该研究利用2D钙钛矿的铁电特性，实现了传感器内动态计算。核心创新在于通过铁电配置增强弱光特征提取，解决了昏暗识别难题。这为低功耗类脑视觉提供了新方案，具有重要应用价值。" ]</div>
+<div class="weekly-paper-preview">先进材料，早期观点。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-06e60bec4785', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202520823?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-06e60bec4785">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-06e60bec4785-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-088faeffcf75">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">04</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202515150?af=R" rel="noopener noreferrer" target="_blank">缺铁 Fe5GeTe2 中的介观磁结构相分离</a><a class="weekly-permalink-link" href="#article-088faeffcf75" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Mesoscale Magnetostructural Phase Separation in Fe‐deficient Fe5GeTe2</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Haoyang Ni, Eric R. Hoglund, Jordan A. Hachtel, Jian‐Min Zuo, Lijun Wu, Yimei Zhu, Andrew F. May, Miaofang Chi</span><span class="weekly-chip">📅 2025-12-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>揭示了Fe5GeTe2中的介观磁相分离，发现铁缺陷可调控磁性演化。创新点在于打破单一磁序认知，阐明了结构与磁性的关联，为研发高性能二维自旋电子器件提供了关键物理依据。</div>
+<div class="weekly-paper-preview">先进材料，早期观点。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-088faeffcf75', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202515150?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-088faeffcf75">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-088faeffcf75-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-46df7653a841">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">05</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/hdcf-dycj" rel="noopener noreferrer" target="_blank">$\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$中局域重电子磁力的巡回：超越多尼亚赫相图的方向相关相图</a><a class="weekly-permalink-link" href="#article-46df7653a841" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Itinerant to Localized Heavy Electron Magnetism in $\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$: A Direction-Dependent Phase Diagram beyond the Doniach Phase Diagram</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Hitoshi Yamaoka, Hiroshi Tanida, Eike F. Schwier, Yoshiya Yamamoto, Shiv Kumar, Masashi Arita, Kenya Shimada, Fumisato Tajima, Renta Onodera, Takashi Nishioka, Hirofumi Ishii, Nozomu Hiraoka, and Jun’ichiro Mizuki</span><span class="weekly-chip">📅 2025-12-24</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过能谱分析揭示了Ce(Ru1-xRhx)2Al10的磁性演化，创新性提出超越多尼亚赫模型的方向相关相图。这阐明了各向异性在重费米子体系中的作用，为理解关联电子系统提供了重要物理依据。</div>
+<div class="weekly-paper-preview">作者：Hitoshi Yamaoka、Hiroshi Tanida、Eike F. Schwier、Yoshiya Yamamoto、Shiv Kumar、Masashi Arita、Kenya Shimada、Fumisato Tajima、Renta Onodera、Takashi Nishioka、Hirofumi Ishii、Nozomu Hiraoka 和 Jun’ichiro Mizuki 的电子和晶体结构$\mathrm…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-46df7653a841', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/hdcf-dycj" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-46df7653a841">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-46df7653a841-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Hitoshi Yamaoka、Hiroshi Tanida、Eike F. Schwier、Yoshiya Yamamoto、Shiv Kumar、Masashi Arita、Kenya Shimada、Fumisato Tajima、Renta Onodera、Takashi Nishioka、Hirofumi Ishii、Nozomu Hiraoka 和 Jun’ichiro Mizuki 的电子和晶体结构$\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$ 已使用 X 射线发射光谱、光电子能谱 (PES) 和 X 射线衍射进行了研究。在 $x 以内未观察到结构相变</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Hitoshi Yamaoka, Hiroshi Tanida, Eike F. Schwier, Yoshiya Yamamoto, Shiv Kumar, Masashi Arita, Kenya Shimada, Fumisato Tajima, Renta Onodera, Takashi Nishioka, Hirofumi Ishii, Nozomu Hiraoka, and Jun’ichiro Mizuki Electronic and crystal structures of $\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$ have been studied using x-ray emission spectroscopy, photoelectron spectroscopy (PES), and x-ray diffraction. No structural phase transition was observed up to $x=0.1$, while the x-ray ab… [Phys. Rev. Lett. 135, 266503] Published Wed Dec 24, 2025</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-30e4b690817b">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">06</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/sfvl-3qrg" rel="noopener noreferrer" target="_blank">中心对称晶格中动态 Dzyaloshinskii-Moriya 相互作用引起的能带拓扑和动态多铁性</a><a class="weekly-permalink-link" href="#article-30e4b690817b" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Band Topology and Dynamic Multiferroicity Induced from Dynamical Dzyaloshinskii-Moriya Interactions in Centrosymmetric Lattices</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Bowen Ma and Z. D. Wang</span><span class="weekly-chip">📅 2025-12-24</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出中心对称晶格中的动态DMI机制，揭示了磁振子-声子拓扑杂化激发，阐明动态多铁性的物理起源。该创新突破了对称性限制，为设计拓扑量子器件与多铁材料提供了关键理论指导。</div>
+<div class="weekly-paper-preview">作者：Bowen Ma 和 Z.D. Wang 我们通过一般考虑阳离子和阴离子的振动，发展了中心对称晶体中动态 Dzyaloshinskii-Moriya 相互作用 (dDMI) 的理论。它产生反对称的自旋晶格耦合，诱导磁振子-声子杂化拓扑激发。此外，我们……[物理。莱特牧师。 135, 266702] 2025 年 12 月 24 日星期三发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-30e4b690817b', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/sfvl-3qrg" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-30e4b690817b">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-30e4b690817b-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Bowen Ma 和 Z.D. Wang 我们通过一般考虑阳离子和阴离子的振动，发展了中心对称晶体中动态 Dzyaloshinskii-Moriya 相互作用 (dDMI) 的理论。它产生反对称的自旋晶格耦合，诱导磁振子-声子杂化拓扑激发。此外，我们……[物理。莱特牧师。 135, 266702] 2025 年 12 月 24 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Bowen Ma and Z. D. Wang We develop a theory of a dynamical Dzyaloshinskii-Moriya interaction (dDMI) in centrosymmetric crystals by generally considering the vibration of both cations and anions. It gives rise to an antisymmetric spin-lattice coupling, inducing magnon-phonon hybridized topological excitations. Moreover, we … [Phys. Rev. Lett. 135, 266702] Published Wed Dec 24, 2025</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-ea59270c06d3">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">07</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202518468?af=R" rel="noopener noreferrer" target="_blank">氧自供合成巨大铁电极化二维Fe2Mo3O8半导体单晶</a><a class="weekly-permalink-link" href="#article-ea59270c06d3" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Oxygen‐Self‐Supply Synthesis of Two‐Dimensional Fe2Mo3O8 Semiconductor Single Crystal With Colossal Ferroelectric Polarization</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Xiaohui Li, Yueyang Jia, Yanan Peng, Jianyong Wei, Luying Song, Hang Sun, Ling Huang, Yuhang Li, Ruihan Xu, Chuxuan Xiao, Zhu Du, Rui Yang, Jun He, Jianping Shi</span><span class="weekly-chip">📅 2025-12-24</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过氧自供策略，制备出具巨大铁电极化的二维Fe2Mo3O8单晶。突破了超薄多铁材料生长瓶颈，为研发高性能非易失存储器及多功能微纳器件奠定了重要基础。</div>
+<div class="weekly-paper-preview">先进材料，早期观点。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-ea59270c06d3', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202518468?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-ea59270c06d3">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-ea59270c06d3-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-3d0dfdbeea22">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">08</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516135?af=R" rel="noopener noreferrer" target="_blank">具有高磁各向异性的 C16 相高熵硼化物</a><a class="weekly-permalink-link" href="#article-3d0dfdbeea22" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">C16 Phase High Entropy Borides With High Magnetic Anisotropy</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Willie B. Beeson, Dhritiman Bhattacharya, Dinesh Bista, Bradley J. Fugetta, Gen Yin, Kai Liu</span><span class="weekly-chip">📅 2025-12-23</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究成功制备出C16相高熵硼化物，核心创新在于利用多主元设计实现了高磁各向异性。这不仅拓展了高熵材料的功能边界，更为研发高性能永磁材料及磁功能器件提供了新路径。</div>
+<div class="weekly-paper-preview">先进材料，早期观点。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-3d0dfdbeea22', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516135?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-3d0dfdbeea22">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-3d0dfdbeea22-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-7460f1181cd2">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">09</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/jql2-b4c4" rel="noopener noreferrer" target="_blank">铁弹性交变磁体中晶体对称性强制的自旋反转</a><a class="weekly-permalink-link" href="#article-7460f1181cd2" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Spin Inversion Enforced by Crystal Symmetry in Ferroelastic Altermagnets</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Yuqiang Huang, Chenqiang Hua, Runzhang Xu, Junwei Liu, Yi Zheng, and Yunhao Lu</span><span class="weekly-chip">📅 2025-12-22</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出铁弹性与交变磁性耦合的新型多铁机制，通过对称性强制实现自旋反转。这揭示了应变调控磁序的新路径，为高性能自旋电子器件的开发提供了关键理论支撑。</div>
+<div class="weekly-paper-preview">作者：黄玉强、华晨强、徐润章、刘俊伟、郑毅和陆云浩 在突破性的预测和无数有希望的应用的推动下，自旋电子学领域见证了人们对交流磁学的兴趣的深刻激增。在这里，我们提出了一种基于对称分析的铁弹性和交变磁性之间的新型多铁机制。通过f...... [物理。莱特牧师。 135, 266701] 发布于 2025 年 12 月 22 日星期一</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-7460f1181cd2', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/jql2-b4c4" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-7460f1181cd2">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-7460f1181cd2-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：黄玉强、华晨强、徐润章、刘俊伟、郑毅和陆云浩 在突破性的预测和无数有希望的应用的推动下，自旋电子学领域见证了人们对交流磁学的兴趣的深刻激增。在这里，我们提出了一种基于对称分析的铁弹性和交变磁性之间的新型多铁机制。通过f...... [物理。莱特牧师。 135, 266701] 发布于 2025 年 12 月 22 日星期一</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Yuqiang Huang, Chenqiang Hua, Runzhang Xu, Junwei Liu, Yi Zheng, and Yunhao Lu The realm of spintronics has witnessed a profound surge in fascination towards altermagnetism, fueled by groundbreaking predictions and a myriad of promising applications. Here, we propose a novel multiferroic mechanism between ferroelasticity and altermagnetism based on symmetry analysis. Through f… [Phys. Rev. Lett. 135, 266701] Published Mon Dec 22, 2025</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-d68feccaa057">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">10</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202517846?af=R" rel="noopener noreferrer" target="_blank">具有高温自驱动灵敏度和低检测限的Pb(Zr0.52Ti0.48)O3铁电陶瓷X射线探测器</a><a class="weekly-permalink-link" href="#article-d68feccaa057" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Pb(Zr0.52Ti0.48)O3 Ferroelectric Ceramic X‐Ray Detectors with High‐Temperature Self‐Driven Sensitivity and Low Detection Limit</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Yufei Song, Fuai Hu, Feifei Guo, Yang Li, Jianhui Liu, Zeliang Gao</span><span class="weekly-chip">📅 2025-12-22</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究开发了PZT陶瓷高温自驱动X射线探测器，利用铁电极化场实现高灵敏探测。创新性地突破了高温性能瓶颈与检测限，在工业探伤及极端环境成像领域具有重要的应用价值。</div>
+<div class="weekly-paper-preview">先进材料，早期观点。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-d68feccaa057', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202517846?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-d68feccaa057">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-d68feccaa057-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-6e8a4379d980">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">11</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202519678?af=R" rel="noopener noreferrer" target="_blank">具有对称提升拓扑表面态的 1.3 T 垂直磁化的无场、确定性巨自旋轨道扭矩切换</a><a class="weekly-permalink-link" href="#article-6e8a4379d980" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Field‐Free, Deterministic Giant Spin‐Orbit Torque Switching of 1.3 T Perpendicular Magnetization With Symmetry‐Lifted Topological Surface States</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 He Ren, Yawen Peng, Meixin Cheng, Yu Shi, Reza Asadi, Adam W. Tsen, Guo‐Xing Miao</span><span class="weekly-chip">📅 2025-12-22</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究利用对称性提升的拓扑表面态，实现了1.3 T强垂直磁化的无场确定性切换。核心创新在于通过拓扑态调控突破了SOT切换对磁场的依赖，为开发高密度、低功耗及高稳定性的非易失性存储器提供了关键技术支撑。</div>
+<div class="weekly-paper-preview">先进材料，早期观点。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-6e8a4379d980', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202519678?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-6e8a4379d980">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-6e8a4379d980-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>先进材料，早期观点。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, EarlyView.</p></div></div>
+</article>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="ai">
+<div class="weekly-section-head">
+<span class="weekly-section-index">03</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">AI / 机器学习专题<a class="weekly-permalink-link" href="#ai" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">覆盖模型、方法与 AI for Science 应用工作。</p>
+</div>
+</div>
+<div class="weekly-paper-list">
+<article class="weekly-paper-card ai" id="article-5f7469866388">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">01</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-025-67884-1" rel="noopener noreferrer" target="_blank">通过学习理论推进量子成像</a><a class="weekly-permalink-link" href="#article-5f7469866388" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Advancing quantum imaging through learning theory</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nat. Commun.</span><span class="weekly-chip weekly-chip-authors">👤 Yunkai Wang, Changhun Oh, Junyu Liu 等5位作者</span><span class="weekly-chip">📅 2025-12-27</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究将物理神经网络REC理论引入量子成像，通过识别“特征任务”将成像系统转化为学习设备。该方案仅需优化输出权重即可处理复杂任务，显著提升了采样效率与解析精度，为量子成像的实用化提供了重要理论支撑。</div>
+<div class="weekly-paper-preview">We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradigm of quantum learning, the imaging system functions as a physical lea…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-5f7469866388', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-025-67884-1" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-5f7469866388">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-5f7469866388-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradigm of quantum learning, the imaging system functions as a physical learning device that maps input parameters to measurable features, while complex practical tasks are handled by training only the output weights, enabled by the systematic identification of well-estimated features (eigentasks) and their corresponding sample thresholds. Using this framework, we analyze both direct imaging and superresolution strategies for compact sources, defined as sources with sizes bounded below the Rayleigh limit. In particular, we introduce the orthogonalized SPADE method—a nontrivial generalization of existing superresolution techniques—that achieves superior performance when multiple compact sources are closely spaced. This method relaxes the earlier superresolution studies’ strong assumption that the entire source must lie within the Rayleigh limit, marking an important step toward developing more general and practically applicable approaches. Using the example of face recognition, which involve complex structured sources, we demonstrate the superior performance of our orthogonalized SPADE method and highlight key advantages of the quantum learning approach—its ability to tackle complex imaging tasks and enhance performance by selectively extracting well-estimated features.</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">We study quantum imaging by applying the resolvable expressive capacity (REC) formalism developed for physical neural networks (PNNs). In this paradigm of quantum learning, the imaging system functions as a physical learning device that maps input parameters to measurable features, while complex practical tasks are handled by training only the output weights, enabled by the systematic identification of well-estimated features (eigentasks) and their corresponding sample thresholds. Using this framework, we analyze both direct imaging and superresolution strategies for compact sources, defined as sources with sizes bounded below the Rayleigh limit. In particular, we introduce the orthogonalized SPADE method—a nontrivial generalization of existing superresolution techniques—that achieves superior performance when multiple compact sources are closely spaced. This method relaxes the earlier superresolution studies’ strong assumption that the entire source must lie within the Rayleigh limit, marking an important step toward developing more general and practically applicable approaches. Using the example of face recognition, which involve complex structured sources, we demonstrate the superior performance of our orthogonalized SPADE method and highlight key advantages of the quantum learning approach—its ability to tackle complex imaging tasks and enhance performance by selectively extracting well-estimated features.</p></div></div>
+</article>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="journals">
+<div class="weekly-section-head">
+<span class="weekly-section-index">04</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">期刊分布<a class="weekly-permalink-link" href="#journals" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">按来源快速判断本周成果主要集中在哪些期刊或预印本平台。</p>
+</div>
+</div>
+<div class="weekly-journal-list"><div class="weekly-journal-item"><div class="weekly-journal-name">Adv. Mater.</div><div class="weekly-journal-count">6 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Phys. Rev. Lett.</div><div class="weekly-journal-count">4 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nat. Commun.</div><div class="weekly-journal-count">1 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nat. Nanotechnol.</div><div class="weekly-journal-count">1 篇</div></div></div>
+</section>
+<div class="weekly-page-nav" id="weekly-enhancement-bottom-nav"><a class="weekly-page-nav-link" href="2025-12-15.html">前一周 · 2025-12-15 → 2025-12-21</a><a class="weekly-page-nav-link" href="2025-12-29.html">后一周 · 2025-12-29 → 2026-01-04</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a><a class="weekly-page-nav-link" href="#overview">本周总览</a><a class="weekly-page-nav-link" href="#article-ba86218c6f4e">全文速览</a><a class="weekly-page-nav-link" href="#journals">期刊分布</a></div><div class="weekly-report-footer">
+                    本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要入口，便于按周追踪 AI × 物理 / 化学 / 材料交叉研究。<br/>
                     生成方式：gemini ｜ 更新时间：2026-03-25 22:00
                 </div>
-            </main>
+</main>
+<aside class="insight-sidebar-card weekly-report-sidebar">
+<h3 class="insight-sidebar-title">快速导航</h3>
 
-            <aside class="insight-sidebar-card weekly-report-sidebar">
-                <h3 class="insight-sidebar-title">快速导航</h3>
-                <div class="weekly-toc-list"><a class="weekly-toc-link" href="#overview"><span>本周总览</span><span class="weekly-toc-meta">12 篇文献</span></a><a class="weekly-toc-link" href="#ferro"><span>磁性 / 铁电专题</span><span class="weekly-toc-meta">11 篇</span></a><a class="weekly-toc-link" href="#ai"><span>AI / 机器学习专题</span><span class="weekly-toc-meta">1 篇</span></a><a class="weekly-toc-link" href="#journals"><span>期刊分布</span><span class="weekly-toc-meta">4 个来源</span></a></div>
-
-                <div class="weekly-sidebar-block">
-                    <div class="weekly-sidebar-heading">本页分区</div>
-                    <div class="weekly-sidebar-stats"><div class="weekly-sidebar-fact"><span>交叉研究</span><strong>0</strong></div><div class="weekly-sidebar-fact"><span>磁性/铁电</span><strong>11</strong></div><div class="weekly-sidebar-fact"><span>AI/机器学习</span><strong>1</strong></div></div>
-                </div>
-
-                <div class="weekly-sidebar-block">
-                    <div class="weekly-sidebar-heading">阅读建议</div>
-                    <ul class="insight-note-list">
-                        <li class="insight-note-item">先读本周总览，再看交叉研究，最后按磁性/铁电与 AI 分区深挖。</li>
-                        <li class="insight-note-item">期刊分布适合快速判断本周成果主要来自顶刊还是预印本平台。</li>
-                        <li class="insight-note-item">若需要长期追踪某条研究线，可回到归档页连续浏览多周内容。</li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
-    </div>
-
-    <script>
+<div class="weekly-sidebar-block" id="weekly-enhancement-sidebar-nav"><div class="weekly-sidebar-heading">日期跳转</div><div class="weekly-page-nav" id="weekly-enhancement-sidebar-nav-links"><a class="weekly-page-nav-link" href="2025-12-15.html">前一周 · 2025-12-15 → 2025-12-21</a><a class="weekly-page-nav-link" href="2025-12-29.html">后一周 · 2025-12-29 → 2026-01-04</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a></div></div><div class="weekly-sidebar-block" id="weekly-enhancement-outline"><div class="weekly-sidebar-heading">单页目录</div><div class="weekly-outline-scroll"><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#overview">本周总览<span class="weekly-outline-meta">分区</span></a></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#ferro">磁性 / 铁电专题<span class="weekly-outline-meta">11 篇</span></a><div class="weekly-outline-list"><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-ba86218c6f4e">反铁磁体中由自旋激发驱动的激子输运<span class="weekly-outline-meta">Nat. Nanotechnol.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-36164c836aae">二维交替磁体中交替激子的对称分类<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-06e60bec4785">使用 2D 钙钛矿的铁电配置传感器内动态计算用于昏暗物体识别<span class="weekly-outline-meta">Adv. Mater.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-088faeffcf75">缺铁 Fe5GeTe2 中的介观磁结构相分离<span class="weekly-outline-meta">Adv. Mater.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-46df7653a841">$\mathrm{Ce}({\mathrm{Ru}}_{1−x}{\mathrm{Rh}}_{x}{)}_{2}{\mathrm{Al}}_{10}$中局域重电子磁力的巡回：超越多尼亚赫相图的方向相关相图<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-30e4b690817b">中心对称晶格中动态 Dzyaloshinskii-Moriya 相互作用引起的能带拓扑和动态多铁性<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-ea59270c06d3">氧自供合成巨大铁电极化二维Fe2Mo3O8半导体单晶<span class="weekly-outline-meta">Adv. Mater.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-3d0dfdbeea22">具有高磁各向异性的 C16 相高熵硼化物<span class="weekly-outline-meta">Adv. Mater.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-7460f1181cd2">铁弹性交变磁体中晶体对称性强制的自旋反转<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-d68feccaa057">具有高温自驱动灵敏度和低检测限的Pb(Zr0.52Ti0.48)O3铁电陶瓷X射线探测器<span class="weekly-outline-meta">Adv. Mater.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-6e8a4379d980">具有对称提升拓扑表面态的 1.3 T 垂直磁化的无场、确定性巨自旋轨道扭矩切换<span class="weekly-outline-meta">Adv. Mater.</span></a></div></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#ai">AI / 机器学习专题<span class="weekly-outline-meta">1 篇</span></a><div class="weekly-outline-list"><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-5f7469866388">通过学习理论推进量子成像<span class="weekly-outline-meta">Nat. Commun.</span></a></div></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#journals">期刊分布<span class="weekly-outline-meta">分区</span></a></div></div></div><div class="weekly-sidebar-block">
+<div class="weekly-sidebar-heading">本页分区</div>
+<div class="weekly-sidebar-stats"><div class="weekly-sidebar-fact"><span>交叉研究</span><strong>0</strong></div><div class="weekly-sidebar-fact"><span>磁性/铁电</span><strong>11</strong></div><div class="weekly-sidebar-fact"><span>AI/机器学习</span><strong>1</strong></div></div>
+</div>
+<div class="weekly-sidebar-block">
+<div class="weekly-sidebar-heading">阅读建议</div>
+<ul class="insight-note-list">
+<li class="insight-note-item">先读本周总览，再看交叉研究，最后按磁性/铁电与 AI 分区深挖。</li>
+<li class="insight-note-item">期刊分布适合快速判断本周成果主要来自顶刊还是预印本平台。</li>
+<li class="insight-note-item">若需要长期追踪某条研究线，可回到归档页连续浏览多周内容。</li>
+</ul>
+</div>
+</aside>
+</div>
+</div>
+<script>
         const THEME_KEY = 'literature_theme';
 
         function initTheme() {

@@ -28,34 +28,71 @@
                     rel="noopener">于宏宇（Hongyu Yu）</a> with AI</p>
         </header>
 
-        <section class="insight-home-section">
-            <div class="insight-card-grid">
-                <a href="daily/" class="insight-home-card" id="homeDailyCard">
-                    <div class="insight-home-kicker">Latest Daily</div>
-                    <h2 class="insight-home-title">每日摘要入口</h2>
-                    <p class="insight-home-text">正在加载最新日报...</p>
-                    <div class="insight-action-row">
-                        <span class="insight-btn insight-btn-primary">打开日报 ↗</span>
+        <section class="insight-home-section" id="homeInsightHub">
+            <div class="insight-home-layout">
+                <main class="insight-home-main">
+                    <div class="insight-entry-nav" id="homeInsightTopNav">
+                        <span class="insight-entry-nav-link insight-entry-nav-disabled">正在加载导航...</span>
                     </div>
-                </a>
 
-                <a href="weekly/" class="insight-home-card" id="homeWeeklyCard">
-                    <div class="insight-home-kicker">Latest Weekly</div>
-                    <h2 class="insight-home-title">周报入口</h2>
-                    <p class="insight-home-text">正在加载最新周报...</p>
-                    <div class="insight-action-row">
-                        <span class="insight-btn insight-btn-primary">打开周报 ↗</span>
-                    </div>
-                </a>
+                    <div class="insight-card-grid">
+                        <article class="insight-home-card insight-home-card-static" id="homeDailyCard">
+                            <div class="insight-home-kicker">Latest Daily</div>
+                            <h2 class="insight-home-title">每日摘要入口</h2>
+                            <p class="insight-home-text">正在加载最新日报...</p>
+                            <div class="insight-action-row">
+                                <span class="insight-btn insight-btn-primary">打开日报 ↗</span>
+                            </div>
+                        </article>
 
-                <div class="insight-home-card">
-                    <div class="insight-home-kicker">Quick Archive</div>
-                    <h2 class="insight-home-title">快速浏览</h2>
-                    <p class="insight-home-text">直接从首页跳转到最新几期日报与周报。</p>
-                    <div class="insight-inline-list" id="homeArchiveQuickList">
-                        <div class="insight-empty">正在加载归档...</div>
+                        <article class="insight-home-card insight-home-card-static" id="homeWeeklyCard">
+                            <div class="insight-home-kicker">Latest Weekly</div>
+                            <h2 class="insight-home-title">周报入口</h2>
+                            <p class="insight-home-text">正在加载最新周报...</p>
+                            <div class="insight-action-row">
+                                <span class="insight-btn insight-btn-primary">打开周报 ↗</span>
+                            </div>
+                        </article>
+
+                        <article class="insight-home-card insight-home-card-static" id="homeQuickArchiveSection">
+                            <div class="insight-home-kicker">Quick Archive</div>
+                            <h2 class="insight-home-title">快速浏览</h2>
+                            <p class="insight-home-text">直接从首页跳转到最新几期日报与周报，并附带摘要/重点深链接。</p>
+                            <div class="insight-inline-list" id="homeArchiveQuickList">
+                                <div class="insight-empty">正在加载归档...</div>
+                            </div>
+                        </article>
                     </div>
-                </div>
+
+                    <div class="insight-entry-nav insight-entry-bottom-nav" id="homeInsightBottomNav">
+                        <span class="insight-entry-nav-link insight-entry-nav-disabled">正在加载导航...</span>
+                    </div>
+                </main>
+
+                <aside class="insight-sidebar-card insight-entry-sidecard" id="homeInsightGuide">
+                    <h3 class="insight-sidebar-title">入口导航</h3>
+
+                    <div class="insight-entry-block">
+                        <div class="insight-entry-heading">页面导航</div>
+                        <div class="insight-entry-nav" id="homeInsightSidebarNav">
+                            <span class="insight-entry-nav-link insight-entry-nav-disabled">正在加载...</span>
+                        </div>
+                    </div>
+
+                    <div class="insight-entry-block">
+                        <div class="insight-entry-heading">单页目录</div>
+                        <div class="insight-entry-scroll">
+                            <div id="homeInsightOutline" class="insight-entry-outline-list">
+                                <a class="insight-entry-outline-title" href="#homeInsightHub">首页入口区域<span class="insight-entry-outline-meta">日报 / 周报 / 快捷入口</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-entry-block">
+                        <div class="insight-entry-heading">使用建议</div>
+                        <p class="insight-entry-microcopy">首页入口区现在支持最新日报、前一期日报、最新周报、前一周周报、日报/周报归档，以及摘要 / 交叉重点 / 完整速览等深链接。</p>
+                    </div>
+                </aside>
             </div>
         </section>
 
@@ -222,78 +259,197 @@
     <script src="advanced-features.js?v=2"></script>
     <script src="app.js?v=18"></script>
     <script>
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function navLink(label, href, extra = '', disabled = false) {
+            const text = extra ? `${label} · ${extra}` : label;
+            if (disabled || !href) {
+                return `<span class="insight-entry-nav-link insight-entry-nav-disabled">${escapeHtml(text)}</span>`;
+            }
+            return `<a class="insight-entry-nav-link" href="${href}">${escapeHtml(text)}</a>`;
+        }
+
+        function renderHomeNav(summaries, weeklies) {
+            const latestDaily = summaries[0];
+            const prevDaily = summaries[1];
+            const latestWeekly = weeklies[0];
+            const prevWeekly = weeklies[1];
+            return [
+                navLink('最新日报', latestDaily ? `daily/${latestDaily.file}` : '', latestDaily ? latestDaily.date : '暂无', !latestDaily),
+                navLink('前一期日报', prevDaily ? `daily/${prevDaily.file}` : '', prevDaily ? prevDaily.date : '暂无', !prevDaily),
+                navLink('最新周报', latestWeekly ? `weekly/${latestWeekly.file}` : '', latestWeekly ? latestWeekly.week_start : '暂无', !latestWeekly),
+                navLink('前一周周报', prevWeekly ? `weekly/${prevWeekly.file}` : '', prevWeekly ? prevWeekly.week_start : '暂无', !prevWeekly),
+                navLink('日报归档', 'daily/index.html'),
+                navLink('周报归档', 'weekly/index.html'),
+                navLink('入口区域', '#homeInsightHub')
+            ].join('');
+        }
+
+        function renderHomeOutline(summaries, weeklies) {
+            const groups = [];
+            groups.push(`
+                <div class="insight-entry-outline-group">
+                    <a class="insight-entry-outline-title" href="#homeInsightHub">入口总览<span class="insight-entry-outline-meta">页面导航与入口卡片</span></a>
+                    <div class="insight-entry-outline-list">
+                        <a class="insight-entry-outline-link" href="#homeDailyCard">最新日报卡片<span class="insight-entry-outline-meta">摘要 / 交叉重点 / 完整速览</span></a>
+                        <a class="insight-entry-outline-link" href="#homeWeeklyCard">最新周报卡片<span class="insight-entry-outline-meta">总览 / 交叉研究 / 期刊分布</span></a>
+                        <a class="insight-entry-outline-link" href="#homeQuickArchiveSection">快速归档<span class="insight-entry-outline-meta">最近日报与周报入口</span></a>
+                        <a class="insight-entry-outline-link" href="#homeInsightGuide">使用建议<span class="insight-entry-outline-meta">如何选择入口</span></a>
+                    </div>
+                </div>
+            `);
+            if (summaries.length) {
+                groups.push(`
+                    <div class="insight-entry-outline-group">
+                        <a class="insight-entry-outline-title" href="daily/${summaries[0].file}">最近日报<span class="insight-entry-outline-meta">前 6 期直达</span></a>
+                        <div class="insight-entry-outline-list">
+                            ${summaries.slice(0, 6).map(item => `
+                                <a class="insight-entry-outline-link" href="daily/${item.file}">${escapeHtml(item.date)}<span class="insight-entry-outline-meta">${item.total ?? 0} 篇文献</span></a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `);
+            }
+            if (weeklies.length) {
+                groups.push(`
+                    <div class="insight-entry-outline-group">
+                        <a class="insight-entry-outline-title" href="weekly/${weeklies[0].file}">最近周报<span class="insight-entry-outline-meta">前 4 期直达</span></a>
+                        <div class="insight-entry-outline-list">
+                            ${weeklies.slice(0, 4).map(item => `
+                                <a class="insight-entry-outline-link" href="weekly/${item.file}">${escapeHtml(item.week_start)} → ${escapeHtml(item.week_end)}<span class="insight-entry-outline-meta">周报归档</span></a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `);
+            }
+            return groups.join('');
+        }
+
+        function renderDailyCard(latest, previous, latestWeekly) {
+            return `
+                <div class="insight-home-kicker">Latest Daily</div>
+                <h2 class="insight-home-title">${escapeHtml(latest.date)} 每日摘要</h2>
+                <div class="insight-inline-meta">
+                    <span>收录 ${latest.total ?? 0} 篇文献</span>
+                    <span>日报已生成</span>
+                </div>
+                <p class="insight-home-text">从首页直接打开最新日报，或深链到“今日摘要 / 交叉重点 / 完整速览”。</p>
+                <div class="insight-action-row">
+                    <a class="insight-btn insight-btn-primary" href="daily/${latest.file}">打开日报 ↗</a>
+                    ${previous ? `<a class="insight-btn insight-btn-secondary" href="daily/${previous.file}">前一天 · ${escapeHtml(previous.date)}</a>` : ''}
+                    <a class="insight-inline-link" href="daily/${latest.file}#summary">今日摘要</a>
+                    <a class="insight-inline-link" href="daily/${latest.file}#highlights">交叉重点</a>
+                    <a class="insight-inline-link" href="daily/${latest.file}#papers">完整速览</a>
+                    <a class="insight-inline-link" href="daily/index.html">日报归档</a>
+                    ${latestWeekly ? `<a class="insight-inline-link" href="weekly/${latestWeekly.file}">最新周报 ↗</a>` : ''}
+                </div>
+            `;
+        }
+
+        function renderWeeklyCard(latest, previous, latestDaily) {
+            return `
+                <div class="insight-home-kicker">Latest Weekly</div>
+                <h2 class="insight-home-title">${escapeHtml(latest.week_start)} → ${escapeHtml(latest.week_end)}</h2>
+                <div class="insight-inline-meta">
+                    <span>本周总览</span>
+                    <span>交叉研究</span>
+                </div>
+                <p class="insight-home-text">从首页直接打开最新周报，或深链到“本周总览 / 交叉研究 / 期刊分布”。</p>
+                <div class="insight-action-row">
+                    <a class="insight-btn insight-btn-primary" href="weekly/${latest.file}">打开周报 ↗</a>
+                    ${previous ? `<a class="insight-btn insight-btn-secondary" href="weekly/${previous.file}">前一周 · ${escapeHtml(previous.week_start)}</a>` : ''}
+                    <a class="insight-inline-link" href="weekly/${latest.file}#overview">本周总览</a>
+                    <a class="insight-inline-link" href="weekly/${latest.file}#cross">交叉研究</a>
+                    <a class="insight-inline-link" href="weekly/${latest.file}#journals">期刊分布</a>
+                    <a class="insight-inline-link" href="weekly/index.html">周报归档</a>
+                    ${latestDaily ? `<a class="insight-inline-link" href="daily/${latestDaily.file}">最新日报 ↗</a>` : ''}
+                </div>
+            `;
+        }
+
+        function renderQuickDaily(item) {
+            return `
+                <article class="insight-inline-item">
+                    <div class="insight-inline-title">日报 · ${escapeHtml(item.date)}</div>
+                    <div class="insight-inline-meta"><span>${item.total ?? 0} 篇文献</span></div>
+                    <div class="insight-rich-links">
+                        <a class="insight-inline-link" href="daily/${item.file}">打开日报 ↗</a>
+                        <a class="insight-inline-link" href="daily/${item.file}#summary">今日摘要</a>
+                        <a class="insight-inline-link" href="daily/${item.file}#highlights">交叉重点</a>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderQuickWeekly(item) {
+            return `
+                <article class="insight-inline-item">
+                    <div class="insight-inline-title">周报 · ${escapeHtml(item.week_start)}</div>
+                    <div class="insight-inline-meta"><span>${escapeHtml(item.week_start)} → ${escapeHtml(item.week_end)}</span></div>
+                    <div class="insight-rich-links">
+                        <a class="insight-inline-link" href="weekly/${item.file}">打开周报 ↗</a>
+                        <a class="insight-inline-link" href="weekly/${item.file}#overview">本周总览</a>
+                        <a class="insight-inline-link" href="weekly/${item.file}#cross">交叉研究</a>
+                    </div>
+                </article>
+            `;
+        }
+
         async function loadInsightHub() {
             const dailyCard = document.getElementById('homeDailyCard');
             const weeklyCard = document.getElementById('homeWeeklyCard');
             const quickList = document.getElementById('homeArchiveQuickList');
+            const topNav = document.getElementById('homeInsightTopNav');
+            const sideNav = document.getElementById('homeInsightSidebarNav');
+            const bottomNav = document.getElementById('homeInsightBottomNav');
+            const outline = document.getElementById('homeInsightOutline');
 
             const [dailyResult, weeklyResult] = await Promise.allSettled([
                 fetch('daily/summaries.json?t=' + Date.now()).then(r => r.ok ? r.json() : Promise.reject(new Error(`daily ${r.status}`))),
                 fetch('weekly/index.json?t=' + Date.now()).then(r => r.ok ? r.json() : Promise.reject(new Error(`weekly ${r.status}`)))
             ]);
 
-            if (dailyResult.status === 'fulfilled') {
-                const summaries = dailyResult.value.summaries || [];
-                if (summaries.length) {
-                    const latest = summaries[0];
-                    dailyCard.innerHTML = `
-                        <div class="insight-home-kicker">Latest Daily</div>
-                        <h2 class="insight-home-title">${latest.date} 每日摘要</h2>
-                        <div class="insight-inline-meta">
-                            <span>收录 ${latest.total ?? 0} 篇文献</span>
-                            <span>日报已生成</span>
-                        </div>
-                        <p class="insight-home-text">进入最新一期日报，查看今日摘要、交叉重点和完整速览。</p>
-                        <div class="insight-action-row">
-                            <span class="insight-btn insight-btn-primary">打开日报 ↗</span>
-                        </div>
-                    `;
-                    dailyCard.href = `daily/${latest.file}`;
-                }
+            const summaries = dailyResult.status === 'fulfilled' ? (dailyResult.value.summaries || []) : [];
+            const weeklies = weeklyResult.status === 'fulfilled' ? (weeklyResult.value.weeklies || []) : [];
+
+            topNav.innerHTML = renderHomeNav(summaries, weeklies);
+            sideNav.innerHTML = renderHomeNav(summaries, weeklies);
+            bottomNav.innerHTML = renderHomeNav(summaries, weeklies);
+            outline.innerHTML = renderHomeOutline(summaries, weeklies);
+
+            if (summaries.length) {
+                dailyCard.innerHTML = renderDailyCard(summaries[0], summaries[1], weeklies[0]);
+            } else {
+                dailyCard.innerHTML = `
+                    <div class="insight-home-kicker">Latest Daily</div>
+                    <h2 class="insight-home-title">每日摘要入口</h2>
+                    <p class="insight-home-text">暂时无法加载最新日报。</p>
+                `;
             }
 
-            if (weeklyResult.status === 'fulfilled') {
-                const weeklies = weeklyResult.value.weeklies || [];
-                if (weeklies.length) {
-                    const latest = weeklies[0];
-                    weeklyCard.innerHTML = `
-                        <div class="insight-home-kicker">Latest Weekly</div>
-                        <h2 class="insight-home-title">${latest.week_start} → ${latest.week_end}</h2>
-                        <div class="insight-inline-meta">
-                            <span>本周总览</span>
-                            <span>交叉研究</span>
-                        </div>
-                        <p class="insight-home-text">查看周报总结、交叉重点与期刊分布。</p>
-                        <div class="insight-action-row">
-                            <span class="insight-btn insight-btn-primary">打开周报 ↗</span>
-                        </div>
-                    `;
-                    weeklyCard.href = `weekly/${latest.file}`;
-                }
+            if (weeklies.length) {
+                weeklyCard.innerHTML = renderWeeklyCard(weeklies[0], weeklies[1], summaries[0]);
+            } else {
+                weeklyCard.innerHTML = `
+                    <div class="insight-home-kicker">Latest Weekly</div>
+                    <h2 class="insight-home-title">周报入口</h2>
+                    <p class="insight-home-text">暂时无法加载最新周报。</p>
+                `;
             }
 
             const quickItems = [];
-            if (dailyResult.status === 'fulfilled') {
-                const summaries = dailyResult.value.summaries || [];
-                for (const item of summaries.slice(0, 3)) {
-                    quickItems.push(`
-                        <a class="insight-inline-item" href="daily/${item.file}">
-                            <div class="insight-inline-title">日报 · ${item.date}</div>
-                            <div class="insight-inline-meta"><span>${item.total ?? 0} 篇文献</span></div>
-                        </a>
-                    `);
-                }
+            for (const item of summaries.slice(0, 3)) {
+                quickItems.push(renderQuickDaily(item));
             }
-            if (weeklyResult.status === 'fulfilled') {
-                const weeklies = weeklyResult.value.weeklies || [];
-                for (const item of weeklies.slice(0, 2)) {
-                    quickItems.push(`
-                        <a class="insight-inline-item" href="weekly/${item.file}">
-                            <div class="insight-inline-title">周报 · ${item.week_start}</div>
-                            <div class="insight-inline-meta"><span>${item.week_start} → ${item.week_end}</span></div>
-                        </a>
-                    `);
-                }
+            for (const item of weeklies.slice(0, 2)) {
+                quickItems.push(renderQuickWeekly(item));
             }
             if (quickItems.length) {
                 quickList.innerHTML = quickItems.join('');

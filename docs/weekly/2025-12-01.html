@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI × Science 周报 - 2025-12-01 至 2025-12-07</title>
-    <link rel="stylesheet" href="../style.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI × Science 周报 - 2025-12-01 至 2025-12-07</title>
+<link href="../style.css" rel="stylesheet"/>
+<style>
         body {
             background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 240px), var(--bg-primary);
         }
@@ -520,190 +521,344 @@
             }
         }
     </style>
-</head>
+<style id="weekly-enhancement-style">
+#weekly-enhancement-top-nav, #weekly-enhancement-bottom-nav {
+    margin-top: 18px;
+}
+
+.weekly-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.weekly-page-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.92);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .weekly-page-nav-link {
+    background: rgba(30,41,59,0.92);
+}
+
+.weekly-page-nav-link:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.35);
+    background: rgba(99,102,241,0.08);
+}
+
+.weekly-page-nav-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.weekly-permalink-link {
+    margin-left: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.weekly-permalink-link:hover {
+    color: var(--accent-primary);
+}
+
+.weekly-inline-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.weekly-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.weekly-inline-link:hover {
+    color: var(--accent-hover);
+}
+
+.weekly-outline-scroll {
+    max-height: min(60vh, calc(100vh - 210px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 6px;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
+.weekly-outline-group + .weekly-outline-group {
+    margin-top: 14px;
+}
+
+.weekly-outline-group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    color: var(--text-primary);
+    text-decoration: none;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(148,163,184,0.18);
+    font-weight: 700;
+}
+
+[data-theme="dark"] .weekly-outline-group-title {
+    background: rgba(30,41,59,0.78);
+}
+
+.weekly-outline-group-title:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.28);
+}
+
+.weekly-outline-list {
+    display: grid;
+    gap: 6px;
+}
+
+.weekly-outline-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(148,163,184,0.14);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .weekly-outline-link {
+    background: rgba(30,41,59,0.70);
+}
+
+.weekly-outline-link:hover {
+    color: var(--accent-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+.weekly-outline-link-highlight {
+    border-color: rgba(99,102,241,0.24);
+}
+
+.weekly-outline-meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 980px) {
+    .weekly-outline-scroll {
+        max-height: none;
+    }
+}
+</style></head>
 <body>
-    <div class="insight-shell">
-        <div class="insight-topbar">
-            <div class="insight-topbar-left">
-                <a href="../index.html" class="insight-back-link">← 返回主页</a>
-                <span class="insight-mini-chip">AI × Science Weekly</span>
-            </div>
-            <div class="insight-topbar-right">
-                <span class="insight-mini-chip">2025-12-01 → 2025-12-07</span>
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
-            </div>
-        </div>
-
-        <div class="insight-layout">
-            <main class="weekly-report-main">
-                <section class="insight-page-hero weekly-report-hero">
-                    <div class="insight-kicker">AI 科学周报</div>
-                    <h1 class="insight-title">AI × Science 周报 2025-12-01 → 2025-12-07</h1>
-                    <p class="insight-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯编排，将一周内 AI × 物理 / 化学 / 材料交叉文献整理为总览、交叉重点、专题速览与期刊分布。</p>
-                    <blockquote class="weekly-report-quote">本周文献聚焦于磁性软材料的动态控制与集成制造技术，重点展示了磁性执行器从静态磁化向时空动态调制的跨越。研究涵盖了磁性软材料的物理机制探索以及在活性织物折纸中的创新应用。通过结合先进的数字刺绣与电磁控制手段，研究者实现了复杂三维结构的精确驱动与功能化集成。</blockquote>
-                    <div class="insight-tags"><span class="insight-tag">本周总览</span><span class="insight-tag">交叉研究</span><span class="insight-tag">磁性/铁电</span><span class="insight-tag">AI/机器学习</span><span class="insight-tag">期刊分布</span></div>
-                    <div class="insight-stat-grid">
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">收录文献</div>
-                            <div class="insight-stat-value">3</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">期刊 / 来源</div>
-                            <div class="insight-stat-value">1</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">arXiv / 预印本</div>
-                            <div class="insight-stat-value">0</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">专题版块</div>
-                            <div class="insight-stat-value">3</div>
-                        </div>
-                    </div>
-                    <div class="insight-action-row weekly-hero-actions">
-                        <a class="insight-btn insight-btn-primary" href="./index.html">周报归档</a>
-                        <a class="insight-btn insight-btn-secondary" href="../daily/">查看日报</a>
-                    </div>
-                </section>
-
-                
-            <section id="overview" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">01</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">本周总览</h2>
-                        <p class="insight-panel-subtitle">先把握一周的主线，再进入交叉重点与专题全文速览。</p>
-                    </div>
-                </div>
-                <div class="weekly-summary-grid">
-            <div class="weekly-summary-card">
-                <div class="weekly-summary-title">整体概览</div>
-                <p>本周文献聚焦于磁性软材料的动态控制与集成制造技术，重点展示了磁性执行器从静态磁化向时空动态调制的跨越。研究涵盖了磁性软材料的物理机制探索以及在活性织物折纸中的创新应用。通过结合先进的数字刺绣与电磁控制手段，研究者实现了复杂三维结构的精确驱动与功能化集成。</p>
-            </div>
-            
-            <div class="weekly-summary-card">
-                <div class="weekly-summary-title">来源分布</div>
-                <p>本周主要来源包括：Adv. Mater. 3篇。</p>
-            </div>
-            
-                <div class="weekly-summary-card">
-                    <div class="weekly-summary-title">阅读提示</div>
-                    <p>先看交叉研究，再按磁性/铁电与 AI 专题分区深读；所有卡片均保留中英标题、期刊、作者与摘要入口。</p>
-                </div>
-                </div><div class="weekly-digest-grid">
-            <div class="weekly-digest-card ferro">
-                <div class="weekly-digest-title"><span>⚡ 磁性/铁电</span><span>3 篇</span></div>
-                <ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-d127a7402e22"><span class="weekly-digest-journal">[Adv. Mater.]</span>该研究提出磁性软材料磁化时空调制策略，实现磁特性动态调控。这突破了静态限制，显著提升执行器运动复杂度，为开发高性能软机器人及医疗器件提供新路径，具重要应用价值。</a></li><li class="weekly-digest-item"><a href="#article-6bf8b7363524"><span class="weekly-digest-journal">[Adv. Mater.]</span>该研究提出磁性软材料磁化的时空调制策略，实现磁性分布动态重构。核心创新在于打破静态磁化限制，赋予材料复杂可逆形变能力，为软体机器人及智能致动器的精准操控提供了新途…</a></li><li class="weekly-digest-item"><a href="#article-61e459b3a64e"><span class="weekly-digest-journal">[Adv. Mater.]</span>[ &quot;该研究通过数字刺绣集成磁性纱线，实现了活性织物折纸。创新点在于将数字化制造与磁驱动融合，赋予织物复杂形变能力。这为柔性机器人及智能穿戴的规模化生产提供了高效…</a></li></ul>
-                
-            </div>
-            </div>
-            </section>
-            
-            <section id="ferro" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">02</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">磁性 / 铁电专题</h2>
-                        <p class="insight-panel-subtitle">聚焦自旋、铁电、多铁与相关功能材料研究。</p>
-                    </div>
-                </div>
-                <div class="weekly-paper-list">
-                <article class="weekly-paper-card ferro" id="article-d127a7402e22">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">01</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.71323?af=R" target="_blank" rel="noopener noreferrer">磁性软材料磁化的时空调制（Adv. Mater. 48/2025）</a></h3>
-                            <div class="weekly-paper-title-en">Spatiotemporal Modulation of Magnetization in Magnetic Soft Materials (Adv. Mater. 48/2025)</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Qiyu Deng, Hegeng Li, Hengjia Zhu, Ling Yang, Wei Li, Xiaobo Yin, Yiyuan Zhang, Liqiu Wang</span><span class="weekly-chip">📅 2025-12-03</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出磁性软材料磁化时空调制策略，实现磁特性动态调控。这突破了静态限制，显著提升执行器运动复杂度，为开发高性能软机器人及医疗器件提供新路径，具重要应用价值。</div>
-                    <div class="weekly-paper-preview">《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-d127a7402e22', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.71323?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-d127a7402e22-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, Volume 37, Issue 48, December 3, 2025.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-6bf8b7363524">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">02</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202506342?af=R" target="_blank" rel="noopener noreferrer">磁性软材料磁化的时空调制</a></h3>
-                            <div class="weekly-paper-title-en">Spatiotemporal Modulation of Magnetization in Magnetic Soft Materials</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Qiyu Deng, Hegeng Li, Hengjia Zhu, Ling Yang, Wei Li, Xiaobo Yin, Yiyuan Zhang, Liqiu Wang</span><span class="weekly-chip">📅 2025-12-03</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出磁性软材料磁化的时空调制策略，实现磁性分布动态重构。核心创新在于打破静态磁化限制，赋予材料复杂可逆形变能力，为软体机器人及智能致动器的精准操控提供了新途径，具有显著应用价值。</div>
-                    <div class="weekly-paper-preview">《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-6bf8b7363524', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202506342?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-6bf8b7363524-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, Volume 37, Issue 48, December 3, 2025.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-61e459b3a64e">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">03</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202503948?af=R" target="_blank" rel="noopener noreferrer">通过磁性纱线数字刺绣实现活性织物折纸</a></h3>
-                            <div class="weekly-paper-title-en">Active Fabric Origami Enabled by Digital Embroidery of Magnetic Yarns</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Haiqiong Li, Han Zhang, Xiangjun Zha, Junhong Pu</span><span class="weekly-chip">📅 2025-12-03</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>[ &quot;该研究通过数字刺绣集成磁性纱线，实现了活性织物折纸。创新点在于将数字化制造与磁驱动融合，赋予织物复杂形变能力。这为柔性机器人及智能穿戴的规模化生产提供了高效方案。&quot; ]</div>
-                    <div class="weekly-paper-preview">《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-61e459b3a64e', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202503948?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-61e459b3a64e-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, Volume 37, Issue 48, December 3, 2025.</p></div></div>
-                </article>
-                </div>
-            </section>
-            
-            <section id="journals" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">03</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">期刊分布</h2>
-                        <p class="insight-panel-subtitle">按来源快速判断本周成果主要集中在哪些期刊或预印本平台。</p>
-                    </div>
-                </div>
-                <div class="weekly-journal-list"><div class="weekly-journal-item"><div class="weekly-journal-name">Adv. Mater.</div><div class="weekly-journal-count">3 篇</div></div></div>
-            </section>
-            
-
-                <div class="weekly-report-footer">
-                    本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要入口，便于按周追踪 AI × 物理 / 化学 / 材料交叉研究。<br>
+<div class="insight-shell">
+<div class="insight-topbar">
+<div class="insight-topbar-left">
+<a class="insight-back-link" href="../index.html">← 返回主页</a>
+<span class="insight-mini-chip">AI × Science Weekly</span>
+</div>
+<div class="insight-topbar-right">
+<span class="insight-mini-chip">2025-12-01 → 2025-12-07</span>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+</div>
+</div>
+<div class="insight-layout">
+<main class="weekly-report-main">
+<section class="insight-page-hero weekly-report-hero">
+<div class="insight-kicker">AI 科学周报</div>
+<h1 class="insight-title">AI × Science 周报 2025-12-01 → 2025-12-07</h1>
+<p class="insight-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯编排，将一周内 AI × 物理 / 化学 / 材料交叉文献整理为总览、交叉重点、专题速览与期刊分布。</p>
+<blockquote class="weekly-report-quote">本周文献聚焦于磁性软材料的动态控制与集成制造技术，重点展示了磁性执行器从静态磁化向时空动态调制的跨越。研究涵盖了磁性软材料的物理机制探索以及在活性织物折纸中的创新应用。通过结合先进的数字刺绣与电磁控制手段，研究者实现了复杂三维结构的精确驱动与功能化集成。</blockquote>
+<div class="insight-tags"><span class="insight-tag">本周总览</span><span class="insight-tag">交叉研究</span><span class="insight-tag">磁性/铁电</span><span class="insight-tag">AI/机器学习</span><span class="insight-tag">期刊分布</span></div>
+<div class="insight-stat-grid">
+<div class="insight-stat">
+<div class="insight-stat-label">收录文献</div>
+<div class="insight-stat-value">3</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">期刊 / 来源</div>
+<div class="insight-stat-value">1</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">arXiv / 预印本</div>
+<div class="insight-stat-value">0</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">专题版块</div>
+<div class="insight-stat-value">3</div>
+</div>
+</div>
+<div class="insight-action-row weekly-hero-actions">
+<a class="insight-btn insight-btn-primary" href="./index.html">周报归档</a>
+<a class="insight-btn insight-btn-secondary" href="../daily/">查看日报</a>
+</div><div class="weekly-page-nav" id="weekly-enhancement-top-nav"><span class="weekly-page-nav-link weekly-page-nav-disabled">前一周 · 暂无</span><a class="weekly-page-nav-link" href="2025-12-08.html">后一周 · 2025-12-08 → 2025-12-14</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a><a class="weekly-page-nav-link" href="#overview">本周总览</a><a class="weekly-page-nav-link" href="#article-d127a7402e22">全文速览</a><a class="weekly-page-nav-link" href="#journals">期刊分布</a></div>
+</section>
+<section class="insight-panel weekly-report-section" id="overview">
+<div class="weekly-section-head">
+<span class="weekly-section-index">01</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">本周总览<a class="weekly-permalink-link" href="#overview" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">先把握一周的主线，再进入交叉重点与专题全文速览。</p>
+</div>
+</div>
+<div class="weekly-summary-grid">
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">整体概览</div>
+<p>本周文献聚焦于磁性软材料的动态控制与集成制造技术，重点展示了磁性执行器从静态磁化向时空动态调制的跨越。研究涵盖了磁性软材料的物理机制探索以及在活性织物折纸中的创新应用。通过结合先进的数字刺绣与电磁控制手段，研究者实现了复杂三维结构的精确驱动与功能化集成。</p>
+</div>
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">来源分布</div>
+<p>本周主要来源包括：Adv. Mater. 3篇。</p>
+</div>
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">阅读提示</div>
+<p>先看交叉研究，再按磁性/铁电与 AI 专题分区深读；所有卡片均保留中英标题、期刊、作者与摘要入口。</p>
+</div>
+</div><div class="weekly-digest-grid">
+<div class="weekly-digest-card ferro">
+<div class="weekly-digest-title"><span>⚡ 磁性/铁电</span><span>3 篇</span></div>
+<ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-d127a7402e22"><span class="weekly-digest-journal">[Adv. Mater.]</span>该研究提出磁性软材料磁化时空调制策略，实现磁特性动态调控。这突破了静态限制，显著提升执行器运动复杂度，为开发高性能软机器人及医疗器件提供新路径，具重要应用价值。</a></li><li class="weekly-digest-item"><a href="#article-6bf8b7363524"><span class="weekly-digest-journal">[Adv. Mater.]</span>该研究提出磁性软材料磁化的时空调制策略，实现磁性分布动态重构。核心创新在于打破静态磁化限制，赋予材料复杂可逆形变能力，为软体机器人及智能致动器的精准操控提供了新途…</a></li><li class="weekly-digest-item"><a href="#article-61e459b3a64e"><span class="weekly-digest-journal">[Adv. Mater.]</span>[ "该研究通过数字刺绣集成磁性纱线，实现了活性织物折纸。创新点在于将数字化制造与磁驱动融合，赋予织物复杂形变能力。这为柔性机器人及智能穿戴的规模化生产提供了高效…</a></li></ul>
+</div>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="ferro">
+<div class="weekly-section-head">
+<span class="weekly-section-index">02</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">磁性 / 铁电专题<a class="weekly-permalink-link" href="#ferro" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">聚焦自旋、铁电、多铁与相关功能材料研究。</p>
+</div>
+</div>
+<div class="weekly-paper-list">
+<article class="weekly-paper-card ferro" id="article-d127a7402e22">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">01</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.71323?af=R" rel="noopener noreferrer" target="_blank">磁性软材料磁化的时空调制（Adv. Mater. 48/2025）</a><a class="weekly-permalink-link" href="#article-d127a7402e22" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Spatiotemporal Modulation of Magnetization in Magnetic Soft Materials (Adv. Mater. 48/2025)</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Qiyu Deng, Hegeng Li, Hengjia Zhu, Ling Yang, Wei Li, Xiaobo Yin, Yiyuan Zhang, Liqiu Wang</span><span class="weekly-chip">📅 2025-12-03</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出磁性软材料磁化时空调制策略，实现磁特性动态调控。这突破了静态限制，显著提升执行器运动复杂度，为开发高性能软机器人及医疗器件提供新路径，具重要应用价值。</div>
+<div class="weekly-paper-preview">《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-d127a7402e22', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.71323?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-d127a7402e22">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-d127a7402e22-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, Volume 37, Issue 48, December 3, 2025.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-6bf8b7363524">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">02</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202506342?af=R" rel="noopener noreferrer" target="_blank">磁性软材料磁化的时空调制</a><a class="weekly-permalink-link" href="#article-6bf8b7363524" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Spatiotemporal Modulation of Magnetization in Magnetic Soft Materials</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Qiyu Deng, Hegeng Li, Hengjia Zhu, Ling Yang, Wei Li, Xiaobo Yin, Yiyuan Zhang, Liqiu Wang</span><span class="weekly-chip">📅 2025-12-03</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出磁性软材料磁化的时空调制策略，实现磁性分布动态重构。核心创新在于打破静态磁化限制，赋予材料复杂可逆形变能力，为软体机器人及智能致动器的精准操控提供了新途径，具有显著应用价值。</div>
+<div class="weekly-paper-preview">《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-6bf8b7363524', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202506342?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-6bf8b7363524">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-6bf8b7363524-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, Volume 37, Issue 48, December 3, 2025.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-61e459b3a64e">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">03</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202503948?af=R" rel="noopener noreferrer" target="_blank">通过磁性纱线数字刺绣实现活性织物折纸</a><a class="weekly-permalink-link" href="#article-61e459b3a64e" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Active Fabric Origami Enabled by Digital Embroidery of Magnetic Yarns</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Adv. Mater.</span><span class="weekly-chip weekly-chip-authors">👤 Haiqiong Li, Han Zhang, Xiangjun Zha, Junhong Pu</span><span class="weekly-chip">📅 2025-12-03</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>[ "该研究通过数字刺绣集成磁性纱线，实现了活性织物折纸。创新点在于将数字化制造与磁驱动融合，赋予织物复杂形变能力。这为柔性机器人及智能穿戴的规模化生产提供了高效方案。" ]</div>
+<div class="weekly-paper-preview">《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-61e459b3a64e', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202503948?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-61e459b3a64e">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-61e459b3a64e-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>《先进材料》，第 37 卷，第 48 期，2025 年 12 月 3 日。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Advanced Materials, Volume 37, Issue 48, December 3, 2025.</p></div></div>
+</article>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="journals">
+<div class="weekly-section-head">
+<span class="weekly-section-index">03</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">期刊分布<a class="weekly-permalink-link" href="#journals" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">按来源快速判断本周成果主要集中在哪些期刊或预印本平台。</p>
+</div>
+</div>
+<div class="weekly-journal-list"><div class="weekly-journal-item"><div class="weekly-journal-name">Adv. Mater.</div><div class="weekly-journal-count">3 篇</div></div></div>
+</section>
+<div class="weekly-page-nav" id="weekly-enhancement-bottom-nav"><span class="weekly-page-nav-link weekly-page-nav-disabled">前一周 · 暂无</span><a class="weekly-page-nav-link" href="2025-12-08.html">后一周 · 2025-12-08 → 2025-12-14</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a><a class="weekly-page-nav-link" href="#overview">本周总览</a><a class="weekly-page-nav-link" href="#article-d127a7402e22">全文速览</a><a class="weekly-page-nav-link" href="#journals">期刊分布</a></div><div class="weekly-report-footer">
+                    本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要入口，便于按周追踪 AI × 物理 / 化学 / 材料交叉研究。<br/>
                     生成方式：gemini ｜ 更新时间：2026-03-25 22:00
                 </div>
-            </main>
+</main>
+<aside class="insight-sidebar-card weekly-report-sidebar">
+<h3 class="insight-sidebar-title">快速导航</h3>
 
-            <aside class="insight-sidebar-card weekly-report-sidebar">
-                <h3 class="insight-sidebar-title">快速导航</h3>
-                <div class="weekly-toc-list"><a class="weekly-toc-link" href="#overview"><span>本周总览</span><span class="weekly-toc-meta">3 篇文献</span></a><a class="weekly-toc-link" href="#ferro"><span>磁性 / 铁电专题</span><span class="weekly-toc-meta">3 篇</span></a><a class="weekly-toc-link" href="#journals"><span>期刊分布</span><span class="weekly-toc-meta">1 个来源</span></a></div>
-
-                <div class="weekly-sidebar-block">
-                    <div class="weekly-sidebar-heading">本页分区</div>
-                    <div class="weekly-sidebar-stats"><div class="weekly-sidebar-fact"><span>交叉研究</span><strong>0</strong></div><div class="weekly-sidebar-fact"><span>磁性/铁电</span><strong>3</strong></div><div class="weekly-sidebar-fact"><span>AI/机器学习</span><strong>0</strong></div></div>
-                </div>
-
-                <div class="weekly-sidebar-block">
-                    <div class="weekly-sidebar-heading">阅读建议</div>
-                    <ul class="insight-note-list">
-                        <li class="insight-note-item">先读本周总览，再看交叉研究，最后按磁性/铁电与 AI 分区深挖。</li>
-                        <li class="insight-note-item">期刊分布适合快速判断本周成果主要来自顶刊还是预印本平台。</li>
-                        <li class="insight-note-item">若需要长期追踪某条研究线，可回到归档页连续浏览多周内容。</li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
-    </div>
-
-    <script>
+<div class="weekly-sidebar-block" id="weekly-enhancement-sidebar-nav"><div class="weekly-sidebar-heading">日期跳转</div><div class="weekly-page-nav" id="weekly-enhancement-sidebar-nav-links"><span class="weekly-page-nav-link weekly-page-nav-disabled">前一周 · 暂无</span><a class="weekly-page-nav-link" href="2025-12-08.html">后一周 · 2025-12-08 → 2025-12-14</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a></div></div><div class="weekly-sidebar-block" id="weekly-enhancement-outline"><div class="weekly-sidebar-heading">单页目录</div><div class="weekly-outline-scroll"><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#overview">本周总览<span class="weekly-outline-meta">分区</span></a></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#ferro">磁性 / 铁电专题<span class="weekly-outline-meta">3 篇</span></a><div class="weekly-outline-list"><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-d127a7402e22">磁性软材料磁化的时空调制（Adv. Mater. 48/2025）<span class="weekly-outline-meta">Adv. Mater.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-6bf8b7363524">磁性软材料磁化的时空调制<span class="weekly-outline-meta">Adv. Mater.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-61e459b3a64e">通过磁性纱线数字刺绣实现活性织物折纸<span class="weekly-outline-meta">Adv. Mater.</span></a></div></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#journals">期刊分布<span class="weekly-outline-meta">分区</span></a></div></div></div><div class="weekly-sidebar-block">
+<div class="weekly-sidebar-heading">本页分区</div>
+<div class="weekly-sidebar-stats"><div class="weekly-sidebar-fact"><span>交叉研究</span><strong>0</strong></div><div class="weekly-sidebar-fact"><span>磁性/铁电</span><strong>3</strong></div><div class="weekly-sidebar-fact"><span>AI/机器学习</span><strong>0</strong></div></div>
+</div>
+<div class="weekly-sidebar-block">
+<div class="weekly-sidebar-heading">阅读建议</div>
+<ul class="insight-note-list">
+<li class="insight-note-item">先读本周总览，再看交叉研究，最后按磁性/铁电与 AI 分区深挖。</li>
+<li class="insight-note-item">期刊分布适合快速判断本周成果主要来自顶刊还是预印本平台。</li>
+<li class="insight-note-item">若需要长期追踪某条研究线，可回到归档页连续浏览多周内容。</li>
+</ul>
+</div>
+</aside>
+</div>
+</div>
+<script>
         const THEME_KEY = 'literature_theme';
 
         function initTheme() {

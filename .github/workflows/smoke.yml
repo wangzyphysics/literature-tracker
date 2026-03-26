@@ -26,7 +26,7 @@ jobs:
 
       - name: Syntax check
         run: |
-          python -m py_compile ai_summarizer.py rss_fetcher.py generate_daily_pages.py daily_page_enhancer.py run_optimized_sync.py translator.py weekly_summary.py relevance_enricher.py focus_filter.py
+          python -m py_compile ai_summarizer.py rss_fetcher.py generate_daily_pages.py daily_page_enhancer.py weekly_page_enhancer.py run_optimized_sync.py translator.py weekly_summary.py relevance_enricher.py focus_filter.py
 
       - name: Daily page renderer test
         run: |
@@ -43,3 +43,11 @@ jobs:
       - name: Weekly page renderer test
         run: |
           python test_weekly_pages_render.py
+
+      - name: Weekly page enhancer test
+        run: |
+          python test_weekly_page_enhancer.py
+
+      - name: Archive/home markup test
+        run: |
+          python test_entry_navigation_docs.py

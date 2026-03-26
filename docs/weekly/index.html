@@ -20,15 +20,15 @@
             </div>
         </div>
 
-        <section class="insight-page-hero">
+        <section id="weeklyArchiveOverview" class="insight-page-hero">
             <div class="insight-kicker">周报归档</div>
             <h1 class="insight-title">AI × Science 周报索引</h1>
-            <p class="insight-subtitle">统一切换到资讯周报式入口：先看最新一周的交叉重点，再回溯历史周报，跟踪 AI × 物理 / 化学 / 材料交叉方向在一周尺度上的演化。</p>
+            <p class="insight-subtitle">统一采用周报式入口：优先进入最新一周，再利用前后跳转、单页目录与历史归档，连续浏览 AI × 物理 / 化学 / 材料交叉方向的阶段性脉络。</p>
             <div class="insight-tags">
                 <span class="insight-tag">本周总览</span>
                 <span class="insight-tag">交叉研究</span>
                 <span class="insight-tag">期刊分布</span>
-                <span class="insight-tag">历史周报</span>
+                <span class="insight-tag">前后跳转</span>
             </div>
             <div class="insight-stat-grid">
                 <div class="insight-stat">
@@ -44,35 +44,63 @@
                     <div class="insight-stat-value" id="latestWeeklyEnd">-</div>
                 </div>
             </div>
+            <div class="insight-entry-nav" id="weeklyArchiveTopNav">
+                <span class="insight-entry-nav-link insight-entry-nav-disabled">正在加载导航...</span>
+            </div>
         </section>
 
         <div class="insight-layout">
             <main>
-                <section class="insight-panel">
+                <section id="latestWeeklySection" class="insight-panel">
                     <h2 class="insight-panel-title">最新一期</h2>
+                    <p class="insight-panel-subtitle">直接进入最新周报，并可切到前一周或最新日报继续补读。</p>
                     <div id="latestWeeklyCard" class="insight-empty">正在加载最新周报...</div>
                 </section>
 
-                <section class="insight-panel">
+                <section id="weeklyArchiveSection" class="insight-panel">
                     <h2 class="insight-panel-title">历史归档</h2>
-                    <p class="insight-panel-subtitle">按时间倒序浏览历史周报，适合做阶段性回顾与主题追踪。</p>
+                    <p class="insight-panel-subtitle">按时间倒序浏览历史周报；每条都提供打开原页、前一周、后一周与页内定位入口。</p>
                     <div id="weeklyArchiveList" class="insight-archive-list">
                         <div class="insight-empty">正在加载周报归档...</div>
                     </div>
                 </section>
+
+                <div class="insight-entry-nav insight-entry-bottom-nav" id="weeklyArchiveBottomNav">
+                    <span class="insight-entry-nav-link insight-entry-nav-disabled">正在加载导航...</span>
+                </div>
             </main>
 
-            <aside class="insight-sidebar-card">
-                <h3 class="insight-sidebar-title">如何阅读周报</h3>
-                <p class="insight-sidebar-text">周报适合做阶段性回顾：先读本周总览，再看交叉研究，最后按磁性/铁电与 AI 分区深挖。</p>
-                <ul class="insight-note-list">
-                    <li class="insight-note-item">周报比日报更适合看趋势、热点收敛与主题延伸。</li>
-                    <li class="insight-note-item">期刊分布可以帮助快速判断本周成果来源结构。</li>
-                    <li class="insight-note-item">想追某一周的重点工作，可直接进入详细周报页面。</li>
-                </ul>
-                <div class="insight-action-row">
-                    <a class="insight-btn insight-btn-primary" href="../daily/">查看日报</a>
-                    <a class="insight-btn insight-btn-secondary" href="../index.html">返回总览</a>
+            <aside class="insight-sidebar-card insight-entry-sidecard" id="weeklyGuideSection">
+                <h3 class="insight-sidebar-title">快速导航</h3>
+
+                <div class="insight-entry-block">
+                    <div class="insight-entry-heading">页面导航</div>
+                    <div class="insight-entry-nav" id="weeklyArchiveSidebarNav">
+                        <span class="insight-entry-nav-link insight-entry-nav-disabled">正在加载...</span>
+                    </div>
+                </div>
+
+                <div class="insight-entry-block">
+                    <div class="insight-entry-heading">单页目录</div>
+                    <div class="insight-entry-scroll">
+                        <div id="weeklyArchiveOutline" class="insight-entry-outline-list">
+                            <a class="insight-entry-outline-title" href="#weeklyArchiveOverview">页面概览<span class="insight-entry-outline-meta">跳到顶部总览</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-entry-block">
+                    <div class="insight-entry-heading">阅读建议</div>
+                    <p class="insight-sidebar-text">周报适合看趋势、收敛与阶段性线索；建议从最新一周开始，再连续补看相邻周。</p>
+                    <ul class="insight-note-list">
+                        <li class="insight-note-item">先读本周总览，再看交叉研究，最后用期刊分布判断来源结构。</li>
+                        <li class="insight-note-item">如果你追的是 AI × 材料或 AI × 物理主线，优先连读相邻几周。</li>
+                        <li class="insight-note-item">想切回日更视角时，可直接跳到最新日报或日报归档。</li>
+                    </ul>
+                    <div class="insight-rich-links">
+                        <a class="insight-btn insight-btn-primary" href="../daily/">查看日报</a>
+                        <a class="insight-btn insight-btn-secondary" href="../index.html">返回总览</a>
+                    </div>
                 </div>
             </aside>
         </div>
@@ -101,46 +129,139 @@
             if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
         }
 
-        function renderLatestWeekly(item) {
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function navLink(label, href, extra = '', disabled = false) {
+            const text = extra ? `${label} · ${extra}` : label;
+            if (disabled || !href) {
+                return `<span class="insight-entry-nav-link insight-entry-nav-disabled">${escapeHtml(text)}</span>`;
+            }
+            return `<a class="insight-entry-nav-link" href="${href}">${escapeHtml(text)}</a>`;
+        }
+
+        function renderNav(weeklies, summaries) {
+            const latest = weeklies[0];
+            const previous = weeklies[1];
+            const latestDaily = summaries[0];
+            return [
+                navLink('最新周报', latest ? latest.file : '', latest ? latest.week_start : '暂无', !latest),
+                navLink('前一周', previous ? previous.file : '', previous ? previous.week_start : '暂无', !previous),
+                navLink('最新日报', latestDaily ? `../daily/${latestDaily.file}` : '', latestDaily ? latestDaily.date : '暂无', !latestDaily),
+                navLink('最新一期区域', '#latestWeeklySection'),
+                navLink('历史归档', '#weeklyArchiveSection'),
+                navLink('阅读建议', '#weeklyGuideSection'),
+                navLink('主页', '../index.html')
+            ].join('');
+        }
+
+        function renderLatestWeekly(item, previous, latestDaily) {
             return `
-                <a href="${item.file}" class="insight-feature-card">
+                <article class="insight-feature-card">
                     <div class="insight-feature-kicker">Latest Weekly</div>
-                    <div class="insight-feature-title">${item.week_start} → ${item.week_end}</div>
+                    <div class="insight-feature-title">${escapeHtml(item.week_start)} → ${escapeHtml(item.week_end)}</div>
                     <div class="insight-feature-meta">
                         <span>阶段回顾</span>
                         <span>趋势整合</span>
                     </div>
-                    <div class="insight-feature-desc">查看本周总览、交叉重点、专题分区和期刊分布。</div>
-                    <div class="insight-action-row">
-                        <span class="insight-btn insight-btn-primary">打开周报 ↗</span>
+                    <div class="insight-feature-desc">查看本周总览、交叉重点、专题全文速览与期刊分布，并继续跳到相邻周或最新日报。</div>
+                    <div class="insight-rich-links">
+                        <a class="insight-btn insight-btn-primary" href="${item.file}">打开周报 ↗</a>
+                        ${previous ? `<a class="insight-btn insight-btn-secondary" href="${previous.file}">前一周 · ${escapeHtml(previous.week_start)}</a>` : ''}
+                        <a class="insight-inline-link" href="#weeklyArchiveSection">跳到历史归档</a>
+                        ${latestDaily ? `<a class="insight-inline-link" href="../daily/${latestDaily.file}">最新日报 ↗</a>` : ''}
                     </div>
-                </a>
+                </article>
             `;
         }
 
-        function renderArchiveItem(item) {
+        function renderArchiveItem(item, index, items) {
+            const newer = items[index - 1];
+            const older = items[index + 1];
+            const anchorId = `weekly-entry-${item.week_start}`;
             return `
-                <a href="${item.file}" class="insight-archive-item">
-                    <div class="insight-archive-date">${item.week_start} → ${item.week_end}</div>
+                <article class="insight-archive-item" id="${anchorId}">
+                    <div class="insight-archive-date"><a href="${item.file}" class="insight-back-link">${escapeHtml(item.week_start)} → ${escapeHtml(item.week_end)}</a></div>
                     <div class="insight-archive-meta">
                         <span>周报归档</span>
-                        <span>${item.file}</span>
+                        <span>${escapeHtml(item.file)}</span>
                     </div>
-                    <div class="insight-archive-summary">浏览这一周的总览、交叉研究与分主题综述。</div>
-                </a>
+                    <div class="insight-archive-summary">浏览这一周的总览、交叉研究、专题分区与期刊分布；也可以继续跳到相邻周。</div>
+                    <div class="insight-rich-links">
+                        <a class="insight-inline-link" href="${item.file}">打开周报 ↗</a>
+                        ${older ? `<a class="insight-inline-link" href="${older.file}">前一周 · ${escapeHtml(older.week_start)}</a>` : ''}
+                        ${newer ? `<a class="insight-inline-link" href="${newer.file}">后一周 · ${escapeHtml(newer.week_start)}</a>` : ''}
+                        <a class="insight-inline-link" href="#${anchorId}">页内定位</a>
+                    </div>
+                </article>
             `;
+        }
+
+        function renderOutline(weeklies, summaries) {
+            const latestDaily = summaries[0];
+            const groups = [];
+            groups.push(`
+                <div class="insight-entry-outline-group">
+                    <a class="insight-entry-outline-title" href="#weeklyArchiveOverview">页面概览<span class="insight-entry-outline-meta">顶部说明与统计</span></a>
+                    <div class="insight-entry-outline-list">
+                        <a class="insight-entry-outline-link" href="#latestWeeklySection">最新一期<span class="insight-entry-outline-meta">优先进入最新周报</span></a>
+                        <a class="insight-entry-outline-link" href="#weeklyArchiveSection">历史归档<span class="insight-entry-outline-meta">连续浏览历史周报</span></a>
+                        <a class="insight-entry-outline-link" href="#weeklyGuideSection">阅读建议<span class="insight-entry-outline-meta">如何高效串读</span></a>
+                    </div>
+                </div>
+            `);
+            if (weeklies.length) {
+                groups.push(`
+                    <div class="insight-entry-outline-group">
+                        <a class="insight-entry-outline-title" href="${weeklies[0].file}">最近周报<span class="insight-entry-outline-meta">前 12 期直达</span></a>
+                        <div class="insight-entry-outline-list">
+                            ${weeklies.slice(0, 12).map(item => `
+                                <a class="insight-entry-outline-link" href="${item.file}">${escapeHtml(item.week_start)} → ${escapeHtml(item.week_end)}<span class="insight-entry-outline-meta">周报归档</span></a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `);
+            }
+            if (latestDaily) {
+                groups.push(`
+                    <div class="insight-entry-outline-group">
+                        <a class="insight-entry-outline-title" href="../daily/${latestDaily.file}">同步看日报<span class="insight-entry-outline-meta">${escapeHtml(latestDaily.date)}</span></a>
+                    </div>
+                `);
+            }
+            return groups.join('');
         }
 
         async function loadWeeklies() {
             const latestCard = document.getElementById('latestWeeklyCard');
             const archiveList = document.getElementById('weeklyArchiveList');
+            const topNav = document.getElementById('weeklyArchiveTopNav');
+            const sideNav = document.getElementById('weeklyArchiveSidebarNav');
+            const bottomNav = document.getElementById('weeklyArchiveBottomNav');
+            const outline = document.getElementById('weeklyArchiveOutline');
+
             try {
-                const response = await fetch('index.json?t=' + Date.now());
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const data = await response.json();
-                const weeklies = data.weeklies || [];
+                const [weeklyResponse, dailyResponse] = await Promise.all([
+                    fetch('index.json?t=' + Date.now()),
+                    fetch('../daily/summaries.json?t=' + Date.now())
+                ]);
+                if (!weeklyResponse.ok) throw new Error(`weekly HTTP ${weeklyResponse.status}`);
+                const weeklyData = await weeklyResponse.json();
+                const dailyData = dailyResponse.ok ? await dailyResponse.json() : { summaries: [] };
+                const weeklies = weeklyData.weeklies || [];
+                const summaries = dailyData.summaries || [];
 
                 document.getElementById('weeklyIssueCount').textContent = weeklies.length;
+                topNav.innerHTML = renderNav(weeklies, summaries);
+                sideNav.innerHTML = renderNav(weeklies, summaries);
+                bottomNav.innerHTML = renderNav(weeklies, summaries);
+                outline.innerHTML = renderOutline(weeklies, summaries);
 
                 if (!weeklies.length) {
                     latestCard.innerHTML = '<div class="insight-empty">暂无周报数据</div>';
@@ -151,14 +272,18 @@
                 }
 
                 const latest = weeklies[0];
+                const previous = weeklies[1];
                 document.getElementById('latestWeeklyStart').textContent = latest.week_start;
                 document.getElementById('latestWeeklyEnd').textContent = latest.week_end;
-                latestCard.innerHTML = renderLatestWeekly(latest);
-                archiveList.innerHTML = weeklies.map(renderArchiveItem).join('');
+                latestCard.innerHTML = renderLatestWeekly(latest, previous, summaries[0]);
+                archiveList.innerHTML = weeklies.slice(0, 36).map((item, index) => renderArchiveItem(item, index, weeklies)).join('');
             } catch (error) {
                 console.error('加载周报归档失败:', error);
                 latestCard.innerHTML = `<div class="insight-empty">加载失败：${error.message}</div>`;
                 archiveList.innerHTML = '<div class="insight-empty">请稍后刷新重试。</div>';
+                topNav.innerHTML = '<span class="insight-entry-nav-link insight-entry-nav-disabled">导航加载失败</span>';
+                sideNav.innerHTML = '<span class="insight-entry-nav-link insight-entry-nav-disabled">导航加载失败</span>';
+                bottomNav.innerHTML = '<span class="insight-entry-nav-link insight-entry-nav-disabled">导航加载失败</span>';
             }
         }
 

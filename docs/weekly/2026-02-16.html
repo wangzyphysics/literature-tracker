@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI × Science 周报 - 2026-02-16 至 2026-02-22</title>
-    <link rel="stylesheet" href="../style.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI × Science 周报 - 2026-02-16 至 2026-02-22</title>
+<link href="../style.css" rel="stylesheet"/>
+<style>
         body {
             background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 240px), var(--bg-primary);
         }
@@ -520,566 +521,684 @@
             }
         }
     </style>
-</head>
+<style id="weekly-enhancement-style">
+#weekly-enhancement-top-nav, #weekly-enhancement-bottom-nav {
+    margin-top: 18px;
+}
+
+.weekly-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.weekly-page-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.92);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .weekly-page-nav-link {
+    background: rgba(30,41,59,0.92);
+}
+
+.weekly-page-nav-link:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.35);
+    background: rgba(99,102,241,0.08);
+}
+
+.weekly-page-nav-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.weekly-permalink-link {
+    margin-left: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.weekly-permalink-link:hover {
+    color: var(--accent-primary);
+}
+
+.weekly-inline-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.weekly-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.weekly-inline-link:hover {
+    color: var(--accent-hover);
+}
+
+.weekly-outline-scroll {
+    max-height: min(60vh, calc(100vh - 210px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 6px;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
+.weekly-outline-group + .weekly-outline-group {
+    margin-top: 14px;
+}
+
+.weekly-outline-group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    color: var(--text-primary);
+    text-decoration: none;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(148,163,184,0.18);
+    font-weight: 700;
+}
+
+[data-theme="dark"] .weekly-outline-group-title {
+    background: rgba(30,41,59,0.78);
+}
+
+.weekly-outline-group-title:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.28);
+}
+
+.weekly-outline-list {
+    display: grid;
+    gap: 6px;
+}
+
+.weekly-outline-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(148,163,184,0.14);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .weekly-outline-link {
+    background: rgba(30,41,59,0.70);
+}
+
+.weekly-outline-link:hover {
+    color: var(--accent-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+.weekly-outline-link-highlight {
+    border-color: rgba(99,102,241,0.24);
+}
+
+.weekly-outline-meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 980px) {
+    .weekly-outline-scroll {
+        max-height: none;
+    }
+}
+</style></head>
 <body>
-    <div class="insight-shell">
-        <div class="insight-topbar">
-            <div class="insight-topbar-left">
-                <a href="../index.html" class="insight-back-link">← 返回主页</a>
-                <span class="insight-mini-chip">AI × Science Weekly</span>
-            </div>
-            <div class="insight-topbar-right">
-                <span class="insight-mini-chip">2026-02-16 → 2026-02-22</span>
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
-            </div>
-        </div>
-
-        <div class="insight-layout">
-            <main class="weekly-report-main">
-                <section class="insight-page-hero weekly-report-hero">
-                    <div class="insight-kicker">AI 科学周报</div>
-                    <h1 class="insight-title">AI × Science 周报 2026-02-16 → 2026-02-22</h1>
-                    <p class="insight-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯编排，将一周内 AI × 物理 / 化学 / 材料交叉文献整理为总览、交叉重点、专题速览与期刊分布。</p>
-                    <blockquote class="weekly-report-quote">本周（2026-02-16至2026-02-22）共发表22篇相关领域高水平文献，研究重心集中在二维磁性材料的电场调控、大块莫尔超晶格金属的合成以及AI在科学发现（AI4Science）中的深度应用。重要发现包括在单层CrI3中实现电压可调的拓扑自旋纹理，以及通过热力学平衡法合成出具有相干莫尔超晶格的大块金属晶体。此外，生成式AI在量子实验设计、蛋白质构象…</blockquote>
-                    <div class="insight-tags"><span class="insight-tag">本周总览</span><span class="insight-tag">交叉研究</span><span class="insight-tag">磁性/铁电</span><span class="insight-tag">AI/机器学习</span><span class="insight-tag">期刊分布</span></div>
-                    <div class="insight-stat-grid">
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">收录文献</div>
-                            <div class="insight-stat-value">22</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">期刊 / 来源</div>
-                            <div class="insight-stat-value">5</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">arXiv / 预印本</div>
-                            <div class="insight-stat-value">0</div>
-                        </div>
-                        <div class="insight-stat">
-                            <div class="insight-stat-label">专题版块</div>
-                            <div class="insight-stat-value">5</div>
-                        </div>
-                    </div>
-                    <div class="insight-action-row weekly-hero-actions">
-                        <a class="insight-btn insight-btn-primary" href="./index.html">周报归档</a>
-                        <a class="insight-btn insight-btn-secondary" href="../daily/">查看日报</a>
-                    </div>
-                </section>
-
-                
-            <section id="overview" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">01</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">本周总览</h2>
-                        <p class="insight-panel-subtitle">先把握一周的主线，再进入交叉重点与专题全文速览。</p>
-                    </div>
-                </div>
-                <div class="weekly-summary-grid">
-            <div class="weekly-summary-card">
-                <div class="weekly-summary-title">整体概览</div>
-                <p>本周（2026-02-16至2026-02-22）共发表22篇相关领域高水平文献，研究重心集中在二维磁性材料的电场调控、大块莫尔超晶格金属的合成以及AI在科学发现（AI4Science）中的深度应用。重要发现包括在单层CrI3中实现电压可调的拓扑自旋纹理，以及通过热力学平衡法合成出具有相干莫尔超晶格的大块金属晶体。此外，生成式AI在量子实验设计、蛋白质构象预测及罕见病诊断方面展现出超越传统算法的泛化能力。</p>
-            </div>
-            
-            <div class="weekly-summary-card">
-                <div class="weekly-summary-title">来源分布</div>
-                <p>本周主要来源包括：Phys. Rev. Lett. 8篇、Nature Communications 6篇、Nature 3篇、Nature Machine Intelligence 3篇。</p>
-            </div>
-            
-                <div class="weekly-summary-card">
-                    <div class="weekly-summary-title">阅读提示</div>
-                    <p>先看交叉研究，再按磁性/铁电与 AI 专题分区深读；所有卡片均保留中英标题、期刊、作者与摘要入口。</p>
-                </div>
-                </div><div class="weekly-digest-grid">
-            <div class="weekly-digest-card cross">
-                <div class="weekly-digest-title"><span>🔀 交叉研究</span><span>1 篇</span></div>
-                <ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-062e76f00e6d"><span class="weekly-digest-journal">[Nature Communications]</span>该研究通过大数据挖掘与对称性分析，揭示了八配位镧系中心的结构规律。其核心创新是提出了六种几何形状的定制化设计路线图，实现了对磁性与发光的精准调控，为量子信息、生物…</a></li></ul>
-                
-            </div>
-            
-            <div class="weekly-digest-card ferro">
-                <div class="weekly-digest-title"><span>⚡ 磁性/铁电</span><span>10 篇</span></div>
-                <ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-9c9058714cd0"><span class="weekly-digest-journal">[Nature Communications]</span>该研究提出电磁频率色散系数（EFDC）模型，通过协同介电与磁性参数，突破了超薄材料兼顾宽频吸收的挑战。其创新点在于利用EFDC的热不变性实现了宽温域下的性能稳定，…</a></li><li class="weekly-digest-item"><a href="#article-336d9dd66c78"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>本文阐明了对称性破缺材料中轴子与电磁波的非线性耦合效应。核心创新在于提出受激轴子散射机制，为高灵敏拓扑量子探测及暗物质研究开辟了新路径，具有重要应用价值。</a></li><li class="weekly-digest-item"><a href="#article-ee90ae9d7fe7"><span class="weekly-digest-journal">[Nature Communications]</span>该研究通过电场打破单层CrI3对称性，实现了对自旋轨道耦合及拓扑自旋纹理的电学调控。这不仅为研究BKS机制提供了新平台，也为开发下一代斯格明子自旋电子器件奠定了基…</a></li><li class="weekly-digest-item"><a href="#article-473c701bc25e"><span class="weekly-digest-journal">[Nature Communications]</span>该研究在扭曲FGT中发现“魔角”巨拓扑霍尔效应，突破了全局反演对称性限制。核心创新在于揭示局部对称性破缺诱导的斯格明子机制，为金属扭曲磁体的拓扑态调控提供新平台，…</a></li></ul>
-                <div class="weekly-digest-more">+ 6 篇继续下拉查看</div>
-            </div>
-            
-            <div class="weekly-digest-card ai">
-                <div class="weekly-digest-title"><span>🤖 AI / 机器学习</span><span>11 篇</span></div>
-                <ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-683f63f055ef"><span class="weekly-digest-journal">[Nature Communications]</span>该研究提出Loxodynamics方法，核心创新是利用Skewencoder基于分布偏度自动提取反应坐标。它突破了传统方法对先验知识和高温条件的依赖，能高效探索复…</a></li><li class="weekly-digest-item"><a href="#article-5375fb30ac78"><span class="weekly-digest-journal">[Nature Machine Intelligence]</span>该算法利用预处理随机ADMM框架放宽收敛条件，有效解决分布式训练的数据异构瓶颈。其支持二阶信息加速，显著提升LLM等模型训练效率，具有极高的理论与通用价值。</a></li><li class="weekly-digest-item"><a href="#article-b9bbb8f94ae9"><span class="weekly-digest-journal">[Nature Computational Science]</span>该研究提出CATS Net双模块框架，创新性地通过概念抽象与任务解决模块模拟人类认知。其核心在于构建可转移语义结构实现知识共享，并成功匹配人脑神经活动。这为理解人…</a></li><li class="weekly-digest-item"><a href="#article-c738e8411176"><span class="weekly-digest-journal">[Nature Machine Intelligence]</span>该研究提出“元设计”策略，利用语言模型生成可读代码，从数据中提取通用实验构造规则。这突破了AI孤立解的局限，实现了可解释、可推广的科学发现，为量子物理及跨学科设计…</a></li></ul>
-                <div class="weekly-digest-more">+ 7 篇继续下拉查看</div>
-            </div>
-            </div>
-            </section>
-            
-            <section id="cross" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">02</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">交叉研究</h2>
-                        <p class="insight-panel-subtitle">优先覆盖 AI × 物理 / 化学 / 材料的直接交叉工作。</p>
-                    </div>
-                </div>
-                <div class="weekly-paper-list">
-                <article class="weekly-paper-card cross" id="article-062e76f00e6d">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">01</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69445-6" target="_blank" rel="noopener noreferrer">控制镧系元素中心周围几何形状和对称性的策略，以实现定制的发光和磁性</a></h3>
-                            <div class="weekly-paper-title-en">Strategies to control the geometry and symmetry around lanthanide centres for tailored luminescence and magnetism</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Thomas E. Karpiuk, Daniel B. Leznoff</span><span class="weekly-chip">📅 2026-02-17</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过大数据挖掘与对称性分析，揭示了八配位镧系中心的结构规律。其核心创新是提出了六种几何形状的定制化设计路线图，实现了对磁性与发光的精准调控，为量子信息、生物成像等前沿材料的理性设计提供了重要指南</div>
-                    <div class="weekly-paper-preview">三价镧系元素 (Ln3+) 的发光和磁性特性对于许多新兴技术来说是不可或缺的，但对这些特性的精确控制需要了解如何有目的地设计 Ln3+ 中心的配位几何形状和位点对称性。在这里，我们使用剑桥结构数据库提取 12,670 个八坐标 Ln3+ 中心的结构，并使用连续形状测量、连续对称操作测量和新的基于结构相似性的网络分析来调查几何和结构趋势。然后利用这项调查提供具体策略，使用熟悉的概念（如 Ln3+ 金属尺寸和配体密度、咬合角、灵活性、形状…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-062e76f00e6d', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69445-6" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-062e76f00e6d-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>三价镧系元素 (Ln3+) 的发光和磁性特性对于许多新兴技术来说是不可或缺的，但对这些特性的精确控制需要了解如何有目的地设计 Ln3+ 中心的配位几何形状和位点对称性。在这里，我们使用剑桥结构数据库提取 12,670 个八坐标 Ln3+ 中心的结构，并使用连续形状测量、连续对称操作测量和新的基于结构相似性的网络分析来调查几何和结构趋势。然后利用这项调查提供具体策略，使用熟悉的概念（如 Ln3+ 金属尺寸和配体密度、咬合角、灵活性、形状、对称性和尺寸）来控制八坐标 Ln3+ 中心的配位几何形状。最终，我们提出了针对六种常见八坐标几何形状（六角双锥、立方、正方反棱柱、十二面体、双帽三棱柱和短蝶形）中每一种的路线图，这些几何形状均被证明在不同的研究领域具有独特的用例。还说明了晶体堆积和非共价相互作用的影响，从而可以对 Ln3+ 中心的几何形状和对称性进行细粒度控制。这项工作最终为数据存储、量子信息处理、照明、测温和医学生物成像等应用的 Ln3+ 配位配合物和材料的精心设计提供信息。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">The luminescent and magnetic properties of trivalent lanthanides (Ln3+) are indispensable for many emerging technologies, but exacting fine control over these properties requires an understanding of how to purposefully engineer the coordination geometry and site symmetry of Ln3+centres. Here, we use the Cambridge Structural Database to extract the structures of 12,670 eight-coordinate Ln3+centres and use Continuous Shape Measures, Continuous Symmetry Operation Measures, and a new structural similarity-based network analysis to survey geometry and structure trends. This survey is then leveraged to deliver concrete strategies for controlling the coordination geometry of eight-coordinate Ln3+centres using familiar concepts like Ln3+metal size and ligand denticity, bite angle, flexibility, shape, symmetry, and size. Ultimately, we present a roadmap for targeting each of the six common eight-coordinate geometries – hexagonal bipyramidal, cubic, square antiprismatic, dodecahedral, bicapped trigonal prismatic, and snub disphenoid – which are each demonstrated to have unique use-cases in diverse research areas. The effects of crystal packing and non-covalent interactions are also illustrated, allowing fine-grained control over the geometry and symmetry of Ln3+centres. This work ultimately serves to inform the deliberate design of Ln3+coordination complexes and materials for applications including data-storage, quantum information processing, lighting, thermometry, and medical bioimaging. [原始信息] Nature Communications, Published online: 17 February 2026; doi:10.1038/s41467-026-69445-6 The luminescent and magnetic properties of trivalent lanthanides are indispensable for many emerging technologies, but exacting fine control over these properties requires an understanding of the coordination geometry and site symmetry of Ln3+ centres. Here, the authors leverage an analysis of 12,670 eight-coordinate Ln3+ centres in the Cambridge Structural Database to prescribe useful strategies for controlling coordination geometry.</p></div></div>
-                </article>
-                </div>
-            </section>
-            
-            <section id="ferro" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">03</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">磁性 / 铁电专题</h2>
-                        <p class="insight-panel-subtitle">聚焦自旋、铁电、多铁与相关功能材料研究。</p>
-                    </div>
-                </div>
-                <div class="weekly-paper-list">
-                <article class="weekly-paper-card ferro" id="article-9c9058714cd0">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">01</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69591-x" target="_blank" rel="noopener noreferrer">A synergistic design model for ultrathin broadband microwave absorbers using electromagnetic frequency dispersion coefficients</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Haoxu Si, Yi Zhang, Mu Li 等7位作者</span><span class="weekly-chip">📅 2026-02-21</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出电磁频率色散系数（EFDC）模型，通过协同介电与磁性参数，突破了超薄材料兼顾宽频吸收的挑战。其创新点在于利用EFDC的热不变性实现了宽温域下的性能稳定，为开发复杂环境下轻质、高效的微波吸收器</div>
-                    <div class="weekly-paper-preview">超薄宽带微波吸收材料 (MAM) 对于重量敏感和空间受限的应用至关重要。这项研究引入了电磁频率色散系数（EFDC），这是一种超越传统复杂机制的协同介电-磁性参数。我们的模型将 EFDC 与微波吸收 (MA) 性能直接联系起来，指导先进 MAM 的设计。通过优化 EFDC，我们在 1 mm 处实现了 7.04 GHz 的超宽有效吸收带宽 (EAB)，在 1.3 mm 处实现了 9.28 GHz 的超宽有效吸收带宽 (EAB)。此外，尽管…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-9c9058714cd0', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69591-x" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-9c9058714cd0-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>超薄宽带微波吸收材料 (MAM) 对于重量敏感和空间受限的应用至关重要。这项研究引入了电磁频率色散系数（EFDC），这是一种超越传统复杂机制的协同介电-磁性参数。我们的模型将 EFDC 与微波吸收 (MA) 性能直接联系起来，指导先进 MAM 的设计。通过优化 EFDC，我们在 1 mm 处实现了 7.04 GHz 的超宽有效吸收带宽 (EAB)，在 1.3 mm 处实现了 9.28 GHz 的超宽有效吸收带宽 (EAB)。此外，尽管介电常数和磁导率的热响应不同，但 EFDC 的温度不变性可确保从 298 K 到 473 K 的 MA 性能保持一致。该原理概述了制造超薄和宽带 MAM 的系统设计策略，为开发适用于复杂频率和热环境的高衰减吸波器建立了强大的框架。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Ultrathin, broadband microwave absorbing materials (MAMs) are crucial for weight-sensitive and space-constrained applications. This study introduces the electromagnetic frequency dispersion coefficient (EFDC), a synergistic dielectric-magnetic parameter that moves beyond conventional complex mechanisms. Our model directly links EFDC to microwave absorption (MA) performance, guiding the design of advanced MAMs. By optimizing EFDC, we achieved an ultra-wide effective absorption bandwidth (EAB) of 7.04 GHz at 1 mm and 9.28 GHz at 1.3 mm. Moreover, the temperature invariance of EFDC ensures consistent MA performance from 298 K to 473 K, despite the differing thermal responses of permittivity and permeability. This principle outlines a systematic design strategy for fabricating ultrathin and broadband MAMs, establishing a robust framework for developing high-attenuation absorbers suitable for complex frequency and thermal environments.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-336d9dd66c78">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">02</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/16jj-ry2l" target="_blank" rel="noopener noreferrer">Theory of Stimulated and Spontaneous Axion Scattering</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 M. Smith, Kartiek Agarwal, and Ivar Martin</span><span class="weekly-chip">📅 2026-02-20</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>本文阐明了对称性破缺材料中轴子与电磁波的非线性耦合效应。核心创新在于提出受激轴子散射机制，为高灵敏拓扑量子探测及暗物质研究开辟了新路径，具有重要应用价值。</div>
-                    <div class="weekly-paper-preview">作者：M. Smith、Kartiek Agarwal 和 Ivar Martin 我们提出了一种通过在破坏 $\mathcal{P}$ 和 $\mathcal{T}$ 对称性的材料中反向传播电磁波来非线性、共振激发动态轴子的理论。我们表明，动力轴子可以介导低频振幅的指数增长（Sto… [Phys. Rev. Lett. 136, 076903] 2026 年 2 月 20 日星期五发布</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-336d9dd66c78', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/16jj-ry2l" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-336d9dd66c78-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：M. Smith、Kartiek Agarwal 和 Ivar Martin 我们提出了一种通过在破坏 $\mathcal{P}$ 和 $\mathcal{T}$ 对称性的材料中反向传播电磁波来非线性、共振激发动态轴子的理论。我们表明，动力轴子可以介导低频振幅的指数增长（Sto… [Phys. Rev. Lett. 136, 076903] 2026 年 2 月 20 日星期五发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): M. Smith, Kartiek Agarwal, and Ivar Martin We present a theory for nonlinear, resonant excitation of dynamical axions by counterpropagating electromagnetic waves in materials that break both $\mathcal{P}$ and $\mathcal{T}$ symmetries. We show that dynamical axions can mediate an exponential growth in the amplitude of the lower frequency (Sto… [Phys. Rev. Lett. 136, 076903] Published Fri Feb 20, 2026</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-ee90ae9d7fe7">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">03</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69800-7" target="_blank" rel="noopener noreferrer">Voltage-controlled topological spin textures in the monolayer limit</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Yangliu Wu, Bo Peng, Zhaozhuo Zeng 等13位作者</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过电场打破单层CrI3对称性，实现了对自旋轨道耦合及拓扑自旋纹理的电学调控。这不仅为研究BKS机制提供了新平台，也为开发下一代斯格明子自旋电子器件奠定了基础。</div>
-                    <div class="weekly-paper-preview">低维系统中的相变物理学长期以来一直是人们广泛研究的课题。严格二维极限下的长程磁序的发现绕过了默明-瓦格纳定理，迅速成为研究热点。然而，在二维极限下展示非平凡的拓扑自旋纹理仍然难以实现。在这里，我们证明了面外电场打破了反演对称性，同时调制了电子能带结构，从而实现了电可调自旋轨道相互作用，用于在单层 CrI3 中创建和操纵拓扑自旋纹理。理想二维拓扑自旋纹理的实现不仅可以为探测别列津斯基-科斯特利茨-索利斯机制提供实验测试平台，而且还可以为…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-ee90ae9d7fe7', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69800-7" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-ee90ae9d7fe7-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>低维系统中的相变物理学长期以来一直是人们广泛研究的课题。严格二维极限下的长程磁序的发现绕过了默明-瓦格纳定理，迅速成为研究热点。然而，在二维极限下展示非平凡的拓扑自旋纹理仍然难以实现。在这里，我们证明了面外电场打破了反演对称性，同时调制了电子能带结构，从而实现了电可调自旋轨道相互作用，用于在单层 CrI3 中创建和操纵拓扑自旋纹理。理想二维拓扑自旋纹理的实现不仅可以为探测别列津斯基-科斯特利茨-索利斯机制提供实验测试平台，而且还可以为包括超导性和超流性在内的未解决的量子现象提供潜在的见解。此外，电压控制的自旋轨道相互作用提供了一种新颖的途径来设计具有定制对称性和拓扑的二维自旋纹理，同时为基于斯格明子的下一代信息技术开辟了途径。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">The physics of phase transitions in low-dimensional systems has long been a subject of significant research interest. Long-range magnetic order in the strict two-dimensional limit, whose discovery circumvented the Mermin-Wagner theorem, has rapidly emerged as a research focus. However, the demonstration of a non-trivial topological spin textures in two-dimensional limit has remained elusive. Here, we demonstrate the out-of-plane electric field breaks inversion symmetry while simultaneously modulating the electronic band structure, enabling electrically tunable spin-orbit interaction for creation and manipulation of topological spin textures in monolayer CrI3. The realization of ideal two-dimensional topological spin textures may offer not only an experimental testbed for probing the Berezinskii–Kosterlitz–Thouless mechanism, but also potential insights into unresolved quantum phenomena including superconductivity and superfluidity. Moreover, voltage-controlled spin-orbit interaction offers a novel pathway to engineer two-dimensional spin textures with tailored symmetries and topologies, while opening avenues for skyrmion-based next-generation information technologies.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-473c701bc25e">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">04</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69454-5" target="_blank" rel="noopener noreferrer">Emergent giant topological Hall effect in twisted Fe 3 GeTe 2 metallic system</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Hyuncheol Kim, Kai-Xuan Zhang, Yu-Hang Li 等6位作者</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究在扭曲FGT中发现“魔角”巨拓扑霍尔效应，突破了全局反演对称性限制。核心创新在于揭示局部对称性破缺诱导的斯格明子机制，为金属扭曲磁体的拓扑态调控提供新平台，对自旋电子器件研发意义重大。</div>
-                    <div class="weekly-paper-preview">由传导电子和斯格明子等拓扑磁性结构之间的交换相互作用驱动的拓扑霍尔效应是研究磁性材料拓扑特性的有力探针。通常，这种现象出现在全局反演对称性被破坏的系统中，其中 Dzyaloshinskii-Moriya 相互作用稳定了这种纹理。在这里，我们报告了在扭曲的 Fe3GeTe2 金属系统中发现了一种新兴的巨型拓扑霍尔效应，该效应显着地保留了一般的全局反演对称性。这种效应仅在 0.45° 至 0.75° 的“神奇”扭转角的狭窄窗口内显现，而在…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-473c701bc25e', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69454-5" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-473c701bc25e-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>由传导电子和斯格明子等拓扑磁性结构之间的交换相互作用驱动的拓扑霍尔效应是研究磁性材料拓扑特性的有力探针。通常，这种现象出现在全局反演对称性被破坏的系统中，其中 Dzyaloshinskii-Moriya 相互作用稳定了这种纹理。在这里，我们报告了在扭曲的 Fe3GeTe2 金属系统中发现了一种新兴的巨型拓扑霍尔效应，该效应显着地保留了一般的全局反演对称性。这种效应仅在 0.45° 至 0.75° 的“神奇”扭转角的狭窄窗口内显现，而在该范围之外则不存在，突出了其独特性和突发性。微磁模拟表明，这种拓扑霍尔效应源自斯格明子晶格，该斯格明子晶格是由局部反演对称性破缺导致的交替面内和层对比 Dzyaloshinskii-Moriya 相互作用引起的。我们的研究结果强调了扭曲 Fe3GeTe2 作为一种多功能平台，用于设计和控制金属扭曲范德华磁体中的拓扑磁织构，从而为下一代自旋电子器件开辟了新途径。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">The topological Hall effect, driven by the exchange interaction between conduction electrons and topological magnetic textures such as skyrmions, is a powerful probe for investigating the topological properties of magnetic materials. Typically, this phenomenon arises in systems with broken global inversion symmetry, where Dzyaloshinskii-Moriya interactions stabilize such textures. Here, we report the discovery of an emergent giant topological Hall effect in the twisted Fe3GeTe2metallic system, which notably preserves the general global inversion symmetry. This effect manifests exclusively within a narrow window of “magic” twist angles ranging from 0.45° to 0.75°, while it is absent outside of that range, highlighting its unique and emergent nature. Micromagnetic simulations reveal that this topological Hall effect originates from a skyrmion lattice induced by alternating in-plane and layer-contrasting Dzyaloshinskii-Moriya interactions that result from local inversion symmetry breaking. Our findings underscore twisted Fe3GeTe2as a versatile platform for engineering and controlling topological magnetic textures in metallic twisted van der Waals magnets, thereby opening up new avenues for next-generation spintronic devices.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-cbe7a7f7bae5">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">05</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/b6gt-w5xy" target="_blank" rel="noopener noreferrer">Quintuplet Condensation in the Skyrmionic Insulator ${\mathrm{Cu}}_{2}{\mathrm{OSeO}}_{3}$ at Ultrahigh Magnetic Fields</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 T. Nomura, I. Rousochatzakis, O. Janson, M. Gen, X.-G. Zhou, Y. Ishii, S. Seki, Y. Kohama, and Y. H. Matsuda</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究在超高磁场下首次发现Cu2OSeO3的五重态磁振子凝聚。这一创新揭示了手性磁体的新奇量子态，深化了对复杂磁序量子相变的理解，具有重要基础物理研究价值。</div>
-                    <div class="weekly-paper-preview">作者：T. Nomura、I. Rousochatzakis、O. Janson、M. Gen、X.-G。 Zhou、Y. Ishii、S. Seki、Y. Kohama 和 Y. H. Matsuda 超高磁场下的法拉第旋转揭示了手性螺旋磁体中的磁振子玻色-爱因斯坦凝聚 [Phys.莱特牧师。 136, 076703] 发布于 2026 年 2 月 19 日星期四</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-cbe7a7f7bae5', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/b6gt-w5xy" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-cbe7a7f7bae5-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：T. Nomura、I. Rousochatzakis、O. Janson、M. Gen、X.-G。 Zhou、Y. Ishii、S. Seki、Y. Kohama 和 Y. H. Matsuda 超高磁场下的法拉第旋转揭示了手性螺旋磁体中的磁振子玻色-爱因斯坦凝聚 [Phys.莱特牧师。 136, 076703] 发布于 2026 年 2 月 19 日星期四</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): T. Nomura, I. Rousochatzakis, O. Janson, M. Gen, X.-G. Zhou, Y. Ishii, S. Seki, Y. Kohama, and Y. H. Matsuda Faraday rotation at ultrahigh magnetic fields uncovers magnon Bose–Einstein condensation in a chiral helimagnet [Phys. Rev. Lett. 136, 076703] Published Thu Feb 19, 2026</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-b163ac03ad84">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">06</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69391-3" target="_blank" rel="noopener noreferrer">通过铁电异质结调制实现钙钛矿太阳能电池的高开路电压-填充因子积</a></h3>
-                            <div class="weekly-paper-title-en">High Open-Circuit Voltage–Fill factor product in perovskite solar cells enabled by ferroelectric heterojunction modulation</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Nan Wu, Haofei Ni, Tianqi Niu 等16位作者</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过引入铁电异质结，利用自发极化增强内建电场并优化结晶动力学，协同提升了开路电压与填充因子。该策略突破了传统异质结性能瓶颈，实现了极高效率与稳定性，为高效钙钛矿电池研发提供了新路径。</div>
-                    <div class="weekly-paper-preview">克服钙钛矿-钙钛矿异质结在同时提高内置电势和抑制非辐射复合方面的固有局限性仍然是钙钛矿太阳能电池的一个关键挑战。在这里，我们介绍了一种基于铁电的异质结架构，它通过协同机制解决这一双重挑战。首先，铁电异质结固有的自发极化显着放大了内置电场，增强了电荷分离和传输，从而将开路电压从1.16 V提高到1.21 V。其次，铁电核通过溶解-再结晶调节有效调节钙钛矿结晶动力学，有效抑制陷阱态并将填充因子从83.6%提高到86.8%。冠军器件的功率转…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-b163ac03ad84', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69391-3" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-b163ac03ad84-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>克服钙钛矿-钙钛矿异质结在同时提高内置电势和抑制非辐射复合方面的固有局限性仍然是钙钛矿太阳能电池的一个关键挑战。在这里，我们介绍了一种基于铁电的异质结架构，它通过协同机制解决这一双重挑战。首先，铁电异质结固有的自发极化显着放大了内置电场，增强了电荷分离和传输，从而将开路电压从1.16 V提高到1.21 V。其次，铁电核通过溶解-再结晶调节有效调节钙钛矿结晶动力学，有效抑制陷阱态并将填充因子从83.6%提高到86.8%。冠军器件的功率转换效率为 26.62%（认证为 26.07%），开路电压填充因子积为 1.05 V，达到 Shockley-Queisser 极限的 90.3%。此外，改进后的器件表现出增强的运行稳定性，在最大功率点跟踪 500 小时后保留了超过 85% 的效率，为高性能光伏电池绘制了清晰的路径。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Overcoming the inherent limitations of perovskite-perovskite heterojunctions in simultaneously boosting built-in potential and suppressing non-radiative recombination remains a critical challenge in perovskite solar cells. Here, we introduce a ferroelectric-based heterojunction architecture that addresses this dual challenge through synergistic mechanisms. Firstly, the spontaneous polarization inherent to the ferroelectric-based heterojunction significantly amplifies the built-in electric field, enhancing charge separation and transport, thereby increasing open-circuit voltage from 1.16 to 1.21 V. Secondly, ferroelectric nuclei effectively regulate perovskite crystallization kinetics via dissolution-recrystallization modulation, effectively suppressing trap states and elevating fill factor from 83.6% to 86.8%. The champion devices achieve a power conversion efficiency of 26.62% (certified 26.07%) with an open-circuit voltage-fill factor product of 1.05 V, reaching 90.3% of the Shockley-Queisser limit. Furthermore, the modified devices demonstrate enhanced operational stability with over 85% efficiency reservation after 500 h of maximum power point tracking, charting clear pathways towards high-performance photovoltaic cells. [原始信息] Nature Communications, Published online: 18 February 2026; doi:10.1038/s41467-026-69391-3 Wu et al. report a strategy of incorporating either Dion-Jacobson phase or Ruddlesden-Popper phase ferroelectric perovskite with FAPbI3 to form bulk heterojunctions, increasing the open-circuit voltage-fill factor product and enabling single junction solar cells with an efficiency of 26.62%.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-3edc73c04487">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">07</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41586-026-10173-8" target="_blank" rel="noopener noreferrer">大块莫尔金属的高维费米学</a></h3>
-                            <div class="weekly-paper-title-en">Higher-dimensional Fermiology in bulk moiré metals</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature</span><span class="weekly-chip weekly-chip-authors">👤 Kevin P. Nuckolls, Nisarga Paul, Alan Chen 等13位作者</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究在热力学平衡下合成大块莫尔金属，将莫尔物理拓展至三维。通过揭示高维超空间编码的复杂费米学，为调控强关联量子态提供了新范式，对探索新型量子物态意义重大。</div>
-                    <div class="weekly-paper-preview">在过去的十年中，莫尔材料彻底改变了我们设计和控制物质量子相的方式1,2。它们是强相关电子现象 3,4 的多功能平台，并支持新的铁电态 5,6、磁态 7 和超导态 8。在不相称材料9中，莫尔材料是非周期复合晶体10,11，其长波长超晶格能够在不化学改变其层的情况下实现可调特性。到目前为止，几乎所有莫尔材料的报告都研究了远离热力学平衡（T &lt; 150 °C）组装的范德华异质结构1,2。在这里，我们介绍了一种在热力学平衡下合成高迁移率莫尔材…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-3edc73c04487', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41586-026-10173-8" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-3edc73c04487-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>在过去的十年中，莫尔材料彻底改变了我们设计和控制物质量子相的方式1,2。它们是强相关电子现象 3,4 的多功能平台，并支持新的铁电态 5,6、磁态 7 和超导态 8。在不相称材料9中，莫尔材料是非周期复合晶体10,11，其长波长超晶格能够在不化学改变其层的情况下实现可调特性。到目前为止，几乎所有莫尔材料的报告都研究了远离热力学平衡（T &lt; 150 °C）组装的范德华异质结构1,2。在这里，我们介绍了一种在热力学平衡下合成高迁移率莫尔材料的概念新方法。我们报告了一个新的叶状超晶格材料 (Sr6TaS8)1+δ(TaS2)8 家族，它们是可剥离的、不通约晶格的范德华晶体。交替层之间的晶格不匹配会产生莫尔超晶格，类似于二维莫尔异双层超晶格，它们在整个晶体中是相干的，并且可以通过合成条件进行调节，而不改变其化学成分。量子振荡测量绘制了这些莫尔金属的复杂费米学12,13,14，表明结构最简单的莫尔金属的费米表面包含 40 多个不同的横截面区域。通过提出这些大块莫尔金属以与不相称晶格的成熟晶体学方法平行的方式编码高维超空间晶体的电子特性，可以自然地理解这一点15,16。更广泛地说，我们的工作展示了一种可扩展的合成方法，可能能够生产用于电子应用的大面积莫尔材料，并证明了一种新的材料设计概念，用于访问更高维度中提出的现象17,18,19,20,21。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">In the past decade, moiré materials have revolutionized how we engineer and control quantum phases of matter1,2. They are versatile platforms for strongly correlated electronic phenomena3,4and support new ferroelectric5,6, magnetic7and superconducting states8. Among incommensurate materials9, moiré materials are aperiodic composite crystals10,11whose long-wavelength superlattices enable tunable properties without chemically modifying their layers. So far, nearly all reports of moiré materials have investigated van der Waals heterostructures assembled far from thermodynamic equilibrium (T&lt; 150 °C)1,2. Here we introduce a conceptually new approach to synthesizing high-mobility moiré materials in thermodynamic equilibrium. We report a new family of foliated superlattice materials (Sr6TaS8)1+δ(TaS2)8that are exfoliatable, incommensurate-lattice, van der Waals crystals. Lattice mismatches between alternating layers generate moiré superlattices, analogous to 2D moiré heterobilayer superlattices, which are coherent throughout these crystals and tunable through synthesis conditions without altering their chemical composition. Quantum oscillation measurements map the complex Fermiology of these moiré metals12,13,14, showing that the Fermi surface of the structurally simplest moiré metal comprises more than 40 distinct cross-sectional areas. This is naturally understood by proposing that these bulk moiré metals encode electronic properties of higher-dimensional superspace crystals in ways paralleling well-established crystallographic methods for incommensurate lattices15,16. More broadly, our work demonstrates a scalable synthesis approach potentially capable of producing large-area moiré materials for electronics applications and evidences a new material design concept for accessing phenomena proposed in higher dimensions17,18,19,20,21. [原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-026-10173-8 Aperiodic composite crystals were discovered that emulate 2D moiré materials, demonstrating a potentially scalable approach for producing moiré materials for next-generation electronics and a generalizable approach for realizing theoretical predictions of higher-dimensional quantum phenomena.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-963de7c879ef">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">08</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/dxdt-lpbr" target="_blank" rel="noopener noreferrer">Interfacial Spin-Orbit Coupling Induced Room Temperature Ferromagnetic Insulator</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Yuhao Hong, Shilin Hu, Ziyue Shen, Chao Deng, Xiaodong Zhang, Lei Wang, Long Wei, Qinghua Zhang, Lingfei Wang, Liang Si, Yulin Gan, Kai Chen, and Zhaoliang Liao</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究利用界面自旋轨道耦合效应，成功制备出室温铁磁绝缘体薄膜。这一创新突破了材料性能瓶颈，为开发下一代低功耗、无耗散量子及自旋电子器件提供了关键的物质基础。</div>
-                    <div class="weekly-paper-preview">作者：Yuhao Hong、Shilin Hu、Ziyue Shen、Chao Deng、Xiaodong Zhang、Lei Wang、Long Wei、Qinghua Zhang、Lingfei Wang、Liang Si、Yulin Gan、Kai Chen 和 Zaliang Liao 制造室温铁磁绝缘体，这是下一代无耗散量子和自旋电子器件的重要候选者，仍然是一个重大挑战。在这封信中，我们报告了新型室温铁磁绝缘薄膜的外延合成……</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-963de7c879ef', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/dxdt-lpbr" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-963de7c879ef-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Yuhao Hong、Shilin Hu、Ziyue Shen、Chao Deng、Xiaodong Zhang、Lei Wang、Long Wei、Qinghua Zhang、Lingfei Wang、Liang Si、Yulin Gan、Kai Chen 和 Zaliang Liao 制造室温铁磁绝缘体，这是下一代无耗散量子和自旋电子器件的重要候选者，仍然是一个重大挑战。在这封信中，我们报告了新型室温铁磁绝缘薄膜的外延合成……[物理。莱特牧师。 136, 076302] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Yuhao Hong, Shilin Hu, Ziyue Shen, Chao Deng, Xiaodong Zhang, Lei Wang, Long Wei, Qinghua Zhang, Lingfei Wang, Liang Si, Yulin Gan, Kai Chen, and Zhaoliang Liao Fabricating room-temperature ferromagnetic insulators, which are crucial candidates for next-generation dissipation-free quantum and spintronic devices, remains a significant challenge. In this Letter, we report on the epitaxial synthesis of novel room-temperature ferromagnetic insulating thin films… [Phys. Rev. Lett. 136, 076302] Published Wed Feb 18, 2026</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-f31f48464f28">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">09</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/rbn9-d45t" target="_blank" rel="noopener noreferrer">Vacancy Induced Expansion of Spin-Liquid Regime in the ${J}_{1}\text{−}{J}_{2}$ Heisenberg Model</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Soumyaranjan Dash, Anish Koley, and Sanjeev Kumar</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究引入自旋空位和新型半经典方法，发现空位能显著扩大J1-J2模型的自旋液体区。这揭示了无序对受挫磁系的稳定机制，为人工调控量子自旋液体及研发量子材料提供新思路。</div>
-                    <div class="weekly-paper-preview">作者：Soumyaranjan Dash、Anish Koley 和 Sanjeev Kumar 我们研究了存在自旋空位的情况下方形晶格上的自旋 $1/2$ ${J}_{1}\text{−}{J}_{2}$ 海森堡反铁磁体的模型。为了克服与分析具有磁挫败和不均匀性的模型相关的方法挑战，我们引入了一种新的半类...... [Phys.莱特牧师。 136, 076502] 2026 年 2 月 18 日星期三发布</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-f31f48464f28', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/rbn9-d45t" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-f31f48464f28-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Soumyaranjan Dash、Anish Koley 和 Sanjeev Kumar 我们研究了存在自旋空位的情况下方形晶格上的自旋 $1/2$ ${J}_{1}\text{−}{J}_{2}$ 海森堡反铁磁体的模型。为了克服与分析具有磁挫败和不均匀性的模型相关的方法挑战，我们引入了一种新的半类...... [Phys.莱特牧师。 136, 076502] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Soumyaranjan Dash, Anish Koley, and Sanjeev Kumar We study the model for spin-$1/2$ ${J}_{1}\text{−}{J}_{2}$ Heisenberg antiferromagnets on a square lattice in the presence of spin vacancies. In order to overcome the methodological challenges associated with analyzing models with magnetic frustration and inhomogeneities, we introduce a new semiclas… [Phys. Rev. Lett. 136, 076502] Published Wed Feb 18, 2026</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ferro" id="article-11b30b17dedc">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">10</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/vlzz-gzy5" target="_blank" rel="noopener noreferrer">Pseudocriticality in Antiferromagnetic Spin Chains</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Sankalp Kumar, Sumiran Pujari, and Jonathan D’Emidio</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究揭示反铁磁自旋链弱一阶相变的伪临界机制，利用耦合常数的“行走行为”解释了尺度不变性。这深化了对低维量子相变的理解，为探索解禁闭临界性提供了理论支撑。</div>
-                    <div class="weekly-paper-preview">作者：Sankalp Kumar、Sumiran Pujari 和 Jonathan D’Emidio 在各种环境中都观察到具有近似尺度不变性的弱一阶伪临界性，包括在 $2+1$ 维度中解除临界性的有趣情况。最近，这被解释为实值耦合的极其缓慢的流动（“行走行为”）……[物理。莱特牧师。 136, 076701] 2026 年 2 月 18 日星期三发布</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-11b30b17dedc', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/vlzz-gzy5" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-11b30b17dedc-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Sankalp Kumar、Sumiran Pujari 和 Jonathan D’Emidio 在各种环境中都观察到具有近似尺度不变性的弱一阶伪临界性，包括在 $2+1$ 维度中解除临界性的有趣情况。最近，这被解释为实值耦合的极其缓慢的流动（“行走行为”）……[物理。莱特牧师。 136, 076701] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Sankalp Kumar, Sumiran Pujari, and Jonathan D’Emidio Weak first-order pseudocriticality with approximate scale invariance has been observed in a variety of settings, including the intriguing case of deconfined criticality in $2+1$ dimensions. Recently, this has been interpreted as extremely slow flows (“walking behavior”) for real-valued couplings in … [Phys. Rev. Lett. 136, 076701] Published Wed Feb 18, 2026</p></div></div>
-                </article>
-                </div>
-            </section>
-            
-            <section id="ai" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">04</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">AI / 机器学习专题</h2>
-                        <p class="insight-panel-subtitle">覆盖模型、方法与 AI for Science 应用工作。</p>
-                    </div>
-                </div>
-                <div class="weekly-paper-list">
-                <article class="weekly-paper-card ai" id="article-683f63f055ef">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">01</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69586-8" target="_blank" rel="noopener noreferrer">Exploring chemistry and catalysis by biasing skewed distributions via deep learning</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Zhikun Zhang, GiovanniMaria Piccini</span><span class="weekly-chip">📅 2026-02-21</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出Loxodynamics方法，核心创新是利用Skewencoder基于分布偏度自动提取反应坐标。它突破了传统方法对先验知识和高温条件的依赖，能高效探索复杂势能面，为复杂催化体系的自动化反应发</div>
-                    <div class="weekly-paper-preview">化学和催化反应的自动发现仍然是计算化学中的主要挑战，特别是在传统方法难以确定最佳搜索方向的复杂系统中。在这里，我们提出了 Loxodynamics，一种机器学习驱动的方法，通过有偏差的分子动力学进行反应探索。通过利用局部概率分布的偏度，Loxodynamics 动态确定低能垒方向，有效引导系统进入亚稳态。我们框架的核心是 Skewencoder，这是一种自动编码器，增强了基于偏度的损失函数，可以从最小采样数据中提取反应坐标。通过迭代采…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-683f63f055ef', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69586-8" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-683f63f055ef-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>化学和催化反应的自动发现仍然是计算化学中的主要挑战，特别是在传统方法难以确定最佳搜索方向的复杂系统中。在这里，我们提出了 Loxodynamics，一种机器学习驱动的方法，通过有偏差的分子动力学进行反应探索。通过利用局部概率分布的偏度，Loxodynamics 动态确定低能垒方向，有效引导系统进入亚稳态。我们框架的核心是 Skewencoder，这是一种自动编码器，增强了基于偏度的损失函数，可以从最小采样数据中提取反应坐标。通过迭代采样和搜索循环，系统自适应地映射自由能表面，捕获对复杂反应环境至关重要的有限温度效应。我们通过模型电势、气相反应（SN2 和 Diels-Alder）以及操作条件下酸性菱沸石中的催化醇脱水验证了我们的方法。 Loxodynamics 为反应发现提供了一个系统框架，解决了传统技术的关键局限性，特别是允许在不升高温度或先验了解集体变量的情况下进行加速。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">The automated discovery of chemical and catalytic reactions remains a major challenge in computational chemistry, particularly in complex systems where conventional methods struggle to identify optimal searching directions. Here, we propose Loxodynamics, a machine-learning-driven approach for reaction exploration via biased molecular dynamics. By leveraging the skewness of local probability distributions, Loxodynamics dynamically determines low-energy barrier directions, efficiently guiding the system toward metastable states. The core of our framework is Skewencoder, an Autoencoder augmented with a skewness-based loss function that extracts reaction coordinates from minimal sampling data. Through iterative sample-and-search cycles, the system adaptively maps the free energy surface, capturing finite-temperature effects critical to complex reactive environments. We validate our method across model potentials, gas-phase reactions (SN2 and Diels-Alder), and catalytic alcohol dehydration in acidic chabazite under operando conditions. Loxodynamics provides a systematic framework for reaction discovery that addresses key limitations of conventional techniques, notably by allowing acceleration without elevated temperatures or a priori knowledge of collective variables.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-5375fb30ac78">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">02</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s42256-026-01182-3" target="_blank" rel="noopener noreferrer">Preconditioned inexact stochastic ADMM for deep models</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Machine Intelligence</span><span class="weekly-chip weekly-chip-authors">👤 Shenglong Zhou, Ouya Wang, Ziyan Luo 等5位作者</span><span class="weekly-chip">📅 2026-02-20</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该算法利用预处理随机ADMM框架放宽收敛条件，有效解决分布式训练的数据异构瓶颈。其支持二阶信息加速，显著提升LLM等模型训练效率，具有极高的理论与通用价值。</div>
-                    <div class="weekly-paper-preview">深度学习模型通常使用基于随机梯度下降的算法进行训练，但这些优化器面临固有的局限性，例如收敛速度慢和收敛的严格假设。特别是，分布式设置产生的数据异构性对其理论和数值性能提出了重大挑战。在这里，我们开发了一种称为 PISA（乘法器的预处理不精确随机交替方向法）的算法。基于严格的理论保证，该算法在有界区域上梯度的 Lipschitz 连续性的唯一假设下收敛，从而消除了对随机方法通常强加的其他条件的需要。这种能力使得所提出的算法能够有效地应对…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-5375fb30ac78', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s42256-026-01182-3" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-5375fb30ac78-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>深度学习模型通常使用基于随机梯度下降的算法进行训练，但这些优化器面临固有的局限性，例如收敛速度慢和收敛的严格假设。特别是，分布式设置产生的数据异构性对其理论和数值性能提出了重大挑战。在这里，我们开发了一种称为 PISA（乘法器的预处理不精确随机交替方向法）的算法。基于严格的理论保证，该算法在有界区域上梯度的 Lipschitz 连续性的唯一假设下收敛，从而消除了对随机方法通常强加的其他条件的需要。这种能力使得所提出的算法能够有效地应对数据异构性的挑战。此外，该算法架构支持可扩展的并行计算，并支持各种前提条件，例如二阶信息、二阶矩和牛顿-舒尔茨迭代的正交动量。将 PISA 中的最后两个前提条件结合起来会产生两个计算效率较高的变体：SISA 和 NSISA。对训练或微调各种深度模型（包括视觉模型、大语言模型、强化学习模型、生成对抗网络和循环神经网络）的综合实验评估表明，与各种最先进的优化器相比，SISA 和 NSISA 具有卓越的数值性能。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Deep learning models are usually trained with stochastic gradient descent-based algorithms, but these optimizers face inherent limitations, such as slow convergence and stringent assumptions for convergence. In particular, data heterogeneity arising from distributed settings poses significant challenges to their theoretical and numerical performance. Here we develop an algorithm called PISA (preconditioned inexact stochastic alternating direction method of multipliers). Grounded in rigorous theoretical guarantees, the algorithm converges under the sole assumption of Lipschitz continuity of the gradient on a bounded region, thereby removing the need for other conditions commonly imposed by stochastic methods. This capability enables the proposed algorithm to tackle the challenge of data heterogeneity effectively. Moreover, the algorithmic architecture enables scalable parallel computing and supports various preconditions, such as second-order information, second moment and orthogonalized momentum by Newton–Schulz iterations. Incorporating the last two preconditions in PISA yields two computationally efficient variants: SISA and NSISA. Comprehensive experimental evaluations for training or fine-tuning diverse deep models, including vision models, large language models, reinforcement learning models, generative adversarial networks and recurrent neural networks, demonstrate superior numerical performance of SISA and NSISA compared with various state-of-the-art optimizers.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-b9bbb8f94ae9">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">03</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s43588-026-00956-4" target="_blank" rel="noopener noreferrer">A neural network for modeling human concept formation, understanding and communication</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Computational Science</span><span class="weekly-chip weekly-chip-authors">👤 Liangxuan Guo, Haoyang Chen, Yang Chen 等5位作者</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出CATS Net双模块框架，创新性地通过概念抽象与任务解决模块模拟人类认知。其核心在于构建可转移语义结构实现知识共享，并成功匹配人脑神经活动。这为理解人类语义控制机制及开发类人智能系统提供了</div>
-                    <div class="weekly-paper-preview">人脑的一项非凡能力是从感觉运动经验中形成更抽象的概念表征，并独立于直接的感官输入灵活地应用它们。然而，这种能力背后的计算机制仍然知之甚少。在这里，我们提出了一个双模块神经网络框架 CATS Net，来弥补这一差距。我们的模型由一个提取低维概念表示的概念抽象模块和一个在形成概念的分层门控下执行视觉判断任务的任务解决模块组成。该系统开发基于概念表示的可转移语义结构，通过概念通信实现跨网络知识转移。模型-大脑拟合分析表明，这些新兴概念空间与…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-b9bbb8f94ae9', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s43588-026-00956-4" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-b9bbb8f94ae9-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>人脑的一项非凡能力是从感觉运动经验中形成更抽象的概念表征，并独立于直接的感官输入灵活地应用它们。然而，这种能力背后的计算机制仍然知之甚少。在这里，我们提出了一个双模块神经网络框架 CATS Net，来弥补这一差距。我们的模型由一个提取低维概念表示的概念抽象模块和一个在形成概念的分层门控下执行视觉判断任务的任务解决模块组成。该系统开发基于概念表示的可转移语义结构，通过概念通信实现跨网络知识转移。模型-大脑拟合分析表明，这些新兴概念空间与人类腹侧枕颞皮层的神经认知语义模型和大脑反应结构相一致，而门控机制反映了语义控制大脑网络中的情况。这项工作建立了一个统一的计算框架，可以为理解人类概念认知和具有类人概念智能的工程人工系统提供机械见解。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">A remarkable capability of the human brain is to form more abstract conceptual representations from sensorimotor experiences and flexibly apply them independent of direct sensory inputs. However, the computational mechanism underlying this ability remains poorly understood. Here we present a dual-module neural network framework, CATS Net, to bridge this gap. Our model consists of a concept-abstraction module that extracts low-dimensional conceptual representations, and a task-solving module that performs visual judgment tasks under the hierarchical gating control of the formed concepts. The system develops transferable semantic structure based on concept representations that enable cross-network knowledge transfer through conceptual communication. Model–brain fitting analyses reveal that these emergent concept spaces align with both neurocognitive semantic model and brain response structures in the human ventral occipitotemporal cortex, while the gating mechanisms mirror that in the semantic-control brain network. This work establishes a unified computational framework that can offer mechanistic insights for understanding human conceptual cognition and engineering artificial systems with human-like conceptual intelligence.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-c738e8411176">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">04</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s42256-025-01153-0" target="_blank" rel="noopener noreferrer">Meta-designing quantum experiments with language models</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Machine Intelligence</span><span class="weekly-chip weekly-chip-authors">👤 Sören Arlt, Haonan Duan, Felix Li 等6位作者</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出“元设计”策略，利用语言模型生成可读代码，从数据中提取通用实验构造规则。这突破了AI孤立解的局限，实现了可解释、可推广的科学发现，为量子物理及跨学科设计提供了高效新范式。</div>
-                    <div class="weekly-paper-preview">人工智能可以解决超出人类能力的复杂科学问题，但由此产生的解决方案却无法深入了解潜在的物理原理。一个突出的例子是量子物理学，计算机可以发现生成特定量子态的实验，但尚不清楚如何自动化地找到通用设计概念。在这里，我们通过训练基于 Transformer 的语言模型来创建人类可读的 Python 代码来生成整个实验系列来应对这一挑战。该模型经过数百万个量子态的合成示例及其相应的实验蓝图的训练，使其能够推断出一般的构造规则，而不是孤立的解决方案…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-c738e8411176', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s42256-025-01153-0" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-c738e8411176-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>人工智能可以解决超出人类能力的复杂科学问题，但由此产生的解决方案却无法深入了解潜在的物理原理。一个突出的例子是量子物理学，计算机可以发现生成特定量子态的实验，但尚不清楚如何自动化地找到通用设计概念。在这里，我们通过训练基于 Transformer 的语言模型来创建人类可读的 Python 代码来生成整个实验系列来应对这一挑战。该模型经过数百万个量子态的合成示例及其相应的实验蓝图的训练，使其能够推断出一般的构造规则，而不是孤立的解决方案。这种策略，我们称之为元设计，使科学家能够获得更深入的理解，并推断出更大的实验，而无需额外的优化。我们证明，该方法可以重新发现已知的设计原理，并揭示以前未知的重要量子态的概括，例如来自凝聚态物理学的量子态。除了量子光学之外，该方法还为将语言模型应用于材料科学和工程等跨学科的可解释、可推广的科学发现提供了蓝图。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Artificial intelligence can solve complex scientific problems beyond human capabilities, but the resulting solutions offer little insight into the underlying physical principles. One prominent example is quantum physics, where computers can discover experiments for the generation of specific quantum states, but it is unclear how finding general design concepts can be automated. Here we address this challenge by training a transformer-based language model to create human-readable Python code that generates entire families of experiments. The model is trained on millions of synthetic examples of quantum states and their corresponding experimental blueprints, enabling it to infer general construction rules rather than isolated solutions. This strategy, which we call meta-design, enables scientists to gain a deeper understanding and to extrapolate to larger experiments without additional optimization. We demonstrate that the approach can rediscover known design principles and uncover previously unknown generalizations of important quantum states, such as those from condensed-matter physics. Beyond quantum optics, the methodology provides a blueprint for applying language models to interpretable, generalizable scientific discovery across disciplines such as materials science and engineering.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-394c5399be8a">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">05</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41586-026-10141-2" target="_blank" rel="noopener noreferrer">使用 STARLING 准确预测无序蛋白质整体</a></h3>
-                            <div class="weekly-paper-title-en">Accurate predictions of disordered protein ensembles with STARLING</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature</span><span class="weekly-chip weekly-chip-authors">👤 Borna Novak, Jeffrey M. Lotthammer, Ryan J. Emenecker 等4位作者</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究推出STARLING，融合物理力场与生成式AI，实现无序蛋白质构象集的精准预测。创新在于环境敏感的表征学习与秒级序列设计，显著降低了IDR功能研究门槛，为大规模生物物理搜索与蛋白质工程提供了高效</div>
-                    <div class="weekly-paper-preview">本质上无序的蛋白质和区域（统称为 IDR）存在于所有生命王国中，并且在几乎每个真核细胞过程中都发挥着关键作用1。 IDR 存在于结构不同的构象的广泛集合中。这种结构可塑性促进了不同的分子识别和功能2,3,4。在这里，我们将基于物理的力场的进步与多模态生成深度学习的力量相结合，开发了 STARLING，这是一个用于从序列快速生成准确的 IDR 集成和集成感知表示的框架。 STARLING 支持跨离子强度的环境调节，并展示了生成模型超出其…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-394c5399be8a', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41586-026-10141-2" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-394c5399be8a-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>本质上无序的蛋白质和区域（统称为 IDR）存在于所有生命王国中，并且在几乎每个真核细胞过程中都发挥着关键作用1。 IDR 存在于结构不同的构象的广泛集合中。这种结构可塑性促进了不同的分子识别和功能2,3,4。在这里，我们将基于物理的力场的进步与多模态生成深度学习的力量相结合，开发了 STARLING，这是一个用于从序列快速生成准确的 IDR 集成和集成感知表示的框架。 STARLING 支持跨离子强度的环境调节，并展示了生成模型超出其训练领域的插值能力的概念证明。此外，我们使用贝叶斯最大熵重新加权方案在实验约束下实现集成细化。除了整体表征之外，STARLING 序列表示还可以以多种方式使用。我们展示了两个例子：首先，STARLING 让我们能够对“生物物理相似者”进行基于集合的搜索。其次，我们演示了如何使用这些潜在表示来将集成优先的序列设计从每个候选者的几周或几小时缩短到几秒钟，从而实现图书馆规模的设计。总之，STARLING 通过新兴生物物理特性的视角，显着降低了 IDR 功能计算询问的障碍，补充了生物信息学蛋白质序列分析。我们根据现有实验数据评估 STARLING 的准确性，并提供一系列插图说明 STARLING 如何实现 IDR 函数的快速假设生成并帮助解释实验数据。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Intrinsically disordered proteins and regions (collectively IDRs) are found across all kingdoms of life and have critical roles in virtually every eukaryotic cellular process1. IDRs exist in a broad ensemble of structurally distinct conformations. This structural plasticity facilitates diverse molecular recognition and function2,3,4. Here we combine advances in physics-based force fields with the power of multi-modal generative deep learning to develop STARLING, a framework for rapid generation of accurate IDR ensembles and ensemble-aware representations from sequence. STARLING supports environmental conditioning across ionic strengths and demonstrates proof of concept for the interpolative ability of generative models beyond their training domain. Moreover, we enable ensemble refinement under experimental constraints using a Bayesian maximum-entropy reweighting scheme. Beyond ensemble characterization, STARLING sequence representations can be used in multiple ways. We showcase two examples: first, STARLING lets us perform ensemble-based search for ‘biophysical look-alikes’. Second, we demonstrate how these latent representations can be used to accelerate ensemble-first sequence design from weeks or hours per candidate to seconds, enabling library-scale designs. Together, STARLING dramatically lowers the barrier to the computational interrogation of IDR function through the lens of emergent biophysical properties, complementing bioinformatic protein sequence analysis. We evaluate the accuracy of STARLING against extant experimental data and offer a series of vignettes illustrating how STARLING can enable rapid hypothesis generation for IDR function and aid the interpretation of experimental data. [原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-026-10141-2 The deep learning model STARLING can generate accurate ensembles of intrinsically disordered regions of proteins using only protein sequence as input.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-19b008765574">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">06</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41586-025-10097-9" target="_blank" rel="noopener noreferrer">具有可追溯推理的罕见疾病诊断代理系统</a></h3>
-                            <div class="weekly-paper-title-en">An agentic system for rare disease diagnosis with traceable reasoning</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature</span><span class="weekly-chip weekly-chip-authors">👤 Weike Zhao, Chaoyi Wu, Yanjie Fan 等15位作者</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>DeepRare通过多智能体协作创新性地整合多模态临床数据，实现了诊断过程的可追溯与透明化。该系统大幅提升了罕见病诊断效能，为缩短诊断周期、辅助精准医疗决策提供了关键技术支撑，具有深远的临床应用价值。</div>
-                    <div class="weekly-paper-preview">罕见病影响着全球超过 3 亿人1,2,3，但及时、准确的诊断仍然是一项紧迫的挑战1,3,4,5。患者往往要经历超过 5 年的漫长“诊断之旅”，其特点是反复转诊、误诊和不必要的干预，导致治疗延误和巨大的情感和经济负担4,5。在这里，我们介绍 DeepRare——一种用于罕见疾病鉴别诊断决策支持的多智能体系统6,7,8，由大型语言模型提供支持，集成了 40 多种专业工具和最新知识源。 DeepRare 处理异构临床输入，包括自由文本描述、…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-19b008765574', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41586-025-10097-9" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-19b008765574-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>罕见病影响着全球超过 3 亿人1,2,3，但及时、准确的诊断仍然是一项紧迫的挑战1,3,4,5。患者往往要经历超过 5 年的漫长“诊断之旅”，其特点是反复转诊、误诊和不必要的干预，导致治疗延误和巨大的情感和经济负担4,5。在这里，我们介绍 DeepRare——一种用于罕见疾病鉴别诊断决策支持的多智能体系统6,7,8，由大型语言模型提供支持，集成了 40 多种专业工具和最新知识源。 DeepRare 处理异构临床输入，包括自由文本描述、结构化人类表型本体术语和基因检测结果，以生成排名的诊断假设，并具有与可验证的医学证据相关的透明推理。 DeepRare 对来自亚洲、北美和欧洲 14 个医学专业的文献、病例报告和临床中心的 9 个数据集进行了评估，在 2,919 种疾病上表现出了卓越的性能。在基于人类表型本体的任务中，它的平均 Recall@1 达到 57.18%，比次优方法高出 23.79%；在多模态测试中，它达到了 69.1%，而 Exomiser 在 168 例中的测试结果为 55.9%。专家评审对其推理链达成了95.4%的一致性，证实了其有效性和可追溯性。我们的工作不仅推进了罕见疾病的诊断，还展示了最新强大的大语言模型驱动的代理系统如何重塑当前的临床工作流程。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Rare diseases affect more than 300 million people worldwide1,2,3, yet timely and accurate diagnosis remains an urgent challenge1,3,4,5. Patients often endure a prolonged ‘diagnostic odyssey’ exceeding 5 years, marked by repeated referrals, misdiagnoses and unnecessary interventions, leading to delayed treatment and substantial emotional and economic burden4,5. Here we present DeepRare—a multi-agent system for rare disease differential diagnosis decision support6,7,8powered by large language models, integrating more than 40 specialized tools and up-to-date knowledge sources. DeepRare processes heterogeneous clinical inputs, including free-text descriptions, structured human phenotype ontology terms and genetic testing results to generate ranked diagnostic hypotheses with transparent reasoning linked to verifiable medical evidence. Evaluated across nine datasets from literature, case reports and clinical centres across Asia, North America and Europe spanning 14 medical specialties, DeepRare demonstrates exceptional performance on 2,919 diseases. In human-phenotype-ontology-based tasks, it achieves an average Recall@1 of 57.18%, outperforming the next best method by 23.79%; in multi-modal tests, it reaches 69.1% compared with Exomiser’s 55.9% on 168 cases. Expert review achieved 95.4% agreement on its reasoning chains, confirming their validity and traceability. Our work not only advances rare disease diagnosis but also demonstrates how the latest powerful large-language-model-driven agentic systems can reshape current clinical workflows. [原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-025-10097-9 DeepRare—a multi-agent system for rare disease differential diagnosis decision support powered by large language models, integrating specialized tools and up-to-date knowledge sources—has the potential to reduce healthcare disparities in rare disease diagnosis.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-e2af520c4457">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">07</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/945c-11wt" target="_blank" rel="noopener noreferrer">Multiphoton Quantum Simulation of the Generalized Hopfield Memory Model</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Gennaro Zanfardino, Stefano Paesani, Luca Leuzzi, Raffaele Santagati, Fabio Sciarrino, Fabrizio Illuminati, Giancarlo Ruocco, and Marco Leonetti</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>建立了多光子干涉与霍普菲尔德模型的映射，利用量子模拟实现联想记忆。这拓展了光子技术边界，为量子增强机器学习开辟了新路径，对构建高效量子神经网络具有重要价值。</div>
-                    <div class="weekly-paper-preview">作者：Gennaro Zanfardino、Stefano Paesani、Luca Leuzzi、Raffaele Santagati、Fabio Sciarrino、Fabrizio Illuminati、Giancarlo Ruocco 和 Marco Leonetti 在本信中，我们介绍、发展和研究多光子量子干涉（新兴光子量子技术的核心要素）与经典神经网络的类霍普菲尔德哈密顿量（联想记忆的范式模型）之间的联系和机器学习....…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-e2af520c4457', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/945c-11wt" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-e2af520c4457-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Gennaro Zanfardino、Stefano Paesani、Luca Leuzzi、Raffaele Santagati、Fabio Sciarrino、Fabrizio Illuminati、Giancarlo Ruocco 和 Marco Leonetti 在本信中，我们介绍、发展和研究多光子量子干涉（新兴光子量子技术的核心要素）与经典神经网络的类霍普菲尔德哈密顿量（联想记忆的范式模型）之间的联系和机器学习...... [物理。莱特牧师。 136, 070602] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Gennaro Zanfardino, Stefano Paesani, Luca Leuzzi, Raffaele Santagati, Fabio Sciarrino, Fabrizio Illuminati, Giancarlo Ruocco, and Marco Leonetti In the present Letter, we introduce, develop, and investigate a connection between multiphoton quantum interference, a core element of emerging photonic quantum technologies, and Hopfield-like Hamiltonians of classical neural networks, the paradigmatic models for associative memory and machine learn… [Phys. Rev. Lett. 136, 070602] Published Wed Feb 18, 2026</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-f98a0aa38d2d">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">08</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/ckpr-s876" target="_blank" rel="noopener noreferrer">DeepQuark: A Deep-Neural-Network Approach to Multiquark Bound States</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Wei-Lin Wu, Lu Meng, and Shi-Lin Zhu</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究首创DeepQuark架构，将深度神经网络应用于多夸克束缚态计算，克服了SU(3)颜色相互作用的复杂性。这一突破为奇特强子研究提供了高精度新工具，对深化强相互作用理解及探索物质微观结构具有重要价</div>
-                    <div class="weekly-paper-preview">作者：吴伟林、孟鲁和朱士林 我们首次针对多夸克束缚态实现了基于深度神经网络的变分蒙特卡罗方法，由于强烈的 SU(3) 颜色相互作用，其复杂性超过了电子或核子系统。我们设计了一种新颖且高效的架构 DeepQuark 来广告…… [Phys.莱特牧师。 136, 071901] 2026 年 2 月 18 日星期三发布</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-f98a0aa38d2d', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/ckpr-s876" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-f98a0aa38d2d-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：吴伟林、孟鲁和朱士林 我们首次针对多夸克束缚态实现了基于深度神经网络的变分蒙特卡罗方法，由于强烈的 SU(3) 颜色相互作用，其复杂性超过了电子或核子系统。我们设计了一种新颖且高效的架构 DeepQuark 来广告…… [Phys.莱特牧师。 136, 071901] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Wei-Lin Wu, Lu Meng, and Shi-Lin Zhu For the first time, we implement the deep-neural-network-based variational Monte Carlo approach for the multiquark bound states, whose complexity surpasses that of electron or nucleon systems due to strong SU(3) color interactions. We design a novel and high-efficiency architecture, DeepQuark, to ad… [Phys. Rev. Lett. 136, 071901] Published Wed Feb 18, 2026</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-28f36cb31f77">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">09</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/2v76-dmg6" target="_blank" rel="noopener noreferrer">Unsupervised Learning for Anticipating Critical Transitions</a></h3>
-                            
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Shirin Panahi, Ling-Wei Kong, Bryan Glaz, Mulugeta Haile, and Ying-Cheng Lai</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究融合变分自动编码器与储层计算，首创无需分岔参数的无监督预测框架。其核心在于纯数据驱动地捕捉动力学演化，解决了复杂系统临界点预警难题，具有重要应用价值。</div>
-                    <div class="weekly-paper-preview">作者：Shirin Panahi、Ling-Wei Kong、Bryan Glaz、Mulugeta Haile 和 Ying-Cheng Lai 预测复杂动力系统中的关键转变常常因需要明确了解分岔参数而受到阻碍。我们提出了一个完全数据驱动的框架，它将变分自动编码器与储层计算相结合，以克服这一限制。变分自动... [物理。莱特牧师。 136, 077301] 2026 年 2 月 18 日星期三发布</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-28f36cb31f77', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/2v76-dmg6" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-28f36cb31f77-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Shirin Panahi、Ling-Wei Kong、Bryan Glaz、Mulugeta Haile 和 Ying-Cheng Lai 预测复杂动力系统中的关键转变常常因需要明确了解分岔参数而受到阻碍。我们提出了一个完全数据驱动的框架，它将变分自动编码器与储层计算相结合，以克服这一限制。变分自动... [物理。莱特牧师。 136, 077301] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Shirin Panahi, Ling-Wei Kong, Bryan Glaz, Mulugeta Haile, and Ying-Cheng Lai Anticipating critical transitions in complex dynamical systems is often hindered by the need for explicit knowledge of the bifurcation parameter. We present a fully data-driven framework that combines a variational autoencoder with reservoir computing to overcome this limitation. The variational aut… [Phys. Rev. Lett. 136, 077301] Published Wed Feb 18, 2026</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-d6ac48eb9629">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">10</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s43588-026-00958-2" target="_blank" rel="noopener noreferrer">在没有集体变量的情况下学习提交者</a></h3>
-                            <div class="weekly-paper-title-en">Learning the committor without collective variables</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Computational Science</span><span class="weekly-chip weekly-chip-authors">👤 Sergio Contreras Arredondo, Chenyu Tang, Radu A. Talmazan 等6位作者</span><span class="weekly-chip">📅 2026-02-17</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究利用几何向量感知器实现了无需集体变量的提交者函数预测。其创新在于提供原子级可解释性，能自动识别关键反应坐标并估算速率，为复杂动力学分析提供了高效、无偏的自动化手段。</div>
-                    <div class="weekly-paper-preview">在这里，我们介绍了一种基于几何向量感知器构建的图神经网络架构，可以直接从原子坐标预测提交者函数，从而绕过手工制作的集体变量的需要。该方法提供了原子级的可解释性，无需依赖先前的假设即可精确定位复杂转变中的关键原子参与者。该方法应用于不同的分子系统，可以准确地推断出提交子功能，并强调每个重原子在转变机制中的重要性。它还可以对基础过程的速率常数进行精确估计。所提出的方法通过实现无集体变量学习和自动识别复杂分子过程的物理上有意义的反应坐标，有…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-d6ac48eb9629', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s43588-026-00958-2" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-d6ac48eb9629-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>在这里，我们介绍了一种基于几何向量感知器构建的图神经网络架构，可以直接从原子坐标预测提交者函数，从而绕过手工制作的集体变量的需要。该方法提供了原子级的可解释性，无需依赖先前的假设即可精确定位复杂转变中的关键原子参与者。该方法应用于不同的分子系统，可以准确地推断出提交子功能，并强调每个重原子在转变机制中的重要性。它还可以对基础过程的速率常数进行精确估计。所提出的方法通过实现无集体变量学习和自动识别复杂分子过程的物理上有意义的反应坐标，有助于理解和建模复杂的动力学。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Here we introduce a graph neural network architecture built on geometric vector perceptrons to predict the committor function directly from atomic coordinates, bypassing the need for hand-crafted collective variables. The method offers atom-level interpretability, pinpointing the key atomic players in complex transitions without relying on prior assumptions. Applied across diverse molecular systems, the method accurately infers the committor function and highlights the importance of each heavy atom in the transition mechanism. It also yields precise estimates of the rate constants for the underlying processes. The proposed approach assists in understanding and modeling complex dynamics, by enabling collective-variable-free learning and automated identification of physically meaningful reaction coordinates of complex molecular processes. [原始信息] Nature Computational Science, Published online: 17 February 2026; doi:10.1038/s43588-026-00958-2 By learning directly from atomic motion, without the need for handcrafted descriptors, a graph neural network reveals how molecular systems change state, delivering accurate kinetics and atom-level insight into complex transitions.</p></div></div>
-                </article>
-                
-                <article class="weekly-paper-card ai" id="article-59ac53ed5181">
-                    <div class="weekly-paper-head">
-                        <span class="weekly-paper-number">11</span>
-                        <div class="weekly-paper-titles">
-                            <h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s42256-026-01185-0" target="_blank" rel="noopener noreferrer">人类听觉皮层语言表示的并行分层编码和循环自动语音识别系统</a></h3>
-                            <div class="weekly-paper-title-en">Parallel hierarchical encoding of linguistic representations in the human auditory cortex and recurrent automatic speech recognition systems</div>
-                        </div>
-                    </div>
-                    <div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Machine Intelligence</span><span class="weekly-chip weekly-chip-authors">👤 Menoua Keshishian, Gavin Mischler, Samuel Thomas 等7位作者</span><span class="weekly-chip">📅 2026-02-17</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
-                    <div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究利用因果循环模型揭示人脑与AI语音处理的分层对应。创新性证实两者在声学到语义转化中采用相似并行编码策略，为理解听觉机制及优化类脑计算提供了重要支撑。</div>
-                    <div class="weekly-paper-preview">将连续的声学语音信号转换为离散的语言意义是人脑和现代人工智能共同完成的一项非凡的计算壮举。一个关键的科学问题是，尽管这些生物和人工系统的架构不同，但它们是否会采用相似的策略来解决这一挑战。尽管自动语音识别系统现在已经达到了人类水平的性能，但对其与大脑的相似之处的研究受到了生物学上不可信的、非因果模型和比较的限制，这些模型和比较仅限于预测大脑活动，而没有详细说明底层表征的对齐情况。此外，使用基于文本的模型的研究忽略了语音处理的关键声学阶…</div>
-                    <div class="weekly-paper-actions">
-                        <button class="toggle-abstract-btn" onclick="toggleAbstract('article-59ac53ed5181', this)">📖 查看完整摘要</button>
-                        <a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s42256-026-01185-0" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                    </div>
-                    <div class="weekly-paper-abstract" id="article-59ac53ed5181-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>将连续的声学语音信号转换为离散的语言意义是人脑和现代人工智能共同完成的一项非凡的计算壮举。一个关键的科学问题是，尽管这些生物和人工系统的架构不同，但它们是否会采用相似的策略来解决这一挑战。尽管自动语音识别系统现在已经达到了人类水平的性能，但对其与大脑的相似之处的研究受到了生物学上不可信的、非因果模型和比较的限制，这些模型和比较仅限于预测大脑活动，而没有详细说明底层表征的对齐情况。此外，使用基于文本的模型的研究忽略了语音处理的关键声学阶段。在这里，我们使用高分辨率颅内记录和因果循环自动语音识别模型，发现大脑处理层次结构与模型内部表征之间的惊人对应关系，从而弥补了这些差距。具体来说，我们展示了他们的算法方法的深度一致性：不同皮质区域的神经活动在地形上映射到相应的模型层，并且关键的是，每个阶段的表征内容都遵循从声学到语音、词汇和语义信息的并行进展。因此，这项工作超越了展示简单的模型-大脑对齐，指定了每个处理阶段共享的底层表示，提供了直接证据，表明两个系统都收敛于类似的计算策略，将声音转化为意义。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Transforming continuous acoustic speech signals into discrete linguistic meaning is a remarkable computational feat accomplished by both the human brain and modern artificial intelligence. A key scientific question is whether these biological and artificial systems, despite their different architectures, converge on similar strategies to solve this challenge. Although automatic speech recognition systems now achieve human-level performance, research on their parallels with the brain has been limited by biologically implausible, non-causal models and comparisons that stop at predicting brain activity without detailing the alignment of the underlying representations. Furthermore, studies using text-based models overlook the crucial acoustic stages of speech processing. Here we bridge these gaps by uncovering a striking correspondence between the brain’s processing hierarchy and the model’s internal representations using high-resolution intracranial recordings and a causal, recurrent automatic speech recognition model. Specifically, we demonstrate a deep alignment in their algorithmic approach: neural activity in distinct cortical regions maps topographically to corresponding model layers, and critically, the representational content at each stage follows a parallel progression from acoustic to phonetic, lexical and semantic information. This work thus moves beyond demonstrating simple model–brain alignment to specifying the shared underlying representations at each stage of processing, providing direct evidence that both systems converge on a similar computational strategy for transforming sound into meaning. [原始信息] Nature Machine Intelligence, Published online: 17 February 2026; doi:10.1038/s42256-026-01185-0 Keshishian, Mischler et al. report that a recurrent automatic speech recognition system aligns closely with brain organization: model layers map to distinct cortical regions and naturally learn to encode a parallel progression from acoustic to phonetic, lexical and semantic content.</p></div></div>
-                </article>
-                </div>
-            </section>
-            
-            <section id="journals" class="insight-panel weekly-report-section">
-                <div class="weekly-section-head">
-                    <span class="weekly-section-index">05</span>
-                    <div class="weekly-section-copy">
-                        <h2 class="insight-panel-title">期刊分布</h2>
-                        <p class="insight-panel-subtitle">按来源快速判断本周成果主要集中在哪些期刊或预印本平台。</p>
-                    </div>
-                </div>
-                <div class="weekly-journal-list"><div class="weekly-journal-item"><div class="weekly-journal-name">Phys. Rev. Lett.</div><div class="weekly-journal-count">8 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nature Communications</div><div class="weekly-journal-count">6 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nature</div><div class="weekly-journal-count">3 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nature Machine Intelligence</div><div class="weekly-journal-count">3 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nature Computational Science</div><div class="weekly-journal-count">2 篇</div></div></div>
-            </section>
-            
-
-                <div class="weekly-report-footer">
-                    本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要入口，便于按周追踪 AI × 物理 / 化学 / 材料交叉研究。<br>
+<div class="insight-shell">
+<div class="insight-topbar">
+<div class="insight-topbar-left">
+<a class="insight-back-link" href="../index.html">← 返回主页</a>
+<span class="insight-mini-chip">AI × Science Weekly</span>
+</div>
+<div class="insight-topbar-right">
+<span class="insight-mini-chip">2026-02-16 → 2026-02-22</span>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+</div>
+</div>
+<div class="insight-layout">
+<main class="weekly-report-main">
+<section class="insight-page-hero weekly-report-hero">
+<div class="insight-kicker">AI 科学周报</div>
+<h1 class="insight-title">AI × Science 周报 2026-02-16 → 2026-02-22</h1>
+<p class="insight-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯编排，将一周内 AI × 物理 / 化学 / 材料交叉文献整理为总览、交叉重点、专题速览与期刊分布。</p>
+<blockquote class="weekly-report-quote">本周（2026-02-16至2026-02-22）共发表22篇相关领域高水平文献，研究重心集中在二维磁性材料的电场调控、大块莫尔超晶格金属的合成以及AI在科学发现（AI4Science）中的深度应用。重要发现包括在单层CrI3中实现电压可调的拓扑自旋纹理，以及通过热力学平衡法合成出具有相干莫尔超晶格的大块金属晶体。此外，生成式AI在量子实验设计、蛋白质构象…</blockquote>
+<div class="insight-tags"><span class="insight-tag">本周总览</span><span class="insight-tag">交叉研究</span><span class="insight-tag">磁性/铁电</span><span class="insight-tag">AI/机器学习</span><span class="insight-tag">期刊分布</span></div>
+<div class="insight-stat-grid">
+<div class="insight-stat">
+<div class="insight-stat-label">收录文献</div>
+<div class="insight-stat-value">22</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">期刊 / 来源</div>
+<div class="insight-stat-value">5</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">arXiv / 预印本</div>
+<div class="insight-stat-value">0</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">专题版块</div>
+<div class="insight-stat-value">5</div>
+</div>
+</div>
+<div class="insight-action-row weekly-hero-actions">
+<a class="insight-btn insight-btn-primary" href="./index.html">周报归档</a>
+<a class="insight-btn insight-btn-secondary" href="../daily/">查看日报</a>
+</div><div class="weekly-page-nav" id="weekly-enhancement-top-nav"><a class="weekly-page-nav-link" href="2026-02-09.html">前一周 · 2026-02-09 → 2026-02-15</a><a class="weekly-page-nav-link" href="2026-02-23.html">后一周 · 2026-02-23 → 2026-03-01</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a><a class="weekly-page-nav-link" href="#overview">本周总览</a><a class="weekly-page-nav-link" href="#cross">交叉研究</a><a class="weekly-page-nav-link" href="#article-062e76f00e6d">全文速览</a><a class="weekly-page-nav-link" href="#journals">期刊分布</a></div>
+</section>
+<section class="insight-panel weekly-report-section" id="overview">
+<div class="weekly-section-head">
+<span class="weekly-section-index">01</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">本周总览<a class="weekly-permalink-link" href="#overview" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">先把握一周的主线，再进入交叉重点与专题全文速览。</p>
+</div>
+</div>
+<div class="weekly-summary-grid">
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">整体概览</div>
+<p>本周（2026-02-16至2026-02-22）共发表22篇相关领域高水平文献，研究重心集中在二维磁性材料的电场调控、大块莫尔超晶格金属的合成以及AI在科学发现（AI4Science）中的深度应用。重要发现包括在单层CrI3中实现电压可调的拓扑自旋纹理，以及通过热力学平衡法合成出具有相干莫尔超晶格的大块金属晶体。此外，生成式AI在量子实验设计、蛋白质构象预测及罕见病诊断方面展现出超越传统算法的泛化能力。</p>
+</div>
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">来源分布</div>
+<p>本周主要来源包括：Phys. Rev. Lett. 8篇、Nature Communications 6篇、Nature 3篇、Nature Machine Intelligence 3篇。</p>
+</div>
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">阅读提示</div>
+<p>先看交叉研究，再按磁性/铁电与 AI 专题分区深读；所有卡片均保留中英标题、期刊、作者与摘要入口。</p>
+</div>
+</div><div class="weekly-digest-grid">
+<div class="weekly-digest-card cross">
+<div class="weekly-digest-title"><span>🔀 交叉研究</span><span>1 篇</span></div>
+<ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-062e76f00e6d"><span class="weekly-digest-journal">[Nature Communications]</span>该研究通过大数据挖掘与对称性分析，揭示了八配位镧系中心的结构规律。其核心创新是提出了六种几何形状的定制化设计路线图，实现了对磁性与发光的精准调控，为量子信息、生物…</a></li></ul>
+</div>
+<div class="weekly-digest-card ferro">
+<div class="weekly-digest-title"><span>⚡ 磁性/铁电</span><span>10 篇</span></div>
+<ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-9c9058714cd0"><span class="weekly-digest-journal">[Nature Communications]</span>该研究提出电磁频率色散系数（EFDC）模型，通过协同介电与磁性参数，突破了超薄材料兼顾宽频吸收的挑战。其创新点在于利用EFDC的热不变性实现了宽温域下的性能稳定，…</a></li><li class="weekly-digest-item"><a href="#article-336d9dd66c78"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>本文阐明了对称性破缺材料中轴子与电磁波的非线性耦合效应。核心创新在于提出受激轴子散射机制，为高灵敏拓扑量子探测及暗物质研究开辟了新路径，具有重要应用价值。</a></li><li class="weekly-digest-item"><a href="#article-ee90ae9d7fe7"><span class="weekly-digest-journal">[Nature Communications]</span>该研究通过电场打破单层CrI3对称性，实现了对自旋轨道耦合及拓扑自旋纹理的电学调控。这不仅为研究BKS机制提供了新平台，也为开发下一代斯格明子自旋电子器件奠定了基…</a></li><li class="weekly-digest-item"><a href="#article-473c701bc25e"><span class="weekly-digest-journal">[Nature Communications]</span>该研究在扭曲FGT中发现“魔角”巨拓扑霍尔效应，突破了全局反演对称性限制。核心创新在于揭示局部对称性破缺诱导的斯格明子机制，为金属扭曲磁体的拓扑态调控提供新平台，…</a></li></ul>
+<div class="weekly-digest-more">+ 6 篇继续下拉查看</div>
+</div>
+<div class="weekly-digest-card ai">
+<div class="weekly-digest-title"><span>🤖 AI / 机器学习</span><span>11 篇</span></div>
+<ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-683f63f055ef"><span class="weekly-digest-journal">[Nature Communications]</span>该研究提出Loxodynamics方法，核心创新是利用Skewencoder基于分布偏度自动提取反应坐标。它突破了传统方法对先验知识和高温条件的依赖，能高效探索复…</a></li><li class="weekly-digest-item"><a href="#article-5375fb30ac78"><span class="weekly-digest-journal">[Nature Machine Intelligence]</span>该算法利用预处理随机ADMM框架放宽收敛条件，有效解决分布式训练的数据异构瓶颈。其支持二阶信息加速，显著提升LLM等模型训练效率，具有极高的理论与通用价值。</a></li><li class="weekly-digest-item"><a href="#article-b9bbb8f94ae9"><span class="weekly-digest-journal">[Nature Computational Science]</span>该研究提出CATS Net双模块框架，创新性地通过概念抽象与任务解决模块模拟人类认知。其核心在于构建可转移语义结构实现知识共享，并成功匹配人脑神经活动。这为理解人…</a></li><li class="weekly-digest-item"><a href="#article-c738e8411176"><span class="weekly-digest-journal">[Nature Machine Intelligence]</span>该研究提出“元设计”策略，利用语言模型生成可读代码，从数据中提取通用实验构造规则。这突破了AI孤立解的局限，实现了可解释、可推广的科学发现，为量子物理及跨学科设计…</a></li></ul>
+<div class="weekly-digest-more">+ 7 篇继续下拉查看</div>
+</div>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="cross">
+<div class="weekly-section-head">
+<span class="weekly-section-index">02</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">交叉研究<a class="weekly-permalink-link" href="#cross" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">优先覆盖 AI × 物理 / 化学 / 材料的直接交叉工作。</p>
+</div>
+</div>
+<div class="weekly-paper-list">
+<article class="weekly-paper-card cross" id="article-062e76f00e6d">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">01</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69445-6" rel="noopener noreferrer" target="_blank">控制镧系元素中心周围几何形状和对称性的策略，以实现定制的发光和磁性</a><a class="weekly-permalink-link" href="#article-062e76f00e6d" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Strategies to control the geometry and symmetry around lanthanide centres for tailored luminescence and magnetism</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Thomas E. Karpiuk, Daniel B. Leznoff</span><span class="weekly-chip">📅 2026-02-17</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过大数据挖掘与对称性分析，揭示了八配位镧系中心的结构规律。其核心创新是提出了六种几何形状的定制化设计路线图，实现了对磁性与发光的精准调控，为量子信息、生物成像等前沿材料的理性设计提供了重要指南</div>
+<div class="weekly-paper-preview">三价镧系元素 (Ln3+) 的发光和磁性特性对于许多新兴技术来说是不可或缺的，但对这些特性的精确控制需要了解如何有目的地设计 Ln3+ 中心的配位几何形状和位点对称性。在这里，我们使用剑桥结构数据库提取 12,670 个八坐标 Ln3+ 中心的结构，并使用连续形状测量、连续对称操作测量和新的基于结构相似性的网络分析来调查几何和结构趋势。然后利用这项调查提供具体策略，使用熟悉的概念（如 Ln3+ 金属尺寸和配体密度、咬合角、灵活性、形状…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-062e76f00e6d', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69445-6" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-062e76f00e6d">页内定位</a><a class="weekly-inline-link" href="#cross">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-062e76f00e6d-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>三价镧系元素 (Ln3+) 的发光和磁性特性对于许多新兴技术来说是不可或缺的，但对这些特性的精确控制需要了解如何有目的地设计 Ln3+ 中心的配位几何形状和位点对称性。在这里，我们使用剑桥结构数据库提取 12,670 个八坐标 Ln3+ 中心的结构，并使用连续形状测量、连续对称操作测量和新的基于结构相似性的网络分析来调查几何和结构趋势。然后利用这项调查提供具体策略，使用熟悉的概念（如 Ln3+ 金属尺寸和配体密度、咬合角、灵活性、形状、对称性和尺寸）来控制八坐标 Ln3+ 中心的配位几何形状。最终，我们提出了针对六种常见八坐标几何形状（六角双锥、立方、正方反棱柱、十二面体、双帽三棱柱和短蝶形）中每一种的路线图，这些几何形状均被证明在不同的研究领域具有独特的用例。还说明了晶体堆积和非共价相互作用的影响，从而可以对 Ln3+ 中心的几何形状和对称性进行细粒度控制。这项工作最终为数据存储、量子信息处理、照明、测温和医学生物成像等应用的 Ln3+ 配位配合物和材料的精心设计提供信息。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">The luminescent and magnetic properties of trivalent lanthanides (Ln3+) are indispensable for many emerging technologies, but exacting fine control over these properties requires an understanding of how to purposefully engineer the coordination geometry and site symmetry of Ln3+centres. Here, we use the Cambridge Structural Database to extract the structures of 12,670 eight-coordinate Ln3+centres and use Continuous Shape Measures, Continuous Symmetry Operation Measures, and a new structural similarity-based network analysis to survey geometry and structure trends. This survey is then leveraged to deliver concrete strategies for controlling the coordination geometry of eight-coordinate Ln3+centres using familiar concepts like Ln3+metal size and ligand denticity, bite angle, flexibility, shape, symmetry, and size. Ultimately, we present a roadmap for targeting each of the six common eight-coordinate geometries – hexagonal bipyramidal, cubic, square antiprismatic, dodecahedral, bicapped trigonal prismatic, and snub disphenoid – which are each demonstrated to have unique use-cases in diverse research areas. The effects of crystal packing and non-covalent interactions are also illustrated, allowing fine-grained control over the geometry and symmetry of Ln3+centres. This work ultimately serves to inform the deliberate design of Ln3+coordination complexes and materials for applications including data-storage, quantum information processing, lighting, thermometry, and medical bioimaging. [原始信息] Nature Communications, Published online: 17 February 2026; doi:10.1038/s41467-026-69445-6 The luminescent and magnetic properties of trivalent lanthanides are indispensable for many emerging technologies, but exacting fine control over these properties requires an understanding of the coordination geometry and site symmetry of Ln3+ centres. Here, the authors leverage an analysis of 12,670 eight-coordinate Ln3+ centres in the Cambridge Structural Database to prescribe useful strategies for controlling coordination geometry.</p></div></div>
+</article>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="ferro">
+<div class="weekly-section-head">
+<span class="weekly-section-index">03</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">磁性 / 铁电专题<a class="weekly-permalink-link" href="#ferro" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">聚焦自旋、铁电、多铁与相关功能材料研究。</p>
+</div>
+</div>
+<div class="weekly-paper-list">
+<article class="weekly-paper-card ferro" id="article-9c9058714cd0">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">01</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69591-x" rel="noopener noreferrer" target="_blank">A synergistic design model for ultrathin broadband microwave absorbers using electromagnetic frequency dispersion coefficients</a><a class="weekly-permalink-link" href="#article-9c9058714cd0" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Haoxu Si, Yi Zhang, Mu Li 等7位作者</span><span class="weekly-chip">📅 2026-02-21</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出电磁频率色散系数（EFDC）模型，通过协同介电与磁性参数，突破了超薄材料兼顾宽频吸收的挑战。其创新点在于利用EFDC的热不变性实现了宽温域下的性能稳定，为开发复杂环境下轻质、高效的微波吸收器</div>
+<div class="weekly-paper-preview">超薄宽带微波吸收材料 (MAM) 对于重量敏感和空间受限的应用至关重要。这项研究引入了电磁频率色散系数（EFDC），这是一种超越传统复杂机制的协同介电-磁性参数。我们的模型将 EFDC 与微波吸收 (MA) 性能直接联系起来，指导先进 MAM 的设计。通过优化 EFDC，我们在 1 mm 处实现了 7.04 GHz 的超宽有效吸收带宽 (EAB)，在 1.3 mm 处实现了 9.28 GHz 的超宽有效吸收带宽 (EAB)。此外，尽管…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-9c9058714cd0', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69591-x" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-9c9058714cd0">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-9c9058714cd0-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>超薄宽带微波吸收材料 (MAM) 对于重量敏感和空间受限的应用至关重要。这项研究引入了电磁频率色散系数（EFDC），这是一种超越传统复杂机制的协同介电-磁性参数。我们的模型将 EFDC 与微波吸收 (MA) 性能直接联系起来，指导先进 MAM 的设计。通过优化 EFDC，我们在 1 mm 处实现了 7.04 GHz 的超宽有效吸收带宽 (EAB)，在 1.3 mm 处实现了 9.28 GHz 的超宽有效吸收带宽 (EAB)。此外，尽管介电常数和磁导率的热响应不同，但 EFDC 的温度不变性可确保从 298 K 到 473 K 的 MA 性能保持一致。该原理概述了制造超薄和宽带 MAM 的系统设计策略，为开发适用于复杂频率和热环境的高衰减吸波器建立了强大的框架。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Ultrathin, broadband microwave absorbing materials (MAMs) are crucial for weight-sensitive and space-constrained applications. This study introduces the electromagnetic frequency dispersion coefficient (EFDC), a synergistic dielectric-magnetic parameter that moves beyond conventional complex mechanisms. Our model directly links EFDC to microwave absorption (MA) performance, guiding the design of advanced MAMs. By optimizing EFDC, we achieved an ultra-wide effective absorption bandwidth (EAB) of 7.04 GHz at 1 mm and 9.28 GHz at 1.3 mm. Moreover, the temperature invariance of EFDC ensures consistent MA performance from 298 K to 473 K, despite the differing thermal responses of permittivity and permeability. This principle outlines a systematic design strategy for fabricating ultrathin and broadband MAMs, establishing a robust framework for developing high-attenuation absorbers suitable for complex frequency and thermal environments.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-336d9dd66c78">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">02</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/16jj-ry2l" rel="noopener noreferrer" target="_blank">Theory of Stimulated and Spontaneous Axion Scattering</a><a class="weekly-permalink-link" href="#article-336d9dd66c78" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 M. Smith, Kartiek Agarwal, and Ivar Martin</span><span class="weekly-chip">📅 2026-02-20</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>本文阐明了对称性破缺材料中轴子与电磁波的非线性耦合效应。核心创新在于提出受激轴子散射机制，为高灵敏拓扑量子探测及暗物质研究开辟了新路径，具有重要应用价值。</div>
+<div class="weekly-paper-preview">作者：M. Smith、Kartiek Agarwal 和 Ivar Martin 我们提出了一种通过在破坏 $\mathcal{P}$ 和 $\mathcal{T}$ 对称性的材料中反向传播电磁波来非线性、共振激发动态轴子的理论。我们表明，动力轴子可以介导低频振幅的指数增长（Sto… [Phys. Rev. Lett. 136, 076903] 2026 年 2 月 20 日星期五发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-336d9dd66c78', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/16jj-ry2l" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-336d9dd66c78">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-336d9dd66c78-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：M. Smith、Kartiek Agarwal 和 Ivar Martin 我们提出了一种通过在破坏 $\mathcal{P}$ 和 $\mathcal{T}$ 对称性的材料中反向传播电磁波来非线性、共振激发动态轴子的理论。我们表明，动力轴子可以介导低频振幅的指数增长（Sto… [Phys. Rev. Lett. 136, 076903] 2026 年 2 月 20 日星期五发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): M. Smith, Kartiek Agarwal, and Ivar Martin We present a theory for nonlinear, resonant excitation of dynamical axions by counterpropagating electromagnetic waves in materials that break both $\mathcal{P}$ and $\mathcal{T}$ symmetries. We show that dynamical axions can mediate an exponential growth in the amplitude of the lower frequency (Sto… [Phys. Rev. Lett. 136, 076903] Published Fri Feb 20, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-ee90ae9d7fe7">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">03</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69800-7" rel="noopener noreferrer" target="_blank">Voltage-controlled topological spin textures in the monolayer limit</a><a class="weekly-permalink-link" href="#article-ee90ae9d7fe7" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Yangliu Wu, Bo Peng, Zhaozhuo Zeng 等13位作者</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过电场打破单层CrI3对称性，实现了对自旋轨道耦合及拓扑自旋纹理的电学调控。这不仅为研究BKS机制提供了新平台，也为开发下一代斯格明子自旋电子器件奠定了基础。</div>
+<div class="weekly-paper-preview">低维系统中的相变物理学长期以来一直是人们广泛研究的课题。严格二维极限下的长程磁序的发现绕过了默明-瓦格纳定理，迅速成为研究热点。然而，在二维极限下展示非平凡的拓扑自旋纹理仍然难以实现。在这里，我们证明了面外电场打破了反演对称性，同时调制了电子能带结构，从而实现了电可调自旋轨道相互作用，用于在单层 CrI3 中创建和操纵拓扑自旋纹理。理想二维拓扑自旋纹理的实现不仅可以为探测别列津斯基-科斯特利茨-索利斯机制提供实验测试平台，而且还可以为…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-ee90ae9d7fe7', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69800-7" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-ee90ae9d7fe7">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-ee90ae9d7fe7-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>低维系统中的相变物理学长期以来一直是人们广泛研究的课题。严格二维极限下的长程磁序的发现绕过了默明-瓦格纳定理，迅速成为研究热点。然而，在二维极限下展示非平凡的拓扑自旋纹理仍然难以实现。在这里，我们证明了面外电场打破了反演对称性，同时调制了电子能带结构，从而实现了电可调自旋轨道相互作用，用于在单层 CrI3 中创建和操纵拓扑自旋纹理。理想二维拓扑自旋纹理的实现不仅可以为探测别列津斯基-科斯特利茨-索利斯机制提供实验测试平台，而且还可以为包括超导性和超流性在内的未解决的量子现象提供潜在的见解。此外，电压控制的自旋轨道相互作用提供了一种新颖的途径来设计具有定制对称性和拓扑的二维自旋纹理，同时为基于斯格明子的下一代信息技术开辟了途径。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">The physics of phase transitions in low-dimensional systems has long been a subject of significant research interest. Long-range magnetic order in the strict two-dimensional limit, whose discovery circumvented the Mermin-Wagner theorem, has rapidly emerged as a research focus. However, the demonstration of a non-trivial topological spin textures in two-dimensional limit has remained elusive. Here, we demonstrate the out-of-plane electric field breaks inversion symmetry while simultaneously modulating the electronic band structure, enabling electrically tunable spin-orbit interaction for creation and manipulation of topological spin textures in monolayer CrI3. The realization of ideal two-dimensional topological spin textures may offer not only an experimental testbed for probing the Berezinskii–Kosterlitz–Thouless mechanism, but also potential insights into unresolved quantum phenomena including superconductivity and superfluidity. Moreover, voltage-controlled spin-orbit interaction offers a novel pathway to engineer two-dimensional spin textures with tailored symmetries and topologies, while opening avenues for skyrmion-based next-generation information technologies.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-473c701bc25e">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">04</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69454-5" rel="noopener noreferrer" target="_blank">Emergent giant topological Hall effect in twisted Fe 3 GeTe 2 metallic system</a><a class="weekly-permalink-link" href="#article-473c701bc25e" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Hyuncheol Kim, Kai-Xuan Zhang, Yu-Hang Li 等6位作者</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究在扭曲FGT中发现“魔角”巨拓扑霍尔效应，突破了全局反演对称性限制。核心创新在于揭示局部对称性破缺诱导的斯格明子机制，为金属扭曲磁体的拓扑态调控提供新平台，对自旋电子器件研发意义重大。</div>
+<div class="weekly-paper-preview">由传导电子和斯格明子等拓扑磁性结构之间的交换相互作用驱动的拓扑霍尔效应是研究磁性材料拓扑特性的有力探针。通常，这种现象出现在全局反演对称性被破坏的系统中，其中 Dzyaloshinskii-Moriya 相互作用稳定了这种纹理。在这里，我们报告了在扭曲的 Fe3GeTe2 金属系统中发现了一种新兴的巨型拓扑霍尔效应，该效应显着地保留了一般的全局反演对称性。这种效应仅在 0.45° 至 0.75° 的“神奇”扭转角的狭窄窗口内显现，而在…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-473c701bc25e', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69454-5" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-473c701bc25e">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-473c701bc25e-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>由传导电子和斯格明子等拓扑磁性结构之间的交换相互作用驱动的拓扑霍尔效应是研究磁性材料拓扑特性的有力探针。通常，这种现象出现在全局反演对称性被破坏的系统中，其中 Dzyaloshinskii-Moriya 相互作用稳定了这种纹理。在这里，我们报告了在扭曲的 Fe3GeTe2 金属系统中发现了一种新兴的巨型拓扑霍尔效应，该效应显着地保留了一般的全局反演对称性。这种效应仅在 0.45° 至 0.75° 的“神奇”扭转角的狭窄窗口内显现，而在该范围之外则不存在，突出了其独特性和突发性。微磁模拟表明，这种拓扑霍尔效应源自斯格明子晶格，该斯格明子晶格是由局部反演对称性破缺导致的交替面内和层对比 Dzyaloshinskii-Moriya 相互作用引起的。我们的研究结果强调了扭曲 Fe3GeTe2 作为一种多功能平台，用于设计和控制金属扭曲范德华磁体中的拓扑磁织构，从而为下一代自旋电子器件开辟了新途径。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">The topological Hall effect, driven by the exchange interaction between conduction electrons and topological magnetic textures such as skyrmions, is a powerful probe for investigating the topological properties of magnetic materials. Typically, this phenomenon arises in systems with broken global inversion symmetry, where Dzyaloshinskii-Moriya interactions stabilize such textures. Here, we report the discovery of an emergent giant topological Hall effect in the twisted Fe3GeTe2metallic system, which notably preserves the general global inversion symmetry. This effect manifests exclusively within a narrow window of “magic” twist angles ranging from 0.45° to 0.75°, while it is absent outside of that range, highlighting its unique and emergent nature. Micromagnetic simulations reveal that this topological Hall effect originates from a skyrmion lattice induced by alternating in-plane and layer-contrasting Dzyaloshinskii-Moriya interactions that result from local inversion symmetry breaking. Our findings underscore twisted Fe3GeTe2as a versatile platform for engineering and controlling topological magnetic textures in metallic twisted van der Waals magnets, thereby opening up new avenues for next-generation spintronic devices.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-cbe7a7f7bae5">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">05</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/b6gt-w5xy" rel="noopener noreferrer" target="_blank">Quintuplet Condensation in the Skyrmionic Insulator ${\mathrm{Cu}}_{2}{\mathrm{OSeO}}_{3}$ at Ultrahigh Magnetic Fields</a><a class="weekly-permalink-link" href="#article-cbe7a7f7bae5" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 T. Nomura, I. Rousochatzakis, O. Janson, M. Gen, X.-G. Zhou, Y. Ishii, S. Seki, Y. Kohama, and Y. H. Matsuda</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究在超高磁场下首次发现Cu2OSeO3的五重态磁振子凝聚。这一创新揭示了手性磁体的新奇量子态，深化了对复杂磁序量子相变的理解，具有重要基础物理研究价值。</div>
+<div class="weekly-paper-preview">作者：T. Nomura、I. Rousochatzakis、O. Janson、M. Gen、X.-G。 Zhou、Y. Ishii、S. Seki、Y. Kohama 和 Y. H. Matsuda 超高磁场下的法拉第旋转揭示了手性螺旋磁体中的磁振子玻色-爱因斯坦凝聚 [Phys.莱特牧师。 136, 076703] 发布于 2026 年 2 月 19 日星期四</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-cbe7a7f7bae5', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/b6gt-w5xy" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-cbe7a7f7bae5">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-cbe7a7f7bae5-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：T. Nomura、I. Rousochatzakis、O. Janson、M. Gen、X.-G。 Zhou、Y. Ishii、S. Seki、Y. Kohama 和 Y. H. Matsuda 超高磁场下的法拉第旋转揭示了手性螺旋磁体中的磁振子玻色-爱因斯坦凝聚 [Phys.莱特牧师。 136, 076703] 发布于 2026 年 2 月 19 日星期四</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): T. Nomura, I. Rousochatzakis, O. Janson, M. Gen, X.-G. Zhou, Y. Ishii, S. Seki, Y. Kohama, and Y. H. Matsuda Faraday rotation at ultrahigh magnetic fields uncovers magnon Bose–Einstein condensation in a chiral helimagnet [Phys. Rev. Lett. 136, 076703] Published Thu Feb 19, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-b163ac03ad84">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">06</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69391-3" rel="noopener noreferrer" target="_blank">通过铁电异质结调制实现钙钛矿太阳能电池的高开路电压-填充因子积</a><a class="weekly-permalink-link" href="#article-b163ac03ad84" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">High Open-Circuit Voltage–Fill factor product in perovskite solar cells enabled by ferroelectric heterojunction modulation</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Nan Wu, Haofei Ni, Tianqi Niu 等16位作者</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究通过引入铁电异质结，利用自发极化增强内建电场并优化结晶动力学，协同提升了开路电压与填充因子。该策略突破了传统异质结性能瓶颈，实现了极高效率与稳定性，为高效钙钛矿电池研发提供了新路径。</div>
+<div class="weekly-paper-preview">克服钙钛矿-钙钛矿异质结在同时提高内置电势和抑制非辐射复合方面的固有局限性仍然是钙钛矿太阳能电池的一个关键挑战。在这里，我们介绍了一种基于铁电的异质结架构，它通过协同机制解决这一双重挑战。首先，铁电异质结固有的自发极化显着放大了内置电场，增强了电荷分离和传输，从而将开路电压从1.16 V提高到1.21 V。其次，铁电核通过溶解-再结晶调节有效调节钙钛矿结晶动力学，有效抑制陷阱态并将填充因子从83.6%提高到86.8%。冠军器件的功率转…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-b163ac03ad84', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69391-3" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-b163ac03ad84">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-b163ac03ad84-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>克服钙钛矿-钙钛矿异质结在同时提高内置电势和抑制非辐射复合方面的固有局限性仍然是钙钛矿太阳能电池的一个关键挑战。在这里，我们介绍了一种基于铁电的异质结架构，它通过协同机制解决这一双重挑战。首先，铁电异质结固有的自发极化显着放大了内置电场，增强了电荷分离和传输，从而将开路电压从1.16 V提高到1.21 V。其次，铁电核通过溶解-再结晶调节有效调节钙钛矿结晶动力学，有效抑制陷阱态并将填充因子从83.6%提高到86.8%。冠军器件的功率转换效率为 26.62%（认证为 26.07%），开路电压填充因子积为 1.05 V，达到 Shockley-Queisser 极限的 90.3%。此外，改进后的器件表现出增强的运行稳定性，在最大功率点跟踪 500 小时后保留了超过 85% 的效率，为高性能光伏电池绘制了清晰的路径。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Overcoming the inherent limitations of perovskite-perovskite heterojunctions in simultaneously boosting built-in potential and suppressing non-radiative recombination remains a critical challenge in perovskite solar cells. Here, we introduce a ferroelectric-based heterojunction architecture that addresses this dual challenge through synergistic mechanisms. Firstly, the spontaneous polarization inherent to the ferroelectric-based heterojunction significantly amplifies the built-in electric field, enhancing charge separation and transport, thereby increasing open-circuit voltage from 1.16 to 1.21 V. Secondly, ferroelectric nuclei effectively regulate perovskite crystallization kinetics via dissolution-recrystallization modulation, effectively suppressing trap states and elevating fill factor from 83.6% to 86.8%. The champion devices achieve a power conversion efficiency of 26.62% (certified 26.07%) with an open-circuit voltage-fill factor product of 1.05 V, reaching 90.3% of the Shockley-Queisser limit. Furthermore, the modified devices demonstrate enhanced operational stability with over 85% efficiency reservation after 500 h of maximum power point tracking, charting clear pathways towards high-performance photovoltaic cells. [原始信息] Nature Communications, Published online: 18 February 2026; doi:10.1038/s41467-026-69391-3 Wu et al. report a strategy of incorporating either Dion-Jacobson phase or Ruddlesden-Popper phase ferroelectric perovskite with FAPbI3 to form bulk heterojunctions, increasing the open-circuit voltage-fill factor product and enabling single junction solar cells with an efficiency of 26.62%.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-3edc73c04487">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">07</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41586-026-10173-8" rel="noopener noreferrer" target="_blank">大块莫尔金属的高维费米学</a><a class="weekly-permalink-link" href="#article-3edc73c04487" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Higher-dimensional Fermiology in bulk moiré metals</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature</span><span class="weekly-chip weekly-chip-authors">👤 Kevin P. Nuckolls, Nisarga Paul, Alan Chen 等13位作者</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究在热力学平衡下合成大块莫尔金属，将莫尔物理拓展至三维。通过揭示高维超空间编码的复杂费米学，为调控强关联量子态提供了新范式，对探索新型量子物态意义重大。</div>
+<div class="weekly-paper-preview">在过去的十年中，莫尔材料彻底改变了我们设计和控制物质量子相的方式1,2。它们是强相关电子现象 3,4 的多功能平台，并支持新的铁电态 5,6、磁态 7 和超导态 8。在不相称材料9中，莫尔材料是非周期复合晶体10,11，其长波长超晶格能够在不化学改变其层的情况下实现可调特性。到目前为止，几乎所有莫尔材料的报告都研究了远离热力学平衡（T &lt; 150 °C）组装的范德华异质结构1,2。在这里，我们介绍了一种在热力学平衡下合成高迁移率莫尔材…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-3edc73c04487', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41586-026-10173-8" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-3edc73c04487">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-3edc73c04487-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>在过去的十年中，莫尔材料彻底改变了我们设计和控制物质量子相的方式1,2。它们是强相关电子现象 3,4 的多功能平台，并支持新的铁电态 5,6、磁态 7 和超导态 8。在不相称材料9中，莫尔材料是非周期复合晶体10,11，其长波长超晶格能够在不化学改变其层的情况下实现可调特性。到目前为止，几乎所有莫尔材料的报告都研究了远离热力学平衡（T &lt; 150 °C）组装的范德华异质结构1,2。在这里，我们介绍了一种在热力学平衡下合成高迁移率莫尔材料的概念新方法。我们报告了一个新的叶状超晶格材料 (Sr6TaS8)1+δ(TaS2)8 家族，它们是可剥离的、不通约晶格的范德华晶体。交替层之间的晶格不匹配会产生莫尔超晶格，类似于二维莫尔异双层超晶格，它们在整个晶体中是相干的，并且可以通过合成条件进行调节，而不改变其化学成分。量子振荡测量绘制了这些莫尔金属的复杂费米学12,13,14，表明结构最简单的莫尔金属的费米表面包含 40 多个不同的横截面区域。通过提出这些大块莫尔金属以与不相称晶格的成熟晶体学方法平行的方式编码高维超空间晶体的电子特性，可以自然地理解这一点15,16。更广泛地说，我们的工作展示了一种可扩展的合成方法，可能能够生产用于电子应用的大面积莫尔材料，并证明了一种新的材料设计概念，用于访问更高维度中提出的现象17,18,19,20,21。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">In the past decade, moiré materials have revolutionized how we engineer and control quantum phases of matter1,2. They are versatile platforms for strongly correlated electronic phenomena3,4and support new ferroelectric5,6, magnetic7and superconducting states8. Among incommensurate materials9, moiré materials are aperiodic composite crystals10,11whose long-wavelength superlattices enable tunable properties without chemically modifying their layers. So far, nearly all reports of moiré materials have investigated van der Waals heterostructures assembled far from thermodynamic equilibrium (T&lt; 150 °C)1,2. Here we introduce a conceptually new approach to synthesizing high-mobility moiré materials in thermodynamic equilibrium. We report a new family of foliated superlattice materials (Sr6TaS8)1+δ(TaS2)8that are exfoliatable, incommensurate-lattice, van der Waals crystals. Lattice mismatches between alternating layers generate moiré superlattices, analogous to 2D moiré heterobilayer superlattices, which are coherent throughout these crystals and tunable through synthesis conditions without altering their chemical composition. Quantum oscillation measurements map the complex Fermiology of these moiré metals12,13,14, showing that the Fermi surface of the structurally simplest moiré metal comprises more than 40 distinct cross-sectional areas. This is naturally understood by proposing that these bulk moiré metals encode electronic properties of higher-dimensional superspace crystals in ways paralleling well-established crystallographic methods for incommensurate lattices15,16. More broadly, our work demonstrates a scalable synthesis approach potentially capable of producing large-area moiré materials for electronics applications and evidences a new material design concept for accessing phenomena proposed in higher dimensions17,18,19,20,21. [原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-026-10173-8 Aperiodic composite crystals were discovered that emulate 2D moiré materials, demonstrating a potentially scalable approach for producing moiré materials for next-generation electronics and a generalizable approach for realizing theoretical predictions of higher-dimensional quantum phenomena.</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-963de7c879ef">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">08</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/dxdt-lpbr" rel="noopener noreferrer" target="_blank">Interfacial Spin-Orbit Coupling Induced Room Temperature Ferromagnetic Insulator</a><a class="weekly-permalink-link" href="#article-963de7c879ef" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Yuhao Hong, Shilin Hu, Ziyue Shen, Chao Deng, Xiaodong Zhang, Lei Wang, Long Wei, Qinghua Zhang, Lingfei Wang, Liang Si, Yulin Gan, Kai Chen, and Zhaoliang Liao</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究利用界面自旋轨道耦合效应，成功制备出室温铁磁绝缘体薄膜。这一创新突破了材料性能瓶颈，为开发下一代低功耗、无耗散量子及自旋电子器件提供了关键的物质基础。</div>
+<div class="weekly-paper-preview">作者：Yuhao Hong、Shilin Hu、Ziyue Shen、Chao Deng、Xiaodong Zhang、Lei Wang、Long Wei、Qinghua Zhang、Lingfei Wang、Liang Si、Yulin Gan、Kai Chen 和 Zaliang Liao 制造室温铁磁绝缘体，这是下一代无耗散量子和自旋电子器件的重要候选者，仍然是一个重大挑战。在这封信中，我们报告了新型室温铁磁绝缘薄膜的外延合成……</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-963de7c879ef', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/dxdt-lpbr" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-963de7c879ef">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-963de7c879ef-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Yuhao Hong、Shilin Hu、Ziyue Shen、Chao Deng、Xiaodong Zhang、Lei Wang、Long Wei、Qinghua Zhang、Lingfei Wang、Liang Si、Yulin Gan、Kai Chen 和 Zaliang Liao 制造室温铁磁绝缘体，这是下一代无耗散量子和自旋电子器件的重要候选者，仍然是一个重大挑战。在这封信中，我们报告了新型室温铁磁绝缘薄膜的外延合成……[物理。莱特牧师。 136, 076302] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Yuhao Hong, Shilin Hu, Ziyue Shen, Chao Deng, Xiaodong Zhang, Lei Wang, Long Wei, Qinghua Zhang, Lingfei Wang, Liang Si, Yulin Gan, Kai Chen, and Zhaoliang Liao Fabricating room-temperature ferromagnetic insulators, which are crucial candidates for next-generation dissipation-free quantum and spintronic devices, remains a significant challenge. In this Letter, we report on the epitaxial synthesis of novel room-temperature ferromagnetic insulating thin films… [Phys. Rev. Lett. 136, 076302] Published Wed Feb 18, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-f31f48464f28">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">09</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/rbn9-d45t" rel="noopener noreferrer" target="_blank">Vacancy Induced Expansion of Spin-Liquid Regime in the ${J}_{1}\text{−}{J}_{2}$ Heisenberg Model</a><a class="weekly-permalink-link" href="#article-f31f48464f28" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Soumyaranjan Dash, Anish Koley, and Sanjeev Kumar</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究引入自旋空位和新型半经典方法，发现空位能显著扩大J1-J2模型的自旋液体区。这揭示了无序对受挫磁系的稳定机制，为人工调控量子自旋液体及研发量子材料提供新思路。</div>
+<div class="weekly-paper-preview">作者：Soumyaranjan Dash、Anish Koley 和 Sanjeev Kumar 我们研究了存在自旋空位的情况下方形晶格上的自旋 $1/2$ ${J}_{1}\text{−}{J}_{2}$ 海森堡反铁磁体的模型。为了克服与分析具有磁挫败和不均匀性的模型相关的方法挑战，我们引入了一种新的半类...... [Phys.莱特牧师。 136, 076502] 2026 年 2 月 18 日星期三发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-f31f48464f28', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/rbn9-d45t" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-f31f48464f28">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-f31f48464f28-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Soumyaranjan Dash、Anish Koley 和 Sanjeev Kumar 我们研究了存在自旋空位的情况下方形晶格上的自旋 $1/2$ ${J}_{1}\text{−}{J}_{2}$ 海森堡反铁磁体的模型。为了克服与分析具有磁挫败和不均匀性的模型相关的方法挑战，我们引入了一种新的半类...... [Phys.莱特牧师。 136, 076502] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Soumyaranjan Dash, Anish Koley, and Sanjeev Kumar We study the model for spin-$1/2$ ${J}_{1}\text{−}{J}_{2}$ Heisenberg antiferromagnets on a square lattice in the presence of spin vacancies. In order to overcome the methodological challenges associated with analyzing models with magnetic frustration and inhomogeneities, we introduce a new semiclas… [Phys. Rev. Lett. 136, 076502] Published Wed Feb 18, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-11b30b17dedc">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">10</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/vlzz-gzy5" rel="noopener noreferrer" target="_blank">Pseudocriticality in Antiferromagnetic Spin Chains</a><a class="weekly-permalink-link" href="#article-11b30b17dedc" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Sankalp Kumar, Sumiran Pujari, and Jonathan D’Emidio</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究揭示反铁磁自旋链弱一阶相变的伪临界机制，利用耦合常数的“行走行为”解释了尺度不变性。这深化了对低维量子相变的理解，为探索解禁闭临界性提供了理论支撑。</div>
+<div class="weekly-paper-preview">作者：Sankalp Kumar、Sumiran Pujari 和 Jonathan D’Emidio 在各种环境中都观察到具有近似尺度不变性的弱一阶伪临界性，包括在 $2+1$ 维度中解除临界性的有趣情况。最近，这被解释为实值耦合的极其缓慢的流动（“行走行为”）……[物理。莱特牧师。 136, 076701] 2026 年 2 月 18 日星期三发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-11b30b17dedc', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/vlzz-gzy5" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-11b30b17dedc">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-11b30b17dedc-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Sankalp Kumar、Sumiran Pujari 和 Jonathan D’Emidio 在各种环境中都观察到具有近似尺度不变性的弱一阶伪临界性，包括在 $2+1$ 维度中解除临界性的有趣情况。最近，这被解释为实值耦合的极其缓慢的流动（“行走行为”）……[物理。莱特牧师。 136, 076701] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Sankalp Kumar, Sumiran Pujari, and Jonathan D’Emidio Weak first-order pseudocriticality with approximate scale invariance has been observed in a variety of settings, including the intriguing case of deconfined criticality in $2+1$ dimensions. Recently, this has been interpreted as extremely slow flows (“walking behavior”) for real-valued couplings in … [Phys. Rev. Lett. 136, 076701] Published Wed Feb 18, 2026</p></div></div>
+</article>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="ai">
+<div class="weekly-section-head">
+<span class="weekly-section-index">04</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">AI / 机器学习专题<a class="weekly-permalink-link" href="#ai" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">覆盖模型、方法与 AI for Science 应用工作。</p>
+</div>
+</div>
+<div class="weekly-paper-list">
+<article class="weekly-paper-card ai" id="article-683f63f055ef">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">01</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41467-026-69586-8" rel="noopener noreferrer" target="_blank">Exploring chemistry and catalysis by biasing skewed distributions via deep learning</a><a class="weekly-permalink-link" href="#article-683f63f055ef" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Communications</span><span class="weekly-chip weekly-chip-authors">👤 Zhikun Zhang, GiovanniMaria Piccini</span><span class="weekly-chip">📅 2026-02-21</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出Loxodynamics方法，核心创新是利用Skewencoder基于分布偏度自动提取反应坐标。它突破了传统方法对先验知识和高温条件的依赖，能高效探索复杂势能面，为复杂催化体系的自动化反应发</div>
+<div class="weekly-paper-preview">化学和催化反应的自动发现仍然是计算化学中的主要挑战，特别是在传统方法难以确定最佳搜索方向的复杂系统中。在这里，我们提出了 Loxodynamics，一种机器学习驱动的方法，通过有偏差的分子动力学进行反应探索。通过利用局部概率分布的偏度，Loxodynamics 动态确定低能垒方向，有效引导系统进入亚稳态。我们框架的核心是 Skewencoder，这是一种自动编码器，增强了基于偏度的损失函数，可以从最小采样数据中提取反应坐标。通过迭代采…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-683f63f055ef', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41467-026-69586-8" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-683f63f055ef">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-683f63f055ef-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>化学和催化反应的自动发现仍然是计算化学中的主要挑战，特别是在传统方法难以确定最佳搜索方向的复杂系统中。在这里，我们提出了 Loxodynamics，一种机器学习驱动的方法，通过有偏差的分子动力学进行反应探索。通过利用局部概率分布的偏度，Loxodynamics 动态确定低能垒方向，有效引导系统进入亚稳态。我们框架的核心是 Skewencoder，这是一种自动编码器，增强了基于偏度的损失函数，可以从最小采样数据中提取反应坐标。通过迭代采样和搜索循环，系统自适应地映射自由能表面，捕获对复杂反应环境至关重要的有限温度效应。我们通过模型电势、气相反应（SN2 和 Diels-Alder）以及操作条件下酸性菱沸石中的催化醇脱水验证了我们的方法。 Loxodynamics 为反应发现提供了一个系统框架，解决了传统技术的关键局限性，特别是允许在不升高温度或先验了解集体变量的情况下进行加速。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">The automated discovery of chemical and catalytic reactions remains a major challenge in computational chemistry, particularly in complex systems where conventional methods struggle to identify optimal searching directions. Here, we propose Loxodynamics, a machine-learning-driven approach for reaction exploration via biased molecular dynamics. By leveraging the skewness of local probability distributions, Loxodynamics dynamically determines low-energy barrier directions, efficiently guiding the system toward metastable states. The core of our framework is Skewencoder, an Autoencoder augmented with a skewness-based loss function that extracts reaction coordinates from minimal sampling data. Through iterative sample-and-search cycles, the system adaptively maps the free energy surface, capturing finite-temperature effects critical to complex reactive environments. We validate our method across model potentials, gas-phase reactions (SN2 and Diels-Alder), and catalytic alcohol dehydration in acidic chabazite under operando conditions. Loxodynamics provides a systematic framework for reaction discovery that addresses key limitations of conventional techniques, notably by allowing acceleration without elevated temperatures or a priori knowledge of collective variables.</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-5375fb30ac78">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">02</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s42256-026-01182-3" rel="noopener noreferrer" target="_blank">Preconditioned inexact stochastic ADMM for deep models</a><a class="weekly-permalink-link" href="#article-5375fb30ac78" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Machine Intelligence</span><span class="weekly-chip weekly-chip-authors">👤 Shenglong Zhou, Ouya Wang, Ziyan Luo 等5位作者</span><span class="weekly-chip">📅 2026-02-20</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该算法利用预处理随机ADMM框架放宽收敛条件，有效解决分布式训练的数据异构瓶颈。其支持二阶信息加速，显著提升LLM等模型训练效率，具有极高的理论与通用价值。</div>
+<div class="weekly-paper-preview">深度学习模型通常使用基于随机梯度下降的算法进行训练，但这些优化器面临固有的局限性，例如收敛速度慢和收敛的严格假设。特别是，分布式设置产生的数据异构性对其理论和数值性能提出了重大挑战。在这里，我们开发了一种称为 PISA（乘法器的预处理不精确随机交替方向法）的算法。基于严格的理论保证，该算法在有界区域上梯度的 Lipschitz 连续性的唯一假设下收敛，从而消除了对随机方法通常强加的其他条件的需要。这种能力使得所提出的算法能够有效地应对…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-5375fb30ac78', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s42256-026-01182-3" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-5375fb30ac78">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-5375fb30ac78-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>深度学习模型通常使用基于随机梯度下降的算法进行训练，但这些优化器面临固有的局限性，例如收敛速度慢和收敛的严格假设。特别是，分布式设置产生的数据异构性对其理论和数值性能提出了重大挑战。在这里，我们开发了一种称为 PISA（乘法器的预处理不精确随机交替方向法）的算法。基于严格的理论保证，该算法在有界区域上梯度的 Lipschitz 连续性的唯一假设下收敛，从而消除了对随机方法通常强加的其他条件的需要。这种能力使得所提出的算法能够有效地应对数据异构性的挑战。此外，该算法架构支持可扩展的并行计算，并支持各种前提条件，例如二阶信息、二阶矩和牛顿-舒尔茨迭代的正交动量。将 PISA 中的最后两个前提条件结合起来会产生两个计算效率较高的变体：SISA 和 NSISA。对训练或微调各种深度模型（包括视觉模型、大语言模型、强化学习模型、生成对抗网络和循环神经网络）的综合实验评估表明，与各种最先进的优化器相比，SISA 和 NSISA 具有卓越的数值性能。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Deep learning models are usually trained with stochastic gradient descent-based algorithms, but these optimizers face inherent limitations, such as slow convergence and stringent assumptions for convergence. In particular, data heterogeneity arising from distributed settings poses significant challenges to their theoretical and numerical performance. Here we develop an algorithm called PISA (preconditioned inexact stochastic alternating direction method of multipliers). Grounded in rigorous theoretical guarantees, the algorithm converges under the sole assumption of Lipschitz continuity of the gradient on a bounded region, thereby removing the need for other conditions commonly imposed by stochastic methods. This capability enables the proposed algorithm to tackle the challenge of data heterogeneity effectively. Moreover, the algorithmic architecture enables scalable parallel computing and supports various preconditions, such as second-order information, second moment and orthogonalized momentum by Newton–Schulz iterations. Incorporating the last two preconditions in PISA yields two computationally efficient variants: SISA and NSISA. Comprehensive experimental evaluations for training or fine-tuning diverse deep models, including vision models, large language models, reinforcement learning models, generative adversarial networks and recurrent neural networks, demonstrate superior numerical performance of SISA and NSISA compared with various state-of-the-art optimizers.</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-b9bbb8f94ae9">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">03</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s43588-026-00956-4" rel="noopener noreferrer" target="_blank">A neural network for modeling human concept formation, understanding and communication</a><a class="weekly-permalink-link" href="#article-b9bbb8f94ae9" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Computational Science</span><span class="weekly-chip weekly-chip-authors">👤 Liangxuan Guo, Haoyang Chen, Yang Chen 等5位作者</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出CATS Net双模块框架，创新性地通过概念抽象与任务解决模块模拟人类认知。其核心在于构建可转移语义结构实现知识共享，并成功匹配人脑神经活动。这为理解人类语义控制机制及开发类人智能系统提供了</div>
+<div class="weekly-paper-preview">人脑的一项非凡能力是从感觉运动经验中形成更抽象的概念表征，并独立于直接的感官输入灵活地应用它们。然而，这种能力背后的计算机制仍然知之甚少。在这里，我们提出了一个双模块神经网络框架 CATS Net，来弥补这一差距。我们的模型由一个提取低维概念表示的概念抽象模块和一个在形成概念的分层门控下执行视觉判断任务的任务解决模块组成。该系统开发基于概念表示的可转移语义结构，通过概念通信实现跨网络知识转移。模型-大脑拟合分析表明，这些新兴概念空间与…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-b9bbb8f94ae9', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s43588-026-00956-4" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-b9bbb8f94ae9">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-b9bbb8f94ae9-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>人脑的一项非凡能力是从感觉运动经验中形成更抽象的概念表征，并独立于直接的感官输入灵活地应用它们。然而，这种能力背后的计算机制仍然知之甚少。在这里，我们提出了一个双模块神经网络框架 CATS Net，来弥补这一差距。我们的模型由一个提取低维概念表示的概念抽象模块和一个在形成概念的分层门控下执行视觉判断任务的任务解决模块组成。该系统开发基于概念表示的可转移语义结构，通过概念通信实现跨网络知识转移。模型-大脑拟合分析表明，这些新兴概念空间与人类腹侧枕颞皮层的神经认知语义模型和大脑反应结构相一致，而门控机制反映了语义控制大脑网络中的情况。这项工作建立了一个统一的计算框架，可以为理解人类概念认知和具有类人概念智能的工程人工系统提供机械见解。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">A remarkable capability of the human brain is to form more abstract conceptual representations from sensorimotor experiences and flexibly apply them independent of direct sensory inputs. However, the computational mechanism underlying this ability remains poorly understood. Here we present a dual-module neural network framework, CATS Net, to bridge this gap. Our model consists of a concept-abstraction module that extracts low-dimensional conceptual representations, and a task-solving module that performs visual judgment tasks under the hierarchical gating control of the formed concepts. The system develops transferable semantic structure based on concept representations that enable cross-network knowledge transfer through conceptual communication. Model–brain fitting analyses reveal that these emergent concept spaces align with both neurocognitive semantic model and brain response structures in the human ventral occipitotemporal cortex, while the gating mechanisms mirror that in the semantic-control brain network. This work establishes a unified computational framework that can offer mechanistic insights for understanding human conceptual cognition and engineering artificial systems with human-like conceptual intelligence.</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-c738e8411176">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">04</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s42256-025-01153-0" rel="noopener noreferrer" target="_blank">Meta-designing quantum experiments with language models</a><a class="weekly-permalink-link" href="#article-c738e8411176" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Machine Intelligence</span><span class="weekly-chip weekly-chip-authors">👤 Sören Arlt, Haonan Duan, Felix Li 等6位作者</span><span class="weekly-chip">📅 2026-02-19</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究提出“元设计”策略，利用语言模型生成可读代码，从数据中提取通用实验构造规则。这突破了AI孤立解的局限，实现了可解释、可推广的科学发现，为量子物理及跨学科设计提供了高效新范式。</div>
+<div class="weekly-paper-preview">人工智能可以解决超出人类能力的复杂科学问题，但由此产生的解决方案却无法深入了解潜在的物理原理。一个突出的例子是量子物理学，计算机可以发现生成特定量子态的实验，但尚不清楚如何自动化地找到通用设计概念。在这里，我们通过训练基于 Transformer 的语言模型来创建人类可读的 Python 代码来生成整个实验系列来应对这一挑战。该模型经过数百万个量子态的合成示例及其相应的实验蓝图的训练，使其能够推断出一般的构造规则，而不是孤立的解决方案…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-c738e8411176', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s42256-025-01153-0" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-c738e8411176">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-c738e8411176-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>人工智能可以解决超出人类能力的复杂科学问题，但由此产生的解决方案却无法深入了解潜在的物理原理。一个突出的例子是量子物理学，计算机可以发现生成特定量子态的实验，但尚不清楚如何自动化地找到通用设计概念。在这里，我们通过训练基于 Transformer 的语言模型来创建人类可读的 Python 代码来生成整个实验系列来应对这一挑战。该模型经过数百万个量子态的合成示例及其相应的实验蓝图的训练，使其能够推断出一般的构造规则，而不是孤立的解决方案。这种策略，我们称之为元设计，使科学家能够获得更深入的理解，并推断出更大的实验，而无需额外的优化。我们证明，该方法可以重新发现已知的设计原理，并揭示以前未知的重要量子态的概括，例如来自凝聚态物理学的量子态。除了量子光学之外，该方法还为将语言模型应用于材料科学和工程等跨学科的可解释、可推广的科学发现提供了蓝图。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Artificial intelligence can solve complex scientific problems beyond human capabilities, but the resulting solutions offer little insight into the underlying physical principles. One prominent example is quantum physics, where computers can discover experiments for the generation of specific quantum states, but it is unclear how finding general design concepts can be automated. Here we address this challenge by training a transformer-based language model to create human-readable Python code that generates entire families of experiments. The model is trained on millions of synthetic examples of quantum states and their corresponding experimental blueprints, enabling it to infer general construction rules rather than isolated solutions. This strategy, which we call meta-design, enables scientists to gain a deeper understanding and to extrapolate to larger experiments without additional optimization. We demonstrate that the approach can rediscover known design principles and uncover previously unknown generalizations of important quantum states, such as those from condensed-matter physics. Beyond quantum optics, the methodology provides a blueprint for applying language models to interpretable, generalizable scientific discovery across disciplines such as materials science and engineering.</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-394c5399be8a">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">05</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41586-026-10141-2" rel="noopener noreferrer" target="_blank">使用 STARLING 准确预测无序蛋白质整体</a><a class="weekly-permalink-link" href="#article-394c5399be8a" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Accurate predictions of disordered protein ensembles with STARLING</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature</span><span class="weekly-chip weekly-chip-authors">👤 Borna Novak, Jeffrey M. Lotthammer, Ryan J. Emenecker 等4位作者</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究推出STARLING，融合物理力场与生成式AI，实现无序蛋白质构象集的精准预测。创新在于环境敏感的表征学习与秒级序列设计，显著降低了IDR功能研究门槛，为大规模生物物理搜索与蛋白质工程提供了高效</div>
+<div class="weekly-paper-preview">本质上无序的蛋白质和区域（统称为 IDR）存在于所有生命王国中，并且在几乎每个真核细胞过程中都发挥着关键作用1。 IDR 存在于结构不同的构象的广泛集合中。这种结构可塑性促进了不同的分子识别和功能2,3,4。在这里，我们将基于物理的力场的进步与多模态生成深度学习的力量相结合，开发了 STARLING，这是一个用于从序列快速生成准确的 IDR 集成和集成感知表示的框架。 STARLING 支持跨离子强度的环境调节，并展示了生成模型超出其…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-394c5399be8a', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41586-026-10141-2" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-394c5399be8a">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-394c5399be8a-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>本质上无序的蛋白质和区域（统称为 IDR）存在于所有生命王国中，并且在几乎每个真核细胞过程中都发挥着关键作用1。 IDR 存在于结构不同的构象的广泛集合中。这种结构可塑性促进了不同的分子识别和功能2,3,4。在这里，我们将基于物理的力场的进步与多模态生成深度学习的力量相结合，开发了 STARLING，这是一个用于从序列快速生成准确的 IDR 集成和集成感知表示的框架。 STARLING 支持跨离子强度的环境调节，并展示了生成模型超出其训练领域的插值能力的概念证明。此外，我们使用贝叶斯最大熵重新加权方案在实验约束下实现集成细化。除了整体表征之外，STARLING 序列表示还可以以多种方式使用。我们展示了两个例子：首先，STARLING 让我们能够对“生物物理相似者”进行基于集合的搜索。其次，我们演示了如何使用这些潜在表示来将集成优先的序列设计从每个候选者的几周或几小时缩短到几秒钟，从而实现图书馆规模的设计。总之，STARLING 通过新兴生物物理特性的视角，显着降低了 IDR 功能计算询问的障碍，补充了生物信息学蛋白质序列分析。我们根据现有实验数据评估 STARLING 的准确性，并提供一系列插图说明 STARLING 如何实现 IDR 函数的快速假设生成并帮助解释实验数据。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Intrinsically disordered proteins and regions (collectively IDRs) are found across all kingdoms of life and have critical roles in virtually every eukaryotic cellular process1. IDRs exist in a broad ensemble of structurally distinct conformations. This structural plasticity facilitates diverse molecular recognition and function2,3,4. Here we combine advances in physics-based force fields with the power of multi-modal generative deep learning to develop STARLING, a framework for rapid generation of accurate IDR ensembles and ensemble-aware representations from sequence. STARLING supports environmental conditioning across ionic strengths and demonstrates proof of concept for the interpolative ability of generative models beyond their training domain. Moreover, we enable ensemble refinement under experimental constraints using a Bayesian maximum-entropy reweighting scheme. Beyond ensemble characterization, STARLING sequence representations can be used in multiple ways. We showcase two examples: first, STARLING lets us perform ensemble-based search for ‘biophysical look-alikes’. Second, we demonstrate how these latent representations can be used to accelerate ensemble-first sequence design from weeks or hours per candidate to seconds, enabling library-scale designs. Together, STARLING dramatically lowers the barrier to the computational interrogation of IDR function through the lens of emergent biophysical properties, complementing bioinformatic protein sequence analysis. We evaluate the accuracy of STARLING against extant experimental data and offer a series of vignettes illustrating how STARLING can enable rapid hypothesis generation for IDR function and aid the interpretation of experimental data. [原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-026-10141-2 The deep learning model STARLING can generate accurate ensembles of intrinsically disordered regions of proteins using only protein sequence as input.</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-19b008765574">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">06</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s41586-025-10097-9" rel="noopener noreferrer" target="_blank">具有可追溯推理的罕见疾病诊断代理系统</a><a class="weekly-permalink-link" href="#article-19b008765574" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">An agentic system for rare disease diagnosis with traceable reasoning</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature</span><span class="weekly-chip weekly-chip-authors">👤 Weike Zhao, Chaoyi Wu, Yanjie Fan 等15位作者</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>DeepRare通过多智能体协作创新性地整合多模态临床数据，实现了诊断过程的可追溯与透明化。该系统大幅提升了罕见病诊断效能，为缩短诊断周期、辅助精准医疗决策提供了关键技术支撑，具有深远的临床应用价值。</div>
+<div class="weekly-paper-preview">罕见病影响着全球超过 3 亿人1,2,3，但及时、准确的诊断仍然是一项紧迫的挑战1,3,4,5。患者往往要经历超过 5 年的漫长“诊断之旅”，其特点是反复转诊、误诊和不必要的干预，导致治疗延误和巨大的情感和经济负担4,5。在这里，我们介绍 DeepRare——一种用于罕见疾病鉴别诊断决策支持的多智能体系统6,7,8，由大型语言模型提供支持，集成了 40 多种专业工具和最新知识源。 DeepRare 处理异构临床输入，包括自由文本描述、…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-19b008765574', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s41586-025-10097-9" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-19b008765574">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-19b008765574-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>罕见病影响着全球超过 3 亿人1,2,3，但及时、准确的诊断仍然是一项紧迫的挑战1,3,4,5。患者往往要经历超过 5 年的漫长“诊断之旅”，其特点是反复转诊、误诊和不必要的干预，导致治疗延误和巨大的情感和经济负担4,5。在这里，我们介绍 DeepRare——一种用于罕见疾病鉴别诊断决策支持的多智能体系统6,7,8，由大型语言模型提供支持，集成了 40 多种专业工具和最新知识源。 DeepRare 处理异构临床输入，包括自由文本描述、结构化人类表型本体术语和基因检测结果，以生成排名的诊断假设，并具有与可验证的医学证据相关的透明推理。 DeepRare 对来自亚洲、北美和欧洲 14 个医学专业的文献、病例报告和临床中心的 9 个数据集进行了评估，在 2,919 种疾病上表现出了卓越的性能。在基于人类表型本体的任务中，它的平均 Recall@1 达到 57.18%，比次优方法高出 23.79%；在多模态测试中，它达到了 69.1%，而 Exomiser 在 168 例中的测试结果为 55.9%。专家评审对其推理链达成了95.4%的一致性，证实了其有效性和可追溯性。我们的工作不仅推进了罕见疾病的诊断，还展示了最新强大的大语言模型驱动的代理系统如何重塑当前的临床工作流程。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Rare diseases affect more than 300 million people worldwide1,2,3, yet timely and accurate diagnosis remains an urgent challenge1,3,4,5. Patients often endure a prolonged ‘diagnostic odyssey’ exceeding 5 years, marked by repeated referrals, misdiagnoses and unnecessary interventions, leading to delayed treatment and substantial emotional and economic burden4,5. Here we present DeepRare—a multi-agent system for rare disease differential diagnosis decision support6,7,8powered by large language models, integrating more than 40 specialized tools and up-to-date knowledge sources. DeepRare processes heterogeneous clinical inputs, including free-text descriptions, structured human phenotype ontology terms and genetic testing results to generate ranked diagnostic hypotheses with transparent reasoning linked to verifiable medical evidence. Evaluated across nine datasets from literature, case reports and clinical centres across Asia, North America and Europe spanning 14 medical specialties, DeepRare demonstrates exceptional performance on 2,919 diseases. In human-phenotype-ontology-based tasks, it achieves an average Recall@1 of 57.18%, outperforming the next best method by 23.79%; in multi-modal tests, it reaches 69.1% compared with Exomiser’s 55.9% on 168 cases. Expert review achieved 95.4% agreement on its reasoning chains, confirming their validity and traceability. Our work not only advances rare disease diagnosis but also demonstrates how the latest powerful large-language-model-driven agentic systems can reshape current clinical workflows. [原始信息] Nature, Published online: 18 February 2026; doi:10.1038/s41586-025-10097-9 DeepRare—a multi-agent system for rare disease differential diagnosis decision support powered by large language models, integrating specialized tools and up-to-date knowledge sources—has the potential to reduce healthcare disparities in rare disease diagnosis.</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-e2af520c4457">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">07</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/945c-11wt" rel="noopener noreferrer" target="_blank">Multiphoton Quantum Simulation of the Generalized Hopfield Memory Model</a><a class="weekly-permalink-link" href="#article-e2af520c4457" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Gennaro Zanfardino, Stefano Paesani, Luca Leuzzi, Raffaele Santagati, Fabio Sciarrino, Fabrizio Illuminati, Giancarlo Ruocco, and Marco Leonetti</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>建立了多光子干涉与霍普菲尔德模型的映射，利用量子模拟实现联想记忆。这拓展了光子技术边界，为量子增强机器学习开辟了新路径，对构建高效量子神经网络具有重要价值。</div>
+<div class="weekly-paper-preview">作者：Gennaro Zanfardino、Stefano Paesani、Luca Leuzzi、Raffaele Santagati、Fabio Sciarrino、Fabrizio Illuminati、Giancarlo Ruocco 和 Marco Leonetti 在本信中，我们介绍、发展和研究多光子量子干涉（新兴光子量子技术的核心要素）与经典神经网络的类霍普菲尔德哈密顿量（联想记忆的范式模型）之间的联系和机器学习....…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-e2af520c4457', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/945c-11wt" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-e2af520c4457">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-e2af520c4457-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Gennaro Zanfardino、Stefano Paesani、Luca Leuzzi、Raffaele Santagati、Fabio Sciarrino、Fabrizio Illuminati、Giancarlo Ruocco 和 Marco Leonetti 在本信中，我们介绍、发展和研究多光子量子干涉（新兴光子量子技术的核心要素）与经典神经网络的类霍普菲尔德哈密顿量（联想记忆的范式模型）之间的联系和机器学习...... [物理。莱特牧师。 136, 070602] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Gennaro Zanfardino, Stefano Paesani, Luca Leuzzi, Raffaele Santagati, Fabio Sciarrino, Fabrizio Illuminati, Giancarlo Ruocco, and Marco Leonetti In the present Letter, we introduce, develop, and investigate a connection between multiphoton quantum interference, a core element of emerging photonic quantum technologies, and Hopfield-like Hamiltonians of classical neural networks, the paradigmatic models for associative memory and machine learn… [Phys. Rev. Lett. 136, 070602] Published Wed Feb 18, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-f98a0aa38d2d">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">08</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/ckpr-s876" rel="noopener noreferrer" target="_blank">DeepQuark: A Deep-Neural-Network Approach to Multiquark Bound States</a><a class="weekly-permalink-link" href="#article-f98a0aa38d2d" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Wei-Lin Wu, Lu Meng, and Shi-Lin Zhu</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究首创DeepQuark架构，将深度神经网络应用于多夸克束缚态计算，克服了SU(3)颜色相互作用的复杂性。这一突破为奇特强子研究提供了高精度新工具，对深化强相互作用理解及探索物质微观结构具有重要价</div>
+<div class="weekly-paper-preview">作者：吴伟林、孟鲁和朱士林 我们首次针对多夸克束缚态实现了基于深度神经网络的变分蒙特卡罗方法，由于强烈的 SU(3) 颜色相互作用，其复杂性超过了电子或核子系统。我们设计了一种新颖且高效的架构 DeepQuark 来广告…… [Phys.莱特牧师。 136, 071901] 2026 年 2 月 18 日星期三发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-f98a0aa38d2d', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/ckpr-s876" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-f98a0aa38d2d">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-f98a0aa38d2d-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：吴伟林、孟鲁和朱士林 我们首次针对多夸克束缚态实现了基于深度神经网络的变分蒙特卡罗方法，由于强烈的 SU(3) 颜色相互作用，其复杂性超过了电子或核子系统。我们设计了一种新颖且高效的架构 DeepQuark 来广告…… [Phys.莱特牧师。 136, 071901] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Wei-Lin Wu, Lu Meng, and Shi-Lin Zhu For the first time, we implement the deep-neural-network-based variational Monte Carlo approach for the multiquark bound states, whose complexity surpasses that of electron or nucleon systems due to strong SU(3) color interactions. We design a novel and high-efficiency architecture, DeepQuark, to ad… [Phys. Rev. Lett. 136, 071901] Published Wed Feb 18, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-28f36cb31f77">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">09</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/2v76-dmg6" rel="noopener noreferrer" target="_blank">Unsupervised Learning for Anticipating Critical Transitions</a><a class="weekly-permalink-link" href="#article-28f36cb31f77" title="复制本页定位">#</a></h3>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Shirin Panahi, Ling-Wei Kong, Bryan Glaz, Mulugeta Haile, and Ying-Cheng Lai</span><span class="weekly-chip">📅 2026-02-18</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究融合变分自动编码器与储层计算，首创无需分岔参数的无监督预测框架。其核心在于纯数据驱动地捕捉动力学演化，解决了复杂系统临界点预警难题，具有重要应用价值。</div>
+<div class="weekly-paper-preview">作者：Shirin Panahi、Ling-Wei Kong、Bryan Glaz、Mulugeta Haile 和 Ying-Cheng Lai 预测复杂动力系统中的关键转变常常因需要明确了解分岔参数而受到阻碍。我们提出了一个完全数据驱动的框架，它将变分自动编码器与储层计算相结合，以克服这一限制。变分自动... [物理。莱特牧师。 136, 077301] 2026 年 2 月 18 日星期三发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-28f36cb31f77', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/2v76-dmg6" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-28f36cb31f77">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-28f36cb31f77-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Shirin Panahi、Ling-Wei Kong、Bryan Glaz、Mulugeta Haile 和 Ying-Cheng Lai 预测复杂动力系统中的关键转变常常因需要明确了解分岔参数而受到阻碍。我们提出了一个完全数据驱动的框架，它将变分自动编码器与储层计算相结合，以克服这一限制。变分自动... [物理。莱特牧师。 136, 077301] 2026 年 2 月 18 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Shirin Panahi, Ling-Wei Kong, Bryan Glaz, Mulugeta Haile, and Ying-Cheng Lai Anticipating critical transitions in complex dynamical systems is often hindered by the need for explicit knowledge of the bifurcation parameter. We present a fully data-driven framework that combines a variational autoencoder with reservoir computing to overcome this limitation. The variational aut… [Phys. Rev. Lett. 136, 077301] Published Wed Feb 18, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-d6ac48eb9629">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">10</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s43588-026-00958-2" rel="noopener noreferrer" target="_blank">在没有集体变量的情况下学习提交者</a><a class="weekly-permalink-link" href="#article-d6ac48eb9629" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Learning the committor without collective variables</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Computational Science</span><span class="weekly-chip weekly-chip-authors">👤 Sergio Contreras Arredondo, Chenyu Tang, Radu A. Talmazan 等6位作者</span><span class="weekly-chip">📅 2026-02-17</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究利用几何向量感知器实现了无需集体变量的提交者函数预测。其创新在于提供原子级可解释性，能自动识别关键反应坐标并估算速率，为复杂动力学分析提供了高效、无偏的自动化手段。</div>
+<div class="weekly-paper-preview">在这里，我们介绍了一种基于几何向量感知器构建的图神经网络架构，可以直接从原子坐标预测提交者函数，从而绕过手工制作的集体变量的需要。该方法提供了原子级的可解释性，无需依赖先前的假设即可精确定位复杂转变中的关键原子参与者。该方法应用于不同的分子系统，可以准确地推断出提交子功能，并强调每个重原子在转变机制中的重要性。它还可以对基础过程的速率常数进行精确估计。所提出的方法通过实现无集体变量学习和自动识别复杂分子过程的物理上有意义的反应坐标，有…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-d6ac48eb9629', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s43588-026-00958-2" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-d6ac48eb9629">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-d6ac48eb9629-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>在这里，我们介绍了一种基于几何向量感知器构建的图神经网络架构，可以直接从原子坐标预测提交者函数，从而绕过手工制作的集体变量的需要。该方法提供了原子级的可解释性，无需依赖先前的假设即可精确定位复杂转变中的关键原子参与者。该方法应用于不同的分子系统，可以准确地推断出提交子功能，并强调每个重原子在转变机制中的重要性。它还可以对基础过程的速率常数进行精确估计。所提出的方法通过实现无集体变量学习和自动识别复杂分子过程的物理上有意义的反应坐标，有助于理解和建模复杂的动力学。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Here we introduce a graph neural network architecture built on geometric vector perceptrons to predict the committor function directly from atomic coordinates, bypassing the need for hand-crafted collective variables. The method offers atom-level interpretability, pinpointing the key atomic players in complex transitions without relying on prior assumptions. Applied across diverse molecular systems, the method accurately infers the committor function and highlights the importance of each heavy atom in the transition mechanism. It also yields precise estimates of the rate constants for the underlying processes. The proposed approach assists in understanding and modeling complex dynamics, by enabling collective-variable-free learning and automated identification of physically meaningful reaction coordinates of complex molecular processes. [原始信息] Nature Computational Science, Published online: 17 February 2026; doi:10.1038/s43588-026-00958-2 By learning directly from atomic motion, without the need for handcrafted descriptors, a graph neural network reveals how molecular systems change state, delivering accurate kinetics and atom-level insight into complex transitions.</p></div></div>
+</article>
+<article class="weekly-paper-card ai" id="article-59ac53ed5181">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">11</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="https://www.nature.com/articles/s42256-026-01185-0" rel="noopener noreferrer" target="_blank">人类听觉皮层语言表示的并行分层编码和循环自动语音识别系统</a><a class="weekly-permalink-link" href="#article-59ac53ed5181" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Parallel hierarchical encoding of linguistic representations in the human auditory cortex and recurrent automatic speech recognition systems</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Nature Machine Intelligence</span><span class="weekly-chip weekly-chip-authors">👤 Menoua Keshishian, Gavin Mischler, Samuel Thomas 等7位作者</span><span class="weekly-chip">📅 2026-02-17</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>AI 解读：</strong>该研究利用因果循环模型揭示人脑与AI语音处理的分层对应。创新性证实两者在声学到语义转化中采用相似并行编码策略，为理解听觉机制及优化类脑计算提供了重要支撑。</div>
+<div class="weekly-paper-preview">将连续的声学语音信号转换为离散的语言意义是人脑和现代人工智能共同完成的一项非凡的计算壮举。一个关键的科学问题是，尽管这些生物和人工系统的架构不同，但它们是否会采用相似的策略来解决这一挑战。尽管自动语音识别系统现在已经达到了人类水平的性能，但对其与大脑的相似之处的研究受到了生物学上不可信的、非因果模型和比较的限制，这些模型和比较仅限于预测大脑活动，而没有详细说明底层表征的对齐情况。此外，使用基于文本的模型的研究忽略了语音处理的关键声学阶…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-59ac53ed5181', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="https://www.nature.com/articles/s42256-026-01185-0" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-59ac53ed5181">页内定位</a><a class="weekly-inline-link" href="#ai">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-59ac53ed5181-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>将连续的声学语音信号转换为离散的语言意义是人脑和现代人工智能共同完成的一项非凡的计算壮举。一个关键的科学问题是，尽管这些生物和人工系统的架构不同，但它们是否会采用相似的策略来解决这一挑战。尽管自动语音识别系统现在已经达到了人类水平的性能，但对其与大脑的相似之处的研究受到了生物学上不可信的、非因果模型和比较的限制，这些模型和比较仅限于预测大脑活动，而没有详细说明底层表征的对齐情况。此外，使用基于文本的模型的研究忽略了语音处理的关键声学阶段。在这里，我们使用高分辨率颅内记录和因果循环自动语音识别模型，发现大脑处理层次结构与模型内部表征之间的惊人对应关系，从而弥补了这些差距。具体来说，我们展示了他们的算法方法的深度一致性：不同皮质区域的神经活动在地形上映射到相应的模型层，并且关键的是，每个阶段的表征内容都遵循从声学到语音、词汇和语义信息的并行进展。因此，这项工作超越了展示简单的模型-大脑对齐，指定了每个处理阶段共享的底层表示，提供了直接证据，表明两个系统都收敛于类似的计算策略，将声音转化为意义。</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Transforming continuous acoustic speech signals into discrete linguistic meaning is a remarkable computational feat accomplished by both the human brain and modern artificial intelligence. A key scientific question is whether these biological and artificial systems, despite their different architectures, converge on similar strategies to solve this challenge. Although automatic speech recognition systems now achieve human-level performance, research on their parallels with the brain has been limited by biologically implausible, non-causal models and comparisons that stop at predicting brain activity without detailing the alignment of the underlying representations. Furthermore, studies using text-based models overlook the crucial acoustic stages of speech processing. Here we bridge these gaps by uncovering a striking correspondence between the brain’s processing hierarchy and the model’s internal representations using high-resolution intracranial recordings and a causal, recurrent automatic speech recognition model. Specifically, we demonstrate a deep alignment in their algorithmic approach: neural activity in distinct cortical regions maps topographically to corresponding model layers, and critically, the representational content at each stage follows a parallel progression from acoustic to phonetic, lexical and semantic information. This work thus moves beyond demonstrating simple model–brain alignment to specifying the shared underlying representations at each stage of processing, providing direct evidence that both systems converge on a similar computational strategy for transforming sound into meaning. [原始信息] Nature Machine Intelligence, Published online: 17 February 2026; doi:10.1038/s42256-026-01185-0 Keshishian, Mischler et al. report that a recurrent automatic speech recognition system aligns closely with brain organization: model layers map to distinct cortical regions and naturally learn to encode a parallel progression from acoustic to phonetic, lexical and semantic content.</p></div></div>
+</article>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="journals">
+<div class="weekly-section-head">
+<span class="weekly-section-index">05</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">期刊分布<a class="weekly-permalink-link" href="#journals" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">按来源快速判断本周成果主要集中在哪些期刊或预印本平台。</p>
+</div>
+</div>
+<div class="weekly-journal-list"><div class="weekly-journal-item"><div class="weekly-journal-name">Phys. Rev. Lett.</div><div class="weekly-journal-count">8 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nature Communications</div><div class="weekly-journal-count">6 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nature</div><div class="weekly-journal-count">3 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nature Machine Intelligence</div><div class="weekly-journal-count">3 篇</div></div><div class="weekly-journal-item"><div class="weekly-journal-name">Nature Computational Science</div><div class="weekly-journal-count">2 篇</div></div></div>
+</section>
+<div class="weekly-page-nav" id="weekly-enhancement-bottom-nav"><a class="weekly-page-nav-link" href="2026-02-09.html">前一周 · 2026-02-09 → 2026-02-15</a><a class="weekly-page-nav-link" href="2026-02-23.html">后一周 · 2026-02-23 → 2026-03-01</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a><a class="weekly-page-nav-link" href="#overview">本周总览</a><a class="weekly-page-nav-link" href="#cross">交叉研究</a><a class="weekly-page-nav-link" href="#article-062e76f00e6d">全文速览</a><a class="weekly-page-nav-link" href="#journals">期刊分布</a></div><div class="weekly-report-footer">
+                    本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要入口，便于按周追踪 AI × 物理 / 化学 / 材料交叉研究。<br/>
                     生成方式：gemini ｜ 更新时间：2026-03-25 22:00
                 </div>
-            </main>
+</main>
+<aside class="insight-sidebar-card weekly-report-sidebar">
+<h3 class="insight-sidebar-title">快速导航</h3>
 
-            <aside class="insight-sidebar-card weekly-report-sidebar">
-                <h3 class="insight-sidebar-title">快速导航</h3>
-                <div class="weekly-toc-list"><a class="weekly-toc-link" href="#overview"><span>本周总览</span><span class="weekly-toc-meta">22 篇文献</span></a><a class="weekly-toc-link" href="#cross"><span>交叉研究</span><span class="weekly-toc-meta">1 篇</span></a><a class="weekly-toc-link" href="#ferro"><span>磁性 / 铁电专题</span><span class="weekly-toc-meta">10 篇</span></a><a class="weekly-toc-link" href="#ai"><span>AI / 机器学习专题</span><span class="weekly-toc-meta">11 篇</span></a><a class="weekly-toc-link" href="#journals"><span>期刊分布</span><span class="weekly-toc-meta">5 个来源</span></a></div>
-
-                <div class="weekly-sidebar-block">
-                    <div class="weekly-sidebar-heading">本页分区</div>
-                    <div class="weekly-sidebar-stats"><div class="weekly-sidebar-fact"><span>交叉研究</span><strong>1</strong></div><div class="weekly-sidebar-fact"><span>磁性/铁电</span><strong>10</strong></div><div class="weekly-sidebar-fact"><span>AI/机器学习</span><strong>11</strong></div></div>
-                </div>
-
-                <div class="weekly-sidebar-block">
-                    <div class="weekly-sidebar-heading">阅读建议</div>
-                    <ul class="insight-note-list">
-                        <li class="insight-note-item">先读本周总览，再看交叉研究，最后按磁性/铁电与 AI 分区深挖。</li>
-                        <li class="insight-note-item">期刊分布适合快速判断本周成果主要来自顶刊还是预印本平台。</li>
-                        <li class="insight-note-item">若需要长期追踪某条研究线，可回到归档页连续浏览多周内容。</li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
-    </div>
-
-    <script>
+<div class="weekly-sidebar-block" id="weekly-enhancement-sidebar-nav"><div class="weekly-sidebar-heading">日期跳转</div><div class="weekly-page-nav" id="weekly-enhancement-sidebar-nav-links"><a class="weekly-page-nav-link" href="2026-02-09.html">前一周 · 2026-02-09 → 2026-02-15</a><a class="weekly-page-nav-link" href="2026-02-23.html">后一周 · 2026-02-23 → 2026-03-01</a><a class="weekly-page-nav-link" href="2026-03-16.html">最新一期 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../index.html">主页</a></div></div><div class="weekly-sidebar-block" id="weekly-enhancement-outline"><div class="weekly-sidebar-heading">单页目录</div><div class="weekly-outline-scroll"><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#overview">本周总览<span class="weekly-outline-meta">分区</span></a></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#cross">交叉研究<span class="weekly-outline-meta">1 篇</span></a><div class="weekly-outline-list"><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-062e76f00e6d">控制镧系元素中心周围几何形状和对称性的策略，以实现定制的发光和磁性<span class="weekly-outline-meta">Nature Communications</span></a></div></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#ferro">磁性 / 铁电专题<span class="weekly-outline-meta">10 篇</span></a><div class="weekly-outline-list"><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-9c9058714cd0">A synergistic design model for ultrathin broadband microwave absorbers using electromagnetic frequency dispersion coefficients<span class="weekly-outline-meta">Nature Communications</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-336d9dd66c78">Theory of Stimulated and Spontaneous Axion Scattering<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-ee90ae9d7fe7">Voltage-controlled topological spin textures in the monolayer limit<span class="weekly-outline-meta">Nature Communications</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-473c701bc25e">Emergent giant topological Hall effect in twisted Fe 3 GeTe 2 metallic system<span class="weekly-outline-meta">Nature Communications</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-cbe7a7f7bae5">Quintuplet Condensation in the Skyrmionic Insulator ${\mathrm{Cu}}_{2}{\mathrm{OSeO}}_{3}$ at Ultrahigh Magnetic Fields<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-b163ac03ad84">通过铁电异质结调制实现钙钛矿太阳能电池的高开路电压-填充因子积<span class="weekly-outline-meta">Nature Communications</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-3edc73c04487">大块莫尔金属的高维费米学<span class="weekly-outline-meta">Nature</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-963de7c879ef">Interfacial Spin-Orbit Coupling Induced Room Temperature Ferromagnetic Insulator<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-f31f48464f28">Vacancy Induced Expansion of Spin-Liquid Regime in the ${J}_{1}\text{−}{J}_{2}$ Heisenberg Model<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-11b30b17dedc">Pseudocriticality in Antiferromagnetic Spin Chains<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a></div></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#ai">AI / 机器学习专题<span class="weekly-outline-meta">11 篇</span></a><div class="weekly-outline-list"><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-683f63f055ef">Exploring chemistry and catalysis by biasing skewed distributions via deep learning<span class="weekly-outline-meta">Nature Communications</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-5375fb30ac78">Preconditioned inexact stochastic ADMM for deep models<span class="weekly-outline-meta">Nature Machine Intelligence</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-b9bbb8f94ae9">A neural network for modeling human concept formation, understanding and communication<span class="weekly-outline-meta">Nature Computational Science</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-c738e8411176">Meta-designing quantum experiments with language models<span class="weekly-outline-meta">Nature Machine Intelligence</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-394c5399be8a">使用 STARLING 准确预测无序蛋白质整体<span class="weekly-outline-meta">Nature</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-19b008765574">具有可追溯推理的罕见疾病诊断代理系统<span class="weekly-outline-meta">Nature</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-e2af520c4457">Multiphoton Quantum Simulation of the Generalized Hopfield Memory Model<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-f98a0aa38d2d">DeepQuark: A Deep-Neural-Network Approach to Multiquark Bound States<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-28f36cb31f77">Unsupervised Learning for Anticipating Critical Transitions<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-d6ac48eb9629">在没有集体变量的情况下学习提交者<span class="weekly-outline-meta">Nature Computational Science</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-59ac53ed5181">人类听觉皮层语言表示的并行分层编码和循环自动语音识别系统<span class="weekly-outline-meta">Nature Machine Intelligence</span></a></div></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#journals">期刊分布<span class="weekly-outline-meta">分区</span></a></div></div></div><div class="weekly-sidebar-block">
+<div class="weekly-sidebar-heading">本页分区</div>
+<div class="weekly-sidebar-stats"><div class="weekly-sidebar-fact"><span>交叉研究</span><strong>1</strong></div><div class="weekly-sidebar-fact"><span>磁性/铁电</span><strong>10</strong></div><div class="weekly-sidebar-fact"><span>AI/机器学习</span><strong>11</strong></div></div>
+</div>
+<div class="weekly-sidebar-block">
+<div class="weekly-sidebar-heading">阅读建议</div>
+<ul class="insight-note-list">
+<li class="insight-note-item">先读本周总览，再看交叉研究，最后按磁性/铁电与 AI 分区深挖。</li>
+<li class="insight-note-item">期刊分布适合快速判断本周成果主要来自顶刊还是预印本平台。</li>
+<li class="insight-note-item">若需要长期追踪某条研究线，可回到归档页连续浏览多周内容。</li>
+</ul>
+</div>
+</aside>
+</div>
+</div>
+<script>
         const THEME_KEY = 'literature_theme';
 
         function initTheme() {
