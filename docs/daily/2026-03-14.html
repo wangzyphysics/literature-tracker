@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2026-03-14 文献日报 - 文献追踪系统</title>
-  <link rel="stylesheet" href="../style.css" />
-	  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>2026-03-14 文献日报 - 文献追踪系统</title>
+<link href="../style.css" rel="stylesheet"/>
+<style>
 	    body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); }
 	    .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
 	    .daily-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
@@ -68,344 +69,469 @@
 	      .daily-paper-head { flex-direction: column; gap: 12px; }
 	    }
 	  </style>
-</head>
+<style id="daily-enhancement-style">
+#daily-enhancement-top-nav, #daily-enhancement-bottom-nav {
+    margin-top: 18px;
+}
+
+.daily-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.daily-page-nav-link,
+.daily-page-nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.92);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all var(--transition-fast);
+}
+
+.daily-page-nav-link:hover,
+.daily-page-nav-pill:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.35);
+    background: rgba(99,102,241,0.08);
+}
+
+.daily-page-nav-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.daily-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.daily-title-link:hover {
+    color: var(--accent-primary);
+}
+
+.daily-permalink-link {
+    margin-left: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.daily-permalink-link:hover {
+    color: var(--accent-primary);
+}
+
+.daily-inline-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.daily-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.daily-inline-link:hover {
+    color: var(--accent-hover);
+}
+
+.daily-outline-scroll {
+    max-height: 48vh;
+    overflow: auto;
+    padding-right: 4px;
+}
+
+.daily-outline-group + .daily-outline-group {
+    margin-top: 14px;
+}
+
+.daily-outline-group-title {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.daily-outline-group-title:hover {
+    color: var(--accent-primary);
+}
+
+.daily-outline-list {
+    display: grid;
+    gap: 6px;
+}
+
+.daily-outline-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(148,163,184,0.18);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.daily-outline-link:hover {
+    color: var(--accent-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+.daily-outline-link-highlight {
+    border-color: rgba(99,102,241,0.24);
+}
+
+.daily-outline-meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.daily-topic-anchor {
+    margin-left: 8px;
+}
+
+@media (max-width: 980px) {
+    .daily-outline-scroll {
+        max-height: none;
+    }
+}
+</style></head>
 <body>
-  <div class="daily-shell">
-    <div class="daily-topbar">
-      <div class="daily-topbar-left">
-        <a href="../index.html" class="back-link">← 返回主页</a>
-        <span class="daily-mini-chip">AI × Science Daily</span>
-      </div>
-      <div class="daily-topbar-right">
-        <span class="daily-mini-chip">2026-03-14</span>
-      </div>
-    </div>
-    <div class="daily-layout">
-      <article class="daily-article">
-        <header class="daily-hero">
-          <div class="daily-kicker">AI 文献日报</div>
-          <h1 class="daily-title">AI × Science 文献日报 2026/03/14</h1>
-          <p class="daily-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯版式，重构为更适合 AI × 物理 / 化学 / 材料交叉文献阅读的日报页面。</p>
-          <blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
-          <div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
-          <div class="daily-stats">
-            <div class="daily-stat">
-              <div class="daily-stat-label">收录文献</div>
-              <div class="daily-stat-value">11</div>
-            </div>
-            <div class="daily-stat">
-              <div class="daily-stat-label">期刊 / 来源</div>
-              <div class="daily-stat-value">7</div>
-            </div>
-            <div class="daily-stat">
-              <div class="daily-stat-label">arXiv 相关</div>
-              <div class="daily-stat-value">0</div>
-            </div>
-          </div>
-        </header>
-
-        <section id="summary" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">01</span>
-            <h2 class="daily-section-title">今日摘要</h2>
-          </div>
-          <div class="daily-summary-card">
-            <p><strong>总览：</strong>今日共收录11篇文献。</p>
-            <p><strong>热点：</strong></p>
-          </div>
-        </section>
-
-        <section id="highlights" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">02</span>
-            <h2 class="daily-section-title">交叉重点</h2>
-          </div>
-          <ol class="daily-news-list">
-        <li class="daily-news-item">
-            <div class="daily-news-index">01</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">微图案化DNA水凝胶用于化学反应网络的时空编程</div>
-                <div class="daily-news-title-en">[ASAP] Micropatterned DNA Hydrogels for Spatiotemporal Programming of Chemical Reaction Networks</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 ACS Nano: Latest Articles (ACS Publications)</span><span class='daily-chip daily-chip-authors'>👤 Kohei Nishiyama, Piet J. M. Swinkels, Brigitta Dúzs, Weixiang Chen, and Andreas Walther</span></div>
-                <p class="daily-news-summary">请查阅原文了解详情</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>ACS Nano: Latest Articles (ACS Publications)</p>
-                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acsnano.5c20505" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">02</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">用于药物性肝损伤鉴别磁共振成像与增强抗氧化治疗的损伤滞留策略</div>
-                <div class="daily-news-title-en">[ASAP] Injury-Retention Strategy for Discriminative Magnetic Resonance Imaging and Enhanced Antioxidant Therapy of Drug-Induced Liver Injury</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Nano Letters: Latest Articles (ACS Publications)</span><span class='daily-chip daily-chip-authors'>👤 Xiaoge Xue, Tianming Cui, Dinghua Liu, Han Qiu, Hui Wang, Yanjing Yun 等9位作者</span></div>
-                <p class="daily-news-summary">请查阅原文了解详情</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>Nano Letters: Latest Articles (ACS Publications)</p>
-                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00050" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">03</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">通过插层诱导对称性破缺在强磁电耦合二维多铁性材料中实现铁电调控磁性与巨磁阻</div>
-                <div class="daily-news-title-en">[ASAP] Ferroelectric Control of Magnetism and Giant Magnetoresistance Via Intercalation-Induced Symmetry Breaking in Two-Dimensional Multiferroics with Strong Magnetoelectric Coupling</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 ACS</span><span class='daily-chip daily-chip-authors'>👤 Cuiju Yu, Liangliang Hong, Zhao Chen, Zhao Liu, Shizhe Jiao, Xiaofeng Liu 等7位作者</span></div>
-                <p class="daily-news-summary">请查阅原文了解详情</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>ACS</p>
-                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00390" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">04</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">3D打印、蜂窝启发的类组织生物电极用于患者特异性神经接口</div>
-                <div class="daily-news-title-en">3D‐Printable, Honeycomb‐Inspired Tissue‐Like Bioelectrodes for Patient‐Specific Neural Interface</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Materials: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Marzia Momin, Luyi Feng, Xiaoai Chen, Salahuddin Ahmed, Basma AlMahmood, Li‐Pang Huang 等13位作者</span></div>
-                <p class="daily-news-summary">请查阅原文了解详情</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>Wiley: Advanced Materials: Table of Contents</p>
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291?af=R" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">05</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">免疫工程水凝胶通过缓解缺氧的光动力疗法与铁死亡细胞死亡途径对抗原位与转移性癌症</div>
-                <div class="daily-news-title-en">Immune‐Engineered Hydrogels Combat Orthotopic and Metastatic Cancer via Hypoxia‐Relieved Photodynamic Therapy and Ferroptotic Cell Death</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley</span><span class='daily-chip daily-chip-authors'>👤 Cong Fu, Yuanyuan Cao, Yijun Mei, Qiaqia Xiao, Jingyi Hu, Zhencheng Gao 等19位作者</span></div>
-                <p class="daily-news-summary">请查阅原文了解详情</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>Wiley</p>
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202529034?af=R" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">06</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">薄膜烧绿石铁磁绝缘体中磁性的演化</div>
-                <div class="daily-news-title-en">The Evolution of Magnetism in a Thin Film Pyrochlore Ferromagnetic Insulator</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley</span><span class='daily-chip daily-chip-authors'>👤 Margaret A. Anderson, Megan E. Goh, Yang Zhang, Kyeong‐Yoon Baek, Michael Schulze, Mario Brützam 等22位作者</span></div>
-                <p class="daily-news-summary">请查阅原文了解详情</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>Wiley</p>
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202522413?af=R" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">07</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">硫代钼酸盐修饰的尖晶石NiFe2O4立方体：释放工业全水分解的电催化潜力</div>
-                <div class="daily-news-title-en">Thiomolybdate‐Modified Spinel NiFe2O4 Cubes: Unleashing Electrocatalytic Potential for Industrial Overall Water Splitting</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley</span><span class='daily-chip daily-chip-authors'>👤 Dengke Zhao, Xiaochuan Qin, Mi Luo, Tianli He, Yangshuai Ma, Longwei Chen 等11位作者</span></div>
-                <p class="daily-news-summary">请查阅原文了解详情</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>Wiley</p>
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202530770?af=R" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">08</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">机器学习驱动的分子添加剂用于实现带隙普适性与可扩展性的高性能钙钛矿太阳能电池</div>
-                <div class="daily-news-title-en">Machine Learning‐Driven Molecule Additives for High‐Performance Perovskite Solar Cells with Bandgap Universality and Scalability</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley</span><span class='daily-chip daily-chip-authors'>👤 Han Wang, Bingqian Zhang, Chenyang Zhang, Waqas Akram, Javed Iqbal, Yu Lei 等16位作者</span></div>
-                <p class="daily-news-summary">请查阅原文了解详情</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>Wiley</p>
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.74914?af=R" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        </ol>
-        </section>
-
-        <section id="papers" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">03</span>
-            <h2 class="daily-section-title">完整速览</h2>
-          </div>
-          <ol class="daily-paper-list">
-        <li class="daily-paper-card" id="paper-1">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">01</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">微图案化DNA水凝胶用于化学反应网络的时空编程</div>
-                    <div class="daily-paper-title-en">[ASAP] Micropatterned DNA Hydrogels for Spatiotemporal Programming of Chemical Reaction Networks</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 ACS Nano: Latest Articles (ACS Publications)</span><span class='daily-chip daily-chip-authors'>👤 Kohei Nishiyama, Piet J. M. Swinkels, Brigitta Dúzs, Weixiang Chen, and Andreas Walther</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acsnano.5c20505" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-2">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">02</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">用于药物性肝损伤鉴别磁共振成像与增强抗氧化治疗的损伤滞留策略</div>
-                    <div class="daily-paper-title-en">[ASAP] Injury-Retention Strategy for Discriminative Magnetic Resonance Imaging and Enhanced Antioxidant Therapy of Drug-Induced Liver Injury</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Nano Letters: Latest Articles (ACS Publications)</span><span class='daily-chip daily-chip-authors'>👤 Xiaoge Xue, Tianming Cui, Dinghua Liu, Han Qiu, Hui Wang, Yanjing Yun 等9位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00050" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-3">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">03</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">通过插层诱导对称性破缺在强磁电耦合二维多铁性材料中实现铁电调控磁性与巨磁阻</div>
-                    <div class="daily-paper-title-en">[ASAP] Ferroelectric Control of Magnetism and Giant Magnetoresistance Via Intercalation-Induced Symmetry Breaking in Two-Dimensional Multiferroics with Strong Magnetoelectric Coupling</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 ACS</span><span class='daily-chip daily-chip-authors'>👤 Cuiju Yu, Liangliang Hong, Zhao Chen, Zhao Liu, Shizhe Jiao, Xiaofeng Liu 等7位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00390" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-4">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">04</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">3D打印、蜂窝启发的类组织生物电极用于患者特异性神经接口</div>
-                    <div class="daily-paper-title-en">3D‐Printable, Honeycomb‐Inspired Tissue‐Like Bioelectrodes for Patient‐Specific Neural Interface</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Materials: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Marzia Momin, Luyi Feng, Xiaoai Chen, Salahuddin Ahmed, Basma AlMahmood, Li‐Pang Huang 等13位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-5">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">05</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">免疫工程水凝胶通过缓解缺氧的光动力疗法与铁死亡细胞死亡途径对抗原位与转移性癌症</div>
-                    <div class="daily-paper-title-en">Immune‐Engineered Hydrogels Combat Orthotopic and Metastatic Cancer via Hypoxia‐Relieved Photodynamic Therapy and Ferroptotic Cell Death</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley</span><span class='daily-chip daily-chip-authors'>👤 Cong Fu, Yuanyuan Cao, Yijun Mei, Qiaqia Xiao, Jingyi Hu, Zhencheng Gao 等19位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202529034?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-6">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">06</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">薄膜烧绿石铁磁绝缘体中磁性的演化</div>
-                    <div class="daily-paper-title-en">The Evolution of Magnetism in a Thin Film Pyrochlore Ferromagnetic Insulator</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley</span><span class='daily-chip daily-chip-authors'>👤 Margaret A. Anderson, Megan E. Goh, Yang Zhang, Kyeong‐Yoon Baek, Michael Schulze, Mario Brützam 等22位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202522413?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-7">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">07</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">硫代钼酸盐修饰的尖晶石NiFe2O4立方体：释放工业全水分解的电催化潜力</div>
-                    <div class="daily-paper-title-en">Thiomolybdate‐Modified Spinel NiFe2O4 Cubes: Unleashing Electrocatalytic Potential for Industrial Overall Water Splitting</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley</span><span class='daily-chip daily-chip-authors'>👤 Dengke Zhao, Xiaochuan Qin, Mi Luo, Tianli He, Yangshuai Ma, Longwei Chen 等11位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202530770?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-8">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">08</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">机器学习驱动的分子添加剂用于实现带隙普适性与可扩展性的高性能钙钛矿太阳能电池</div>
-                    <div class="daily-paper-title-en">Machine Learning‐Driven Molecule Additives for High‐Performance Perovskite Solar Cells with Bandgap Universality and Scalability</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley</span><span class='daily-chip daily-chip-authors'>👤 Han Wang, Bingqian Zhang, Chenyang Zhang, Waqas Akram, Javed Iqbal, Yu Lei 等16位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.74914?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-9">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">09</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">Tac1表达的脑干通路是三叉神经痛发病机制的基础</div>
-                    <div class="daily-paper-title-en">A Tac1‐Expressing Brainstem Pathway Underlies the Pathogenesis of Trigeminal Neuralgia</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Science: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Liting Sun, Jia‐Jia Wang, Xiang‐Yu Li, Xin‐Yi Lin, Juan Li, Qiu‐Tong Yu 等12位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202516310?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-10">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">10</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">整合机器学习与恒电位模拟以揭示电化学氮固定中的电荷转移机制</div>
-                    <div class="daily-paper-title-en">Integrating Machine Learning With Constant‐Potential Simulation to Unravel Charge‐Transfer Mechanisms in Electrochemical Nitrogen Fixation</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Science: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Yufei Xue, Dushuo Feng, Yuefei Zhang, Yang Zhang, Yalong Jiao, Aijun Du 等7位作者</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202524356?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-paper-card" id="paper-11">
-            <div class="daily-paper-head">
-                <span class="daily-paper-number">11</span>
-                <div class="daily-paper-titles">
-                    <div class="daily-paper-title-zh">研究人员实现室温二维多铁性金属</div>
-                    <div class="daily-paper-title-en">Researchers realize room-temperature two-dimensional multiferroic metal</div>
-                </div>
-            </div>
-            <div class="daily-paper-meta"><span class='daily-chip daily-chip-journal'>📖 Physics News</span></div>
-            <div class="daily-paper-summary">请查阅原文了解详情</div>
-            <div class="daily-paper-actions">
-                <a class="daily-news-link" href="https://phys.org/news/2026-03-room-temperature-dimensional-multiferroic-metal.html" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-            </div>
-        </li>
-        </ol>
-        </section>
-
-        <div class="daily-footer">
+<div class="daily-shell">
+<div class="daily-topbar">
+<div class="daily-topbar-left">
+<a class="back-link" href="../index.html">← 返回主页</a>
+<span class="daily-mini-chip">AI × Science Daily</span>
+</div>
+<div class="daily-topbar-right">
+<span class="daily-mini-chip">2026-03-14</span>
+</div>
+</div>
+<div class="daily-layout">
+<article class="daily-article">
+<header class="daily-hero">
+<div class="daily-kicker">AI 文献日报</div>
+<h1 class="daily-title">AI × Science 文献日报 2026/03/14</h1>
+<p class="daily-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯版式，重构为更适合 AI × 物理 / 化学 / 材料交叉文献阅读的日报页面。</p>
+<blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+<div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
+<div class="daily-stats">
+<div class="daily-stat">
+<div class="daily-stat-label">收录文献</div>
+<div class="daily-stat-value">11</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">期刊 / 来源</div>
+<div class="daily-stat-value">7</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">arXiv 相关</div>
+<div class="daily-stat-value">0</div>
+</div>
+</div>
+<div class="daily-page-nav" id="daily-enhancement-top-nav"><a class="daily-page-nav-link" href="2026-03-13.html">前一天 · 2026-03-13</a><a class="daily-page-nav-link" href="2026-03-15.html">后一天 · 2026-03-15</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></header>
+<section class="daily-section" id="summary">
+<div class="daily-section-head">
+<span class="daily-section-index">01</span>
+<h2 class="daily-section-title">今日摘要</h2>
+</div>
+<div class="daily-summary-card">
+<p><strong>总览：</strong>今日共收录11篇文献。</p>
+<p><strong>热点：</strong></p>
+</div>
+</section>
+<section class="daily-section" id="highlights">
+<div class="daily-section-head">
+<span class="daily-section-index">02</span>
+<h2 class="daily-section-title">交叉重点</h2>
+</div>
+<ol class="daily-news-list">
+<li class="daily-news-item" id="highlight-1">
+<div class="daily-news-index">01</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acsnano.5c20505" rel="noopener noreferrer" target="_blank">微图案化DNA水凝胶用于化学反应网络的时空编程 #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acsnano.5c20505" rel="noopener noreferrer" target="_blank">[ASAP] Micropatterned DNA Hydrogels for Spatiotemporal Programming of Chemical Reaction Networks #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-journal">📖 ACS Nano: Latest Articles (ACS Publications)</span><span class="daily-chip daily-chip-authors">👤 Kohei Nishiyama, Piet J. M. Swinkels, Brigitta Dúzs, Weixiang Chen, and Andreas Walther</span></div>
+<p class="daily-news-summary">请查阅原文了解详情</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>ACS Nano: Latest Articles (ACS Publications)</p>
+<a class="daily-news-link" href="http://dx.doi.org/10.1021/acsnano.5c20505" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="http://dx.doi.org/10.1021/acsnano.5c20505" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-1">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-2">
+<div class="daily-news-index">02</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00050" rel="noopener noreferrer" target="_blank">用于药物性肝损伤鉴别磁共振成像与增强抗氧化治疗的损伤滞留策略 #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00050" rel="noopener noreferrer" target="_blank">[ASAP] Injury-Retention Strategy for Discriminative Magnetic Resonance Imaging and Enhanced Antioxidant Therapy of Drug-Induced Liver Injury #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-journal">📖 Nano Letters: Latest Articles (ACS Publications)</span><span class="daily-chip daily-chip-authors">👤 Xiaoge Xue, Tianming Cui, Dinghua Liu, Han Qiu, Hui Wang, Yanjing Yun 等9位作者</span></div>
+<p class="daily-news-summary">请查阅原文了解详情</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>Nano Letters: Latest Articles (ACS Publications)</p>
+<a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00050" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00050" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-2">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-3">
+<div class="daily-news-index">03</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00390" rel="noopener noreferrer" target="_blank">通过插层诱导对称性破缺在强磁电耦合二维多铁性材料中实现铁电调控磁性与巨磁阻 #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00390" rel="noopener noreferrer" target="_blank">[ASAP] Ferroelectric Control of Magnetism and Giant Magnetoresistance Via Intercalation-Induced Symmetry Breaking in Two-Dimensional Multiferroics with Strong Magnetoelectric Coupling #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-journal">📖 ACS</span><span class="daily-chip daily-chip-authors">👤 Cuiju Yu, Liangliang Hong, Zhao Chen, Zhao Liu, Shizhe Jiao, Xiaofeng Liu 等7位作者</span></div>
+<p class="daily-news-summary">请查阅原文了解详情</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>ACS</p>
+<a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00390" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00390" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-3">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-4">
+<div class="daily-news-index">04</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291?af=R" rel="noopener noreferrer" target="_blank">3D打印、蜂窝启发的类组织生物电极用于患者特异性神经接口 #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291?af=R" rel="noopener noreferrer" target="_blank">3D‐Printable, Honeycomb‐Inspired Tissue‐Like Bioelectrodes for Patient‐Specific Neural Interface #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Materials: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Marzia Momin, Luyi Feng, Xiaoai Chen, Salahuddin Ahmed, Basma AlMahmood, Li‐Pang Huang 等13位作者</span></div>
+<p class="daily-news-summary">请查阅原文了解详情</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>Wiley: Advanced Materials: Table of Contents</p>
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291?af=R" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-4">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-5">
+<div class="daily-news-index">05</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202529034?af=R" rel="noopener noreferrer" target="_blank">免疫工程水凝胶通过缓解缺氧的光动力疗法与铁死亡细胞死亡途径对抗原位与转移性癌症 #</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202529034?af=R" rel="noopener noreferrer" target="_blank">Immune‐Engineered Hydrogels Combat Orthotopic and Metastatic Cancer via Hypoxia‐Relieved Photodynamic Therapy and Ferroptotic Cell Death #</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Cong Fu, Yuanyuan Cao, Yijun Mei, Qiaqia Xiao, Jingyi Hu, Zhencheng Gao 等19位作者</span></div>
+<p class="daily-news-summary">请查阅原文了解详情</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>Wiley</p>
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202529034?af=R" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202529034?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-5">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-6">
+<div class="daily-news-index">06</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202522413?af=R" rel="noopener noreferrer" target="_blank">薄膜烧绿石铁磁绝缘体中磁性的演化 #</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202522413?af=R" rel="noopener noreferrer" target="_blank">The Evolution of Magnetism in a Thin Film Pyrochlore Ferromagnetic Insulator #</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Margaret A. Anderson, Megan E. Goh, Yang Zhang, Kyeong‐Yoon Baek, Michael Schulze, Mario Brützam 等22位作者</span></div>
+<p class="daily-news-summary">请查阅原文了解详情</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>Wiley</p>
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202522413?af=R" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202522413?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-6">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-7">
+<div class="daily-news-index">07</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202530770?af=R" rel="noopener noreferrer" target="_blank">硫代钼酸盐修饰的尖晶石NiFe2O4立方体：释放工业全水分解的电催化潜力 #</a><a class="daily-permalink-link" href="#highlight-7" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202530770?af=R" rel="noopener noreferrer" target="_blank">Thiomolybdate‐Modified Spinel NiFe2O4 Cubes: Unleashing Electrocatalytic Potential for Industrial Overall Water Splitting #</a><a class="daily-permalink-link" href="#highlight-7" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Dengke Zhao, Xiaochuan Qin, Mi Luo, Tianli He, Yangshuai Ma, Longwei Chen 等11位作者</span></div>
+<p class="daily-news-summary">请查阅原文了解详情</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>Wiley</p>
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202530770?af=R" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202530770?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-7">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-8">
+<div class="daily-news-index">08</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.74914?af=R" rel="noopener noreferrer" target="_blank">机器学习驱动的分子添加剂用于实现带隙普适性与可扩展性的高性能钙钛矿太阳能电池 #</a><a class="daily-permalink-link" href="#highlight-8" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.74914?af=R" rel="noopener noreferrer" target="_blank">Machine Learning‐Driven Molecule Additives for High‐Performance Perovskite Solar Cells with Bandgap Universality and Scalability #</a><a class="daily-permalink-link" href="#highlight-8" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Han Wang, Bingqian Zhang, Chenyang Zhang, Waqas Akram, Javed Iqbal, Yu Lei 等16位作者</span></div>
+<p class="daily-news-summary">请查阅原文了解详情</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>Wiley</p>
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.74914?af=R" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.74914?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-8">页内定位</a></div></div>
+</li>
+</ol>
+</section>
+<section class="daily-section" id="papers">
+<div class="daily-section-head">
+<span class="daily-section-index">03</span>
+<h2 class="daily-section-title">完整速览</h2>
+</div>
+<ol class="daily-paper-list">
+<li class="daily-paper-card" id="paper-1">
+<div class="daily-paper-head">
+<span class="daily-paper-number">01</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">微图案化DNA水凝胶用于化学反应网络的时空编程</div>
+<div class="daily-paper-title-en">[ASAP] Micropatterned DNA Hydrogels for Spatiotemporal Programming of Chemical Reaction Networks</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 ACS Nano: Latest Articles (ACS Publications)</span><span class="daily-chip daily-chip-authors">👤 Kohei Nishiyama, Piet J. M. Swinkels, Brigitta Dúzs, Weixiang Chen, and Andreas Walther</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="http://dx.doi.org/10.1021/acsnano.5c20505" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-2">
+<div class="daily-paper-head">
+<span class="daily-paper-number">02</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">用于药物性肝损伤鉴别磁共振成像与增强抗氧化治疗的损伤滞留策略</div>
+<div class="daily-paper-title-en">[ASAP] Injury-Retention Strategy for Discriminative Magnetic Resonance Imaging and Enhanced Antioxidant Therapy of Drug-Induced Liver Injury</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Nano Letters: Latest Articles (ACS Publications)</span><span class="daily-chip daily-chip-authors">👤 Xiaoge Xue, Tianming Cui, Dinghua Liu, Han Qiu, Hui Wang, Yanjing Yun 等9位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00050" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-3">
+<div class="daily-paper-head">
+<span class="daily-paper-number">03</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">通过插层诱导对称性破缺在强磁电耦合二维多铁性材料中实现铁电调控磁性与巨磁阻</div>
+<div class="daily-paper-title-en">[ASAP] Ferroelectric Control of Magnetism and Giant Magnetoresistance Via Intercalation-Induced Symmetry Breaking in Two-Dimensional Multiferroics with Strong Magnetoelectric Coupling</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 ACS</span><span class="daily-chip daily-chip-authors">👤 Cuiju Yu, Liangliang Hong, Zhao Chen, Zhao Liu, Shizhe Jiao, Xiaofeng Liu 等7位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00390" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-4">
+<div class="daily-paper-head">
+<span class="daily-paper-number">04</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">3D打印、蜂窝启发的类组织生物电极用于患者特异性神经接口</div>
+<div class="daily-paper-title-en">3D‐Printable, Honeycomb‐Inspired Tissue‐Like Bioelectrodes for Patient‐Specific Neural Interface</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Materials: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Marzia Momin, Luyi Feng, Xiaoai Chen, Salahuddin Ahmed, Basma AlMahmood, Li‐Pang Huang 等13位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-5">
+<div class="daily-paper-head">
+<span class="daily-paper-number">05</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">免疫工程水凝胶通过缓解缺氧的光动力疗法与铁死亡细胞死亡途径对抗原位与转移性癌症</div>
+<div class="daily-paper-title-en">Immune‐Engineered Hydrogels Combat Orthotopic and Metastatic Cancer via Hypoxia‐Relieved Photodynamic Therapy and Ferroptotic Cell Death</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Cong Fu, Yuanyuan Cao, Yijun Mei, Qiaqia Xiao, Jingyi Hu, Zhencheng Gao 等19位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202529034?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-6">
+<div class="daily-paper-head">
+<span class="daily-paper-number">06</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">薄膜烧绿石铁磁绝缘体中磁性的演化</div>
+<div class="daily-paper-title-en">The Evolution of Magnetism in a Thin Film Pyrochlore Ferromagnetic Insulator</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Margaret A. Anderson, Megan E. Goh, Yang Zhang, Kyeong‐Yoon Baek, Michael Schulze, Mario Brützam 等22位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202522413?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-7">
+<div class="daily-paper-head">
+<span class="daily-paper-number">07</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">硫代钼酸盐修饰的尖晶石NiFe2O4立方体：释放工业全水分解的电催化潜力</div>
+<div class="daily-paper-title-en">Thiomolybdate‐Modified Spinel NiFe2O4 Cubes: Unleashing Electrocatalytic Potential for Industrial Overall Water Splitting</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Dengke Zhao, Xiaochuan Qin, Mi Luo, Tianli He, Yangshuai Ma, Longwei Chen 等11位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202530770?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-8">
+<div class="daily-paper-head">
+<span class="daily-paper-number">08</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">机器学习驱动的分子添加剂用于实现带隙普适性与可扩展性的高性能钙钛矿太阳能电池</div>
+<div class="daily-paper-title-en">Machine Learning‐Driven Molecule Additives for High‐Performance Perovskite Solar Cells with Bandgap Universality and Scalability</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Han Wang, Bingqian Zhang, Chenyang Zhang, Waqas Akram, Javed Iqbal, Yu Lei 等16位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.74914?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-9">
+<div class="daily-paper-head">
+<span class="daily-paper-number">09</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">Tac1表达的脑干通路是三叉神经痛发病机制的基础</div>
+<div class="daily-paper-title-en">A Tac1‐Expressing Brainstem Pathway Underlies the Pathogenesis of Trigeminal Neuralgia</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Science: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Liting Sun, Jia‐Jia Wang, Xiang‐Yu Li, Xin‐Yi Lin, Juan Li, Qiu‐Tong Yu 等12位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202516310?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-10">
+<div class="daily-paper-head">
+<span class="daily-paper-number">10</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">整合机器学习与恒电位模拟以揭示电化学氮固定中的电荷转移机制</div>
+<div class="daily-paper-title-en">Integrating Machine Learning With Constant‐Potential Simulation to Unravel Charge‐Transfer Mechanisms in Electrochemical Nitrogen Fixation</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Science: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Yufei Xue, Dushuo Feng, Yuefei Zhang, Yang Zhang, Yalong Jiao, Aijun Du 等7位作者</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202524356?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+<li class="daily-paper-card" id="paper-11">
+<div class="daily-paper-head">
+<span class="daily-paper-number">11</span>
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh">研究人员实现室温二维多铁性金属</div>
+<div class="daily-paper-title-en">Researchers realize room-temperature two-dimensional multiferroic metal</div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-journal">📖 Physics News</span></div>
+<div class="daily-paper-summary">请查阅原文了解详情</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://phys.org/news/2026-03-room-temperature-dimensional-multiferroic-metal.html" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+</div>
+</li>
+</ol>
+</section>
+<div class="daily-page-nav" id="daily-enhancement-bottom-nav"><a class="daily-page-nav-link" href="2026-03-13.html">前一天 · 2026-03-13</a><a class="daily-page-nav-link" href="2026-03-15.html">后一天 · 2026-03-15</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div><div class="daily-footer">
           本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要信息，便于快速筛选与深度阅读。
         </div>
-      </article>
-
-      <aside class="daily-toc">
-        <div class="daily-toc-card">
-          <div class="daily-toc-title">目录</div>
-          <a href="#summary"><span>今日摘要</span><span>01</span></a>
-          <a href="#highlights"><span>交叉重点</span><span>02</span></a>
-          <a href="#papers"><span>完整速览</span><span>03</span></a>
-        </div>
-      </aside>
-    </div>
-  </div>
+</article>
+<aside class="daily-toc">
+<div class="daily-toc-card">
+<div class="daily-toc-title">目录</div>
+<a href="#summary"><span>今日摘要</span><span>01</span></a>
+<a href="#highlights"><span>交叉重点</span><span>02</span></a>
+<a href="#papers"><span>完整速览</span><span>03</span></a>
+<div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-03-13.html">前一天 · 2026-03-13</a><a class="daily-page-nav-link" href="2026-03-15.html">后一天 · 2026-03-15</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">微图案化DNA水凝胶用于化学反应网络的时空编程 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">用于药物性肝损伤鉴别磁共振成像与增强抗氧化治疗的损伤滞留策略 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">通过插层诱导对称性破缺在强磁电耦合二维多铁性材料中实现铁电调控磁性与巨磁阻 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">3D打印、蜂窝启发的类组织生物电极用于患者特异性神经接口 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-5">免疫工程水凝胶通过缓解缺氧的光动力疗法与铁死亡细胞死亡途径对抗原位与转移性癌症 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-6">薄膜烧绿石铁磁绝缘体中磁性的演化 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-7">硫代钼酸盐修饰的尖晶石NiFe2O4立方体：释放工业全水分解的电催化潜力 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-8">机器学习驱动的分子添加剂用于实现带隙普适性与可扩展性的高性能钙钛矿太阳能电池 #<span class="daily-outline-meta">交叉重点</span></a></div></div></div></div></div>
+</aside>
+</div>
+</div>
 </body>
 </html>

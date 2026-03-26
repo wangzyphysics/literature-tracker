@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2026-03-22 文献日报 - 文献追踪系统</title>
-  <link rel="stylesheet" href="../style.css" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>2026-03-22 文献日报 - 文献追踪系统</title>
+<link href="../style.css" rel="stylesheet"/>
+<style>
     body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); overflow-x: hidden; }
     body::before { content: none !important; }
     .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
@@ -81,154 +82,289 @@
       .daily-paper-head, .daily-topic-head { flex-direction: column; gap: 12px; }
     }
   </style>
-</head>
+<style id="daily-enhancement-style">
+#daily-enhancement-top-nav, #daily-enhancement-bottom-nav {
+    margin-top: 18px;
+}
+
+.daily-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.daily-page-nav-link,
+.daily-page-nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.92);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all var(--transition-fast);
+}
+
+.daily-page-nav-link:hover,
+.daily-page-nav-pill:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.35);
+    background: rgba(99,102,241,0.08);
+}
+
+.daily-page-nav-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.daily-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.daily-title-link:hover {
+    color: var(--accent-primary);
+}
+
+.daily-permalink-link {
+    margin-left: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.daily-permalink-link:hover {
+    color: var(--accent-primary);
+}
+
+.daily-inline-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.daily-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.daily-inline-link:hover {
+    color: var(--accent-hover);
+}
+
+.daily-outline-scroll {
+    max-height: 48vh;
+    overflow: auto;
+    padding-right: 4px;
+}
+
+.daily-outline-group + .daily-outline-group {
+    margin-top: 14px;
+}
+
+.daily-outline-group-title {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.daily-outline-group-title:hover {
+    color: var(--accent-primary);
+}
+
+.daily-outline-list {
+    display: grid;
+    gap: 6px;
+}
+
+.daily-outline-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(148,163,184,0.18);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.daily-outline-link:hover {
+    color: var(--accent-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+.daily-outline-link-highlight {
+    border-color: rgba(99,102,241,0.24);
+}
+
+.daily-outline-meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.daily-topic-anchor {
+    margin-left: 8px;
+}
+
+@media (max-width: 980px) {
+    .daily-outline-scroll {
+        max-height: none;
+    }
+}
+</style></head>
 <body>
-  <div class="daily-shell">
-    <div class="daily-topbar">
-      <div class="daily-topbar-left">
-        <a href="../index.html" class="back-link">← 返回主页</a>
-        <span class="daily-mini-chip">AI × Science Daily</span>
-      </div>
-      <div class="daily-topbar-right">
-        <span class="daily-mini-chip">2026-03-22</span>
-        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
-      </div>
-    </div>
-    <div class="daily-layout">
-      <article class="daily-article">
-        <div class="daily-hero">
-          <div class="daily-kicker">AI 文献日报</div>
-          <h1 class="daily-title">AI × Science 文献日报 2026/03/22</h1>
-          <p class="daily-subtitle">聚焦 AI × 物理 / 化学 / 材料交叉方向，自动过滤明显偏题的医学、教育与社会科学内容，并按主题重新排版，便于快速深读。</p>
-          <blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
-          <div class="daily-tags"><span class='daily-tag'>AI</span><span class='daily-tag'>物理</span><span class='daily-tag'>化学</span><span class='daily-tag'>材料</span><span class='daily-tag'>交叉学科</span></div>
-          <div class="daily-stats">
-            <div class="daily-stat">
-              <div class="daily-stat-label">日报精选</div>
-              <div class="daily-stat-value">4</div>
-            </div>
-            <div class="daily-stat">
-              <div class="daily-stat-label">主线候选</div>
-              <div class="daily-stat-value">4</div>
-            </div>
-            <div class="daily-stat">
-              <div class="daily-stat-label">期刊 / 来源</div>
-              <div class="daily-stat-value">3</div>
-            </div>
-            <div class="daily-stat">
-              <div class="daily-stat-label">arXiv 相关</div>
-              <div class="daily-stat-value">0</div>
-            </div>
-          </div>
-          
-        </div>
-
-        <section id="summary" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">01</span>
-            <h2 class="daily-section-title">今日摘要</h2>
-          </div>
-          <div class="daily-summary-card">
-            <p><strong>总览：</strong>今日文献涵盖高频电子器件、磁性材料、量子算法及二维光响应材料等领域，体现了多学科交叉的前沿探索，尤其聚焦于新型物理现象的发现与颠覆性技术概念的提出。</p>
-            <p><strong>热点：</strong>研究热点集中于：1）利用新效应（如霍尔效应）实现超宽频带信号检测，推动高频通信器件小型化；2）探索超导与反铁磁体的耦合，旨在实现无能耗自旋信息传输；3）将量子近似优化算法拓展至量子哈密顿量模拟，增强复杂材料体系的计算能力；4）通过光场精确调控二维钙钛矿的纳米结构，为功能材料设计提供新路径。</p>
-          </div>
-        </section>
-
-        <section id="highlights" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">02</span>
-            <h2 class="daily-section-title">交叉重点</h2>
-          </div>
-          <ol class="daily-news-list">
-        <li class="daily-news-item">
-            <div class="daily-news-index">01</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">超导反铁磁体或可实现无能耗自旋传输</div>
-                <div class="daily-news-title-en">Superconducting altermagnets could carry spin without energy loss</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Physics News</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
-                <p class="daily-news-summary">理论计算表明，一类新型反铁磁材料在超导态下可能承载零电阻的自旋电流，为低能耗自旋电子学提供新思路。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
-                <a class="daily-news-link" href="https://phys.org/news/2026-03-superconducting-altermagnets-energy-loss.html" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">02</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">用于量子哈密顿量模拟的Snapshot-QAOA算法</div>
-                <div class="daily-news-title-en">Snapshot-QAOA: Extending QAOA to Quantum Hamiltonian Simulation</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Preprints</span><span class='daily-chip daily-chip-authors'>👤 R, e, u, b, e, n 等96位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 1</span></div>
-                <p class="daily-news-summary">提出量子近似优化算法的变体‘Snapshot-QAOA’，旨在高效求解大规模量子哈密顿量的近似基态，拓展了该算法在量子模拟中的应用。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 1</p>
-                <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9171925/latest" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">03</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">二维铜卤化物钙钛矿的光诱导有序图案形成</div>
-                <div class="daily-news-title-en">[ASAP] Light-Induced Ordered Pattern Formation in 2D Copper Halide Perovskites</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 材料 / 器件</span><span class='daily-chip daily-chip-journal'>📖 Nano Letters: Latest Articles (ACS Publications)</span><span class='daily-chip daily-chip-authors'>👤 Atreyie Ghosh, Joseph L. Spellberg, Matthew Du, Yixuan Dou, Arashdeep S. Thind, Shengdong Qi, Janek Rieger, Calvin Raab, Suriyanarayanan Vaikuntanathan, Robert F. Klie, Lina Quan, and Sarah B. King</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
-                <p class="daily-news-summary">实验研究发现，特定波长的光照可诱导二维铜卤化物钙钛矿晶体表面形成周期性纳米级有序图案，揭示了光-物质相互作用的新机制。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
-                <a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00133" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">04</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">基于霍尔效应的整流天线可实现超宽频带信号检测</div>
-                <div class="daily-news-title-en">A Hall &#x27;rectenna&#x27; can detect signals over a 100 GHz frequency range</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 材料 / 器件</span><span class='daily-chip daily-chip-journal'>📖 Physics News</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
-                <p class="daily-news-summary">提出一种利用霍尔效应将电磁波转换为电信号的‘整流天线’器件概念，声称可覆盖超过100 GHz的频率范围。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
-                <a class="daily-news-link" href="https://phys.org/news/2026-03-hall-rectenna-ghz-frequency-range.html" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        </ol>
-        </section>
-
-        <section id="papers" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">03</span>
-            <h2 class="daily-section-title">完整速览</h2>
-          </div>
-          <div class="daily-summary-card"><p>今日无目标方向文献。</p></div>
-        </section>
-
-        <div class="daily-footer">
+<div class="daily-shell">
+<div class="daily-topbar">
+<div class="daily-topbar-left">
+<a class="back-link" href="../index.html">← 返回主页</a>
+<span class="daily-mini-chip">AI × Science Daily</span>
+</div>
+<div class="daily-topbar-right">
+<span class="daily-mini-chip">2026-03-22</span>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+</div>
+</div>
+<div class="daily-layout">
+<article class="daily-article">
+<div class="daily-hero">
+<div class="daily-kicker">AI 文献日报</div>
+<h1 class="daily-title">AI × Science 文献日报 2026/03/22</h1>
+<p class="daily-subtitle">聚焦 AI × 物理 / 化学 / 材料交叉方向，自动过滤明显偏题的医学、教育与社会科学内容，并按主题重新排版，便于快速深读。</p>
+<blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+<div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
+<div class="daily-stats">
+<div class="daily-stat">
+<div class="daily-stat-label">日报精选</div>
+<div class="daily-stat-value">4</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">主线候选</div>
+<div class="daily-stat-value">4</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">期刊 / 来源</div>
+<div class="daily-stat-value">3</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">arXiv 相关</div>
+<div class="daily-stat-value">0</div>
+</div>
+</div>
+<div class="daily-page-nav" id="daily-enhancement-top-nav"><a class="daily-page-nav-link" href="2026-03-21.html">前一天 · 2026-03-21</a><a class="daily-page-nav-link" href="2026-03-23.html">后一天 · 2026-03-23</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div>
+<section class="daily-section" id="summary">
+<div class="daily-section-head">
+<span class="daily-section-index">01</span>
+<h2 class="daily-section-title">今日摘要</h2>
+</div>
+<div class="daily-summary-card">
+<p><strong>总览：</strong>今日文献涵盖高频电子器件、磁性材料、量子算法及二维光响应材料等领域，体现了多学科交叉的前沿探索，尤其聚焦于新型物理现象的发现与颠覆性技术概念的提出。</p>
+<p><strong>热点：</strong>研究热点集中于：1）利用新效应（如霍尔效应）实现超宽频带信号检测，推动高频通信器件小型化；2）探索超导与反铁磁体的耦合，旨在实现无能耗自旋信息传输；3）将量子近似优化算法拓展至量子哈密顿量模拟，增强复杂材料体系的计算能力；4）通过光场精确调控二维钙钛矿的纳米结构，为功能材料设计提供新路径。</p>
+</div>
+</section>
+<section class="daily-section" id="highlights">
+<div class="daily-section-head">
+<span class="daily-section-index">02</span>
+<h2 class="daily-section-title">交叉重点</h2>
+</div>
+<ol class="daily-news-list">
+<li class="daily-news-item" id="highlight-1">
+<div class="daily-news-index">01</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-03-superconducting-altermagnets-energy-loss.html" rel="noopener noreferrer" target="_blank">超导反铁磁体或可实现无能耗自旋传输 #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://phys.org/news/2026-03-superconducting-altermagnets-energy-loss.html" rel="noopener noreferrer" target="_blank">Superconducting altermagnets could carry spin without energy loss #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Physics News</span><span class="daily-chip daily-chip-score">🔥 AI 5</span></div>
+<p class="daily-news-summary">理论计算表明，一类新型反铁磁材料在超导态下可能承载零电阻的自旋电流，为低能耗自旋电子学提供新思路。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+<a class="daily-news-link" href="https://phys.org/news/2026-03-superconducting-altermagnets-energy-loss.html" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://phys.org/news/2026-03-superconducting-altermagnets-energy-loss.html" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-1">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-2">
+<div class="daily-news-index">02</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9171925/latest" rel="noopener noreferrer" target="_blank">用于量子哈密顿量模拟的Snapshot-QAOA算法 #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9171925/latest" rel="noopener noreferrer" target="_blank">Snapshot-QAOA: Extending QAOA to Quantum Hamiltonian Simulation #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 R, e, u, b, e, n 等96位作者</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
+<p class="daily-news-summary">提出量子近似优化算法的变体‘Snapshot-QAOA’，旨在高效求解大规模量子哈密顿量的近似基态，拓展了该算法在量子模拟中的应用。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 1</p>
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9171925/latest" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9171925/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-2">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-3">
+<div class="daily-news-index">03</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00133" rel="noopener noreferrer" target="_blank">二维铜卤化物钙钛矿的光诱导有序图案形成 #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00133" rel="noopener noreferrer" target="_blank">[ASAP] Light-Induced Ordered Pattern Formation in 2D Copper Halide Perovskites #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 材料 / 器件</span><span class="daily-chip daily-chip-journal">📖 Nano Letters: Latest Articles (ACS Publications)</span><span class="daily-chip daily-chip-authors">👤 Atreyie Ghosh, Joseph L. Spellberg, Matthew Du, Yixuan Dou, Arashdeep S. Thind, Shengdong Qi, Janek Rieger, Calvin Raab, Suriyanarayanan Vaikuntanathan, Robert F. Klie, Lina Quan, and Sarah B. King</span><span class="daily-chip daily-chip-score">🔥 AI 5</span></div>
+<p class="daily-news-summary">实验研究发现，特定波长的光照可诱导二维铜卤化物钙钛矿晶体表面形成周期性纳米级有序图案，揭示了光-物质相互作用的新机制。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+<a class="daily-news-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00133" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="http://dx.doi.org/10.1021/acs.nanolett.6c00133" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-3">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-4">
+<div class="daily-news-index">04</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-03-hall-rectenna-ghz-frequency-range.html" rel="noopener noreferrer" target="_blank">基于霍尔效应的整流天线可实现超宽频带信号检测 #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://phys.org/news/2026-03-hall-rectenna-ghz-frequency-range.html" rel="noopener noreferrer" target="_blank">A Hall 'rectenna' can detect signals over a 100 GHz frequency range #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 材料 / 器件</span><span class="daily-chip daily-chip-journal">📖 Physics News</span><span class="daily-chip daily-chip-score">🔥 AI 5</span></div>
+<p class="daily-news-summary">提出一种利用霍尔效应将电磁波转换为电信号的‘整流天线’器件概念，声称可覆盖超过100 GHz的频率范围。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+<a class="daily-news-link" href="https://phys.org/news/2026-03-hall-rectenna-ghz-frequency-range.html" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://phys.org/news/2026-03-hall-rectenna-ghz-frequency-range.html" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-4">页内定位</a></div></div>
+</li>
+</ol>
+</section>
+<section class="daily-section" id="papers">
+<div class="daily-section-head">
+<span class="daily-section-index">03</span>
+<h2 class="daily-section-title">完整速览</h2>
+</div>
+<div class="daily-summary-card"><p>今日无目标方向文献。</p></div>
+</section>
+<div class="daily-page-nav" id="daily-enhancement-bottom-nav"><a class="daily-page-nav-link" href="2026-03-21.html">前一天 · 2026-03-21</a><a class="daily-page-nav-link" href="2026-03-23.html">后一天 · 2026-03-23</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div><div class="daily-footer">
           本页由文献追踪系统自动生成，仅保留 AI × 物理 / 化学 / 材料主线相关文献，并按专题重新整理，方便快速筛选与深度阅读。
         </div>
-      </article>
-
-      <aside class="daily-toc">
-        <div class="daily-toc-card">
-          <div class="daily-toc-title">目录</div>
-          <a href="#summary"><span>今日摘要</span><span>01</span></a>
-          <a href="#highlights"><span>交叉重点</span><span>02</span></a>
-          <a href="#papers"><span>完整速览</span><span>03</span></a>
-
-          <div class="daily-sidebar-block">
-            <div class="daily-sidebar-title">专题分布</div>
-            <div class="daily-sidebar-stats"><div class='daily-sidebar-fact'><span>相关文献</span><strong>0</strong></div></div>
-          </div>
-
-          <div class="daily-sidebar-block">
-            <div class="daily-sidebar-title">阅读建议</div>
-            <ul class="insight-note-list">
-              <li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
-              <li class="insight-note-item">明显偏离主线的医学、教育等内容已自动剔除。</li>
-              <li class="insight-note-item">若需回看历史日报，可从日报索引页按日期倒序进入。</li>
-            </ul>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </div>
-
-  <script>
+</article>
+<aside class="daily-toc">
+<div class="daily-toc-card">
+<div class="daily-toc-title">目录</div>
+<a href="#summary"><span>今日摘要</span><span>01</span></a>
+<a href="#highlights"><span>交叉重点</span><span>02</span></a>
+<a href="#papers"><span>完整速览</span><span>03</span></a>
+<div class="daily-sidebar-block">
+<div class="daily-sidebar-title">专题分布</div>
+<div class="daily-sidebar-stats"><div class="daily-sidebar-fact"><span>相关文献</span><strong>0</strong></div></div>
+</div>
+<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">超导反铁磁体或可实现无能耗自旋传输 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">用于量子哈密顿量模拟的Snapshot-QAOA算法 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">二维铜卤化物钙钛矿的光诱导有序图案形成 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">基于霍尔效应的整流天线可实现超宽频带信号检测 #<span class="daily-outline-meta">交叉重点</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-03-21.html">前一天 · 2026-03-21</a><a class="daily-page-nav-link" href="2026-03-23.html">后一天 · 2026-03-23</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
+<div class="daily-sidebar-title">阅读建议</div>
+<ul class="insight-note-list">
+<li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
+<li class="insight-note-item">明显偏离主线的医学、教育等内容已自动剔除。</li>
+<li class="insight-note-item">若需回看历史日报，可从日报索引页按日期倒序进入。</li>
+</ul>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
     const THEME_KEY = 'literature_theme';
 
     function initTheme() {

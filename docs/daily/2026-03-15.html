@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2026-03-15 文献日报 - 文献追踪系统</title>
-  <link rel="stylesheet" href="../style.css" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>2026-03-15 文献日报 - 文献追踪系统</title>
+<link href="../style.css" rel="stylesheet"/>
+<style>
     body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); overflow-x: hidden; }
     body::before { content: none !important; }
     .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
@@ -81,234 +82,364 @@
       .daily-paper-head, .daily-topic-head { flex-direction: column; gap: 12px; }
     }
   </style>
-</head>
+<style id="daily-enhancement-style">
+#daily-enhancement-top-nav, #daily-enhancement-bottom-nav {
+    margin-top: 18px;
+}
+
+.daily-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.daily-page-nav-link,
+.daily-page-nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.92);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all var(--transition-fast);
+}
+
+.daily-page-nav-link:hover,
+.daily-page-nav-pill:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.35);
+    background: rgba(99,102,241,0.08);
+}
+
+.daily-page-nav-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.daily-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.daily-title-link:hover {
+    color: var(--accent-primary);
+}
+
+.daily-permalink-link {
+    margin-left: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.daily-permalink-link:hover {
+    color: var(--accent-primary);
+}
+
+.daily-inline-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.daily-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.daily-inline-link:hover {
+    color: var(--accent-hover);
+}
+
+.daily-outline-scroll {
+    max-height: 48vh;
+    overflow: auto;
+    padding-right: 4px;
+}
+
+.daily-outline-group + .daily-outline-group {
+    margin-top: 14px;
+}
+
+.daily-outline-group-title {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.daily-outline-group-title:hover {
+    color: var(--accent-primary);
+}
+
+.daily-outline-list {
+    display: grid;
+    gap: 6px;
+}
+
+.daily-outline-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(148,163,184,0.18);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.daily-outline-link:hover {
+    color: var(--accent-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+.daily-outline-link-highlight {
+    border-color: rgba(99,102,241,0.24);
+}
+
+.daily-outline-meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.daily-topic-anchor {
+    margin-left: 8px;
+}
+
+@media (max-width: 980px) {
+    .daily-outline-scroll {
+        max-height: none;
+    }
+}
+</style></head>
 <body>
-  <div class="daily-shell">
-    <div class="daily-topbar">
-      <div class="daily-topbar-left">
-        <a href="../index.html" class="back-link">← 返回主页</a>
-        <span class="daily-mini-chip">AI × Science Daily</span>
-      </div>
-      <div class="daily-topbar-right">
-        <span class="daily-mini-chip">2026-03-15</span>
-        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
-      </div>
-    </div>
-    <div class="daily-layout">
-      <article class="daily-article">
-        <div class="daily-hero">
-          <div class="daily-kicker">AI 文献日报</div>
-          <h1 class="daily-title">AI × Science 文献日报 2026/03/15</h1>
-          <p class="daily-subtitle">聚焦 AI × 物理 / 化学 / 材料交叉方向，自动过滤明显偏题的医学、教育与社会科学内容，并按主题重新排版，便于快速深读。</p>
-          <blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
-          <div class="daily-tags"><span class='daily-tag'>AI</span><span class='daily-tag'>物理</span><span class='daily-tag'>化学</span><span class='daily-tag'>材料</span><span class='daily-tag'>交叉学科</span></div>
-          <div class="daily-stats">
-            <div class="daily-stat">
-              <div class="daily-stat-label">日报精选</div>
-              <div class="daily-stat-value">8</div>
-            </div>
-            <div class="daily-stat">
-              <div class="daily-stat-label">主线候选</div>
-              <div class="daily-stat-value">8</div>
-            </div>
-            <div class="daily-stat">
-              <div class="daily-stat-label">期刊 / 来源</div>
-              <div class="daily-stat-value">3</div>
-            </div>
-            <div class="daily-stat">
-              <div class="daily-stat-label">arXiv 相关</div>
-              <div class="daily-stat-value">0</div>
-            </div>
-          </div>
-          
-        </div>
-
-        <section id="summary" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">01</span>
-            <h2 class="daily-section-title">今日摘要</h2>
-          </div>
-          <div class="daily-summary-card">
-            <p><strong>总览：</strong>今日文献覆盖材料科学多个前沿领域，包括催化、能源存储、超导、显微技术及神经形态计算。研究聚焦于通过创新策略（如机器学习、界面工程、新型合成方法）解决关键材料性能瓶颈，并取得显著突破。</p>
-            <p><strong>热点：</strong>1. 机器学习与高通量计算深度融合，正成为催化剂理性设计的核心工具。2. 界面工程与表面修饰（如钝化、异质结构建）是提升电化学器件稳定性和效率的关键手段。3. 探索新型氧化还原活性中心（如磷、氯）以突破传统电极材料容量限制。4. 极端条件合成（如闪烧焦耳加热）与先进表征（如动量空间显微镜）推动对材料微观动态的深入理解。5. 面向特定应用场景（如海水制氢、透明光伏、类脑硬件）的功能材料设计成为热点。</p>
-          </div>
-        </section>
-
-        <section id="highlights" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">02</span>
-            <h2 class="daily-section-title">交叉重点</h2>
-          </div>
-          <ol class="daily-news-list">
-        <li class="daily-news-item">
-            <div class="daily-news-index">01</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">用于甲烷活化的双金属催化剂高通量筛选与可解释机器学习理性设计</div>
-                <div class="daily-news-title-en">High‐Throughput Screening and Interpretable Machine Learning for Rational Design of Bimetallic Catalysts for Methane Activation</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 化学 / 分子</span><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Science: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Mingzhang Pan,  Tian Zhang,  Jiawei Dong,  Yubao Xie,  Kaifeng Zhong,  Wei Guan,  Haiqiao Wei,  Changcheng Fu,  Yaqiong Su</span></div>
-                <p class="daily-news-summary">结合高通量筛选与可解释机器学习，实现了对甲烷活化双金属催化剂的理性设计与性能预测。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>Wiley: Advanced Science: Table of Contents</p>
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202524394?af=R" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">02</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">多原子位点氯钝化稳定钙钛矿界面以实现高效海水制过氧化氢光合作用</div>
-                <div class="daily-news-title-en">Multisite atomic-chlorine-passivation stabilizes perovskite interfaces for efficient H 2 O 2 photosynthesis from seawater</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Nature Communications</span><span class='daily-chip daily-chip-authors'>👤 Genping Meng, Shuai Wei, Ning Li, Yuhui Yin, Bin Dong, Shihao Sun 等9位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
-                <p class="daily-news-summary">通过多原子位点氯钝化策略，稳定了CsPbI3量子点，使其在海水环境中实现高效稳定的过氧化氢光合作用。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
-                <a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-70503-2" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">03</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">物理学家打破常压下高温超导电性纪录</div>
-                <div class="daily-news-title-en">Physicists break longstanding high-temperature superconductivity record at ambient pressure</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Physics News</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
-                <p class="daily-news-summary">休斯顿大学团队在常压下实现了高温超导电性的新纪录，为能源技术的高效传输与存储带来潜在突破。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
-                <a class="daily-news-link" href="https://phys.org/news/2026-03-ceramic-shatters-longstanding-high-temperature.html" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">04</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">闪烧焦耳加热诱导富镍层状正极表面形成尖晶石相以稳定晶格氧</div>
-                <div class="daily-news-title-en">Flash joule heating-induced spinel-phase surface in Ni-rich layered oxide positive electrodes to stabilise lattice oxygen</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Nature Communications</span><span class='daily-chip daily-chip-authors'>👤 Huiping Yang, Zhefei Sun, Yonghui Zhao, Ying Zhang, Zhiyi Sun, Hongling Yi 等17位作者</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
-                <p class="daily-news-summary">采用闪烧焦耳加热的自减法策略，在富镍正极表面原位构建相干尖晶石相壳层，有效抑制晶格氧损失与应变。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
-                <a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-70616-8" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">05</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">新型显微镜提供动量空间更清晰的观测视图</div>
-                <div class="daily-news-title-en">New microscope offers sharper view into momentum space</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Physics News</span></div>
-                <p class="daily-news-summary">新型先进显微镜技术能够更清晰地探测晶体中电子的动量空间分布，为理解材料电学、磁学及量子性质提供关键手段。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>Physics News</p>
-                <a class="daily-news-link" href="https://phys.org/news/2026-03-microscope-sharper-view-momentum-space.html" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        
-        <li class="daily-news-item">
-            <div class="daily-news-index">06</div>
-            <div class="daily-news-body">
-                <div class="daily-news-title-zh">通过优化双通道光电转换解除半透明有机太阳能电池的透明-效率权衡</div>
-                <div class="daily-news-title-en">Decoupling the Transparency‐Efficiency Trade‐Off in Semi‐Transparent Organic Solar Cells via Optimized Dual‐Channel Photoelectric Conversion</div>
-                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 材料 / 器件</span><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Science: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Yuyan Li,  Shibo Wang,  Heng Liu,  Bonan Shi,  Zhuoqiong Zhang,  Yabing Tang,  Yuting Song,  Shu Kong So,  Dongbin Dang,  Han Yan,  Xinhui Lu,  Guilong Cai,  Suojiang Zhang</span><span class='daily-chip daily-chip-score'>🔥 AI 5</span></div>
-                <p class="daily-news-summary">采用优化的双通道光电转换策略，成功解除了半透明有机太阳能电池中透明度与效率之间的固有矛盾。</p>
-                <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
-                <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523474?af=R" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
-            </div>
-        </li>
-        </ol>
-        </section>
-
-        <section id="papers" class="daily-section">
-          <div class="daily-section-head">
-            <span class="daily-section-index">03</span>
-            <h2 class="daily-section-title">完整速览</h2>
-          </div>
-          
-        <section class="daily-topic-group">
-            <div class="daily-topic-head">
-                <div>
-                    <h3 class="daily-topic-title">AI × 物理 / 凝聚态</h3>
-                    <p class="daily-topic-desc">量子、自旋、凝聚态、电子结构与相关物理方法。</p>
-                </div>
-                <div class="daily-topic-count">1 篇</div>
-            </div>
-            <ol class="daily-paper-list">
-        <li class="daily-paper-card" id="paper-1">
-            <span class="daily-paper-number">01</span>
-            <div class="daily-paper-body">
-                <div class="daily-paper-head">
-                    <div class="daily-paper-titles">
-                        <div class="daily-paper-title-zh">用于类视网膜与传感内嵌硬件的光电驱动范德华铁电材料基存储器件</div>
-                        <div class="daily-paper-title-en">Optoelectronic‐Driven van der Waals Ferroelectric Materials‐Based Memory Devices for Retinomorphic and In‐Sensory Hardware</div>
-                    </div>
-                </div>
-                <div class="daily-paper-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Wiley: Advanced Science: Table of Contents</span><span class='daily-chip daily-chip-authors'>👤 Parthasarathi Pal,  Yeong‐Her Wang,  Sanjay Kumar,  Themis Prodromakis</span></div>
-                <div class="daily-paper-summary">基于光电驱动范德华铁电材料开发的内存器件，为类视网膜计算与内嵌传感硬件提供了新路径。</div>
-                <div class="daily-paper-actions">
-                    <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.74794?af=R" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                </div>
-            </div>
-        </li>
-        </ol>
-        </section>
-        
-        <section class="daily-topic-group">
-            <div class="daily-topic-head">
-                <div>
-                    <h3 class="daily-topic-title">AI × 化学 / 分子 / 催化</h3>
-                    <p class="daily-topic-desc">分子设计、反应、催化、电化学与化学计算。</p>
-                </div>
-                <div class="daily-topic-count">1 篇</div>
-            </div>
-            <ol class="daily-paper-list">
-        <li class="daily-paper-card" id="paper-2">
-            <span class="daily-paper-number">02</span>
-            <div class="daily-paper-body">
-                <div class="daily-paper-head">
-                    <div class="daily-paper-titles">
-                        <div class="daily-paper-title-zh">磷活化羧酸小分子正极用于高比容量长寿命铁有机电池</div>
-                        <div class="daily-paper-title-en">Phosphorus-activated carboxyl small molecule positive electrode for high specific capacity and long-life iron-organic batteries</div>
-                    </div>
-                </div>
-                <div class="daily-paper-meta"><span class='daily-chip daily-chip-topic'>🧭 化学 / 分子</span><span class='daily-chip daily-chip-journal'>📖 Nature Communications</span><span class='daily-chip daily-chip-authors'>👤 Yehui Zhang, Qi Huang, Pingxuan Liu, Yaokang Lv, Ziyang Song, Lihua Gan 等7位作者</span></div>
-                <div class="daily-paper-summary">利用磷氧化还原反应活化羧酸小分子作为正极，显著提升了 aqueous 铁离子电池的比容量与循环寿命。</div>
-                <div class="daily-paper-actions">
-                    <a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-70800-w" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
-                </div>
-            </div>
-        </li>
-        </ol>
-        </section>
-        
-        </section>
-
-        <div class="daily-footer">
+<div class="daily-shell">
+<div class="daily-topbar">
+<div class="daily-topbar-left">
+<a class="back-link" href="../index.html">← 返回主页</a>
+<span class="daily-mini-chip">AI × Science Daily</span>
+</div>
+<div class="daily-topbar-right">
+<span class="daily-mini-chip">2026-03-15</span>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+</div>
+</div>
+<div class="daily-layout">
+<article class="daily-article">
+<div class="daily-hero">
+<div class="daily-kicker">AI 文献日报</div>
+<h1 class="daily-title">AI × Science 文献日报 2026/03/15</h1>
+<p class="daily-subtitle">聚焦 AI × 物理 / 化学 / 材料交叉方向，自动过滤明显偏题的医学、教育与社会科学内容，并按主题重新排版，便于快速深读。</p>
+<blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+<div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
+<div class="daily-stats">
+<div class="daily-stat">
+<div class="daily-stat-label">日报精选</div>
+<div class="daily-stat-value">8</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">主线候选</div>
+<div class="daily-stat-value">8</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">期刊 / 来源</div>
+<div class="daily-stat-value">3</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">arXiv 相关</div>
+<div class="daily-stat-value">0</div>
+</div>
+</div>
+<div class="daily-page-nav" id="daily-enhancement-top-nav"><a class="daily-page-nav-link" href="2026-03-14.html">前一天 · 2026-03-14</a><a class="daily-page-nav-link" href="2026-03-16.html">后一天 · 2026-03-16</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div>
+<section class="daily-section" id="summary">
+<div class="daily-section-head">
+<span class="daily-section-index">01</span>
+<h2 class="daily-section-title">今日摘要</h2>
+</div>
+<div class="daily-summary-card">
+<p><strong>总览：</strong>今日文献覆盖材料科学多个前沿领域，包括催化、能源存储、超导、显微技术及神经形态计算。研究聚焦于通过创新策略（如机器学习、界面工程、新型合成方法）解决关键材料性能瓶颈，并取得显著突破。</p>
+<p><strong>热点：</strong>1. 机器学习与高通量计算深度融合，正成为催化剂理性设计的核心工具。2. 界面工程与表面修饰（如钝化、异质结构建）是提升电化学器件稳定性和效率的关键手段。3. 探索新型氧化还原活性中心（如磷、氯）以突破传统电极材料容量限制。4. 极端条件合成（如闪烧焦耳加热）与先进表征（如动量空间显微镜）推动对材料微观动态的深入理解。5. 面向特定应用场景（如海水制氢、透明光伏、类脑硬件）的功能材料设计成为热点。</p>
+</div>
+</section>
+<section class="daily-section" id="highlights">
+<div class="daily-section-head">
+<span class="daily-section-index">02</span>
+<h2 class="daily-section-title">交叉重点</h2>
+</div>
+<ol class="daily-news-list">
+<li class="daily-news-item" id="highlight-1">
+<div class="daily-news-index">01</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202524394?af=R" rel="noopener noreferrer" target="_blank">用于甲烷活化的双金属催化剂高通量筛选与可解释机器学习理性设计 #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202524394?af=R" rel="noopener noreferrer" target="_blank">High‐Throughput Screening and Interpretable Machine Learning for Rational Design of Bimetallic Catalysts for Methane Activation #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 化学 / 分子</span><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Science: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Mingzhang Pan,  Tian Zhang,  Jiawei Dong,  Yubao Xie,  Kaifeng Zhong,  Wei Guan,  Haiqiao Wei,  Changcheng Fu,  Yaqiong Su</span></div>
+<p class="daily-news-summary">结合高通量筛选与可解释机器学习，实现了对甲烷活化双金属催化剂的理性设计与性能预测。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>Wiley: Advanced Science: Table of Contents</p>
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202524394?af=R" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202524394?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-1">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-2">
+<div class="daily-news-index">02</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-70503-2" rel="noopener noreferrer" target="_blank">多原子位点氯钝化稳定钙钛矿界面以实现高效海水制过氧化氢光合作用 #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-70503-2" rel="noopener noreferrer" target="_blank">Multisite atomic-chlorine-passivation stabilizes perovskite interfaces for efficient H 2 O 2 photosynthesis from seawater #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Nature Communications</span><span class="daily-chip daily-chip-authors">👤 Genping Meng, Shuai Wei, Ning Li, Yuhui Yin, Bin Dong, Shihao Sun 等9位作者</span><span class="daily-chip daily-chip-score">🔥 AI 5</span></div>
+<p class="daily-news-summary">通过多原子位点氯钝化策略，稳定了CsPbI3量子点，使其在海水环境中实现高效稳定的过氧化氢光合作用。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+<a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-70503-2" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.nature.com/articles/s41467-026-70503-2" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-2">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-3">
+<div class="daily-news-index">03</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-03-ceramic-shatters-longstanding-high-temperature.html" rel="noopener noreferrer" target="_blank">物理学家打破常压下高温超导电性纪录 #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://phys.org/news/2026-03-ceramic-shatters-longstanding-high-temperature.html" rel="noopener noreferrer" target="_blank">Physicists break longstanding high-temperature superconductivity record at ambient pressure #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Physics News</span><span class="daily-chip daily-chip-score">🔥 AI 5</span></div>
+<p class="daily-news-summary">休斯顿大学团队在常压下实现了高温超导电性的新纪录，为能源技术的高效传输与存储带来潜在突破。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+<a class="daily-news-link" href="https://phys.org/news/2026-03-ceramic-shatters-longstanding-high-temperature.html" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://phys.org/news/2026-03-ceramic-shatters-longstanding-high-temperature.html" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-3">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-4">
+<div class="daily-news-index">04</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-70616-8" rel="noopener noreferrer" target="_blank">闪烧焦耳加热诱导富镍层状正极表面形成尖晶石相以稳定晶格氧 #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-70616-8" rel="noopener noreferrer" target="_blank">Flash joule heating-induced spinel-phase surface in Ni-rich layered oxide positive electrodes to stabilise lattice oxygen #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Nature Communications</span><span class="daily-chip daily-chip-authors">👤 Huiping Yang, Zhefei Sun, Yonghui Zhao, Ying Zhang, Zhiyi Sun, Hongling Yi 等17位作者</span><span class="daily-chip daily-chip-score">🔥 AI 5</span></div>
+<p class="daily-news-summary">采用闪烧焦耳加热的自减法策略，在富镍正极表面原位构建相干尖晶石相壳层，有效抑制晶格氧损失与应变。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+<a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-70616-8" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.nature.com/articles/s41467-026-70616-8" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-4">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-5">
+<div class="daily-news-index">05</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-03-microscope-sharper-view-momentum-space.html" rel="noopener noreferrer" target="_blank">新型显微镜提供动量空间更清晰的观测视图 #</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://phys.org/news/2026-03-microscope-sharper-view-momentum-space.html" rel="noopener noreferrer" target="_blank">New microscope offers sharper view into momentum space #</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Physics News</span></div>
+<p class="daily-news-summary">新型先进显微镜技术能够更清晰地探测晶体中电子的动量空间分布，为理解材料电学、磁学及量子性质提供关键手段。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>Physics News</p>
+<a class="daily-news-link" href="https://phys.org/news/2026-03-microscope-sharper-view-momentum-space.html" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://phys.org/news/2026-03-microscope-sharper-view-momentum-space.html" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-5">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" id="highlight-6">
+<div class="daily-news-index">06</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523474?af=R" rel="noopener noreferrer" target="_blank">通过优化双通道光电转换解除半透明有机太阳能电池的透明-效率权衡 #</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523474?af=R" rel="noopener noreferrer" target="_blank">Decoupling the Transparency‐Efficiency Trade‐Off in Semi‐Transparent Organic Solar Cells via Optimized Dual‐Channel Photoelectric Conversion #</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 材料 / 器件</span><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Science: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Yuyan Li,  Shibo Wang,  Heng Liu,  Bonan Shi,  Zhuoqiong Zhang,  Yabing Tang,  Yuting Song,  Shu Kong So,  Dongbin Dang,  Han Yan,  Xinhui Lu,  Guilong Cai,  Suojiang Zhang</span><span class="daily-chip daily-chip-score">🔥 AI 5</span></div>
+<p class="daily-news-summary">采用优化的双通道光电转换策略，成功解除了半透明有机太阳能电池中透明度与效率之间的固有矛盾。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 5</p>
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523474?af=R" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523474?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-6">页内定位</a></div></div>
+</li>
+</ol>
+</section>
+<section class="daily-section" id="papers">
+<div class="daily-section-head">
+<span class="daily-section-index">03</span>
+<h2 class="daily-section-title">完整速览</h2>
+</div>
+<section class="daily-topic-group" id="topic-ai-物理-凝聚态">
+<div class="daily-topic-head">
+<div>
+<h3 class="daily-topic-title">AI × 物理 / 凝聚态</h3><a class="daily-permalink-link daily-topic-anchor" href="#topic-ai-物理-凝聚态" title="复制专题定位">#</a>
+<p class="daily-topic-desc">量子、自旋、凝聚态、电子结构与相关物理方法。</p>
+</div>
+<div class="daily-topic-count">1 篇</div>
+</div>
+<ol class="daily-paper-list">
+<li class="daily-paper-card" id="paper-1">
+<span class="daily-paper-number">01</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.74794?af=R" rel="noopener noreferrer" target="_blank">用于类视网膜与传感内嵌硬件的光电驱动范德华铁电材料基存储器件 #</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.74794?af=R" rel="noopener noreferrer" target="_blank">Optoelectronic‐Driven van der Waals Ferroelectric Materials‐Based Memory Devices for Retinomorphic and In‐Sensory Hardware #</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Science: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Parthasarathi Pal,  Yeong‐Her Wang,  Sanjay Kumar,  Themis Prodromakis</span></div>
+<div class="daily-paper-summary">基于光电驱动范德华铁电材料开发的内存器件，为类视网膜计算与内嵌传感硬件提供了新路径。</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.74794?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.74794?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-1">页内定位</a></div></div>
+</div>
+</li>
+</ol>
+</section>
+<section class="daily-topic-group" id="topic-ai-化学-分子-催化">
+<div class="daily-topic-head">
+<div>
+<h3 class="daily-topic-title">AI × 化学 / 分子 / 催化</h3><a class="daily-permalink-link daily-topic-anchor" href="#topic-ai-化学-分子-催化" title="复制专题定位">#</a>
+<p class="daily-topic-desc">分子设计、反应、催化、电化学与化学计算。</p>
+</div>
+<div class="daily-topic-count">1 篇</div>
+</div>
+<ol class="daily-paper-list">
+<li class="daily-paper-card" id="paper-2">
+<span class="daily-paper-number">02</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-70800-w" rel="noopener noreferrer" target="_blank">磷活化羧酸小分子正极用于高比容量长寿命铁有机电池 #</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-70800-w" rel="noopener noreferrer" target="_blank">Phosphorus-activated carboxyl small molecule positive electrode for high specific capacity and long-life iron-organic batteries #</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 化学 / 分子</span><span class="daily-chip daily-chip-journal">📖 Nature Communications</span><span class="daily-chip daily-chip-authors">👤 Yehui Zhang, Qi Huang, Pingxuan Liu, Yaokang Lv, Ziyang Song, Lihua Gan 等7位作者</span></div>
+<div class="daily-paper-summary">利用磷氧化还原反应活化羧酸小分子作为正极，显著提升了 aqueous 铁离子电池的比容量与循环寿命。</div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-70800-w" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.nature.com/articles/s41467-026-70800-w" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-2">页内定位</a></div></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<div class="daily-page-nav" id="daily-enhancement-bottom-nav"><a class="daily-page-nav-link" href="2026-03-14.html">前一天 · 2026-03-14</a><a class="daily-page-nav-link" href="2026-03-16.html">后一天 · 2026-03-16</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div><div class="daily-footer">
           本页由文献追踪系统自动生成，仅保留 AI × 物理 / 化学 / 材料主线相关文献，并按专题重新整理，方便快速筛选与深度阅读。
         </div>
-      </article>
-
-      <aside class="daily-toc">
-        <div class="daily-toc-card">
-          <div class="daily-toc-title">目录</div>
-          <a href="#summary"><span>今日摘要</span><span>01</span></a>
-          <a href="#highlights"><span>交叉重点</span><span>02</span></a>
-          <a href="#papers"><span>完整速览</span><span>03</span></a>
-
-          <div class="daily-sidebar-block">
-            <div class="daily-sidebar-title">专题分布</div>
-            <div class="daily-sidebar-stats"><div class='daily-sidebar-fact'><span>AI × 物理 / 凝聚态</span><strong>1</strong></div><div class='daily-sidebar-fact'><span>AI × 化学 / 分子 / 催化</span><strong>1</strong></div></div>
-          </div>
-
-          <div class="daily-sidebar-block">
-            <div class="daily-sidebar-title">阅读建议</div>
-            <ul class="insight-note-list">
-              <li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
-              <li class="insight-note-item">明显偏离主线的医学、教育等内容已自动剔除。</li>
-              <li class="insight-note-item">若需回看历史日报，可从日报索引页按日期倒序进入。</li>
-            </ul>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </div>
-
-  <script>
+</article>
+<aside class="daily-toc">
+<div class="daily-toc-card">
+<div class="daily-toc-title">目录</div>
+<a href="#summary"><span>今日摘要</span><span>01</span></a>
+<a href="#highlights"><span>交叉重点</span><span>02</span></a>
+<a href="#papers"><span>完整速览</span><span>03</span></a>
+<div class="daily-sidebar-block">
+<div class="daily-sidebar-title">专题分布</div>
+<div class="daily-sidebar-stats"><div class="daily-sidebar-fact"><span>AI × 物理 / 凝聚态</span><strong>1</strong></div><div class="daily-sidebar-fact"><span>AI × 化学 / 分子 / 催化</span><strong>1</strong></div></div>
+</div>
+<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">用于甲烷活化的双金属催化剂高通量筛选与可解释机器学习理性设计 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">多原子位点氯钝化稳定钙钛矿界面以实现高效海水制过氧化氢光合作用 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">物理学家打破常压下高温超导电性纪录 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">闪烧焦耳加热诱导富镍层状正极表面形成尖晶石相以稳定晶格氧 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-5">新型显微镜提供动量空间更清晰的观测视图 #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-6">通过优化双通道光电转换解除半透明有机太阳能电池的透明-效率权衡 #<span class="daily-outline-meta">交叉重点</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-物理-凝聚态">AI × 物理 / 凝聚态</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">用于类视网膜与传感内嵌硬件的光电驱动范德华铁电材料基存储器件 #<span class="daily-outline-meta">01</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-化学-分子-催化">AI × 化学 / 分子 / 催化</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-2">磷活化羧酸小分子正极用于高比容量长寿命铁有机电池 #<span class="daily-outline-meta">02</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-03-14.html">前一天 · 2026-03-14</a><a class="daily-page-nav-link" href="2026-03-16.html">后一天 · 2026-03-16</a><a class="daily-page-nav-link" href="2026-03-25.html">最新一期 · 2026-03-25</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
+<div class="daily-sidebar-title">阅读建议</div>
+<ul class="insight-note-list">
+<li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
+<li class="insight-note-item">明显偏离主线的医学、教育等内容已自动剔除。</li>
+<li class="insight-note-item">若需回看历史日报，可从日报索引页按日期倒序进入。</li>
+</ul>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
     const THEME_KEY = 'literature_theme';
 
     function initTheme() {

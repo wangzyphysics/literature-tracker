@@ -17,6 +17,7 @@ from typing import List, Dict
 import hashlib
 
 from ai_summarizer import AISummarizer
+from daily_page_enhancer import enhance_daily_archive
 from focus_filter import analyze_focus, filter_daily_focus_items, filter_focus_items, focus_priority, topic_bucket
 
 
@@ -716,6 +717,8 @@ def main():
     merged = [e for e in merged if isinstance(e, dict) and e.get("date")]
     merged.sort(key=lambda x: x.get("date") or "", reverse=True)
     save_summary_index(merged[:120])
+    enhanced = enhance_daily_archive("docs/daily/summaries.json")
+    print(f"🧭 Enhanced daily navigation/TOC for {enhanced} page(s)")
 
 
 if __name__ == '__main__':
