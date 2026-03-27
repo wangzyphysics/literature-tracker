@@ -65,9 +65,12 @@ def main() -> int:
         assert "daily-enhancement-bottom-nav" in enhanced_24
         assert "前一天 · 2026-03-23" in enhanced_24
         assert "后一天 · 2026-03-24" in enhanced_23
+        assert "当日RSS" in enhanced_24
+        assert "../feed.xml" in enhanced_24
         assert "daily-title-link" in enhanced_24
         assert "单页目录" in enhanced_24
         assert "页内定位" in enhanced_24
+        assert "daily-toc-card" in enhanced_24
         assert "#highlight-1" in enhanced_24
         assert "#paper-1" in enhanced_24
 

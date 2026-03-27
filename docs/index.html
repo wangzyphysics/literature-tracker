@@ -276,6 +276,11 @@
             return `<a class="insight-entry-nav-link" href="${href}">${escapeHtml(text)}</a>`;
         }
 
+        function dailyRssHref(item) {
+            if (!item || !item.file) return '';
+            return `daily/${item.file.replace(/\\.html$/, '.xml')}`;
+        }
+
         function renderHomeNav(summaries, weeklies) {
             const latestDaily = summaries[0];
             const prevDaily = summaries[1];
@@ -286,6 +291,8 @@
                 navLink('前一期日报', prevDaily ? `daily/${prevDaily.file}` : '', prevDaily ? prevDaily.date : '暂无', !prevDaily),
                 navLink('最新周报', latestWeekly ? `weekly/${latestWeekly.file}` : '', latestWeekly ? latestWeekly.week_start : '暂无', !latestWeekly),
                 navLink('前一周周报', prevWeekly ? `weekly/${prevWeekly.file}` : '', prevWeekly ? prevWeekly.week_start : '暂无', !prevWeekly),
+                navLink('最新日报RSS', latestDaily ? 'daily/latest.xml' : '', latestDaily ? latestDaily.date : '暂无', !latestDaily),
+                navLink('全站RSS', 'feed.xml'),
                 navLink('日报归档', 'daily/index.html'),
                 navLink('周报归档', 'weekly/index.html'),
                 navLink('入口区域', '#homeInsightHub')
@@ -344,6 +351,8 @@
                 <div class="insight-action-row">
                     <a class="insight-btn insight-btn-primary" href="daily/${latest.file}">打开日报 ↗</a>
                     ${previous ? `<a class="insight-btn insight-btn-secondary" href="daily/${previous.file}">前一天 · ${escapeHtml(previous.date)}</a>` : ''}
+                    <a class="insight-inline-link" href="daily/latest.xml">最新日报RSS</a>
+                    <a class="insight-inline-link" href="${dailyRssHref(latest)}">当日RSS</a>
                     <a class="insight-inline-link" href="daily/${latest.file}#summary">今日摘要</a>
                     <a class="insight-inline-link" href="daily/${latest.file}#highlights">交叉重点</a>
                     <a class="insight-inline-link" href="daily/${latest.file}#papers">完整速览</a>
@@ -365,6 +374,7 @@
                 <div class="insight-action-row">
                     <a class="insight-btn insight-btn-primary" href="weekly/${latest.file}">打开周报 ↗</a>
                     ${previous ? `<a class="insight-btn insight-btn-secondary" href="weekly/${previous.file}">前一周 · ${escapeHtml(previous.week_start)}</a>` : ''}
+                    <a class="insight-inline-link" href="feed.xml">全站RSS</a>
                     <a class="insight-inline-link" href="weekly/${latest.file}#overview">本周总览</a>
                     <a class="insight-inline-link" href="weekly/${latest.file}#cross">交叉研究</a>
                     <a class="insight-inline-link" href="weekly/${latest.file}#journals">期刊分布</a>
@@ -381,6 +391,7 @@
                     <div class="insight-inline-meta"><span>${item.total ?? 0} 篇文献</span></div>
                     <div class="insight-rich-links">
                         <a class="insight-inline-link" href="daily/${item.file}">打开日报 ↗</a>
+                        <a class="insight-inline-link" href="${dailyRssHref(item)}">RSS</a>
                         <a class="insight-inline-link" href="daily/${item.file}#summary">今日摘要</a>
                         <a class="insight-inline-link" href="daily/${item.file}#highlights">交叉重点</a>
                     </div>
@@ -395,6 +406,7 @@
                     <div class="insight-inline-meta"><span>${escapeHtml(item.week_start)} → ${escapeHtml(item.week_end)}</span></div>
                     <div class="insight-rich-links">
                         <a class="insight-inline-link" href="weekly/${item.file}">打开周报 ↗</a>
+                        <a class="insight-inline-link" href="feed.xml">全站RSS</a>
                         <a class="insight-inline-link" href="weekly/${item.file}#overview">本周总览</a>
                         <a class="insight-inline-link" href="weekly/${item.file}#cross">交叉研究</a>
                     </div>

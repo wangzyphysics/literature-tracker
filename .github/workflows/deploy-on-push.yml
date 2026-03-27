@@ -16,7 +16,7 @@ concurrency:
 jobs:
   deploy:
     # 避免与 fetch.yml 的 deploy job 重复（fetch.yml 由 github-actions[bot] 提交并自行部署）
-    if: github.actor != 'github-actions[bot]'
+    if: github.actor != 'github-actions[bot]' && !startsWith(github.event.head_commit.message, '📚 自动更新文献') && !startsWith(github.event.head_commit.message, '🔬 自动生成周报')
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -43,4 +43,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

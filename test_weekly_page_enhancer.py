@@ -89,9 +89,11 @@ def main() -> int:
         assert "后一周 · 2026-03-16 → 2026-03-22" in html_prev
         assert "单页目录" in html_latest
         assert "weekly-outline-scroll" in html_latest
+        assert "站点RSS" in html_latest
         assert "页内定位" in html_latest
         assert "所在专题" in html_latest
         assert "weekly-permalink-link" in html_latest
+        assert "weekly-report-sidebar" in html_latest
 
     print("[OK] weekly page enhancer sanity checks passed")
     return 0

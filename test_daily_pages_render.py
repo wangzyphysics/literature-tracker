@@ -21,7 +21,7 @@ def main() -> int:
                 "summary": "测试中文一句话总结",
                 "link": "https://example.com/paper",
                 "journal": "arXiv",
-                "authors": ["Alice", "Bob", "Carol"],
+                "authors": list("Alice Smith, Bob Jones, Carol Chen"),
             }
         ],
     }
@@ -31,8 +31,10 @@ def main() -> int:
     assert "测试中文一句话总结" in html
     assert "https://example.com/paper" in html
     assert "arXiv" in html
-    assert "Alice" in html
+    assert "Alice Smith, Bob Jones, Carol Chen" in html
     assert "AI × Science 文献日报" in html
+    assert 'application/rss+xml' in html
+    assert '2026-03-15.xml' in html
     assert "今日摘要" in html
     assert "交叉重点" in html
     assert "完整速览" in html

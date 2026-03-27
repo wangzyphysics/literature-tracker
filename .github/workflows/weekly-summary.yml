@@ -22,9 +22,10 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
@@ -37,6 +38,8 @@ jobs:
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
           AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
           AI_MODEL: ${{ secrets.AI_MODEL }}
+          AI_BASE_URL: ${{ secrets.AI_BASE_URL }}
+          OPENROUTER_BASE_URL: ${{ secrets.AI_BASE_URL }}
 
       - name: Commit and push changes
         run: |
@@ -48,7 +51,25 @@ jobs:
           git rebase origin/main || git rebase --abort
           git push origin main
 
-      - name: Deploy GitHub Pages
+  deploy:
+    needs: generate
+    runs-on: ubuntu-latest
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Pull latest changes
+        run: git pull origin main
+
+      - name: Configure Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact

@@ -18,7 +18,8 @@
    AI_CONFIG = {
        "provider": "openrouter",  # gemini, openrouter, siliconflow, groq, deepseek
        "api_key": "YOUR_API_KEY_HERE",  # 在这里填入你的API密钥
-       "model": "stepfun/step-3.5-flash:free",  # OpenRouter 模型（provider=openrouter 时生效）
+       "base_url": "https://supercodex.space/v1",  # 可填写根 URL，程序会自动补全 /chat/completions
+       "model": "gpt-5.4(auto)",  # OpenAI-compatible 模型（provider=openrouter 时生效）
    }
    ```
 
@@ -32,7 +33,8 @@
 ### AI配置 (AI_CONFIG)
 - `provider`: AI服务提供商（"gemini", "openrouter", "siliconflow", "groq", "deepseek"）
 - `api_key`: API密钥
-- `model`: 模型名称（如 OpenRouter 的 `stepfun/step-3.5-flash:free`，或 Gemini 的 model id）
+- `base_url`: OpenAI-compatible 接口地址；既可填完整的 `/chat/completions`，也可只填根路径（如 `https://supercodex.space/v1`）
+- `model`: 模型名称（如 `gpt-5.4(auto)`，或 Gemini 的 model id）
 
 ### 邮件配置 (EMAIL_CONFIG)
 - `sender_email`: 发件人邮箱
@@ -61,8 +63,9 @@
 # AI配置
 AI_CONFIG = {
     "provider": "openrouter",
-    "api_key": "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "model": "stepfun/step-3.5-flash:free",
+    "api_key": "sk-REPLACE_ME",
+    "base_url": "https://supercodex.space/v1",
+    "model": "gpt-5.4(auto)",
 }
 
 # 邮件配置（可选）

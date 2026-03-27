@@ -98,8 +98,32 @@ ENHANCEMENT_CSS = """
     color: var(--accent-hover);
 }
 
+.daily-toc-card {
+    max-height: min(74vh, calc(100vh - 40px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 12px;
+}
+
+.daily-toc-card::-webkit-scrollbar {
+    width: 10px;
+}
+
+.daily-toc-card::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.daily-toc-card::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
 .daily-outline-scroll {
-    max-height: min(60vh, calc(100vh - 210px));
+    max-height: min(40vh, calc(100vh - 320px));
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable both-edges;
@@ -179,6 +203,9 @@ ENHANCEMENT_CSS = """
 }
 
 @media (max-width: 980px) {
+    .daily-toc-card {
+        max-height: none;
+    }
     .daily-outline-scroll {
         max-height: none;
     }
@@ -241,6 +268,23 @@ def _ensure_style(soup: BeautifulSoup) -> None:
     style.string = ENHANCEMENT_CSS
     if soup.head is not None:
         soup.head.append(style)
+
+
+def _ensure_rss_head_link(soup: BeautifulSoup, date_str: str) -> None:
+    if soup.head is None:
+        return
+    for node in soup.head.select('link[type="application/rss+xml"]'):
+        href = (node.get("href") or "").strip()
+        if href.endswith(f"{date_str}.xml"):
+            return
+    rss_link = soup.new_tag(
+        "link",
+        rel="alternate",
+        type="application/rss+xml",
+        title=f"{date_str} 日报 RSS",
+        href=f"{date_str}.xml",
+    )
+    soup.head.append(rss_link)
 
 
 def _title_plain_text(node: Optional[Tag]) -> str:
@@ -329,6 +373,8 @@ def _build_nav_block(soup: BeautifulSoup, date_str: str, nav: Dict[str, Optional
     if latest is not None:
         append_link("最新一期", _relative_daily_href(latest), latest.get("date") or "")
     append_link("日报归档", "index.html")
+    append_link("当日RSS", f"{date_str}.xml")
+    append_link("站点RSS", "../feed.xml")
     append_link("主页", "../index.html")
     append_link("今日摘要", "#summary")
     append_link("交叉重点", "#highlights")
@@ -363,6 +409,7 @@ def enhance_daily_html_file(file_path: str | Path, summaries: List[Dict], *, dat
         return False
 
     _ensure_style(soup)
+    _ensure_rss_head_link(soup, date_str)
     _remove_existing_injected_blocks(soup)
 
     top_nav = _build_nav_block(soup, date_str, nav, TOP_NAV_ID)

@@ -2,9 +2,10 @@
 """
 Deterministic sanity test (no network):
 - Verify malformed JSON from model output can be repaired.
+- Verify OpenAI-compatible base URLs are normalized to chat-completions endpoints.
 """
 
-from ai_summarizer import AISummarizer
+from ai_summarizer import AISummarizer, normalize_chat_completions_url
 
 
 def main() -> int:
@@ -39,6 +40,10 @@ def main() -> int:
     assert data["summaries"][1]["index"] == 2
     assert data["summaries"][1]["title_zh"] == "测试标题二"
     assert data["highlights"][0]["reason"] == "重点"
+
+    assert normalize_chat_completions_url("https://supercodex.space/v1") == "https://supercodex.space/v1/chat/completions"
+    assert normalize_chat_completions_url("https://supercodex.space/v1/") == "https://supercodex.space/v1/chat/completions"
+    assert normalize_chat_completions_url("https://openrouter.ai/api/v1/chat/completions") == "https://openrouter.ai/api/v1/chat/completions"
 
     print("[OK] ai_summarizer lenient JSON repair sanity checks passed")
     return 0

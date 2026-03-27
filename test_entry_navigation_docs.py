@@ -14,12 +14,16 @@ def main() -> int:
     assert 'insight-entry-scroll' in daily
     assert '前一天' in daily
     assert '页内定位' in daily
+    assert 'latest.xml' in daily
+    assert '../feed.xml' in daily
 
     assert 'id="weeklyArchiveTopNav"' in weekly
     assert 'id="weeklyArchiveOutline"' in weekly
     assert 'insight-entry-scroll' in weekly
     assert '前一周' in weekly
     assert '页内定位' in weekly
+    assert '../daily/latest.xml' in weekly
+    assert '../feed.xml' in weekly
 
     assert 'id="homeInsightTopNav"' in home
     assert 'id="homeInsightOutline"' in home
@@ -29,6 +33,8 @@ def main() -> int:
     assert 'renderHomeNav' in home
     assert '#summary' in home
     assert '#cross' in home
+    assert 'daily/latest.xml' in home
+    assert 'feed.xml' in home
 
     print('[OK] archive/home navigation markup sanity checks passed')
     return 0

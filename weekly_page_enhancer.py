@@ -91,8 +91,32 @@ ENHANCEMENT_CSS = """
     color: var(--accent-hover);
 }
 
+.weekly-report-sidebar {
+    max-height: min(74vh, calc(100vh - 40px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 12px;
+}
+
+.weekly-report-sidebar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.weekly-report-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.weekly-report-sidebar::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
 .weekly-outline-scroll {
-    max-height: min(60vh, calc(100vh - 210px));
+    max-height: min(40vh, calc(100vh - 320px));
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable both-edges;
@@ -184,6 +208,9 @@ ENHANCEMENT_CSS = """
 }
 
 @media (max-width: 980px) {
+    .weekly-report-sidebar {
+        max-height: none;
+    }
     .weekly-outline-scroll {
         max-height: none;
     }
@@ -341,6 +368,7 @@ def _build_nav_block(
         append_link("最新一期", _relative_weekly_href(latest), f"{latest.get('week_start')} → {latest.get('week_end')}")
     append_link("周报归档", "index.html")
     append_link("日报归档", "../daily/index.html")
+    append_link("站点RSS", "../feed.xml")
     append_link("主页", "../index.html")
     if not compact:
         append_link("本周总览", overview_href)

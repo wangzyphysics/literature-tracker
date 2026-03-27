@@ -15,6 +15,7 @@ from ai_summarizer import AISummarizer
 from zh_enricher import enrich_articles_zh
 from relevance_enricher import batch_analyze_relevance
 from focus_filter import analyze_focus, filter_daily_focus_items, filter_focus_items, is_daily_focus, is_target_domain, is_hard_offtopic
+from rss_generator import generate_rss_feed
 
 def get_beijing_time():
     beijing_tz = timezone(timedelta(hours=8))
@@ -273,6 +274,11 @@ def run_optimized_sync():
     with open(full_data_path, "w", encoding="utf-8") as f:
         json.dump({"articles": existing_articles[:5000]}, f, ensure_ascii=False, indent=2)
     print(f"📊 索引文件已更新 (Total: {len(existing_articles[:5000])})")
+
+    try:
+        generate_rss_feed(existing_articles[:5000], output_path='docs/feed.xml')
+    except Exception as e:
+        print(f"⚠️ 全站RSS生成失败: {e}")
 
     print(f"\n✅ 同步完成！本次新识别相关文献: {newly_relevant_count} 篇")
 

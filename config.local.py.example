@@ -5,12 +5,14 @@
   cp config.local.py.example config.local.py
 """
 
-# AI 配置（推荐：OpenRouter）
+# AI 配置（推荐：兼容 OpenAI 的聚合网关）
 AI_CONFIG = {
     "provider": "openrouter",
     "api_key": "sk-or-REPLACE_ME",
-    # OpenRouter 模型（provider=openrouter 时生效）
-    "model": "stepfun/step-3.5-flash:free",
+    # 可以填写根 base URL，代码会自动补全 /chat/completions
+    "base_url": "https://supercodex.space/v1",
+    # OpenAI-compatible 模型（provider=openrouter 时生效）
+    "model": "gpt-5.4(auto)",
 }
 
 # 邮件配置（可选）
@@ -24,4 +26,3 @@ WECHAT_CONFIG = {
     "enabled": False,
     "sendkey": "",
 }
-

@@ -151,6 +151,11 @@
             return `<a class="insight-entry-nav-link" href="${href}">${escapeHtml(text)}</a>`;
         }
 
+        function dailyRssHref(item) {
+            if (!item || !item.file) return '';
+            return item.file.replace(/\.html$/, '.xml');
+        }
+
         function renderNav(summaries, weeklies) {
             const latest = summaries[0];
             const previous = summaries[1];
@@ -159,6 +164,8 @@
                 navLink('最新日报', latest ? latest.file : '', latest ? latest.date : '暂无', !latest),
                 navLink('前一期日报', previous ? previous.file : '', previous ? previous.date : '暂无', !previous),
                 navLink('最新周报', latestWeekly ? `../weekly/${latestWeekly.file}` : '', latestWeekly ? latestWeekly.week_start : '暂无', !latestWeekly),
+                navLink('最新日报RSS', latest ? 'latest.xml' : '', latest ? latest.date : '暂无', !latest),
+                navLink('全站RSS', '../feed.xml'),
                 navLink('最新一期区域', '#latestDailySection'),
                 navLink('历史归档', '#dailyArchiveSection'),
                 navLink('阅读建议', '#dailyGuideSection'),
@@ -179,6 +186,8 @@
                     <div class="insight-rich-links">
                         <a class="insight-btn insight-btn-primary" href="${item.file}">打开日报 ↗</a>
                         ${previous ? `<a class="insight-btn insight-btn-secondary" href="${previous.file}">前一天 · ${escapeHtml(previous.date)}</a>` : ''}
+                        <a class="insight-inline-link" href="latest.xml">最新日报RSS</a>
+                        <a class="insight-inline-link" href="${dailyRssHref(item)}">当日RSS</a>
                         <a class="insight-inline-link" href="#dailyArchiveSection">跳到历史归档</a>
                         ${latestWeekly ? `<a class="insight-inline-link" href="../weekly/${latestWeekly.file}">最新周报 ↗</a>` : ''}
                     </div>
@@ -200,6 +209,7 @@
                     <div class="insight-archive-summary">浏览该日的摘要、重点文献与完整列表；也可以直接继续跳到前一天或后一天。</div>
                     <div class="insight-rich-links">
                         <a class="insight-inline-link" href="${item.file}">打开日报 ↗</a>
+                        <a class="insight-inline-link" href="${dailyRssHref(item)}">RSS</a>
                         ${older ? `<a class="insight-inline-link" href="${older.file}">前一天 · ${escapeHtml(older.date)}</a>` : ''}
                         ${newer ? `<a class="insight-inline-link" href="${newer.file}">后一天 · ${escapeHtml(newer.date)}</a>` : ''}
                         <a class="insight-inline-link" href="#${anchorId}">页内定位</a>

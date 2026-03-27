@@ -156,11 +156,13 @@ except ImportError:
 
 AI_CONFIG = {
     "enabled": True,  # 是否启用AI摘要
-    # 默认使用 OpenRouter（避免没有 Gemini Key 时摘要/翻译直接失效）
+    # 默认使用兼容 OpenAI 的聚合网关（避免没有 Gemini Key 时摘要/翻译直接失效）
     "provider": _local_ai_config.get("provider") or os.environ.get("AI_PROVIDER", "openrouter"),  # gemini, openrouter, siliconflow, groq, deepseek
     "api_key": _local_ai_config.get("api_key") or os.environ.get("AI_API_KEY", ""),  # API密钥（优先从config.local.py读取）
-    # OpenRouter / OpenAI-compatible model id (used when provider=openrouter)
-    "model": _local_ai_config.get("model") or os.environ.get("AI_MODEL", "stepfun/step-3.5-flash:free"),
+    # OpenAI-compatible model id (used when provider=openrouter)
+    "model": _local_ai_config.get("model") or os.environ.get("AI_MODEL", "gpt-5.4(auto)"),
+    # 支持填写根 base URL（如 https://supercodex.space/v1），代码会自动补全 /chat/completions
+    "base_url": _local_ai_config.get("base_url") or os.environ.get("AI_BASE_URL") or os.environ.get("OPENROUTER_BASE_URL", "https://supercodex.space/v1"),
 }
 
 # 去重配置

@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 from ai_summarizer import build_provider
+from author_utils import authors_label as format_authors_label
 from abstract_scraper import AbstractScraper
 from translator import translate_text
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -863,15 +864,7 @@ class WeeklySummarizer:
                 
                 # 获取作者
                 authors = article.get('authors', [])
-                authors_str = ''
-                if authors:
-                    if isinstance(authors, list):
-                        if len(authors) <= 3:
-                            authors_str = ', '.join(authors)
-                        else:
-                            authors_str = ', '.join(authors[:3]) + f' 等{len(authors)}位作者'
-                    else:
-                        authors_str = str(authors)
+                authors_str = format_authors_label(authors, max_names=3)
                 
                 # 确定文章类型标签
                 tags = []
@@ -1107,13 +1100,7 @@ class WeeklySummarizer:
             return f"article-{_safe_id(raw_str)}"
 
         def authors_label(article: Dict) -> str:
-            authors = article.get('authors')
-            if isinstance(authors, list):
-                cleaned = [str(item).strip() for item in authors if str(item).strip()]
-                if len(cleaned) > 4:
-                    return ', '.join(cleaned[:4]) + f' 等{len(cleaned)}位作者'
-                return ', '.join(cleaned)
-            return str(authors or '').strip()
+            return format_authors_label(article.get('authors'), max_names=4)
 
         def article_teaser(article: Dict, limit: int = 180) -> str:
             for key in ('ai_analysis', 'abstract_zh', 'abstract', 'title_zh', 'title'):

@@ -11,14 +11,17 @@
 import os
 import json
 import html
+import shutil
 from urllib.parse import urlparse
 from datetime import datetime, timezone, timedelta
 from typing import List, Dict
 import hashlib
 
 from ai_summarizer import AISummarizer
+from author_utils import authors_label
 from daily_page_enhancer import enhance_daily_archive
 from focus_filter import analyze_focus, filter_daily_focus_items, filter_focus_items, focus_priority, topic_bucket
+from rss_generator import generate_daily_rss_feed
 
 
 def beijing_today() -> str:
@@ -49,14 +52,7 @@ def safe_url(value: str) -> str:
     return html.escape(url, quote=True)
 
 def format_authors(authors) -> str:
-    if not authors:
-        return ""
-    if isinstance(authors, list):
-        names = [str(a).replace("\n", " ").strip() for a in authors if str(a).strip()]
-        if len(names) <= 6:
-            return ", ".join(names)
-        return ", ".join(names[:6]) + f" 等{len(names)}位作者"
-    return str(authors).replace("\n", " ").strip()
+    return authors_label(authors, max_names=6)
 
 def arxiv_badge(item: Dict) -> str:
     """Return a readable arXiv category badge from item fields."""
@@ -96,6 +92,14 @@ def load_index_articles(path: str = "data/index.json") -> List[Dict]:
 
 def ensure_dirs():
     os.makedirs('docs/daily', exist_ok=True)
+
+
+def daily_rss_filename(date_str: str) -> str:
+    return f"{date_str}.xml"
+
+
+def daily_rss_path(date_str: str) -> str:
+    return os.path.join("docs/daily", daily_rss_filename(date_str))
 
 def digest_links(articles: List[Dict]) -> str:
     links = sorted({(a.get("link") or "").strip() for a in articles if (a.get("link") or "").strip()})
@@ -361,6 +365,7 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{date_str} 文献日报 - 文献追踪系统</title>
   <link rel="stylesheet" href="../style.css" />
+  <link rel="alternate" type="application/rss+xml" title="{safe_text(date_str)} 日报 RSS" href="{daily_rss_filename(date_str)}" />
   <style>
     body {{ background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); overflow-x: hidden; }}
     body::before {{ content: none !important; }}
@@ -446,6 +451,8 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
         <span class="daily-mini-chip">AI × Science Daily</span>
       </div>
       <div class="daily-topbar-right">
+        <a href="{daily_rss_filename(date_str)}" class="daily-mini-chip">📡 当日 RSS</a>
+        <a href="../feed.xml" class="daily-mini-chip">📰 全站 RSS</a>
         <span class="daily-mini-chip">{safe_text(date_str)}</span>
         <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
       </div>
@@ -603,6 +610,47 @@ def preserve_existing_entry(prev: Dict, date_str: str) -> Dict:
         preserved["total"] = 0
     return preserved
 
+
+def collect_daily_articles(index_articles: List[Dict], relevant_articles: List[Dict], day_str: str) -> Dict:
+    relevant_day = [a for a in relevant_articles if (a.get("pub_date") or "").startswith(day_str)]
+    relevant_links = {a.get("link") for a in relevant_day if a.get("link")}
+
+    index_day = [
+        a for a in index_articles
+        if (a.get("pub_date") or "").startswith(day_str) and (a.get("link") not in relevant_links)
+    ]
+
+    raw_day_articles = relevant_day + index_day
+    focused_articles, dropped_articles = filter_focus_items(raw_day_articles)
+    focused_articles = sorted(focused_articles, key=focus_priority)
+    daily_articles, overflow_articles = filter_daily_focus_items(focused_articles, min_keep=12, max_keep=60)
+    daily_articles = sorted(daily_articles, key=focus_priority)
+    return {
+        "raw_day_articles": raw_day_articles,
+        "focused_articles": focused_articles,
+        "dropped_articles": dropped_articles,
+        "daily_articles": daily_articles,
+        "overflow_articles": overflow_articles,
+    }
+
+
+def sync_daily_rss_feeds(index_articles: List[Dict], relevant_articles: List[Dict], summaries: List[Dict]) -> int:
+    changed = 0
+    for entry in summaries:
+        day_str = str(entry.get("date") or "").strip()
+        if not day_str:
+            continue
+        collected = collect_daily_articles(index_articles, relevant_articles, day_str)
+        if generate_daily_rss_feed(day_str, collected["daily_articles"], daily_rss_path(day_str)):
+            changed += 1
+
+    latest_date = str((summaries[0] or {}).get("date") or "").strip() if summaries else ""
+    latest_source = daily_rss_path(latest_date) if latest_date else ""
+    latest_target = os.path.join("docs/daily", "latest.xml")
+    if latest_source and os.path.exists(latest_source):
+        shutil.copyfile(latest_source, latest_target)
+    return changed
+
 def main():
     import argparse
     parser = argparse.ArgumentParser()
@@ -640,20 +688,11 @@ def main():
         day_dt = base_dt - timedelta(days=i)
         day_str = day_dt.strftime("%Y-%m-%d")
 
-        relevant_day = [a for a in relevant_articles if (a.get("pub_date") or "").startswith(day_str)]
-        relevant_links = {a.get("link") for a in relevant_day if a.get("link")}
-
-        index_day = [
-            a for a in index_articles
-            if (a.get("pub_date") or "").startswith(day_str) and (a.get("link") not in relevant_links)
-        ]
-
-        # Relevant first, then filter to AI × 物理/化学/材料目标方向
-        raw_day_articles = relevant_day + index_day
-        focused_articles, dropped_articles = filter_focus_items(raw_day_articles)
-        focused_articles = sorted(focused_articles, key=focus_priority)
-        daily_articles, overflow_articles = filter_daily_focus_items(focused_articles, min_keep=12, max_keep=60)
-        daily_articles = sorted(daily_articles, key=focus_priority)
+        collected = collect_daily_articles(index_articles, relevant_articles, day_str)
+        raw_day_articles = collected["raw_day_articles"]
+        focused_articles = collected["focused_articles"]
+        dropped_articles = collected["dropped_articles"]
+        daily_articles = collected["daily_articles"]
 
         total = len(daily_articles)
         digest = digest_links(daily_articles) if daily_articles else ""
@@ -717,6 +756,8 @@ def main():
     merged = [e for e in merged if isinstance(e, dict) and e.get("date")]
     merged.sort(key=lambda x: x.get("date") or "", reverse=True)
     save_summary_index(merged[:120])
+    rss_changed = sync_daily_rss_feeds(index_articles, relevant_articles, merged[:120])
+    print(f"📡 Synced daily RSS feeds for {rss_changed} date(s)")
     enhanced = enhance_daily_archive("docs/daily/summaries.json")
     print(f"🧭 Enhanced daily navigation/TOC for {enhanced} page(s)")
 

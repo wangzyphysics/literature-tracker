@@ -154,6 +154,8 @@
                 navLink('最新周报', latest ? latest.file : '', latest ? latest.week_start : '暂无', !latest),
                 navLink('前一周', previous ? previous.file : '', previous ? previous.week_start : '暂无', !previous),
                 navLink('最新日报', latestDaily ? `../daily/${latestDaily.file}` : '', latestDaily ? latestDaily.date : '暂无', !latestDaily),
+                navLink('最新日报RSS', latestDaily ? '../daily/latest.xml' : '', latestDaily ? latestDaily.date : '暂无', !latestDaily),
+                navLink('全站RSS', '../feed.xml'),
                 navLink('最新一期区域', '#latestWeeklySection'),
                 navLink('历史归档', '#weeklyArchiveSection'),
                 navLink('阅读建议', '#weeklyGuideSection'),
@@ -174,8 +176,10 @@
                     <div class="insight-rich-links">
                         <a class="insight-btn insight-btn-primary" href="${item.file}">打开周报 ↗</a>
                         ${previous ? `<a class="insight-btn insight-btn-secondary" href="${previous.file}">前一周 · ${escapeHtml(previous.week_start)}</a>` : ''}
+                        <a class="insight-inline-link" href="../feed.xml">全站RSS</a>
                         <a class="insight-inline-link" href="#weeklyArchiveSection">跳到历史归档</a>
                         ${latestDaily ? `<a class="insight-inline-link" href="../daily/${latestDaily.file}">最新日报 ↗</a>` : ''}
+                        ${latestDaily ? `<a class="insight-inline-link" href="../daily/latest.xml">最新日报RSS</a>` : ''}
                     </div>
                 </article>
             `;
@@ -195,6 +199,7 @@
                     <div class="insight-archive-summary">浏览这一周的总览、交叉研究、专题分区与期刊分布；也可以继续跳到相邻周。</div>
                     <div class="insight-rich-links">
                         <a class="insight-inline-link" href="${item.file}">打开周报 ↗</a>
+                        <a class="insight-inline-link" href="../feed.xml">全站RSS</a>
                         ${older ? `<a class="insight-inline-link" href="${older.file}">前一周 · ${escapeHtml(older.week_start)}</a>` : ''}
                         ${newer ? `<a class="insight-inline-link" href="${newer.file}">后一周 · ${escapeHtml(newer.week_start)}</a>` : ''}
                         <a class="insight-inline-link" href="#${anchorId}">页内定位</a>

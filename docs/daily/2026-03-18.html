@@ -162,8 +162,32 @@
     color: var(--accent-hover);
 }
 
+.daily-toc-card {
+    max-height: min(74vh, calc(100vh - 40px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 12px;
+}
+
+.daily-toc-card::-webkit-scrollbar {
+    width: 10px;
+}
+
+.daily-toc-card::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.daily-toc-card::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
 .daily-outline-scroll {
-    max-height: min(60vh, calc(100vh - 210px));
+    max-height: min(40vh, calc(100vh - 320px));
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable both-edges;
@@ -243,11 +267,14 @@
 }
 
 @media (max-width: 980px) {
+    .daily-toc-card {
+        max-height: none;
+    }
     .daily-outline-scroll {
         max-height: none;
     }
 }
-</style></head>
+</style><link href="2026-03-18.xml" rel="alternate" title="2026-03-18 日报 RSS" type="application/rss+xml"/></head>
 <body>
 <div class="daily-shell">
 <div class="daily-topbar">
@@ -287,7 +314,7 @@
 </div>
 </div>
 <p class="daily-filter-note">原始候选 27 篇中，已剔除 0 篇明显偏离主线的内容，并从剩余 27 篇主线相关文献中精选 12 篇进入日报页，优先保留 AI × 物理 / 化学 / 材料交叉与关键计算方法工作。</p>
-<div class="daily-page-nav" id="daily-enhancement-top-nav"><a class="daily-page-nav-link" href="2026-03-17.html">前一天 · 2026-03-17</a><a class="daily-page-nav-link" href="2026-03-19.html">后一天 · 2026-03-19</a><a class="daily-page-nav-link" href="2026-03-26.html">最新一期 · 2026-03-26</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div>
+<div class="daily-page-nav" id="daily-enhancement-top-nav"><a class="daily-page-nav-link" href="2026-03-17.html">前一天 · 2026-03-17</a><a class="daily-page-nav-link" href="2026-03-19.html">后一天 · 2026-03-19</a><a class="daily-page-nav-link" href="2026-03-26.html">最新一期 · 2026-03-26</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-03-18.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div>
 <section class="daily-section" id="summary">
 <div class="daily-section-head">
 <span class="daily-section-index">01</span>
@@ -307,8 +334,8 @@
 <li class="daily-news-item" id="highlight-1">
 <div class="daily-news-index">01</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="https://iopscience.iop.org/article/10.1088/2632-2153/ae4b08" rel="noopener noreferrer" target="_blank">基于图神经网络估计非稳定子性 # # # # #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="https://iopscience.iop.org/article/10.1088/2632-2153/ae4b08" rel="noopener noreferrer" target="_blank">Nonstabilizerness estimation using graph neural networks # # # # #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://iopscience.iop.org/article/10.1088/2632-2153/ae4b08" rel="noopener noreferrer" target="_blank">基于图神经网络估计非稳定子性 # # # # # #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://iopscience.iop.org/article/10.1088/2632-2153/ae4b08" rel="noopener noreferrer" target="_blank">Nonstabilizerness estimation using graph neural networks # # # # # #</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Machine Learning: Science and Technology</span><span class="daily-chip daily-chip-authors">👤 Vincenzo Lipardi, Domenica Dibenedetto, Georgios Stamoulis, Evert van Nieuwenburg and Mark H M Winands</span></div>
 <p class="daily-news-summary">提出图神经网络方法高效估计量子电路中的稳定子Rényi熵，用于评估量子计算优势的关键资源。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>GNN应用于量子资源评估，方法新颖。</p>
@@ -318,8 +345,8 @@
 <li class="daily-news-item" id="highlight-2">
 <div class="daily-news-index">02</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jctc.5c02006" rel="noopener noreferrer" target="_blank">Li-P-S电解质材料作为机器学习原子间势的基准体系 # # # # #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jctc.5c02006" rel="noopener noreferrer" target="_blank">[ASAP] Li–P–S Electrolyte Materials as a Benchmark for Machine-Learned Interatomic Potentials # # # # #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jctc.5c02006" rel="noopener noreferrer" target="_blank">Li-P-S电解质材料作为机器学习原子间势的基准体系 # # # # # #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jctc.5c02006" rel="noopener noreferrer" target="_blank">[ASAP] Li–P–S Electrolyte Materials as a Benchmark for Machine-Learned Interatomic Potentials # # # # # #</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 材料 / 器件</span><span class="daily-chip daily-chip-journal">📖 ACS</span><span class="daily-chip daily-chip-authors">👤 Natascia L. Fragapane and Volker L. Deringer</span></div>
 <p class="daily-news-summary">以锂磷硫电解质为模型体系，系统评估机器学习原子间势在离子导体模拟中的精度与泛化能力。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>ACS</p>
@@ -329,8 +356,8 @@
 <li class="daily-news-item" id="highlight-3">
 <div class="daily-news-index">03</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00030" rel="noopener noreferrer" target="_blank">综合结构描述符实现钙钛矿带特性的机器学习预测 # # # # #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00030" rel="noopener noreferrer" target="_blank">[ASAP] Comprehensive Structural Descriptors Enable Machine Learning Prediction of Perovskite Band Characteristics # # # # #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00030" rel="noopener noreferrer" target="_blank">综合结构描述符实现钙钛矿带特性的机器学习预测 # # # # # #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="http://dx.doi.org/10.1021/acs.jpclett.6c00030" rel="noopener noreferrer" target="_blank">[ASAP] Comprehensive Structural Descriptors Enable Machine Learning Prediction of Perovskite Band Characteristics # # # # # #</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 材料 / 器件</span><span class="daily-chip daily-chip-journal">📖 ACS</span><span class="daily-chip daily-chip-authors">👤 Zixuan Ni, Zhirui Zhang, Yiming Chen, Daye Zheng, and Jian Xu</span></div>
 <p class="daily-news-summary">通过全面结构描述符，建立机器学习模型以准确预测钙钛矿材料的电子带隙与带边位置。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>机器学习预测钙钛矿，实用性强。</p>
@@ -340,8 +367,8 @@
 <li class="daily-news-item" id="highlight-4">
 <div class="daily-news-index">04</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/1gmv-zkvj" rel="noopener noreferrer" target="_blank">CaFe2O(PO4)2：具有S=5/2角共享三角锯齿链的化合物 # # # # #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/1gmv-zkvj" rel="noopener noreferrer" target="_blank">${\mathrm{CaFe}}_{2}\mathrm{O}{({\mathrm{PO}}_{4})}_{2}$: A compound with $S\phantom{\rule{0.16em}{0ex}}=\phantom{\rule{0.16em}{0ex}}\frac{5}{2}$ corner sharing triangular sawtooth chains # # # # #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/1gmv-zkvj" rel="noopener noreferrer" target="_blank">CaFe2O(PO4)2：具有S=5/2角共享三角锯齿链的化合物 # # # # # #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/1gmv-zkvj" rel="noopener noreferrer" target="_blank">${\mathrm{CaFe}}_{2}\mathrm{O}{({\mathrm{PO}}_{4})}_{2}$: A compound with $S\phantom{\rule{0.16em}{0ex}}=\phantom{\rule{0.16em}{0ex}}\frac{5}{2}$ corner sharing triangular sawtooth chains # # # # # #</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 R. C. Moharana, Sk. Soyeb Ali, V. K. Sahu, J. Link, I. Heinmaa, S. Chattopadhyay, S. K. Panda, R. Stern, T. Chakrabarty, and B. Koteswararao</span></div>
 <p class="daily-news-summary">报道一种结合几何阻挫与一维磁性的化合物，其角共享三角锯齿链结构导致强量子涨落与奇异磁态。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
@@ -351,8 +378,8 @@
 <li class="daily-news-item" id="highlight-5">
 <div class="daily-news-index">05</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/6jd2-lx9g" rel="noopener noreferrer" target="_blank">RuO2(101)中各向异性自旋霍尔效应驱动的无场垂直磁化翻转 # # # # #</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/6jd2-lx9g" rel="noopener noreferrer" target="_blank">Field-free perpendicular magnetization switching driven by the anisotropic spin Hall effect in ${\mathrm{RuO}}_{2}(101)$ # # # # #</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/6jd2-lx9g" rel="noopener noreferrer" target="_blank">RuO2(101)中各向异性自旋霍尔效应驱动的无场垂直磁化翻转 # # # # # #</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/6jd2-lx9g" rel="noopener noreferrer" target="_blank">Field-free perpendicular magnetization switching driven by the anisotropic spin Hall effect in ${\mathrm{RuO}}_{2}(101)$ # # # # # #</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Zeyuan Zhang, Ziqiang Wang, Jun Cheng, Jiyu Shen, Man Yang, Xi Yang, Yulun Zeng, Mengxue Jiang, Longqian Yu, Junwei Ma, Liang Sun, Gong Chen, Bingfeng Miao, and Haifeng Ding</span></div>
 <p class="daily-news-summary">利用(101)取向RuO2薄膜的各向异性自旋霍尔效应，实现无需外磁场的垂直磁化高效开关。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
@@ -362,8 +389,8 @@
 <li class="daily-news-item" id="highlight-6">
 <div class="daily-news-index">06</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523774?af=R" rel="noopener noreferrer" target="_blank">化学掺杂调控范德华铁电CuInP2S6的极化与拓扑织构 # # # # #</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523774?af=R" rel="noopener noreferrer" target="_blank">Chemical Doping Engineering of Polarization and Topological Textures in van der Waals Ferroelectric CuInP2S6 # # # # #</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523774?af=R" rel="noopener noreferrer" target="_blank">化学掺杂调控范德华铁电CuInP2S6的极化与拓扑织构 # # # # # #</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202523774?af=R" rel="noopener noreferrer" target="_blank">Chemical Doping Engineering of Polarization and Topological Textures in van der Waals Ferroelectric CuInP2S6 # # # # # #</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Science: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Lei Gao,  Wenhao Li,  Fei Sun,  Ziyi Zhou,  Zhihao Shen,  Jianwei Liang,  He Jiang,  Weiming Xiong,  Weijin Chen,  Xiaoyue Zhang,  Yi Zhang,  Xinzhi Liu,  Yue Zheng</span></div>
 <p class="daily-news-summary">通过元素掺杂工程，有效调控层状铁电材料CuInP2S6的自发极化及其拓扑畴结构。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>Wiley: Advanced Science: Table of Contents</p>
@@ -391,8 +418,8 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/2b75-psq2" rel="noopener noreferrer" target="_blank">拓扑超导/铁磁绝缘体异质结构中的杂化集体激发 # # # # #</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/2b75-psq2" rel="noopener noreferrer" target="_blank">Hybrid collective excitations in topological superconductor/ferromagnetic insulator heterostructures # # # # #</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/2b75-psq2" rel="noopener noreferrer" target="_blank">拓扑超导/铁磁绝缘体异质结构中的杂化集体激发 # # # # # #</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/2b75-psq2" rel="noopener noreferrer" target="_blank">Hybrid collective excitations in topological superconductor/ferromagnetic insulator heterostructures # # # # # #</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 T. Karabassov, I. V. Bobkova, A. M. Bobkov, A. S. Vasenko, and A. A. Golubov</span></div>
@@ -407,8 +434,8 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202516988?af=R" rel="noopener noreferrer" target="_blank">磁共振成像揭示肺癌脑转移进展中的脑膜淋巴管功能障碍 # # # # #</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202516988?af=R" rel="noopener noreferrer" target="_blank">Magnetic Resonance Imaging Reveals Meningeal Lymphatic Impairment in Lung Adenocarcinoma Brain Metastasis Progression # # # # #</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202516988?af=R" rel="noopener noreferrer" target="_blank">磁共振成像揭示肺癌脑转移进展中的脑膜淋巴管功能障碍 # # # # # #</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202516988?af=R" rel="noopener noreferrer" target="_blank">Magnetic Resonance Imaging Reveals Meningeal Lymphatic Impairment in Lung Adenocarcinoma Brain Metastasis Progression # # # # # #</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Science: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Yuan Zhang,  Shucheng Jin,  Penghui Guo,  Yuying Yin,  Yichun Hua,  Xiaosheng Ding,  Zhe Zhang,  Shuo Chen,  Xu Han,  Baowang Li,  Yan Liu,  Xiaoyan Li,  Deling Li,  Jing Jing,  Wei Shi,  Wang Jia</span></div>
@@ -423,8 +450,8 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/tjzc-cbhr" rel="noopener noreferrer" target="_blank">第一性原理与紧束缚模型揭示FeSe的向列性与能带结构 # # # # #</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/tjzc-cbhr" rel="noopener noreferrer" target="_blank">Understanding nematicity and band structure of FeSe by first-principles study and tight-binding model # # # # #</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/tjzc-cbhr" rel="noopener noreferrer" target="_blank">第一性原理与紧束缚模型揭示FeSe的向列性与能带结构 # # # # # #</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/tjzc-cbhr" rel="noopener noreferrer" target="_blank">Understanding nematicity and band structure of FeSe by first-principles study and tight-binding model # # # # # #</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. Research</span><span class="daily-chip daily-chip-authors">👤 Miao-Miao Li, Xiu-Cai Jiang, and Yu-Zhong Zhang</span></div>
@@ -439,8 +466,8 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/8p79-4r7x" rel="noopener noreferrer" target="_blank">蜂窝光学Su-Schrieffer-Heeger-Hubbard模型中的反铁磁与Kekulé价键序 # # # # #</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/8p79-4r7x" rel="noopener noreferrer" target="_blank">Antiferromagnetism and Kekulé valence bond order in the honeycomb optical Su-Schrieffer-Heeger-Hubbard model # # # # #</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/8p79-4r7x" rel="noopener noreferrer" target="_blank">蜂窝光学Su-Schrieffer-Heeger-Hubbard模型中的反铁磁与Kekulé价键序 # # # # # #</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/8p79-4r7x" rel="noopener noreferrer" target="_blank">Antiferromagnetism and Kekulé valence bond order in the honeycomb optical Su-Schrieffer-Heeger-Hubbard model # # # # # #</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Sohan Malkaruge Costa, Benjamin Cohen-Stead, and Steven Johnston</span></div>
@@ -455,8 +482,8 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/gqwy-n84r" rel="noopener noreferrer" target="_blank">蜂窝晶格上阻挫伊辛模型的亚稳态与普适性 # # # # #</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/gqwy-n84r" rel="noopener noreferrer" target="_blank">Frustrated Ising model on the honeycomb lattice: Metastability and universality # # # # #</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/gqwy-n84r" rel="noopener noreferrer" target="_blank">蜂窝晶格上阻挫伊辛模型的亚稳态与普适性 # # # # # #</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/gqwy-n84r" rel="noopener noreferrer" target="_blank">Frustrated Ising model on the honeycomb lattice: Metastability and universality # # # # # #</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Denis Gessert, Martin Weigel, and Wolfhard Janke</span></div>
@@ -471,8 +498,8 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/fv8k-twwl" rel="noopener noreferrer" target="_blank">非常规p波磁体/超导体约瑟夫森结中的二极管效应 # # # # #</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/fv8k-twwl" rel="noopener noreferrer" target="_blank">Josephson diode effect in unconventional $p$-wave magnet/superconductor Josephson junctions # # # # #</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/fv8k-twwl" rel="noopener noreferrer" target="_blank">非常规p波磁体/超导体约瑟夫森结中的二极管效应 # # # # # #</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/fv8k-twwl" rel="noopener noreferrer" target="_blank">Josephson diode effect in unconventional $p$-wave magnet/superconductor Josephson junctions # # # # # #</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Zhe Yang and Zhi Ping Niu</span></div>
@@ -485,7 +512,7 @@
 </ol>
 </section>
 </section>
-<div class="daily-page-nav" id="daily-enhancement-bottom-nav"><a class="daily-page-nav-link" href="2026-03-17.html">前一天 · 2026-03-17</a><a class="daily-page-nav-link" href="2026-03-19.html">后一天 · 2026-03-19</a><a class="daily-page-nav-link" href="2026-03-26.html">最新一期 · 2026-03-26</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div><div class="daily-footer">
+<div class="daily-page-nav" id="daily-enhancement-bottom-nav"><a class="daily-page-nav-link" href="2026-03-17.html">前一天 · 2026-03-17</a><a class="daily-page-nav-link" href="2026-03-19.html">后一天 · 2026-03-19</a><a class="daily-page-nav-link" href="2026-03-26.html">最新一期 · 2026-03-26</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-03-18.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div><div class="daily-footer">
           本页由文献追踪系统自动生成，仅保留 AI × 物理 / 化学 / 材料主线相关文献，并按专题重新整理，方便快速筛选与深度阅读。
         </div>
 </article>
@@ -499,7 +526,7 @@
 <div class="daily-sidebar-title">专题分布</div>
 <div class="daily-sidebar-stats"><div class="daily-sidebar-fact"><span>AI × 物理 / 凝聚态</span><strong>6</strong></div></div>
 </div>
-<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">基于图神经网络估计非稳定子性 # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">Li-P-S电解质材料作为机器学习原子间势的基准体系 # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">综合结构描述符实现钙钛矿带特性的机器学习预测 # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">CaFe2O(PO4)2：具有S=5/2角共享三角锯齿链的化合物 # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-5">RuO2(101)中各向异性自旋霍尔效应驱动的无场垂直磁化翻转 # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-6">化学掺杂调控范德华铁电CuInP2S6的极化与拓扑织构 # # # # #<span class="daily-outline-meta">交叉重点</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-物理-凝聚态">AI × 物理 / 凝聚态</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">拓扑超导/铁磁绝缘体异质结构中的杂化集体激发 # # # # #<span class="daily-outline-meta">01</span></a><a class="daily-outline-link" href="#paper-2">磁共振成像揭示肺癌脑转移进展中的脑膜淋巴管功能障碍 # # # # #<span class="daily-outline-meta">02</span></a><a class="daily-outline-link" href="#paper-3">第一性原理与紧束缚模型揭示FeSe的向列性与能带结构 # # # # #<span class="daily-outline-meta">03</span></a><a class="daily-outline-link" href="#paper-4">蜂窝光学Su-Schrieffer-Heeger-Hubbard模型中的反铁磁与Kekulé价键序 # # # # #<span class="daily-outline-meta">04</span></a><a class="daily-outline-link" href="#paper-5">蜂窝晶格上阻挫伊辛模型的亚稳态与普适性 # # # # #<span class="daily-outline-meta">05</span></a><a class="daily-outline-link" href="#paper-6">非常规p波磁体/超导体约瑟夫森结中的二极管效应 # # # # #<span class="daily-outline-meta">06</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-03-17.html">前一天 · 2026-03-17</a><a class="daily-page-nav-link" href="2026-03-19.html">后一天 · 2026-03-19</a><a class="daily-page-nav-link" href="2026-03-26.html">最新一期 · 2026-03-26</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
+<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">基于图神经网络估计非稳定子性 # # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">Li-P-S电解质材料作为机器学习原子间势的基准体系 # # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">综合结构描述符实现钙钛矿带特性的机器学习预测 # # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">CaFe2O(PO4)2：具有S=5/2角共享三角锯齿链的化合物 # # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-5">RuO2(101)中各向异性自旋霍尔效应驱动的无场垂直磁化翻转 # # # # # #<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-6">化学掺杂调控范德华铁电CuInP2S6的极化与拓扑织构 # # # # # #<span class="daily-outline-meta">交叉重点</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-物理-凝聚态">AI × 物理 / 凝聚态</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">拓扑超导/铁磁绝缘体异质结构中的杂化集体激发 # # # # # #<span class="daily-outline-meta">01</span></a><a class="daily-outline-link" href="#paper-2">磁共振成像揭示肺癌脑转移进展中的脑膜淋巴管功能障碍 # # # # # #<span class="daily-outline-meta">02</span></a><a class="daily-outline-link" href="#paper-3">第一性原理与紧束缚模型揭示FeSe的向列性与能带结构 # # # # # #<span class="daily-outline-meta">03</span></a><a class="daily-outline-link" href="#paper-4">蜂窝光学Su-Schrieffer-Heeger-Hubbard模型中的反铁磁与Kekulé价键序 # # # # # #<span class="daily-outline-meta">04</span></a><a class="daily-outline-link" href="#paper-5">蜂窝晶格上阻挫伊辛模型的亚稳态与普适性 # # # # # #<span class="daily-outline-meta">05</span></a><a class="daily-outline-link" href="#paper-6">非常规p波磁体/超导体约瑟夫森结中的二极管效应 # # # # # #<span class="daily-outline-meta">06</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-03-17.html">前一天 · 2026-03-17</a><a class="daily-page-nav-link" href="2026-03-19.html">后一天 · 2026-03-19</a><a class="daily-page-nav-link" href="2026-03-26.html">最新一期 · 2026-03-26</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-03-18.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
 <div class="daily-sidebar-title">阅读建议</div>
 <ul class="insight-note-list">
 <li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>

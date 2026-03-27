@@ -13,6 +13,7 @@ import requests
 from datetime import datetime
 from typing import List, Dict, Optional, Any
 from abc import ABC, abstractmethod
+from urllib.parse import urlsplit, urlunsplit
 
 try:
     from config import AI_CONFIG as DEFAULT_AI_CONFIG
@@ -104,7 +105,7 @@ class GeminiProvider(AIProvider):
 
 class OpenRouterProvider(AIProvider):
     """
-    OpenRouter (OpenAI-compatible) chat completions API.
+    OpenAI-compatible chat completions API.
 
     Docs: https://openrouter.ai/docs
     """
@@ -116,9 +117,15 @@ class OpenRouterProvider(AIProvider):
             or os.environ.get("AI_MODEL")
             or os.environ.get("OPENROUTER_MODEL")
             or (DEFAULT_AI_CONFIG.get("model") if isinstance(DEFAULT_AI_CONFIG, dict) else None)
-            or "stepfun/step-3.5-flash:free"
+            or "gpt-5.4(auto)"
         )
-        self.base_url = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1/chat/completions")
+        raw_base_url = (
+            os.environ.get("AI_BASE_URL")
+            or os.environ.get("OPENROUTER_BASE_URL")
+            or (DEFAULT_AI_CONFIG.get("base_url") if isinstance(DEFAULT_AI_CONFIG, dict) else None)
+            or "https://supercodex.space/v1"
+        )
+        self.base_url = normalize_chat_completions_url(raw_base_url)
         self.max_retries = int(os.environ.get("AI_MAX_RETRIES", "3"))
         self.timeout = int(os.environ.get("AI_TIMEOUT_SECONDS", "120"))
 
@@ -231,6 +238,32 @@ class OpenRouterProvider(AIProvider):
                 sleep_s = min(sleep_s, max(1.0, remaining))
             time.sleep(sleep_s)
         return ""
+
+
+def normalize_chat_completions_url(raw_url: Optional[str]) -> str:
+    """
+    Accept either a root OpenAI-compatible base URL (e.g. https://host/v1)
+    or a full chat-completions endpoint, and normalize to the latter.
+    """
+    default_url = "https://openrouter.ai/api/v1/chat/completions"
+    candidate = (raw_url or "").strip()
+    if not candidate:
+        return default_url
+
+    parsed = urlsplit(candidate)
+    if not parsed.scheme or not parsed.netloc:
+        return default_url
+
+    normalized_path = parsed.path.rstrip("/")
+    if not normalized_path:
+        normalized_path = "/chat/completions"
+    elif not (
+        normalized_path.endswith("/chat/completions")
+        or normalized_path.endswith("/completions")
+    ):
+        normalized_path = f"{normalized_path}/chat/completions"
+
+    return urlunsplit((parsed.scheme, parsed.netloc, normalized_path, parsed.query, parsed.fragment))
 
 
 def build_provider(api_provider: str, api_key: str, model: str = None) -> AIProvider:
