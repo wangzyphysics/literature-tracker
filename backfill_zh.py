@@ -17,6 +17,7 @@ import os
 import time
 from typing import Any, Dict, List
 
+from text_normalizer import is_suspicious_text, normalize_articles_inplace
 from zh_enricher import enrich_articles_zh
 
 
@@ -34,10 +35,10 @@ def save_index(path: str, articles: List[Dict[str, Any]]):
 def count_missing(articles: List[Dict[str, Any]]) -> int:
     n = 0
     for a in articles:
-        if not (a.get("title_zh") or "").strip():
+        if not (a.get("title_zh") or "").strip() or is_suspicious_text(a.get("title_zh")):
             n += 1
             continue
-        if not (a.get("abstract_zh") or "").strip():
+        if not (a.get("abstract_zh") or "").strip() or is_suspicious_text(a.get("abstract_zh")):
             n += 1
             continue
     return n
@@ -49,6 +50,7 @@ def main() -> int:
 
     data = load_index(index_path)
     articles = data.get("articles", []) or []
+    normalize_articles_inplace(articles)
     if not articles:
         print("No articles found; abort.")
         return 1
@@ -103,4 +105,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -10,7 +10,9 @@ from datetime import datetime, timezone, timedelta
 from dateutil import parser as date_parser
 from typing import Optional
 from bs4 import BeautifulSoup
+from author_utils import normalize_author_names
 from focus_filter import is_target_domain
+from text_normalizer import normalize_text
 
 # 北京时间 UTC+8，用于统一存储 pub_date 为「北京时间的日历日」，避免 Actions(UTC) 与统计日期时差
 BEIJING_TZ = timezone(timedelta(hours=8))
@@ -21,11 +23,11 @@ class Article:
     
     def __init__(self, title: str, abstract: str, authors: list, 
                  pub_date: str, journal: str, link: str, source_url: str, arxiv_category: str = ""):
-        self.title = title
-        self.abstract = abstract
-        self.authors = authors
+        self.title = normalize_text(title)
+        self.abstract = normalize_text(abstract)
+        self.authors = normalize_author_names(authors)
         self.pub_date = pub_date
-        self.journal = journal
+        self.journal = normalize_text(journal)
         self.link = link
         self.source_url = source_url
         self.arxiv_category = arxiv_category
@@ -71,8 +73,8 @@ class Article:
             arxiv_category=data.get("arxiv_category", ""),
         )
         article.id = data.get("id", article.id)
-        article.title_zh = data.get("title_zh", "")
-        article.abstract_zh = data.get("abstract_zh", "")
+        article.title_zh = normalize_text(data.get("title_zh", ""))
+        article.abstract_zh = normalize_text(data.get("abstract_zh", ""))
         article.arxiv_category = data.get("arxiv_category", article.arxiv_category)
         return article
 
@@ -212,7 +214,7 @@ class RSSFetcher:
         soup = BeautifulSoup(text, "html.parser")
         clean = soup.get_text(separator=" ")
         clean = re.sub(r'\s+', ' ', clean).strip()
-        return clean
+        return normalize_text(clean)
     
     def _parse_authors(self, entry) -> list:
         """解析作者信息"""
@@ -231,7 +233,7 @@ class RSSFetcher:
         elif "dc_creator" in entry:
             authors.append(entry.dc_creator)
         
-        return authors
+        return normalize_author_names(authors)
     
     def _parse_date(self, entry) -> str:
         """

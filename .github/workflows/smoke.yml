@@ -26,11 +26,15 @@ jobs:
 
       - name: Syntax check
         run: |
-          python -m py_compile ai_summarizer.py rss_fetcher.py rss_generator.py generate_daily_pages.py daily_page_enhancer.py weekly_page_enhancer.py run_optimized_sync.py translator.py weekly_summary.py relevance_enricher.py focus_filter.py
+          python -m py_compile ai_summarizer.py rss_fetcher.py rss_generator.py generate_daily_pages.py daily_page_enhancer.py weekly_page_enhancer.py run_optimized_sync.py translator.py weekly_summary.py relevance_enricher.py focus_filter.py text_normalizer.py zh_enricher.py backfill_zh.py
 
       - name: AI provider config test
         run: |
           python test_ai_summarizer_json_repair.py
+
+      - name: Text normalizer test
+        run: |
+          python test_text_normalizer.py
 
       - name: Daily page renderer test
         run: |

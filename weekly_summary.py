@@ -13,6 +13,7 @@ from typing import List, Dict, Optional
 from ai_summarizer import build_provider
 from author_utils import authors_label as format_authors_label
 from abstract_scraper import AbstractScraper
+from text_normalizer import normalize_articles_inplace, normalize_text
 from translator import translate_text
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from weekly_page_enhancer import enhance_weekly_archive
@@ -27,7 +28,7 @@ except ImportError:
 
 
 def _safe_text(value) -> str:
-    return html.escape(str(value or ""), quote=True)
+    return html.escape(normalize_text(value or ""), quote=True)
 
 
 def _safe_multiline(value) -> str:
@@ -2162,6 +2163,7 @@ def generate_weekly_summary(week_start: str = None, api_key: str = None) -> Opti
         with open('docs/data/index.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
         articles = data.get('articles', [])
+        normalize_articles_inplace(articles)
     except FileNotFoundError:
         print("❌ 未找到数据文件")
         return None

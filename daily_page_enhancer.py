@@ -10,7 +10,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, Comment, NavigableString, Tag
+
+from text_normalizer import is_suspicious_text, normalize_articles_inplace, normalize_text
 
 STYLE_ID = "daily-enhancement-style"
 TOP_NAV_ID = "daily-enhancement-top-nav"
@@ -214,7 +216,7 @@ ENHANCEMENT_CSS = """
 
 
 def _safe_text(text: str) -> str:
-    return " ".join((text or "").split())
+    return " ".join(normalize_text(text or "").split())
 
 
 def _slugify(text: str, fallback: str) -> str:
@@ -232,6 +234,29 @@ def load_summary_entries(index_path: str | Path = "docs/daily/summaries.json") -
         return []
     data = json.loads(path.read_text(encoding="utf-8"))
     return [item for item in (data.get("summaries") or []) if isinstance(item, dict) and item.get("date")]
+
+
+def load_article_lookup(paths: Iterable[str | Path] = ("data/index.json", "docs/data/index.json")) -> Dict[str, Dict]:
+    lookup: Dict[str, Dict] = {}
+    for raw_path in paths:
+        path = Path(raw_path)
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        articles = data.get("articles", []) if isinstance(data, dict) else []
+        if not isinstance(articles, list):
+            continue
+        normalize_articles_inplace(articles)
+        for article in articles:
+            if not isinstance(article, dict):
+                continue
+            link = str(article.get("link") or "").strip()
+            if link and link not in lookup:
+                lookup[link] = article
+    return lookup
 
 
 def build_nav_context(entries: List[Dict]) -> Dict[str, Dict[str, Optional[Dict]]]:
@@ -301,10 +326,15 @@ def _title_plain_text(node: Optional[Tag]) -> str:
     return _safe_text(" ".join(texts))
 
 
+def _strip_trailing_anchor_hashes(text: str) -> str:
+    return re.sub(r"(?:\s*#\s*)+$", "", text or "").strip()
+
+
 def _replace_title_with_link(soup: BeautifulSoup, title_node: Optional[Tag], href: str, anchor_id: str) -> None:
     if title_node is None:
         return
-    text = _safe_text(title_node.get_text(" ", strip=True))
+    text = _title_plain_text(title_node) or _safe_text(title_node.get_text(" ", strip=True))
+    text = _strip_trailing_anchor_hashes(text)
     if not text:
         return
     title_node.clear()
@@ -388,8 +418,64 @@ def _remove_existing_injected_blocks(soup: BeautifulSoup) -> None:
         if node is not None:
             node.decompose()
 
+    for node in soup.select(".daily-inline-links"):
+        node.decompose()
+    for node in soup.select("a.daily-permalink-link"):
+        node.decompose()
 
-def enhance_daily_html_file(file_path: str | Path, summaries: List[Dict], *, date_str: Optional[str] = None) -> bool:
+
+def _sanitize_soup_text(soup: BeautifulSoup) -> None:
+    for node in list(soup.find_all(string=True)):
+        if isinstance(node, Comment):
+            continue
+        if node.parent is not None and node.parent.name in {"script", "style"}:
+            continue
+        old = str(node)
+        new = normalize_text(old)
+        if new != old:
+            node.replace_with(NavigableString(new))
+
+    for tag in soup.find_all(True):
+        for attr in ("title", "aria-label", "alt", "content"):
+            if tag.has_attr(attr):
+                tag[attr] = normalize_text(tag.get(attr))
+
+
+def _replace_plain_text(node: Optional[Tag], text: str) -> None:
+    if node is None:
+        return
+    node.clear()
+    node.append(NavigableString(text))
+
+
+def _apply_article_title_fallback(item_node: Tag, article_lookup: Dict[str, Dict], *, is_paper: bool) -> None:
+    source_link = item_node.select_one(".daily-news-link")
+    href = str(source_link.get("href") or "").strip() if source_link is not None else ""
+    if not href:
+        return
+    article = article_lookup.get(href)
+    if not article:
+        return
+
+    title_zh = normalize_text(article.get("title_zh") or "")
+    title_en = normalize_text(article.get("title") or article.get("title_en") or "")
+    zh_selector = ".daily-paper-title-zh" if is_paper else ".daily-news-title-zh"
+    en_selector = ".daily-paper-title-en" if is_paper else ".daily-news-title-en"
+
+    display_zh = title_zh if title_zh and not is_suspicious_text(title_zh) else title_en
+    if display_zh and not is_suspicious_text(display_zh):
+        _replace_plain_text(item_node.select_one(zh_selector), display_zh)
+    if title_en and not is_suspicious_text(title_en):
+        _replace_plain_text(item_node.select_one(en_selector), title_en)
+
+
+def enhance_daily_html_file(
+    file_path: str | Path,
+    summaries: List[Dict],
+    *,
+    date_str: Optional[str] = None,
+    article_lookup: Optional[Dict[str, Dict]] = None,
+) -> bool:
     path = Path(file_path)
     if not path.exists() or path.name == "index.html":
         return False
@@ -401,6 +487,7 @@ def enhance_daily_html_file(file_path: str | Path, summaries: List[Dict], *, dat
     nav = nav_map.get(date_str, {"newer": None, "older": None, "latest": summaries[0] if summaries else None})
 
     soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
+    _sanitize_soup_text(soup)
     article = soup.select_one(".daily-article")
     hero = soup.select_one(".daily-hero")
     toc_card = soup.select_one(".daily-toc-card")
@@ -420,6 +507,8 @@ def enhance_daily_html_file(file_path: str | Path, summaries: List[Dict], *, dat
     for idx, item in enumerate(soup.select(".daily-news-item"), 1):
         item_id = f"highlight-{idx}"
         item["id"] = item_id
+        if article_lookup:
+            _apply_article_title_fallback(item, article_lookup, is_paper=False)
         href = "#"
         source_link = item.select_one(".daily-news-link")
         if source_link is not None and source_link.get("href"):
@@ -446,6 +535,8 @@ def enhance_daily_html_file(file_path: str | Path, summaries: List[Dict], *, dat
         links = []
         for card in group.select(".daily-paper-card"):
             card_id = card.get("id") or ""
+            if article_lookup:
+                _apply_article_title_fallback(card, article_lookup, is_paper=True)
             source_link = card.select_one(".daily-news-link")
             href = source_link.get("href") if source_link is not None and source_link.get("href") else "#"
             _replace_title_with_link(soup, card.select_one(".daily-paper-title-zh"), href, card_id)
@@ -518,6 +609,7 @@ def enhance_daily_html_file(file_path: str | Path, summaries: List[Dict], *, dat
 
 def enhance_daily_archive(index_path: str | Path = "docs/daily/summaries.json", files: Optional[Iterable[str]] = None) -> int:
     summaries = load_summary_entries(index_path)
+    article_lookup = load_article_lookup()
     selected = set(files or [])
     changed = 0
     for entry in summaries:
@@ -525,7 +617,7 @@ def enhance_daily_archive(index_path: str | Path = "docs/daily/summaries.json", 
         if selected and file_name not in selected and entry.get("date") not in selected:
             continue
         path = Path(index_path).parent / file_name
-        if enhance_daily_html_file(path, summaries, date_str=entry.get("date")):
+        if enhance_daily_html_file(path, summaries, date_str=entry.get("date"), article_lookup=article_lookup):
             changed += 1
     return changed
 

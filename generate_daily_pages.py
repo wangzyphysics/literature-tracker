@@ -22,6 +22,7 @@ from author_utils import authors_label
 from daily_page_enhancer import enhance_daily_archive
 from focus_filter import analyze_focus, filter_daily_focus_items, filter_focus_items, focus_priority, topic_bucket
 from rss_generator import generate_daily_rss_feed
+from text_normalizer import normalize_articles_inplace, normalize_text
 
 
 def beijing_today() -> str:
@@ -36,7 +37,7 @@ def beijing_yesterday() -> str:
 def safe_text(value: str) -> str:
     if value is None:
         return ""
-    return html.escape(str(value), quote=True)
+    return html.escape(normalize_text(value), quote=True)
 
 
 def safe_url(value: str) -> str:
@@ -75,7 +76,10 @@ def load_relevant(path: str) -> List[Dict]:
         return []
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
+        if isinstance(data, list):
+            normalize_articles_inplace(data)
+        return data
     except Exception:
         return []
 
@@ -85,7 +89,10 @@ def load_index_articles(path: str = "data/index.json") -> List[Dict]:
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f) or {}
-        return data.get("articles", []) or []
+        articles = data.get("articles", []) or []
+        if isinstance(articles, list):
+            normalize_articles_inplace(articles)
+        return articles
     except Exception:
         return []
 

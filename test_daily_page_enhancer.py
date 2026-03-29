@@ -57,6 +57,8 @@ def main() -> int:
 
         changed = enhance_daily_archive(daily_dir / "summaries.json")
         assert changed == 2
+        changed_again = enhance_daily_archive(daily_dir / "summaries.json")
+        assert changed_again == 2
 
         enhanced_24 = (daily_dir / "2026-03-24.html").read_text(encoding="utf-8")
         enhanced_23 = (daily_dir / "2026-03-23.html").read_text(encoding="utf-8")
@@ -73,6 +75,7 @@ def main() -> int:
         assert "daily-toc-card" in enhanced_24
         assert "#highlight-1" in enhanced_24
         assert "#paper-1" in enhanced_24
+        assert "# #" not in enhanced_24
 
     print("[OK] daily page enhancer sanity checks passed")
     return 0

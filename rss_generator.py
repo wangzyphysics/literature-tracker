@@ -10,6 +10,7 @@ from typing import Dict, List, Optional
 from xml.sax.saxutils import escape
 
 from author_utils import authors_label
+from text_normalizer import normalize_text
 
 SITE_URL = (os.environ.get('LITERATURE_TRACKER_SITE_URL') or 'https://hongyu-yu.github.io/literature-tracker').rstrip('/')
 SITE_TITLE = '文献追踪系统'
@@ -30,7 +31,7 @@ def _format_rfc822(pub_date: str) -> str:
 
 
 def _trim_text(value: str, limit: int) -> str:
-    compact = ' '.join(str(value or '').split())
+    compact = ' '.join(normalize_text(value).split())
     if len(compact) <= limit:
         return compact
     return compact[: max(0, limit - 1)].rstrip() + '…'
@@ -41,14 +42,14 @@ def _authors_label(article: Dict) -> str:
 
 
 def _article_title(article: Dict) -> str:
-    return str(article.get('title_zh') or article.get('title') or '无标题').strip() or '无标题'
+    return normalize_text(article.get('title_zh') or article.get('title') or '无标题').strip() or '无标题'
 
 
 def _article_description(article: Dict, *, max_chars: int = 800) -> str:
-    journal = str(article.get('journal') or '').strip()
+    journal = normalize_text(article.get('journal') or '').strip()
     authors = _authors_label(article)
-    summary = str(article.get('summary') or article.get('one_sentence_summary') or '').strip()
-    abstract = str(article.get('abstract_zh') or article.get('abstract') or '').strip()
+    summary = normalize_text(article.get('summary') or article.get('one_sentence_summary') or '').strip()
+    abstract = normalize_text(article.get('abstract_zh') or article.get('abstract') or '').strip()
 
     parts = []
     if journal:

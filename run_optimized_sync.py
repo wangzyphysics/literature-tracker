@@ -16,6 +16,7 @@ from zh_enricher import enrich_articles_zh
 from relevance_enricher import batch_analyze_relevance
 from focus_filter import analyze_focus, filter_daily_focus_items, filter_focus_items, is_daily_focus, is_target_domain, is_hard_offtopic
 from rss_generator import generate_rss_feed
+from text_normalizer import normalize_articles_inplace
 
 def get_beijing_time():
     beijing_tz = timezone(timedelta(hours=8))
@@ -122,6 +123,7 @@ def run_optimized_sync():
                 ai_relevant_list = json.load(f) or []
         except Exception:
             ai_relevant_list = []
+    normalize_articles_inplace(ai_relevant_list)
     ai_relevant_list = [item for item in ai_relevant_list if isinstance(item, dict) and _is_ai4science_relevant(item)]
     existing_relevant_links = {a.get("link") for a in ai_relevant_list if isinstance(a, dict)}
 
@@ -244,6 +246,7 @@ def run_optimized_sync():
         except Exception:
             existing_articles = []
 
+    normalize_articles_inplace(existing_articles)
     normalized = _normalize_existing_articles(existing_articles)
     if normalized:
         print(f"🧹 已规范化历史字段: {normalized} 处 (e.g., arXiv journal/category)")
@@ -270,6 +273,8 @@ def run_optimized_sync():
     elif new_count:
         print(f"🌐 本次新增: {new_count} 篇 (中文字段补全: 0)")
 
+    normalize_articles_inplace(existing_articles)
+    normalize_articles_inplace(ai_relevant_list)
     existing_articles.sort(key=lambda x: x.get("pub_date", ""), reverse=True)
     with open(full_data_path, "w", encoding="utf-8") as f:
         json.dump({"articles": existing_articles[:5000]}, f, ensure_ascii=False, indent=2)
@@ -296,6 +301,7 @@ def send_daily_summary():
         data = json.load(f)
 
     articles = data.get("articles", [])
+    normalize_articles_inplace(articles)
     day_articles = [a for a in articles if (a.get('pub_date') or '').startswith(day_str)]
     focused_articles, _ = filter_focus_items(day_articles)
     daily_articles, _ = filter_daily_focus_items(focused_articles, min_keep=12, max_keep=60)

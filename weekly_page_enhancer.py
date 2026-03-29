@@ -10,7 +10,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, Comment, NavigableString, Tag
+
+from text_normalizer import normalize_text
 
 STYLE_ID = "weekly-enhancement-style"
 TOP_NAV_ID = "weekly-enhancement-top-nav"
@@ -219,7 +221,7 @@ ENHANCEMENT_CSS = """
 
 
 def _safe_text(text: str) -> str:
-    return " ".join((text or "").split())
+    return " ".join(normalize_text(text or "").split())
 
 
 def _slugify(text: str, fallback: str) -> str:
@@ -284,6 +286,23 @@ def _remove_existing_injected_blocks(soup: BeautifulSoup) -> None:
         node.decompose()
     for node in soup.select("a.weekly-permalink-link"):
         node.decompose()
+
+
+def _sanitize_soup_text(soup: BeautifulSoup) -> None:
+    for node in list(soup.find_all(string=True)):
+        if isinstance(node, Comment):
+            continue
+        if node.parent is not None and node.parent.name in {"script", "style"}:
+            continue
+        old = str(node)
+        new = normalize_text(old)
+        if new != old:
+            node.replace_with(NavigableString(new))
+
+    for tag in soup.find_all(True):
+        for attr in ("title", "aria-label", "alt", "content"):
+            if tag.has_attr(attr):
+                tag[attr] = normalize_text(tag.get(attr))
 
 
 def _title_plain_text(node: Optional[Tag]) -> str:
@@ -393,6 +412,7 @@ def enhance_weekly_html_file(file_path: str | Path, entries: List[Dict], *, week
     nav = nav_map.get(week_start, {"newer": None, "older": None, "latest": entries[0] if entries else None})
 
     soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
+    _sanitize_soup_text(soup)
     hero = soup.select_one(".weekly-report-hero")
     sidebar = soup.select_one(".weekly-report-sidebar")
     footer = soup.select_one(".weekly-report-footer")

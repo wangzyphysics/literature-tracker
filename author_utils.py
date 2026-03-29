@@ -6,9 +6,11 @@ from __future__ import annotations
 import re
 from typing import Any, List
 
+from text_normalizer import normalize_text
+
 
 def _compact_text(value: Any) -> str:
-    return " ".join(str(value or "").replace("\u00a0", " ").split())
+    return " ".join(normalize_text(value).replace("\u00a0", " ").split())
 
 
 def _looks_like_character_stream(items: List[str]) -> bool:

@@ -15,6 +15,7 @@ import time
 from typing import Any, Dict, List, Optional
 
 from ai_summarizer import build_provider
+from text_normalizer import is_suspicious_text, normalize_articles_inplace, normalize_text
 
 
 def _extract_json(text: str) -> Any:
@@ -50,11 +51,18 @@ def enrich_articles_zh(
     api_key = (api_key or "").strip()
     model = (model or "").strip() or _default_ai_model()
 
-    # Candidates: missing zh fields
+    normalize_articles_inplace(articles)
+
+    # Candidates: missing or corrupted zh fields
     candidates = [
         a
         for a in articles
-        if (not (a.get("title_zh") or "").strip() or not (a.get("abstract_zh") or "").strip())
+        if (
+            not (a.get("title_zh") or "").strip()
+            or not (a.get("abstract_zh") or "").strip()
+            or is_suspicious_text(a.get("title_zh"))
+            or is_suspicious_text(a.get("abstract_zh"))
+        )
         and (a.get("title") or "").strip()
         and (a.get("link") or "").strip()
     ]
@@ -106,13 +114,13 @@ def enrich_articles_zh(
                 item = mapping.get(i)
                 if not item:
                     continue
-                title_zh = (item.get("title_zh") or "").strip()
-                abstract_zh = (item.get("abstract_zh") or "").strip()
+                title_zh = normalize_text((item.get("title_zh") or "").strip())
+                abstract_zh = normalize_text((item.get("abstract_zh") or "").strip())
                 if title_zh:
-                    if not (a.get("title_zh") or "").strip():
+                    if not (a.get("title_zh") or "").strip() or is_suspicious_text(a.get("title_zh")):
                         a["title_zh"] = title_zh
                 if abstract_zh:
-                    if not (a.get("abstract_zh") or "").strip():
+                    if not (a.get("abstract_zh") or "").strip() or is_suspicious_text(a.get("abstract_zh")):
                         a["abstract_zh"] = abstract_zh
                 if title_zh or abstract_zh:
                     updated += 1
@@ -129,10 +137,10 @@ def enrich_articles_zh(
 
     for a in candidates:
         try:
-            if not (a.get("title_zh") or "").strip():
-                a["title_zh"] = translate_text(a.get("title") or "")
-            if not (a.get("abstract_zh") or "").strip():
-                a["abstract_zh"] = translate_text((a.get("abstract") or "")[:2000])
+            if not (a.get("title_zh") or "").strip() or is_suspicious_text(a.get("title_zh")):
+                a["title_zh"] = normalize_text(translate_text(a.get("title") or ""))
+            if not (a.get("abstract_zh") or "").strip() or is_suspicious_text(a.get("abstract_zh")):
+                a["abstract_zh"] = normalize_text(translate_text((a.get("abstract") or "")[:2000]))
             updated += 1
         except Exception:
             continue
