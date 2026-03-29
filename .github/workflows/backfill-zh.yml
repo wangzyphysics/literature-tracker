@@ -10,18 +10,18 @@ on:
       batch_size:
         description: "LLM batch size per request"
         required: false
-        default: "16"
+        default: "8"
       max_passes:
         description: "Max passes over dataset (retry remaining missing)"
         required: false
-        default: "20"
+        default: "8"
 
 permissions:
   contents: write
 
 concurrency:
   group: "backfill-zh"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   backfill:
@@ -49,14 +49,14 @@ jobs:
           AI_MODEL: ${{ secrets.AI_MODEL }}
           AI_BASE_URL: ${{ secrets.AI_BASE_URL }}
           OPENROUTER_BASE_URL: ${{ secrets.AI_BASE_URL }}
-          AI_WAIT_MAX_SECONDS: "3600"
-          AI_WAIT_BASE_SECONDS: "20"
-          AI_WAIT_MAX_SLEEP_SECONDS: "300"
+          AI_WAIT_MAX_SECONDS: "600"
+          AI_WAIT_BASE_SECONDS: "10"
+          AI_WAIT_MAX_SLEEP_SECONDS: "60"
           BACKFILL_SCOPE: ${{ inputs.scope }}
           AI_ZH_BATCH_SIZE: ${{ inputs.batch_size }}
           AI_ZH_MAX_PASSES: ${{ inputs.max_passes }}
         run: |
-          python backfill_zh.py || true
+          python backfill_zh.py
 
       - name: Commit and push
         run: |
