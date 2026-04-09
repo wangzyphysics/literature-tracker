@@ -38,6 +38,15 @@ class TestCodeFixes(unittest.TestCase):
                       "返回类型注解应使用 Tuple")
         print(f"✅ 类型注解正确: {return_annotation}")
     
+    def test_02b_build_provider_kimi(self):
+        """测试 build_provider 支持 kimi"""
+        from ai_summarizer import build_provider, OpenRouterProvider
+        
+        provider = build_provider("kimi", "fake_key", "kimi-for-coding")
+        self.assertIsInstance(provider, OpenRouterProvider)
+        self.assertEqual(provider.model, "kimi-for-coding")
+        print("✅ build_provider 正确支持 kimi")
+    
     def test_03_generate_with_local_ai_import(self):
         """测试 generate_with_local_ai 导入"""
         try:

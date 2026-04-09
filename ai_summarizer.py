@@ -267,7 +267,7 @@ def normalize_chat_completions_url(raw_url: Optional[str]) -> str:
 def build_provider(api_provider: str, api_key: str, model: str = None) -> AIProvider:
     """Factory for AI providers."""
     name = (api_provider or "").strip().lower()
-    if name in ("openrouter", "open-router", "or"):
+    if name in ("openrouter", "open-router", "or", "kimi"):
         return OpenRouterProvider(api_key=api_key, model=model)
     # default: gemini
     gemini_model = model if model and "/" not in model else None
