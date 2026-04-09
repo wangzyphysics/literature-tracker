@@ -226,7 +226,7 @@ class AbstractScraper:
         try:
             parsed = urlparse(url)
             return parsed.netloc.lower()
-        except:
+        except Exception:
             return ""
     
     def _get_site_config(self, domain: str) -> dict:
@@ -255,7 +255,7 @@ class AbstractScraper:
                     # 移除"Abstract"前缀
                     combined = re.sub(r'^Abstract[:\s]*', '', combined, flags=re.IGNORECASE)
                     return combined
-        except:
+        except Exception:
             pass
         return None
 

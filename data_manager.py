@@ -44,7 +44,7 @@ class DataManager:
             try:
                 with open(self.history_file, 'r', encoding='utf-8') as f:
                     return json.load(f)
-            except:
+            except Exception:
                 pass
         return {"articles": {}, "last_update": None}
     
@@ -60,7 +60,7 @@ class DataManager:
             try:
                 with open(self.favorites_file, 'r', encoding='utf-8') as f:
                     return json.load(f)
-            except:
+            except Exception:
                 pass
         return []
     

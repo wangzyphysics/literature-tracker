@@ -228,7 +228,7 @@ class WeeklySummarizer:
             
             response = self.provider.call_api(prompt)
             return '是' in response or 'yes' in response.lower()
-        except:
+        except Exception:
             return False
     
     def _ai_judge_ferro_relevance(self, text: str) -> bool:
@@ -309,7 +309,7 @@ class WeeklySummarizer:
                     else:
                         # 如果无法解析，使用原始响应
                         analysis = response.strip()
-                except:
+                except Exception:
                     analysis = response.strip()
             # 移除引号
             analysis = analysis.strip('"').strip("'").strip()
