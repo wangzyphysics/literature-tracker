@@ -95,6 +95,20 @@ CURATED_JOURNAL_HINTS: Tuple[str, ...] = (
     'nature chemistry', 'nature electronics', 'nature energy', 'science advances', 'nano letters', 'jacs',
     'computer physics communications', 'computational materials science', 'digital discovery',
     'nature machine intelligence', 'phys. rev. materials',
+    # 新增2区期刊
+    'journal of applied physics', 'j. appl. phys.',
+    'journal of physics: condensed matter', 'j. phys. condens. matter',
+    'physical chemistry chemical physics', 'pccp',
+    'journal of materials chemistry', 'j. mater. chem.',
+    'ceramics international',
+    'journal of the american ceramic society', 'j. am. ceram. soc.',
+    'scripta materialia',
+    'intermetallics',
+    'journal of alloys and compounds', 'j. alloys compd.',
+    'journal of magnetism and magnetic materials', 'j. magn. magn. mater.',
+    'ieee transactions on magnetics', 'ieee trans. magn.',
+    'physica status solidi', 'phys. stat. sol.',
+    'applied physics letters', 'appl. phys. lett.',
 )
 
 ALLOWED_ARXIV_PHYSICAL: Tuple[str, ...] = (
@@ -247,6 +261,14 @@ def filter_focus_items(items: Iterable[Mapping[str, Any]]) -> Tuple[List[Mapping
     return kept, dropped
 
 
+# 日报聚焦关键词：磁性/铁电相关
+DAILY_FERRO_MAGNET_TERMS: Tuple[str, ...] = (
+    'ferro', 'magnet', 'magnetic', 'magnetism', 'ferromagnet', 'ferroelectric', 
+    'antiferromagnet', 'multiferroic', 'magnetoresistance', 'magnetoelectric',
+    'spin', 'spintronic', 'spintronics', 'skyrmion', 'altermagnet',
+    '铁磁', '铁电', '反铁磁', '多铁', '磁性', '磁电阻', '磁电',
+)
+
 def is_daily_focus(item: Mapping[str, Any]) -> bool:
     signals = analyze_focus(item)
     if not signals['target_domain']:
@@ -258,8 +280,17 @@ def is_daily_focus(item: Mapping[str, Any]) -> bool:
     title_has_chemistry = _has_any(title_text, CHEMISTRY_CORE_TERMS)
     title_has_materials = _has_any(title_text, MATERIALS_CORE_TERMS)
     title_has_simulation = _has_any(title_text, DAILY_SIMULATION_TERMS)
+    title_has_ferro_magnet = _has_any(title_text, DAILY_FERRO_MAGNET_TERMS)
     title_core_science = title_has_physics or title_has_chemistry or title_has_materials or title_has_simulation
-    return (title_has_ai and title_core_science) or (title_has_simulation and title_core_science)
+    
+    # 放宽标准：
+    # 1. 原有标准：标题AI+核心科学 或 标题模拟+核心科学
+    # 2. 新增：标题含ferro/magnet关键词的物理/材料文献（无需AI）
+    return (
+        (title_has_ai and title_core_science) or 
+        (title_has_simulation and title_core_science) or
+        (title_has_ferro_magnet and (title_has_physics or title_has_materials))
+    )
 
 
 def daily_focus_priority(item: Mapping[str, Any]) -> tuple:
@@ -270,18 +301,21 @@ def daily_focus_priority(item: Mapping[str, Any]) -> tuple:
     title_has_physics = _has_any(title_text, DAILY_PHYSICS_TERMS)
     title_has_chemistry = _has_any(title_text, CHEMISTRY_CORE_TERMS)
     title_has_materials = _has_any(title_text, MATERIALS_CORE_TERMS)
+    title_has_ferro_magnet = _has_any(title_text, DAILY_FERRO_MAGNET_TERMS)
     title_core_science = title_has_physics or title_has_chemistry or title_has_materials or title_has_simulation or signals['arxiv_physical']
 
     if title_has_ai and title_core_science:
         band = 0
     elif title_has_simulation and title_core_science:
         band = 1
+    elif title_has_ferro_magnet and (title_has_physics or title_has_materials):
+        band = 2  # 新增：ferro/magnet物理/材料文献
     elif signals['has_ai'] and (signals['strong_physics'] or signals['strong_chemistry'] or signals['strong_materials'] or signals['strong_simulation']):
-        band = 2
-    elif signals['curated_journal'] or signals['arxiv_physical']:
         band = 3
-    else:
+    elif signals['curated_journal'] or signals['arxiv_physical']:
         band = 4
+    else:
+        band = 5
     return (band,) + focus_priority(item)
 
 
