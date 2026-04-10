@@ -17,15 +17,25 @@ def regenerate_daily(date_str: str):
     """重新生成指定日期的日报"""
     print(f"\n📅 处理日期: {date_str}")
     
-    # 加载数据
+    # 加载两个数据源
     with open('data/index.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
+        index_data = json.load(f)
+    index_articles = index_data.get('articles', [])
     
-    articles = data.get('articles', [])
+    with open('data/ai_relevant.json', 'r', encoding='utf-8') as f:
+        relevant_articles = json.load(f)
     
-    # 筛选当日文章
-    day_articles = [a for a in articles if (a.get('pub_date') or '').startswith(date_str)]
-    print(f"  原始文献: {len(day_articles)} 篇")
+    # 合并两个数据源（去重）
+    relevant_day = [a for a in relevant_articles if (a.get("pub_date") or "").startswith(date_str)]
+    relevant_links = {a.get("link") for a in relevant_day if a.get("link")}
+    
+    index_day = [
+        a for a in index_articles
+        if (a.get("pub_date") or "").startswith(date_str) and (a.get("link") not in relevant_links)
+    ]
+    
+    day_articles = relevant_day + index_day
+    print(f"  原始文献: {len(day_articles)} 篇 (ai_relevant: {len(relevant_day)}, index: {len(index_day)})")
     
     if not day_articles:
         print(f"  ⚠️ {date_str} 无数据")
