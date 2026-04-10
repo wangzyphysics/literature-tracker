@@ -1,408 +1,649 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>2026-04-09 文献日报 - 文献追踪系统</title>
 <link href="../style.css" rel="stylesheet"/>
-<link href="2026-04-09.xml" rel="alternate" title="2026-04-09 日报 RSS" type="application/rss+xml"/>
 <style>
-    body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); overflow-x: hidden; }
-    body::before { content: none !important; }
-    .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
-    .daily-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
-    .daily-topbar-left, .daily-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
-    .back-link:hover { color: var(--accent-hover); }
-    .daily-mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.75); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; backdrop-filter: blur(8px); }
-    .daily-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
-    .daily-article { background: rgba(255,255,255,0.76); border: 1px solid rgba(148,163,184,0.28); border-radius: 28px; box-shadow: var(--shadow-lg); backdrop-filter: blur(14px); padding: 32px; }
-    .daily-hero { padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
-    .daily-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(99,102,241,0.12); color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em; }
-    .daily-title { margin: 18px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.03em; }
-    .daily-subtitle { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.8; }
-    .daily-quote { margin: 0; padding: 16px 18px; border-left: 4px solid var(--accent-primary); border-radius: 16px; background: rgba(99,102,241,0.08); color: var(--text-secondary); font-size: 1rem; }
-    .daily-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 22px; }
-    .daily-tag { display: inline-flex; align-items: center; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,0.92); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; }
-    .daily-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-    .daily-stat { padding: 18px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)); border: 1px solid var(--border-color); }
-    .daily-stat-label { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
-    .daily-stat-value { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; }
-    .daily-filter-note { margin-top: 16px; color: var(--text-secondary); line-height: 1.8; }
-    .daily-section { margin-top: 28px; }
-    .daily-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-    .daily-section-index { font-size: 0.92rem; font-weight: 800; color: var(--accent-primary); padding: 5px 10px; border-radius: 999px; background: rgba(99,102,241,0.1); }
-    .daily-section-title { font-size: 1.45rem; letter-spacing: -0.02em; }
-    .daily-summary-card { padding: 18px 20px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); line-height: 1.85; }
-    .daily-summary-card p + p { margin-top: 12px; }
-    .daily-topic-group + .daily-topic-group { margin-top: 22px; }
-    .daily-topic-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
-    .daily-topic-title { font-size: 1.15rem; margin: 0 0 6px; }
-    .daily-topic-desc { color: var(--text-secondary); line-height: 1.75; }
-    .daily-topic-count { padding: 8px 12px; border-radius: 999px; background: rgba(99,102,241,0.1); color: var(--accent-primary); font-weight: 700; white-space: nowrap; }
-    .daily-news-list, .daily-paper-list { list-style: none; margin: 0; padding: 0; }
-    .daily-news-item, .daily-paper-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 20px; border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,250,251,0.92)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); align-items: flex-start; }
-    .daily-news-item + .daily-news-item, .daily-paper-card + .daily-paper-card { margin-top: 16px; }
-    .daily-news-index, .daily-paper-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: var(--gradient-accent); box-shadow: var(--shadow-sm); flex-shrink: 0; }
-    .daily-news-body, .daily-paper-body { min-width: 0; }
-    .daily-paper-body { display: flex; flex-direction: column; }
-    .daily-news-title-zh, .daily-paper-title-zh { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
-    .daily-news-title-en, .daily-paper-title-en { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.6; }
-    .daily-news-meta, .daily-paper-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-    .daily-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.88rem; color: var(--text-secondary); background: rgba(99,102,241,0.08); }
-    .daily-chip-authors { background: rgba(16,185,129,0.08); }
-    .daily-chip-score { background: rgba(245,158,11,0.12); }
-    .daily-chip-topic { background: rgba(139,92,246,0.12); color: var(--accent-primary); }
-    .daily-news-summary, .daily-paper-summary { color: var(--text-primary); line-height: 1.8; }
-    .daily-news-reason { margin-top: 10px; color: var(--text-secondary); }
-    .daily-paper-actions, .daily-news-link { margin-top: 14px; }
-    .daily-news-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
-    .daily-news-link:hover { color: var(--accent-hover); }
-    .daily-paper-head { display: flex; gap: 16px; align-items: flex-start; }
-    .daily-paper-titles { min-width: 0; }
-    .daily-toc { position: sticky; top: 24px; }
-    .daily-toc-card { padding: 18px; border-radius: 20px; background: rgba(255,255,255,0.78); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); backdrop-filter: blur(12px); }
-    .daily-toc-title, .daily-sidebar-title { font-size: 0.95rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-    .daily-toc a { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px; color: var(--text-secondary); text-decoration: none; }
-    .daily-toc a:hover { background: rgba(99,102,241,0.08); color: var(--accent-primary); }
-    .daily-sidebar-block + .daily-sidebar-block { margin-top: 18px; }
-    .daily-sidebar-stats { display: grid; gap: 10px; }
-    .daily-sidebar-fact { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); }
-    .daily-footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.94rem; line-height: 1.8; }
-    @media (max-width: 980px) {
-      .daily-layout { grid-template-columns: 1fr; }
-      .daily-toc { position: static; order: -1; }
-    }
-    @media (max-width: 720px) {
-      .daily-shell { padding: 16px 12px 36px; }
-      .daily-article { padding: 22px 16px; border-radius: 22px; }
-      .daily-stats { grid-template-columns: 1fr; }
-      .daily-news-item, .daily-paper-card { grid-template-columns: 1fr; }
-      .daily-news-index, .daily-paper-number { width: 38px; height: 38px; }
-      .daily-paper-head, .daily-topic-head { flex-direction: column; gap: 12px; }
-    }
-  </style>
-<style id="daily-enhancement-style">
-#daily-enhancement-top-nav, #daily-enhancement-bottom-nav {
-    margin-top: 18px;
-}
-
-.daily-page-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
-
-.daily-page-nav-link,
-.daily-page-nav-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 9px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--border-color);
-    background: rgba(255,255,255,0.92);
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.92rem;
-    transition: all var(--transition-fast);
-}
-
-.daily-page-nav-link:hover,
-.daily-page-nav-pill:hover {
-    color: var(--accent-primary);
-    border-color: rgba(99,102,241,0.35);
-    background: rgba(99,102,241,0.08);
-}
-
-.daily-page-nav-disabled {
-    opacity: 0.45;
-    pointer-events: none;
-}
-
-.daily-title-link {
-    color: inherit;
-    text-decoration: none;
-}
-
-.daily-title-link:hover {
-    color: var(--accent-primary);
-}
-
-.daily-permalink-link {
-    margin-left: 8px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-.daily-permalink-link:hover {
-    color: var(--accent-primary);
-}
-
-.daily-inline-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.daily-inline-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--accent-primary);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.daily-inline-link:hover {
-    color: var(--accent-hover);
-}
-
-.daily-toc-card {
-    max-height: min(74vh, calc(100vh - 40px));
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable both-edges;
-    padding-right: 12px;
-}
-
-.daily-toc-card::-webkit-scrollbar {
-    width: 10px;
-}
-
-.daily-toc-card::-webkit-scrollbar-thumb {
-    background: rgba(99, 102, 241, 0.28);
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-}
-
-.daily-toc-card::-webkit-scrollbar-track {
-    background: rgba(148, 163, 184, 0.10);
-    border-radius: 999px;
-}
-
-.daily-outline-scroll {
-    max-height: min(40vh, calc(100vh - 320px));
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable both-edges;
-    padding-right: 6px;
-}
-
-.daily-outline-scroll::-webkit-scrollbar {
-    width: 10px;
-}
-
-.daily-outline-scroll::-webkit-scrollbar-thumb {
-    background: rgba(99, 102, 241, 0.28);
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-}
-
-.daily-outline-scroll::-webkit-scrollbar-track {
-    background: rgba(148, 163, 184, 0.10);
-    border-radius: 999px;
-}
-
-.daily-outline-group + .daily-outline-group {
-    margin-top: 14px;
-}
-
-.daily-outline-group-title {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--text-primary);
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.daily-outline-group-title:hover {
-    color: var(--accent-primary);
-}
-
-.daily-outline-list {
-    display: grid;
-    gap: 6px;
-}
-
-.daily-outline-link {
-    display: block;
-    padding: 8px 10px;
-    border-radius: 12px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.9rem;
-    line-height: 1.45;
-    background: rgba(255,255,255,0.6);
-    border: 1px solid rgba(148,163,184,0.18);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.daily-outline-link:hover {
-    color: var(--accent-primary);
-    background: rgba(99,102,241,0.08);
-}
-
-.daily-outline-link-highlight {
-    border-color: rgba(99,102,241,0.24);
-}
-
-.daily-outline-meta {
-    display: block;
-    margin-top: 2px;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-}
-
-.daily-topic-anchor {
-    margin-left: 8px;
-}
-
-@media (max-width: 980px) {
-    .daily-toc-card {
-        max-height: none;
-    }
-    .daily-outline-scroll {
-        max-height: none;
-    }
-}
-</style></head>
+body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); overflow-x: hidden; }
+.daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
+.daily-article { background: rgba(255,255,255,0.76); border: 1px solid rgba(148,163,184,0.28); border-radius: 28px; box-shadow: var(--shadow-lg); backdrop-filter: blur(14px); padding: 32px; }
+.daily-hero { padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
+.daily-title { margin: 18px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.03em; }
+.daily-subtitle { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.8; }
+.daily-summary-card { padding: 18px 20px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); line-height: 1.85; margin: 20px 0; }
+.daily-paper-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 20px; border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,250,251,0.92)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); align-items: flex-start; margin-top: 16px; }
+.daily-paper-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: var(--gradient-accent); box-shadow: var(--shadow-sm); flex-shrink: 0; }
+.daily-paper-title-zh { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
+.daily-paper-title-en { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.6; }
+.daily-paper-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.daily-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.88rem; color: var(--text-secondary); background: rgba(99,102,241,0.08); }
+.daily-paper-summary { color: var(--text-primary); line-height: 1.8; margin-top: 10px; }
+.daily-news-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; margin-top: 10px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; margin-bottom: 20px; }
+</style>
+</head>
 <body>
 <div class="daily-shell">
-<div class="daily-topbar">
-<div class="daily-topbar-left">
-<a class="back-link" href="../index.html">← 返回主页</a>
-<span class="daily-mini-chip">AI × Science Daily</span>
+  <a href="../index.html" class="back-link">← 返回首页</a>
+  <article class="daily-article">
+    <header class="daily-hero">
+      <div style="color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em;">文献日报</div>
+      <h1 class="daily-title">2026-04-09</h1>
+      <p class="daily-subtitle">今日收录 111 篇 AI×Science 文献</p>
+    </header>
+    
+    <div class="daily-summary-card">
+      <h3 style="margin-top: 0; color: var(--accent-primary);">📊 今日概览</h3>
+      <p>2026年4月9日的文献展现出磁性材料与自旋电子学研究的爆发式增长，共收录111篇文献，涵盖交错磁体、磁性隧道结、自旋-电荷转换、磁振子等前沿方向。特别值得关注的是新型磁性材料如Fe3GaTe2、MnTe等在不同维度下的磁性调控机制研究，以及机器学习在材料发现和性能预测中的深度应用。</p>
+      <h4 style="color: var(--accent-primary); margin-top: 16px;">🔥 研究热点</h4>
+      <p>[&#x27;新型二维磁性材料（Fe3GaTe2、Cr基化合物）的磁性调控和自旋电子学应用成为热点&#x27;, &#x27;交错磁体（altermagnet）的理论预测和实验验证快速发展&#x27;, &#x27;机器学习加速材料发现，从分子设计到性能优化全面渗透&#x27;, &#x27;多铁性材料中磁电耦合机制的深入研究推动新型存储器件发展&#x27;]</p>
+    </div>
+    
+    <h3 style="margin-top: 28px; margin-bottom: 16px;">文献详情</h3>
+    
+<div class="daily-paper-card">
+  <div class="daily-paper-number">1</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Magnetoelastic properties in the high-temperature magnetic phase of the skyrmion compound GdRu₂Si₂</div>
+    <div class="daily-paper-title-en">Magnetoelastic properties in the high-temperature magnetic phase of the skyrmion compound GdRu₂Si₂</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Editors&#x27; Suggestions</span>
+    </div>
+    <div class="daily-paper-summary">研究斯格明子材料GdRu2Si2在高温磁相中的磁弹性响应，揭示磁性相变与晶格耦合机制。</div>
+    <div class="daily-paper-actions">
+      <a href="http://link.aps.org/doi/10.1103/ht3d-1kj8" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
 </div>
-<div class="daily-topbar-right">
-<a class="daily-mini-chip" href="2026-04-09.xml">📡 当日 RSS</a>
-<a class="daily-mini-chip" href="../feed.xml">📰 全站 RSS</a>
-<span class="daily-mini-chip">2026-04-09</span>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
-</div>
-</div>
-<div class="daily-layout">
-<article class="daily-article">
-<div class="daily-hero">
-<div class="daily-kicker">AI 文献日报</div>
-<h1 class="daily-title">AI × Science 文献日报 2026/04/09</h1>
-<p class="daily-subtitle">聚焦 AI × 物理 / 化学 / 材料交叉方向，自动过滤明显偏题的医学、教育与社会科学内容，并按主题重新排版，便于快速深读。</p>
-<blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
-<div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
-<div class="daily-stats">
-<div class="daily-stat">
-<div class="daily-stat-label">日报精选</div>
-<div class="daily-stat-value">1</div>
-</div>
-<div class="daily-stat">
-<div class="daily-stat-label">主线候选</div>
-<div class="daily-stat-value">1</div>
-</div>
-<div class="daily-stat">
-<div class="daily-stat-label">期刊 / 来源</div>
-<div class="daily-stat-value">1</div>
-</div>
-<div class="daily-stat">
-<div class="daily-stat-label">arXiv 相关</div>
-<div class="daily-stat-value">0</div>
-</div>
-</div>
-<div class="daily-page-nav" id="daily-enhancement-top-nav"><a class="daily-page-nav-link" href="2026-04-08.html">前一天 · 2026-04-08</a><span class="daily-page-nav-link daily-page-nav-disabled">后一天 · 暂无</span><a class="daily-page-nav-link" href="2026-04-09.html">最新一期 · 2026-04-09</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-04-09.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div>
-<section class="daily-section" id="summary">
-<div class="daily-section-head">
-<span class="daily-section-index">01</span>
-<h2 class="daily-section-title">今日摘要</h2>
-</div>
-<div class="daily-summary-card">
-<p><strong>总览：</strong>今日文献仅收录1篇，但内容极具跨学科价值。该工作报道了镍-羧酸盐MOF中的位点选择性价异构现象，揭示了这种电子态转变可同时触发磁性、手性和催化活性三种功能。这一发现为设计多功能分子材料提供了新思路，体现了配位化学、磁性和催化的深度交叉融合。</p>
-<p><strong>热点：</strong>['金属有机框架(MOF)材料的多功能化设计成为研究热点', '价态异构现象在催化、磁性和手性调控中展现出独特潜力', '单一电子触发机制实现多性质协同调控是分子材料设计的新方向']</p>
-</div>
-</section>
-<section class="daily-section" id="highlights">
-<div class="daily-section-head">
-<span class="daily-section-index">02</span>
-<h2 class="daily-section-title">交叉重点</h2>
-</div>
-<ol class="daily-news-list">
-<li class="daily-news-item" id="highlight-1">
-<div class="daily-news-index">01</div>
-<div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-71747-8" rel="noopener noreferrer" target="_blank">位点选择性价异构作为镍-羧酸盐 MOF 中磁性、手性和催化作用的统一电子触发器</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-71747-8" rel="noopener noreferrer" target="_blank">Site-selective valence isomerism as a unified electronic trigger for magnetism, chirality, and catalysis in Ni–carboxylate MOFs</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
-<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Nature Communications</span><span class="daily-chip daily-chip-authors">👤 Jin-Huang Peng, Haitao Zhang, Zhenwei Wei, et al.</span><span class="daily-chip daily-chip-score">🔥 AI 8</span></div>
-<p class="daily-news-summary">发现镍-羧酸盐MOF中的位点选择性价异构可同时调控磁性、手性和催化活性。</p>
-<p class="daily-news-reason"><strong>关注理由：</strong>提出了单一电子机制调控多重物性的创新思路，在多功能MOF材料设计中具有重要的指导意义，跨越了磁性、手性和催化三个重要领域</p>
-<a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-71747-8" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.nature.com/articles/s41467-026-71747-8" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-1">页内定位</a></div></div>
-</li>
-</ol>
-</section>
-<section class="daily-section" id="papers">
-<div class="daily-section-head">
-<span class="daily-section-index">03</span>
-<h2 class="daily-section-title">完整速览</h2>
-</div>
-<div class="daily-summary-card"><p>今日无目标方向文献。</p></div>
-</section>
-<div class="daily-page-nav" id="daily-enhancement-bottom-nav"><a class="daily-page-nav-link" href="2026-04-08.html">前一天 · 2026-04-08</a><span class="daily-page-nav-link daily-page-nav-disabled">后一天 · 暂无</span><a class="daily-page-nav-link" href="2026-04-09.html">最新一期 · 2026-04-09</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-04-09.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div><div class="daily-footer">
-          本页由文献追踪系统自动生成，仅保留 AI × 物理 / 化学 / 材料主线相关文献，并按专题重新整理，方便快速筛选与深度阅读。
-        </div>
-</article>
-<aside class="daily-toc">
-<div class="daily-toc-card">
-<div class="daily-toc-title">目录</div>
-<a href="#summary"><span>今日摘要</span><span>01</span></a>
-<a href="#highlights"><span>交叉重点</span><span>02</span></a>
-<a href="#papers"><span>完整速览</span><span>03</span></a>
-<div class="daily-sidebar-block">
-<div class="daily-sidebar-title">专题分布</div>
-<div class="daily-sidebar-stats"><div class="daily-sidebar-fact"><span>相关文献</span><strong>0</strong></div></div>
-</div>
-<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">位点选择性价异构作为镍-羧酸盐 MOF 中磁性、手性和催化作用的统一电子触发器<span class="daily-outline-meta">交叉重点</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-04-08.html">前一天 · 2026-04-08</a><span class="daily-page-nav-link daily-page-nav-disabled">后一天 · 暂无</span><a class="daily-page-nav-link" href="2026-04-09.html">最新一期 · 2026-04-09</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-04-09.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
-<div class="daily-sidebar-title">阅读建议</div>
-<ul class="insight-note-list">
-<li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
-<li class="insight-note-item">明显偏离主线的医学、教育等内容已自动剔除。</li>
-<li class="insight-note-item">若需回看历史日报，可从日报索引页按日期倒序进入。</li>
-</ul>
-</div>
-</div>
-</aside>
-</div>
-</div>
-<script>
-    const THEME_KEY = 'literature_theme';
 
-    function initTheme() {
-      const theme = localStorage.getItem(THEME_KEY) || 'light';
-      document.documentElement.setAttribute('data-theme', theme);
-      updateThemeButton();
-    }
+<div class="daily-paper-card">
+  <div class="daily-paper-number">2</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Optical control of nuclear spins in molecules points to new paths for quantum technologies</div>
+    <div class="daily-paper-title-en">Optical control of nuclear spins in molecules points to new paths for quantum technologies</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Physics News</span>
+    </div>
+    <div class="daily-paper-summary">理论计算研究二维铁磁体Fe3GaTe2隧道结中的滑移势垒效应对输运性质的影响。</div>
+    <div class="daily-paper-actions">
+      <a href="https://phys.org/news/2026-04-optical-nuclear-molecules-paths-quantum.html" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
 
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'light' ? 'dark' : 'light';
-      localStorage.setItem(THEME_KEY, next);
-      document.documentElement.setAttribute('data-theme', next);
-      updateThemeButton();
-    }
+<div class="daily-paper-card">
+  <div class="daily-paper-number">3</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Many-body interferometry with semiconductor spins</div>
+    <div class="daily-paper-title-en">Many-body interferometry with semiconductor spins</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">AAAS: Science: Table of Contents</span>
+    </div>
+    <div class="daily-paper-summary">提出在特定对称性反铁磁体中实现高效电荷-自旋转换的新机制，无需自旋-轨道耦合。</div>
+    <div class="daily-paper-actions">
+      <a href="https://www.science.org/doi/abs/10.1126/science.aed4177?af=R" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
 
-    function updateThemeButton() {
-      const btn = document.getElementById('themeToggle');
-      const theme = document.documentElement.getAttribute('data-theme') || 'light';
-      if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
-    }
+<div class="daily-paper-card">
+  <div class="daily-paper-number">4</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Do the twist: bacteria can spin ‘pucks’ without touching them</div>
+    <div class="daily-paper-title-en">Do the twist: bacteria can spin ‘pucks’ without touching them</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Nature</span>
+    </div>
+    <div class="daily-paper-summary">计算研究长石矿物的发光机制，为地质年代学和辐射剂量学提供理论基础。</div>
+    <div class="daily-paper-actions">
+      <a href="https://www.nature.com/articles/d41586-026-01112-8" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
 
-    initTheme();
-  </script>
+<div class="daily-paper-card">
+  <div class="daily-paper-number">5</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Laser-produced plasmas as probes of astrophysical magnetic fields</div>
+    <div class="daily-paper-title-en">Laser-produced plasmas as probes of astrophysical magnetic fields</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Nature Reviews Physics</span>
+    </div>
+    <div class="daily-paper-summary">研究电子关联对低维磁性团簇的结构和磁性影响，揭示量子磁性效应。</div>
+    <div class="daily-paper-actions">
+      <a href="https://www.nature.com/articles/s42254-026-00935-8" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">6</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Automated modeling of polarons: defects and reactivity on TiO 2 (110) surfaces</div>
+    <div class="daily-paper-title-en">Automated modeling of polarons: defects and reactivity on TiO 2 (110) surfaces</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">npj Computational Materials</span>
+    </div>
+    <div class="daily-paper-summary">开发极化子自动建模方法，研究TiO2表面缺陷态和催化反应活性。</div>
+    <div class="daily-paper-actions">
+      <a href="https://www.nature.com/articles/s41524-026-01983-5" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">7</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">[ASAP] Ionization-Induced Double Charge Transfer in Metallophthalocyanines Revealed by Ab Initio Simulation of 2p Photoelectron Spectra</div>
+    <div class="daily-paper-title-en">[ASAP] Ionization-Induced Double Charge Transfer in Metallophthalocyanines Revealed by Ab Initio Simulation of 2p Photoelectron Spectra</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">ACS</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://dx.doi.org/10.1021/acs.jpclett.6c00486" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">8</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">[ASAP] Ubiquitous Negative Electron Densities Discredit Smooth Energy Interpolation in Density Functional Theory</div>
+    <div class="daily-paper-title-en">[ASAP] Ubiquitous Negative Electron Densities Discredit Smooth Energy Interpolation in Density Functional Theory</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">ACS</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://dx.doi.org/10.1021/acs.jpclett.6c00662" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">9</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Quantitative description of protein configuration and viscoelasticity using first-principles hydrodynamics applied to quartz crystal microbalance experiments</div>
+    <div class="daily-paper-title-en">Quantitative description of protein configuration and viscoelasticity using first-principles hydrodynamics applied to quartz crystal microbalance experiments</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">The Journal of Chemical Physics Current Issue</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://pubs.aip.org/aip/jcp/article/164/14/145103/3386595/Quantitative-description-of-protein-configuration" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">10</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Verification of kinetic model for liquid molecule transport within adsorption layers on solid surfaces via molecular dynamics simulation</div>
+    <div class="daily-paper-title-en">Verification of kinetic model for liquid molecule transport within adsorption layers on solid surfaces via molecular dynamics simulation</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">The Journal of Chemical Physics Current Issue</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://pubs.aip.org/aip/jcp/article/164/14/144305/3386590/Verification-of-kinetic-model-for-liquid-molecule" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">11</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Effect of on-site correlation on the structure, stability, and magnetic properties of (FeCl 2 ) 3 trimer</div>
+    <div class="daily-paper-title-en">Effect of on-site correlation on the structure, stability, and magnetic properties of (FeCl 2 ) 3 trimer</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">The Journal of Chemical Physics Current Issue</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://pubs.aip.org/aip/jcp/article/164/14/144307/3386588/Effect-of-on-site-correlation-on-the-structure" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">12</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Isotope effects in 2D correlation infrared spectra of water: HEOM analysis of molecular dynamics-based machine learning models</div>
+    <div class="daily-paper-title-en">Isotope effects in 2D correlation infrared spectra of water: HEOM analysis of molecular dynamics-based machine learning models</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">The Journal of Chemical Physics Current Issue</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://pubs.aip.org/aip/jcp/article/164/14/144114/3386573/Isotope-effects-in-2D-correlation-infrared-spectra" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">13</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Halocarbon Thermochemistry: A Challenge for Density Functional Theory</div>
+    <div class="daily-paper-title-en">Halocarbon Thermochemistry: A Challenge for Density Functional Theory</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">PRX Energy</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://link.aps.org/doi/10.1103/xg4n-6mfg" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">14</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">First-principles study of intrinsic and Fe³⁺-related luminescence mechanisms in feldspar</div>
+    <div class="daily-paper-title-en">First-principles study of intrinsic and Fe³⁺-related luminescence mechanisms in feldspar</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Phys. Rev. B</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://link.aps.org/doi/10.1103/597n-n66p" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">15</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Sliding barrier effects on magnetoresistance and spin-transfer torque in Fe₃GaTe₂-based magnetic tunnel junctions</div>
+    <div class="daily-paper-title-en">Sliding barrier effects on magnetoresistance and spin-transfer torque in Fe₃GaTe₂-based magnetic tunnel junctions</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Phys. Rev. B</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://link.aps.org/doi/10.1103/xd61-j7bz" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">16</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">High-efficiency nonrelativistic charge-spin conversion in X-type antiferromagnets</div>
+    <div class="daily-paper-title-en">High-efficiency nonrelativistic charge-spin conversion in X-type antiferromagnets</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Phys. Rev. B</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://link.aps.org/doi/10.1103/82qf-9z61" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">17</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Light-induced pseudomagnetic fields in three-dimensional topological semimetals</div>
+    <div class="daily-paper-title-en">Light-induced pseudomagnetic fields in three-dimensional topological semimetals</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Phys. Rev. B</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://link.aps.org/doi/10.1103/qvdz-qwf8" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">18</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Higher-order topological insulators in two-dimensional antiferromagnetic and altermagnetic chromium-based group-IV chalcogenides</div>
+    <div class="daily-paper-title-en">Higher-order topological insulators in two-dimensional antiferromagnetic and altermagnetic chromium-based group-IV chalcogenides</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Phys. Rev. B</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://link.aps.org/doi/10.1103/7dnk-crq7" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">19</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Engineering helical superconductors with multiple Majorana Kramers pairs via higher-order Rashba spin-orbit coupling</div>
+    <div class="daily-paper-title-en">Engineering helical superconductors with multiple Majorana Kramers pairs via higher-order Rashba spin-orbit coupling</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Phys. Rev. B</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://link.aps.org/doi/10.1103/kr31-q93l" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">20</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">[ASAP] Reactive Machine Learning Interatomic Potentials for Chemistry and Materials Science</div>
+    <div class="daily-paper-title-en">[ASAP] Reactive Machine Learning Interatomic Potentials for Chemistry and Materials Science</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">ACS</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="http://dx.doi.org/10.1021/acs.chemrev.5c00728" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">21</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Reconfigurable Spoof Plasmonic Skyrmion Electronics for Deformation‐Invariant Multimode Sensing</div>
+    <div class="daily-paper-title-en">Reconfigurable Spoof Plasmonic Skyrmion Electronics for Deformation‐Invariant Multimode Sensing</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">Wiley: Advanced Science: Table of Contents</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.75071?af=R" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">22</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Study of the Nonlinear Dependence of Anomalous Hall Conductivity on Magnetization in Weak Itinerant Ferromagnet ZrZn2</div>
+    <div class="daily-paper-title-en">Study of the Nonlinear Dependence of Anomalous Hall Conductivity on Magnetization in Weak Itinerant Ferromagnet ZrZn2</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06441" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">23</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Topochemically-engineered coexistence of charge and spin orders in intercalated endotaxial heterostructures</div>
+    <div class="daily-paper-title-en">Topochemically-engineered coexistence of charge and spin orders in intercalated endotaxial heterostructures</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06453" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">24</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Cholesteric Fingers from a Magnetic Perspective: Topology, Energetics, and Interactions</div>
+    <div class="daily-paper-title-en">Cholesteric Fingers from a Magnetic Perspective: Topology, Energetics, and Interactions</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06660" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">25</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Magnon harmonic generation in antiferromagnets: Dynamical symmetry enriched by symmetry breaking</div>
+    <div class="daily-paper-title-en">Magnon harmonic generation in antiferromagnets: Dynamical symmetry enriched by symmetry breaking</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06700" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">26</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Exact Solution for Current-Driven Domain-Wall Dynamics Beyond Lorentz Contraction in Antiferromagnets with Dzyaloshinskii-Moriya Interaction</div>
+    <div class="daily-paper-title-en">Exact Solution for Current-Driven Domain-Wall Dynamics Beyond Lorentz Contraction in Antiferromagnets with Dzyaloshinskii-Moriya Interaction</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06730" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">27</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Resolving Single-Peptide Phosphorylation Dynamics in Plasmonic Nanopores using Physics-Informed Bi-Path Model</div>
+    <div class="daily-paper-title-en">Resolving Single-Peptide Phosphorylation Dynamics in Plasmonic Nanopores using Physics-Informed Bi-Path Model</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06743" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">28</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Magnetic-field switching of exciton-magnon coupling in LiNiPO₄</div>
+    <div class="daily-paper-title-en">Magnetic-field switching of exciton-magnon coupling in LiNiPO₄</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06785" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">29</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Proximate quantum spin liquid state in the frustrated HoInCu₄ metal</div>
+    <div class="daily-paper-title-en">Proximate quantum spin liquid state in the frustrated HoInCu₄ metal</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06867" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">30</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Between Mott and cluster Mott: spin-orbit entangled dimer singlets in Ba₃CeRu₂O₉</div>
+    <div class="daily-paper-title-en">Between Mott and cluster Mott: spin-orbit entangled dimer singlets in Ba₃CeRu₂O₉</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06886" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">31</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Millisecond spin relaxation times of distinct electron and hole subensembles in MAₓFA₁₋ₓPbI₃ perovskite crystals</div>
+    <div class="daily-paper-title-en">Millisecond spin relaxation times of distinct electron and hole subensembles in MAₓFA₁₋ₓPbI₃ perovskite crystals</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06887" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">32</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Development of ab initio Hubbard parameter calculation schemes in the k-point sampling real-time TDDFT program in CP2K</div>
+    <div class="daily-paper-title-en">Development of ab initio Hubbard parameter calculation schemes in the k-point sampling real-time TDDFT program in CP2K</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06927" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">33</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Microscopic evidence of spin-driven multiferroicity and topological spin textures in monolayer NiI2</div>
+    <div class="daily-paper-title-en">Microscopic evidence of spin-driven multiferroicity and topological spin textures in monolayer NiI2</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06959" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">34</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Identifying Topological Invariants of Non-Hermitian Systems via Domain-Adaptive Multimodal Model for Mathematics</div>
+    <div class="daily-paper-title-en">Identifying Topological Invariants of Non-Hermitian Systems via Domain-Adaptive Multimodal Model for Mathematics</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.06998" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">35</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Using test particle sum rules to improve approximations in classical DFT : White-Bear and White-Bear mark II versions of the Lutsko Functional</div>
+    <div class="daily-paper-title-en">Using test particle sum rules to improve approximations in classical DFT : White-Bear and White-Bear mark II versions of the Lutsko Functional</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.07050" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">36</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Unveiling Mechanisms of SEI Formation and Sodium Loss in Sodium Batteries via Interface Reactor Sampling</div>
+    <div class="daily-paper-title-en">Unveiling Mechanisms of SEI Formation and Sodium Loss in Sodium Batteries via Interface Reactor Sampling</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.07077" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">37</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Towards viable H₂ storage in Ca decorated low-dimensional materials with insights from reference quantum Monte Carlo</div>
+    <div class="daily-paper-title-en">Towards viable H₂ storage in Ca decorated low-dimensional materials with insights from reference quantum Monte Carlo</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.07110" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">38</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Alterelectricity: Electrical Analogue of Altermagnetism</div>
+    <div class="daily-paper-title-en">Alterelectricity: Electrical Analogue of Altermagnetism</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.07112" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">39</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Magnetic order and excitations in the magnetically intercalated van der Waals material Crfᵣₐc₁₄NbSe₂</div>
+    <div class="daily-paper-title-en">Magnetic order and excitations in the magnetically intercalated van der Waals material Crfᵣₐc₁₄NbSe₂</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.07117" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="daily-paper-card">
+  <div class="daily-paper-number">40</div>
+  <div class="daily-paper-body">
+    <div class="daily-paper-title-zh">Observation of the Ferromagnetic Kondo Effect</div>
+    <div class="daily-paper-title-en">Observation of the Ferromagnetic Kondo Effect</div>
+    <div class="daily-paper-meta">
+      <span class="daily-chip daily-chip-topic">arXiv</span>
+    </div>
+    <div class="daily-paper-summary"></div>
+    <div class="daily-paper-actions">
+      <a href="https://arxiv.org/abs/2604.07174" target="_blank" class="daily-news-link">查看原文 →</a>
+    </div>
+  </div>
+</div>
+    
+  </article>
+</div>
 </body>
 </html>
