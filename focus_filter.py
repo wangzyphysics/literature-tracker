@@ -279,40 +279,27 @@ TIER2_JOURNAL_HINTS: Tuple[str, ...] = (
 )
 
 
-# ========== 日报第三层筛选：标题关键词匹配 ==========
+# ========== 日报第三层筛选：标题关键词匹配（精简版）==========
 
-# 日报标题AI关键词（必须在标题中）
+# 日报标题AI关键词（用户指定）
 DAILY_TITLE_AI_TERMS: Tuple[str, ...] = (
-    'learning', 'neural', 'network', 'machine learn', 'deep learn', 'artificial intelligence', 'ai ',
-    'graph neural', 'transformer', 'diffusion model', 'ml ', 'gnn',
+    'learning', 'neural', 'network',
 )
 
-# 日报标题物理关键词（必须在标题中）
+# 日报标题物理关键词（用户指定）
 DAILY_TITLE_PHYSICS_TERMS: Tuple[str, ...] = (
-    'quantum', 'spin', 'magnetic', 'magnetism', 'superconduct', 'moire', 'moiré', 
-    'altermagnet', 'ferro', 'magne', 'topological', 'skyrmion', 'hall effect',
-    '凝聚态', '量子', '磁性', '铁电', '铁磁', '反铁磁', '多铁', '超导', '拓扑',
+    'quantum', 'spin', 'magnetic', 'superconduct', 'moire', 'moiré', 
+    'altermagnet', 'ferro', 'magent',
 )
 
-# 日报标题化学关键词
-DAILY_TITLE_CHEMISTRY_TERMS: Tuple[str, ...] = (
-    'catalysis', 'catalyst', 'electrochem', 'reaction mechanism', 'spectroscopy',
-    'molecular', 'chemical', 'polymer', 'ionic', 'redox',
-)
+# 日报标题化学关键词（暂不启用）
+DAILY_TITLE_CHEMISTRY_TERMS: Tuple[str, ...] = ()
 
-# 日报标题材料关键词
-DAILY_TITLE_MATERIALS_TERMS: Tuple[str, ...] = (
-    'material', 'materials', 'perovskite', 'oxide', 'heterostructure', 
-    '2d material', 'interface', 'surface', 'nanostructure', 'alloy',
-)
+# 日报标题材料关键词（暂不启用）
+DAILY_TITLE_MATERIALS_TERMS: Tuple[str, ...] = ()
 
-# 日报标题模拟关键词
-DAILY_TITLE_SIMULATION_TERMS: Tuple[str, ...] = (
-    'dft', 'density functional', 'ab initio', 'first-principles', 'first principles',
-    'molecular dynamics', 'monte carlo', 'phase field', 'simulation', 
-    'machine learning potential', 'ml potential', 'interatomic potential',
-    '第一性原理', '分子动力学', '模拟',
-)
+# 日报标题模拟关键词（暂不启用）
+DAILY_TITLE_SIMULATION_TERMS: Tuple[str, ...] = ()
 
 
 def is_daily_focus(item: Mapping[str, Any]) -> bool:

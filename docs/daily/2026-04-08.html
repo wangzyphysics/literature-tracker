@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>2026-04-08 文献日报 - 文献追踪系统</title>
-<link href="../style.css" rel="stylesheet"/>
-<link href="2026-04-08.xml" rel="alternate" title="2026-04-08 日报 RSS" type="application/rss+xml"/>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026-04-08 文献日报 - 文献追踪系统</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="alternate" type="application/rss+xml" title="2026-04-08 日报 RSS" href="2026-04-08.xml" />
+  <style>
     body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); overflow-x: hidden; }
     body::before { content: none !important; }
     .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
@@ -83,443 +82,208 @@
       .daily-paper-head, .daily-topic-head { flex-direction: column; gap: 12px; }
     }
   </style>
-<style id="daily-enhancement-style">
-#daily-enhancement-top-nav, #daily-enhancement-bottom-nav {
-    margin-top: 18px;
-}
-
-.daily-page-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
-
-.daily-page-nav-link,
-.daily-page-nav-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 9px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--border-color);
-    background: rgba(255,255,255,0.92);
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.92rem;
-    transition: all var(--transition-fast);
-}
-
-.daily-page-nav-link:hover,
-.daily-page-nav-pill:hover {
-    color: var(--accent-primary);
-    border-color: rgba(99,102,241,0.35);
-    background: rgba(99,102,241,0.08);
-}
-
-.daily-page-nav-disabled {
-    opacity: 0.45;
-    pointer-events: none;
-}
-
-.daily-title-link {
-    color: inherit;
-    text-decoration: none;
-}
-
-.daily-title-link:hover {
-    color: var(--accent-primary);
-}
-
-.daily-permalink-link {
-    margin-left: 8px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-.daily-permalink-link:hover {
-    color: var(--accent-primary);
-}
-
-.daily-inline-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.daily-inline-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--accent-primary);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.daily-inline-link:hover {
-    color: var(--accent-hover);
-}
-
-.daily-toc-card {
-    max-height: min(74vh, calc(100vh - 40px));
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable both-edges;
-    padding-right: 12px;
-}
-
-.daily-toc-card::-webkit-scrollbar {
-    width: 10px;
-}
-
-.daily-toc-card::-webkit-scrollbar-thumb {
-    background: rgba(99, 102, 241, 0.28);
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-}
-
-.daily-toc-card::-webkit-scrollbar-track {
-    background: rgba(148, 163, 184, 0.10);
-    border-radius: 999px;
-}
-
-.daily-outline-scroll {
-    max-height: min(40vh, calc(100vh - 320px));
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable both-edges;
-    padding-right: 6px;
-}
-
-.daily-outline-scroll::-webkit-scrollbar {
-    width: 10px;
-}
-
-.daily-outline-scroll::-webkit-scrollbar-thumb {
-    background: rgba(99, 102, 241, 0.28);
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-}
-
-.daily-outline-scroll::-webkit-scrollbar-track {
-    background: rgba(148, 163, 184, 0.10);
-    border-radius: 999px;
-}
-
-.daily-outline-group + .daily-outline-group {
-    margin-top: 14px;
-}
-
-.daily-outline-group-title {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--text-primary);
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.daily-outline-group-title:hover {
-    color: var(--accent-primary);
-}
-
-.daily-outline-list {
-    display: grid;
-    gap: 6px;
-}
-
-.daily-outline-link {
-    display: block;
-    padding: 8px 10px;
-    border-radius: 12px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.9rem;
-    line-height: 1.45;
-    background: rgba(255,255,255,0.6);
-    border: 1px solid rgba(148,163,184,0.18);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.daily-outline-link:hover {
-    color: var(--accent-primary);
-    background: rgba(99,102,241,0.08);
-}
-
-.daily-outline-link-highlight {
-    border-color: rgba(99,102,241,0.24);
-}
-
-.daily-outline-meta {
-    display: block;
-    margin-top: 2px;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-}
-
-.daily-topic-anchor {
-    margin-left: 8px;
-}
-
-@media (max-width: 980px) {
-    .daily-toc-card {
-        max-height: none;
-    }
-    .daily-outline-scroll {
-        max-height: none;
-    }
-}
-</style></head>
+</head>
 <body>
-<div class="daily-shell">
-<div class="daily-topbar">
-<div class="daily-topbar-left">
-<a class="back-link" href="../index.html">← 返回主页</a>
-<span class="daily-mini-chip">AI × Science Daily</span>
-</div>
-<div class="daily-topbar-right">
-<a class="daily-mini-chip" href="2026-04-08.xml">📡 当日 RSS</a>
-<a class="daily-mini-chip" href="../feed.xml">📰 全站 RSS</a>
-<span class="daily-mini-chip">2026-04-08</span>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
-</div>
-</div>
-<div class="daily-layout">
-<article class="daily-article">
-<div class="daily-hero">
-<div class="daily-kicker">AI 文献日报</div>
-<h1 class="daily-title">AI × Science 文献日报 2026/04/08</h1>
-<p class="daily-subtitle">聚焦 AI × 物理 / 化学 / 材料交叉方向，自动过滤明显偏题的医学、教育与社会科学内容，并按主题重新排版，便于快速深读。</p>
-<blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
-<div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
-<div class="daily-stats">
-<div class="daily-stat">
-<div class="daily-stat-label">日报精选</div>
-<div class="daily-stat-value">10</div>
-</div>
-<div class="daily-stat">
-<div class="daily-stat-label">主线候选</div>
-<div class="daily-stat-value">10</div>
-</div>
-<div class="daily-stat">
-<div class="daily-stat-label">期刊 / 来源</div>
-<div class="daily-stat-value">2</div>
-</div>
-<div class="daily-stat">
-<div class="daily-stat-label">arXiv 相关</div>
-<div class="daily-stat-value">0</div>
-</div>
-</div>
-<div class="daily-page-nav" id="daily-enhancement-top-nav"><a class="daily-page-nav-link" href="2026-04-06.html">上一期 · 2026-04-06</a><a class="daily-page-nav-link" href="2026-04-09.html">后一天 · 2026-04-09</a><a class="daily-page-nav-link" href="2026-04-09.html">最新一期 · 2026-04-09</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-04-08.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div>
-<section class="daily-section" id="summary">
-<div class="daily-section-head">
-<span class="daily-section-index">01</span>
-<h2 class="daily-section-title">今日摘要</h2>
-</div>
-<div class="daily-summary-card">
-<p><strong>总览：</strong>今日共收录10篇文献。</p>
-<p><strong>热点：</strong></p>
-</div>
-</section>
-<section class="daily-section" id="highlights">
-<div class="daily-section-head">
-<span class="daily-section-index">02</span>
-<h2 class="daily-section-title">交叉重点</h2>
-</div>
-<ol class="daily-news-list">
-<li class="daily-news-item" id="highlight-1">
-<div class="daily-news-index">01</div>
-<div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/kknv-7ypx" rel="noopener noreferrer" target="_blank">自旋方向的平滑重叠：从头算自旋动力学的机器学习交换领域</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/kknv-7ypx" rel="noopener noreferrer" target="_blank">Smooth overlap of spin orientations: Machine learning exchange fields for ab initio spin dynamics</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
-<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Yuqiang Gao, Menno Bokdam, and Paul J. Kelly</span></div>
-<p class="daily-paper-abstract">暂无摘要</p>
-<p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/kknv-7ypx" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/kknv-7ypx" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-1">页内定位</a></div></div>
-</li>
-<li class="daily-news-item" id="highlight-2">
-<div class="daily-news-index">02</div>
-<div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/l6g2-2wg6" rel="noopener noreferrer" target="_blank">Λ(1520) 和 Λ(1690) 到 γΣ⁰ 的电磁辐射衰变观测</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/l6g2-2wg6" rel="noopener noreferrer" target="_blank">Observation of the Electromagnetic Radiative Decays of the Λ(1520) and Λ(1690) to γΣ⁰</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
-<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. Lett.</span><span class="daily-chip daily-chip-authors">👤 M. Ablikim &lt;em&gt;et al.&lt;/em&gt; (BESIII Collaboration)</span></div>
-<p class="daily-paper-abstract">暂无摘要</p>
-<p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/l6g2-2wg6" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/l6g2-2wg6" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-2">页内定位</a></div></div>
-</li>
-<li class="daily-news-item" id="highlight-3">
-<div class="daily-news-index">03</div>
-<div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/pnry-ysbl" rel="noopener noreferrer" target="_blank">二维 ScXS2（X=Rh、Ta、Mo）单层中的拓扑电子态、超导性和铁磁性</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/pnry-ysbl" rel="noopener noreferrer" target="_blank">Topological electronic states, superconductivity, and ferromagnetism in two-dimensional ScXS₂ (X=Rh, Ta, Mo) monolayers</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
-<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Haifei Qin and Hong Sun</span></div>
-<p class="daily-paper-abstract">暂无摘要</p>
-<p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/pnry-ysbl" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/pnry-ysbl" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-3">页内定位</a></div></div>
-</li>
-<li class="daily-news-item" id="highlight-4">
-<div class="daily-news-index">04</div>
-<div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/w446-987t" rel="noopener noreferrer" target="_blank">二维蜂窝 Kitaev 铁磁体中具有共存磁波和电子拓扑的可调谐陈绝缘体态</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/w446-987t" rel="noopener noreferrer" target="_blank">Tunable Chern insulator states with coexisting magnonic and electronic topology in two-dimensional honeycomb Kitaev ferromagnets</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
-<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Haozhou Cai, Zhiming Xu, Jian Wu, and Weiyi Pan</span></div>
-<p class="daily-paper-abstract">暂无摘要</p>
-<p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/w446-987t" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/w446-987t" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-4">页内定位</a></div></div>
-</li>
-<li class="daily-news-item" id="highlight-5">
-<div class="daily-news-index">05</div>
-<div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/2ppn-kvjv" rel="noopener noreferrer" target="_blank">交变磁序的量子杂质传感</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/2ppn-kvjv" rel="noopener noreferrer" target="_blank">Quantum Impurity Sensing of Altermagnetic Order</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
-<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. Lett.</span><span class="daily-chip daily-chip-authors">👤 V. A. S. V. Bittencourt, Hossein Hosseinabadi, Jairo Sinova, Libor Šmejkal, and Jamir Marino</span></div>
-<p class="daily-paper-abstract">暂无摘要</p>
-<p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/2ppn-kvjv" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/2ppn-kvjv" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-5">页内定位</a></div></div>
-</li>
-<li class="daily-news-item" id="highlight-6">
-<div class="daily-news-index">06</div>
-<div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/qw2f-1mzr" rel="noopener noreferrer" target="_blank">极磁体NiCo2TeO₆的动态磁电效应和磁致伸缩</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
-<div class="daily-news-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/qw2f-1mzr" rel="noopener noreferrer" target="_blank">Dynamic magnetoelectric effect and magnetostriction of the polar magnet NiCo₂TeO₆</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
-<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Yingjie He, Zhongyuan Liu, Xiaonan Yuan, Xiaocheng Hong, Deshun Hong, and Young Sun</span></div>
-<p class="daily-paper-abstract">暂无摘要</p>
-<p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/qw2f-1mzr" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/qw2f-1mzr" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-6">页内定位</a></div></div>
-</li>
-</ol>
-</section>
-<section class="daily-section" id="papers">
-<div class="daily-section-head">
-<span class="daily-section-index">03</span>
-<h2 class="daily-section-title">完整速览</h2>
-</div>
-<section class="daily-topic-group" id="topic-ai-物理-凝聚态">
-<div class="daily-topic-head">
-<div>
-<h3 class="daily-topic-title">AI × 物理 / 凝聚态</h3><a class="daily-permalink-link daily-topic-anchor" href="#topic-ai-物理-凝聚态" title="复制专题定位">#</a>
-<p class="daily-topic-desc">量子、自旋、凝聚态、电子结构与相关物理方法。</p>
-</div>
-<div class="daily-topic-count">3 篇</div>
-</div>
-<ol class="daily-paper-list">
-<li class="daily-paper-card" id="paper-1">
-<span class="daily-paper-number">01</span>
-<div class="daily-paper-body">
-<div class="daily-paper-head">
-<div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/m1nb-j1h6" rel="noopener noreferrer" target="_blank">超高迁移率二维系统中超音速电子的共振磁声子发射</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/m1nb-j1h6" rel="noopener noreferrer" target="_blank">Resonant Magnetophonon Emission by Supersonic Electrons in Ultrahigh-Mobility Two-Dimensional Systems</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
-</div>
-</div>
-<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. Lett.</span><span class="daily-chip daily-chip-authors">👤 Z. T. Wang, M. Hilke, N. Fong, D. G. Austing, S. A. Studenikin, K. W. West, and L. N. Pfeiffer</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract">暂无摘要</p></div>
-<div class="daily-paper-actions">
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/m1nb-j1h6" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/m1nb-j1h6" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-1">页内定位</a></div></div>
-</div>
-</li>
-<li class="daily-paper-card" id="paper-2">
-<span class="daily-paper-number">02</span>
-<div class="daily-paper-body">
-<div class="daily-paper-head">
-<div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/rmpm-z25r" rel="noopener noreferrer" target="_blank">通过铁电基板重新审视双层 CrI₃ 中磁性的非易失性控制</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/rmpm-z25r" rel="noopener noreferrer" target="_blank">Revisiting nonvolatile control of magnetism in bilayer CrI₃ through a ferroelectric substrate</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
-</div>
-</div>
-<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 Bin Wu, Wenfang Deng, Zhigang Gui, and Li Huang</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract">暂无摘要</p></div>
-<div class="daily-paper-actions">
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/rmpm-z25r" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/rmpm-z25r" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-2">页内定位</a></div></div>
-</div>
-</li>
-<li class="daily-paper-card" id="paper-3">
-<span class="daily-paper-number">03</span>
-<div class="daily-paper-body">
-<div class="daily-paper-head">
-<div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/8k7b-nk4p" rel="noopener noreferrer" target="_blank">铌酸锂微环谐振器中的无磁光模简并提升</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/8k7b-nk4p" rel="noopener noreferrer" target="_blank">Magnetic-Free Optical Mode Degeneracy Lifting in Lithium Niobate Microring Resonators</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
-</div>
-</div>
-<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. Lett.</span><span class="daily-chip daily-chip-authors">👤 Xin-Biao Xu, Zheng-Xu Zhu, Yuan-Hao Yang, Jia-Qi Wang, Yu Zeng, Jia-Hua Zou, Juanjuan Lu, Yan-Lei Zhang, Weiting Wang, Guang-Can Guo, Luyan Sun, and Chang-Ling Zou</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract">暂无摘要</p></div>
-<div class="daily-paper-actions">
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/8k7b-nk4p" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/8k7b-nk4p" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-3">页内定位</a></div></div>
-</div>
-</li>
-</ol>
-</section>
-<section class="daily-topic-group" id="topic-ai-材料-器件">
-<div class="daily-topic-head">
-<div>
-<h3 class="daily-topic-title">AI × 材料 / 器件</h3><a class="daily-permalink-link daily-topic-anchor" href="#topic-ai-材料-器件" title="复制专题定位">#</a>
-<p class="daily-topic-desc">材料发现、结构、器件、表界面与性能预测。</p>
-</div>
-<div class="daily-topic-count">1 篇</div>
-</div>
-<ol class="daily-paper-list">
-<li class="daily-paper-card" id="paper-4">
-<span class="daily-paper-number">04</span>
-<div class="daily-paper-body">
-<div class="daily-paper-head">
-<div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/hrbm-xxw7" rel="noopener noreferrer" target="_blank">块体和二维材料中的 Trion 极化子问题</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="http://link.aps.org/doi/10.1103/hrbm-xxw7" rel="noopener noreferrer" target="_blank">Trion polaron problem in bulk and two-dimensional materials</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
-</div>
-</div>
-<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 材料 / 器件</span><span class="daily-chip daily-chip-journal">📖 Phys. Rev. B</span><span class="daily-chip daily-chip-authors">👤 V. Shahnazaryan, A. Kudlis, K. Varga, I. A. Shelykh, and I. V. Tokatly</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract">暂无摘要</p></div>
-<div class="daily-paper-actions">
-<a class="daily-news-link" href="http://link.aps.org/doi/10.1103/hrbm-xxw7" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="http://link.aps.org/doi/10.1103/hrbm-xxw7" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-4">页内定位</a></div></div>
-</div>
-</li>
-</ol>
-</section>
-</section>
-<div class="daily-page-nav" id="daily-enhancement-bottom-nav"><a class="daily-page-nav-link" href="2026-04-06.html">上一期 · 2026-04-06</a><a class="daily-page-nav-link" href="2026-04-09.html">后一天 · 2026-04-09</a><a class="daily-page-nav-link" href="2026-04-09.html">最新一期 · 2026-04-09</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-04-08.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div><div class="daily-footer">
+  <div class="daily-shell">
+    <div class="daily-topbar">
+      <div class="daily-topbar-left">
+        <a href="../index.html" class="back-link">← 返回主页</a>
+        <span class="daily-mini-chip">AI × Science Daily</span>
+      </div>
+      <div class="daily-topbar-right">
+        <a href="2026-04-08.xml" class="daily-mini-chip">📡 当日 RSS</a>
+        <a href="../feed.xml" class="daily-mini-chip">📰 全站 RSS</a>
+        <span class="daily-mini-chip">2026-04-08</span>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+      </div>
+    </div>
+    <div class="daily-layout">
+      <article class="daily-article">
+        <div class="daily-hero">
+          <div class="daily-kicker">AI 文献日报</div>
+          <h1 class="daily-title">AI × Science 文献日报 2026/04/08</h1>
+          <p class="daily-subtitle">聚焦 AI × 物理 / 化学 / 材料交叉方向，自动过滤明显偏题的医学、教育与社会科学内容，并按主题重新排版，便于快速深读。</p>
+          <blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+          <div class="daily-tags"><span class='daily-tag'>AI</span><span class='daily-tag'>物理</span><span class='daily-tag'>化学</span><span class='daily-tag'>材料</span><span class='daily-tag'>交叉学科</span></div>
+          <div class="daily-stats">
+            <div class="daily-stat">
+              <div class="daily-stat-label">日报精选</div>
+              <div class="daily-stat-value">7</div>
+            </div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">主线候选</div>
+              <div class="daily-stat-value">7</div>
+            </div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">期刊 / 来源</div>
+              <div class="daily-stat-value">2</div>
+            </div>
+            <div class="daily-stat">
+              <div class="daily-stat-label">arXiv 相关</div>
+              <div class="daily-stat-value">0</div>
+            </div>
+          </div>
+          
+        </div>
+
+        <section id="summary" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">01</span>
+            <h2 class="daily-section-title">今日摘要</h2>
+          </div>
+          <div class="daily-summary-card">
+            <p><strong>总览：</strong>今日共收录7篇文献。</p>
+            <p><strong>热点：</strong></p>
+          </div>
+        </section>
+
+        <section id="highlights" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">02</span>
+            <h2 class="daily-section-title">交叉重点</h2>
+          </div>
+          <ol class="daily-news-list">
+        <li class="daily-news-item">
+            <div class="daily-news-index">01</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">自旋方向的平滑重叠：从头算自旋动力学的机器学习交换领域</div>
+                <div class="daily-news-title-en">Smooth overlap of spin orientations: Machine learning exchange fields for ab initio spin dynamics</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Yuqiang Gao, Menno Bokdam, and Paul J. Kelly</span></div>
+                <p class='daily-paper-abstract'>暂无摘要</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/kknv-7ypx" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-news-item">
+            <div class="daily-news-index">02</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">Λ(1520) 和 Λ(1690) 到 γΣ⁰ 的电磁辐射衰变观测</div>
+                <div class="daily-news-title-en">Observation of the Electromagnetic Radiative Decays of the Λ(1520) and Λ(1690) to γΣ⁰</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 M. Ablikim &lt;em&gt;et al.&lt;/em&gt; (BESIII Collaboration)</span></div>
+                <p class='daily-paper-abstract'>暂无摘要</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/l6g2-2wg6" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-news-item">
+            <div class="daily-news-index">03</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">二维 ScXS2（X=Rh、Ta、Mo）单层中的拓扑电子态、超导性和铁磁性</div>
+                <div class="daily-news-title-en">Topological electronic states, superconductivity, and ferromagnetism in two-dimensional ScXS₂ (X=Rh, Ta, Mo) monolayers</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Haifei Qin and Hong Sun</span></div>
+                <p class='daily-paper-abstract'>暂无摘要</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/pnry-ysbl" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-news-item">
+            <div class="daily-news-index">04</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">二维蜂窝 Kitaev 铁磁体中具有共存磁波和电子拓扑的可调谐陈绝缘体态</div>
+                <div class="daily-news-title-en">Tunable Chern insulator states with coexisting magnonic and electronic topology in two-dimensional honeycomb Kitaev ferromagnets</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Haozhou Cai, Zhiming Xu, Jian Wu, and Weiyi Pan</span></div>
+                <p class='daily-paper-abstract'>暂无摘要</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/w446-987t" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-news-item">
+            <div class="daily-news-index">05</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">交变磁序的量子杂质传感</div>
+                <div class="daily-news-title-en">Quantum Impurity Sensing of Altermagnetic Order</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 V. A. S. V. Bittencourt, Hossein Hosseinabadi, Jairo Sinova, Libor Šmejkal, and Jamir Marino</span></div>
+                <p class='daily-paper-abstract'>暂无摘要</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. Lett.</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/2ppn-kvjv" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+            </div>
+        </li>
+        
+        <li class="daily-news-item">
+            <div class="daily-news-index">06</div>
+            <div class="daily-news-body">
+                <div class="daily-news-title-zh">通过铁电基板重新审视双层 CrI₃ 中磁性的非易失性控制</div>
+                <div class="daily-news-title-en">Revisiting nonvolatile control of magnetism in bilayer CrI₃ through a ferroelectric substrate</div>
+                <div class="daily-news-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. B</span><span class='daily-chip daily-chip-authors'>👤 Bin Wu, Wenfang Deng, Zhigang Gui, and Li Huang</span></div>
+                <p class='daily-paper-abstract'>暂无摘要</p>
+                <p class="daily-news-reason"><strong>关注理由：</strong>Phys. Rev. B</p>
+                <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/rmpm-z25r" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+            </div>
+        </li>
+        </ol>
+        </section>
+
+        <section id="papers" class="daily-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">03</span>
+            <h2 class="daily-section-title">完整速览</h2>
+          </div>
+          
+        <section class="daily-topic-group">
+            <div class="daily-topic-head">
+                <div>
+                    <h3 class="daily-topic-title">AI × 物理 / 凝聚态</h3>
+                    <p class="daily-topic-desc">量子、自旋、凝聚态、电子结构与相关物理方法。</p>
+                </div>
+                <div class="daily-topic-count">1 篇</div>
+            </div>
+            <ol class="daily-paper-list">
+        <li class="daily-paper-card" id="paper-1">
+            <span class="daily-paper-number">01</span>
+            <div class="daily-paper-body">
+                <div class="daily-paper-head">
+                    <div class="daily-paper-titles">
+                        <div class="daily-paper-title-zh">铌酸锂微环谐振器中的无磁光模简并提升</div>
+                        <div class="daily-paper-title-en">Magnetic-Free Optical Mode Degeneracy Lifting in Lithium Niobate Microring Resonators</div>
+                    </div>
+                </div>
+                <div class="daily-paper-meta"><span class='daily-chip daily-chip-topic'>🧭 物理 / 凝聚态</span><span class='daily-chip daily-chip-journal'>📖 Phys. Rev. Lett.</span><span class='daily-chip daily-chip-authors'>👤 Xin-Biao Xu, Zheng-Xu Zhu, Yuan-Hao Yang, Jia-Qi Wang, Yu Zeng, Jia-Hua Zou, Juanjuan Lu, Yan-Lei Zhang, Weiting Wang, Guang-Can Guo, Luyan Sun, and Chang-Ling Zou</span></div>
+                <div class="daily-paper-summary"><p class='daily-paper-abstract'>暂无摘要</p></div>
+                <div class="daily-paper-actions">
+                    <a class="daily-news-link" href="http://link.aps.org/doi/10.1103/8k7b-nk4p" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a>
+                </div>
+            </div>
+        </li>
+        </ol>
+        </section>
+        
+        </section>
+
+        <div class="daily-footer">
           本页由文献追踪系统自动生成，仅保留 AI × 物理 / 化学 / 材料主线相关文献，并按专题重新整理，方便快速筛选与深度阅读。
         </div>
-</article>
-<aside class="daily-toc">
-<div class="daily-toc-card">
-<div class="daily-toc-title">目录</div>
-<a href="#summary"><span>今日摘要</span><span>01</span></a>
-<a href="#highlights"><span>交叉重点</span><span>02</span></a>
-<a href="#papers"><span>完整速览</span><span>03</span></a>
-<div class="daily-sidebar-block">
-<div class="daily-sidebar-title">专题分布</div>
-<div class="daily-sidebar-stats"><div class="daily-sidebar-fact"><span>AI × 物理 / 凝聚态</span><strong>3</strong></div><div class="daily-sidebar-fact"><span>AI × 材料 / 器件</span><strong>1</strong></div></div>
-</div>
-<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">自旋方向的平滑重叠：从头算自旋动力学的机器学习交换领域<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">Λ(1520) 和 Λ(1690) 到 γΣ⁰ 的电磁辐射衰变观测<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">二维 ScXS2（X=Rh、Ta、Mo）单层中的拓扑电子态、超导性和铁磁性<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">二维蜂窝 Kitaev 铁磁体中具有共存磁波和电子拓扑的可调谐陈绝缘体态<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-5">交变磁序的量子杂质传感<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-6">极磁体NiCo2TeO₆的动态磁电效应和磁致伸缩<span class="daily-outline-meta">交叉重点</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-物理-凝聚态">AI × 物理 / 凝聚态</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">超高迁移率二维系统中超音速电子的共振磁声子发射<span class="daily-outline-meta">01</span></a><a class="daily-outline-link" href="#paper-2">通过铁电基板重新审视双层 CrI₃ 中磁性的非易失性控制<span class="daily-outline-meta">02</span></a><a class="daily-outline-link" href="#paper-3">铌酸锂微环谐振器中的无磁光模简并提升<span class="daily-outline-meta">03</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-材料-器件">AI × 材料 / 器件</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-4">块体和二维材料中的 Trion 极化子问题<span class="daily-outline-meta">04</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-04-06.html">上一期 · 2026-04-06</a><a class="daily-page-nav-link" href="2026-04-09.html">后一天 · 2026-04-09</a><a class="daily-page-nav-link" href="2026-04-09.html">最新一期 · 2026-04-09</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-04-08.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
-<div class="daily-sidebar-title">阅读建议</div>
-<ul class="insight-note-list">
-<li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
-<li class="insight-note-item">明显偏离主线的医学、教育等内容已自动剔除。</li>
-<li class="insight-note-item">若需回看历史日报，可从日报索引页按日期倒序进入。</li>
-</ul>
-</div>
-</div>
-</aside>
-</div>
-</div>
-<script>
+      </article>
+
+      <aside class="daily-toc">
+        <div class="daily-toc-card">
+          <div class="daily-toc-title">目录</div>
+          <a href="#summary"><span>今日摘要</span><span>01</span></a>
+          <a href="#highlights"><span>交叉重点</span><span>02</span></a>
+          <a href="#papers"><span>完整速览</span><span>03</span></a>
+
+          <div class="daily-sidebar-block">
+            <div class="daily-sidebar-title">专题分布</div>
+            <div class="daily-sidebar-stats"><div class='daily-sidebar-fact'><span>AI × 物理 / 凝聚态</span><strong>1</strong></div></div>
+          </div>
+
+          <div class="daily-sidebar-block">
+            <div class="daily-sidebar-title">阅读建议</div>
+            <ul class="insight-note-list">
+              <li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
+              <li class="insight-note-item">明显偏离主线的医学、教育等内容已自动剔除。</li>
+              <li class="insight-note-item">若需回看历史日报，可从日报索引页按日期倒序进入。</li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
     const THEME_KEY = 'literature_theme';
 
     function initTheme() {
