@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI × Science 周报 - 2026-03-23 至 2026-03-29</title>
+<link href="../style.css" rel="stylesheet"/>
+<style>
+        body {
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 240px), var(--bg-primary);
+        }
+
+        .weekly-report-main {
+            min-width: 0;
+        }
+
+        .weekly-report-hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weekly-report-hero::after {
+            content: '';
+            position: absolute;
+            inset: auto -80px -110px auto;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.22), transparent 70%);
+            pointer-events: none;
+        }
+
+        .weekly-report-quote {
+            margin: 18px 0 0;
+            padding: 16px 18px;
+            border-left: 4px solid var(--accent-primary);
+            border-radius: 16px;
+            background: rgba(99, 102, 241, 0.08);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .weekly-hero-actions {
+            margin-top: 18px;
+        }
+
+        .weekly-report-section + .weekly-report-section {
+            margin-top: 20px;
+        }
+
+        .weekly-section-head {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .weekly-section-copy {
+            min-width: 0;
+        }
+
+        .weekly-section-copy .insight-panel-title {
+            margin-bottom: 6px;
+        }
+
+        .weekly-section-index {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+            background: var(--gradient-accent);
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+
+        .weekly-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .weekly-summary-card,
+        .weekly-digest-card,
+        .weekly-paper-card,
+        .weekly-journal-item,
+        .weekly-sidebar-fact,
+        .weekly-toc-link {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 247, 255, 0.96));
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        [data-theme="dark"] .weekly-summary-card,
+        [data-theme="dark"] .weekly-digest-card,
+        [data-theme="dark"] .weekly-paper-card,
+        [data-theme="dark"] .weekly-journal-item,
+        [data-theme="dark"] .weekly-sidebar-fact,
+        [data-theme="dark"] .weekly-toc-link {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.96), rgba(15, 23, 42, 0.92));
+        }
+
+        .weekly-summary-card {
+            padding: 18px 20px;
+            border-radius: 20px;
+            line-height: 1.8;
+        }
+
+        .weekly-summary-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+
+        .weekly-digest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .weekly-digest-card {
+            padding: 18px;
+            border-radius: 20px;
+        }
+
+        .weekly-digest-card.cross {
+            border-top: 3px solid #8b5cf6;
+        }
+
+        .weekly-digest-card.ferro {
+            border-top: 3px solid #f59e0b;
+        }
+
+        .weekly-digest-card.ai {
+            border-top: 3px solid #10b981;
+        }
+
+        .weekly-digest-card.other {
+            border-top: 3px solid #64748b;
+        }
+
+        .weekly-digest-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .weekly-digest-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .weekly-digest-item a {
+            color: var(--text-primary);
+            text-decoration: none;
+            line-height: 1.7;
+        }
+
+        .weekly-digest-item a:hover {
+            color: var(--accent-primary);
+        }
+
+        .weekly-digest-journal {
+            color: var(--accent-primary);
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .weekly-digest-more {
+            margin-top: 12px;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        .weekly-paper-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .weekly-paper-card {
+            border-radius: 22px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+        }
+
+        .weekly-paper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-accent);
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .weekly-paper-card.cross::before {
+            background: linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%);
+        }
+
+        .weekly-paper-card.ferro::before {
+            background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .weekly-paper-card.ai::before {
+            background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+        }
+
+        .weekly-paper-card.other::before {
+            background: linear-gradient(180deg, #64748b 0%, #334155 100%);
+        }
+
+        .weekly-paper-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
+        }
+
+        .weekly-paper-card:hover::before {
+            opacity: 1;
+        }
+
+        .weekly-paper-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .weekly-paper-number {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 800;
+            color: white;
+            background: var(--gradient-accent);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .weekly-paper-titles {
+            min-width: 0;
+        }
+
+        .weekly-paper-title-zh {
+            margin: 0;
+            font-size: 1.14rem;
+            line-height: 1.6;
+        }
+
+        .weekly-paper-title-zh a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .weekly-paper-title-zh a:hover {
+            color: var(--accent-primary);
+        }
+
+        .weekly-paper-title-en {
+            margin-top: 8px;
+            color: var(--text-secondary);
+            font-size: 0.96rem;
+            line-height: 1.7;
+        }
+
+        .weekly-paper-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .weekly-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        .weekly-chip-authors {
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .weekly-chip-journal {
+            background: rgba(99, 102, 241, 0.12);
+        }
+
+        .weekly-chip-ferro {
+            color: #92400e;
+            background: rgba(245, 158, 11, 0.16);
+        }
+
+        .weekly-chip-ai {
+            color: #065f46;
+            background: rgba(16, 185, 129, 0.16);
+        }
+
+        [data-theme="dark"] .weekly-chip-ferro {
+            color: #fcd34d;
+            background: rgba(245, 158, 11, 0.18);
+        }
+
+        [data-theme="dark"] .weekly-chip-ai {
+            color: #6ee7b7;
+            background: rgba(16, 185, 129, 0.18);
+        }
+
+        .weekly-paper-summary {
+            margin-top: 14px;
+            line-height: 1.85;
+            color: var(--text-primary);
+        }
+
+        .weekly-paper-summary strong {
+            color: var(--accent-primary);
+        }
+
+        .weekly-paper-preview {
+            margin-top: 12px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .weekly-paper-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .toggle-abstract-btn {
+            appearance: none;
+            border: none;
+            border-radius: 14px;
+            padding: 10px 16px;
+            background: var(--gradient-accent);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .toggle-abstract-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .weekly-paper-abstract {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            display: grid;
+            gap: 14px;
+        }
+
+        .weekly-abstract-block {
+            line-height: 1.8;
+        }
+
+        .weekly-abstract-label {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            margin-bottom: 6px;
+        }
+
+        .weekly-abstract-en {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .weekly-journal-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+        }
+
+        .weekly-journal-item {
+            padding: 16px 18px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .weekly-journal-name {
+            font-weight: 700;
+        }
+
+        .weekly-journal-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 78px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: var(--gradient-accent);
+            color: white;
+            font-weight: 700;
+        }
+
+        .weekly-report-sidebar {
+            position: sticky;
+            top: 24px;
+        }
+
+        .weekly-toc-list,
+        .weekly-sidebar-stats {
+            display: grid;
+            gap: 10px;
+        }
+
+        .weekly-toc-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .weekly-toc-link:hover {
+            color: var(--accent-primary);
+            border-color: rgba(99, 102, 241, 0.22);
+        }
+
+        .weekly-toc-meta {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            white-space: nowrap;
+        }
+
+        .weekly-sidebar-block + .weekly-sidebar-block {
+            margin-top: 18px;
+        }
+
+        .weekly-sidebar-heading {
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .weekly-sidebar-fact {
+            padding: 12px 14px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .weekly-sidebar-fact strong {
+            font-size: 1.05rem;
+        }
+
+        .weekly-report-footer {
+            margin-top: 22px;
+            padding: 18px 0 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.94rem;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 980px) {
+            .weekly-report-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .weekly-section-head,
+            .weekly-paper-head {
+                flex-direction: column;
+            }
+
+            .weekly-paper-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toggle-abstract-btn,
+            .weekly-paper-actions .insight-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .weekly-journal-item {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+<style id="weekly-enhancement-style">
+#weekly-enhancement-top-nav, #weekly-enhancement-bottom-nav {
+    margin-top: 18px;
+}
+
+.weekly-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.weekly-page-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.92);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .weekly-page-nav-link {
+    background: rgba(30,41,59,0.92);
+}
+
+.weekly-page-nav-link:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.35);
+    background: rgba(99,102,241,0.08);
+}
+
+.weekly-page-nav-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.weekly-permalink-link {
+    margin-left: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.weekly-permalink-link:hover {
+    color: var(--accent-primary);
+}
+
+.weekly-inline-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.weekly-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.weekly-inline-link:hover {
+    color: var(--accent-hover);
+}
+
+.weekly-report-sidebar {
+    max-height: min(74vh, calc(100vh - 40px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 12px;
+}
+
+.weekly-report-sidebar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.weekly-report-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.weekly-report-sidebar::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
+.weekly-outline-scroll {
+    max-height: min(40vh, calc(100vh - 320px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 6px;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.weekly-outline-scroll::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
+.weekly-outline-group + .weekly-outline-group {
+    margin-top: 14px;
+}
+
+.weekly-outline-group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    color: var(--text-primary);
+    text-decoration: none;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(148,163,184,0.18);
+    font-weight: 700;
+}
+
+[data-theme="dark"] .weekly-outline-group-title {
+    background: rgba(30,41,59,0.78);
+}
+
+.weekly-outline-group-title:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.28);
+}
+
+.weekly-outline-list {
+    display: grid;
+    gap: 6px;
+}
+
+.weekly-outline-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(148,163,184,0.14);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .weekly-outline-link {
+    background: rgba(30,41,59,0.70);
+}
+
+.weekly-outline-link:hover {
+    color: var(--accent-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+.weekly-outline-link-highlight {
+    border-color: rgba(99,102,241,0.24);
+}
+
+.weekly-outline-meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 980px) {
+    .weekly-report-sidebar {
+        max-height: none;
+    }
+    .weekly-outline-scroll {
+        max-height: none;
+    }
+}
+</style></head>
+<body>
+<div class="insight-shell">
+<div class="insight-topbar">
+<div class="insight-topbar-left">
+<a class="insight-back-link" href="../index.html">← 返回主页</a>
+<span class="insight-mini-chip">AI × Science Weekly</span>
+</div>
+<div class="insight-topbar-right">
+<span class="insight-mini-chip">2026-03-23 → 2026-03-29</span>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+</div>
+</div>
+<div class="insight-layout">
+<main class="weekly-report-main">
+<section class="insight-page-hero weekly-report-hero">
+<div class="insight-kicker">AI 科学周报</div>
+<h1 class="insight-title">AI × Science 周报 2026-03-23 → 2026-03-29</h1>
+<p class="insight-subtitle">参考 CloudFlare-AI-Insight-Daily 的资讯编排，将一周内 AI × 物理 / 化学 / 材料交叉文献整理为总览、交叉重点、专题速览与期刊分布。</p>
+<blockquote class="weekly-report-quote">（AI分析暂不可用）</blockquote>
+<div class="insight-tags"><span class="insight-tag">本周总览</span><span class="insight-tag">交叉研究</span><span class="insight-tag">磁性/铁电</span><span class="insight-tag">AI/机器学习</span><span class="insight-tag">期刊分布</span></div>
+<div class="insight-stat-grid">
+<div class="insight-stat">
+<div class="insight-stat-label">收录文献</div>
+<div class="insight-stat-value">7</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">期刊 / 来源</div>
+<div class="insight-stat-value">1</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">arXiv / 预印本</div>
+<div class="insight-stat-value">0</div>
+</div>
+<div class="insight-stat">
+<div class="insight-stat-label">专题版块</div>
+<div class="insight-stat-value">4</div>
+</div>
+</div>
+<div class="insight-action-row weekly-hero-actions">
+<a class="insight-btn insight-btn-primary" href="./index.html">周报归档</a>
+<a class="insight-btn insight-btn-secondary" href="../daily/">查看日报</a>
+</div><div class="weekly-page-nav" id="weekly-enhancement-top-nav"><a class="weekly-page-nav-link" href="2026-03-16.html">前一周 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="2026-03-30.html">后一周 · 2026-03-30 → 2026-04-05</a><a class="weekly-page-nav-link" href="2026-04-06.html">最新一期 · 2026-04-06 → 2026-04-12</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../feed.xml">站点RSS</a><a class="weekly-page-nav-link" href="../index.html">主页</a><a class="weekly-page-nav-link" href="#overview">本周总览</a><a class="weekly-page-nav-link" href="#cross">交叉研究</a><a class="weekly-page-nav-link" href="#article-2a25f9e10405">全文速览</a><a class="weekly-page-nav-link" href="#journals">期刊分布</a></div>
+</section>
+<section class="insight-panel weekly-report-section" id="overview">
+<div class="weekly-section-head">
+<span class="weekly-section-index">01</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">本周总览<a class="weekly-permalink-link" href="#overview" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">先把握一周的主线，再进入交叉重点与专题全文速览。</p>
+</div>
+</div>
+<div class="weekly-summary-grid">
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">整体概览</div>
+<p>本周(2026-03-23至2026-03-29)共收录7篇相关文献，其中磁性/铁电相关7篇，AI/机器学习相关3篇，交叉研究3篇。主要发表在Phys. Rev. Lett.(7篇)。</p>
+</div>
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">趋势观察</div>
+<p>（AI分析暂不可用）</p>
+</div>
+<div class="weekly-summary-card">
+<div class="weekly-summary-title">阅读提示</div>
+<p>先看交叉研究，再按磁性/铁电与 AI 专题分区深读；所有卡片均保留中英标题、期刊、作者与摘要入口。</p>
+</div>
+</div><div class="weekly-digest-grid">
+<div class="weekly-digest-card cross">
+<div class="weekly-digest-title"><span>🔀 交叉研究</span><span>3 篇</span></div>
+<ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-2a25f9e10405"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>作者：Nisarga Paul 变分波函数为解决多体希尔伯特空间的指数复杂性提供了一条实用途径，但它们的表达能力往往受到严重限制。例如，矩阵积态是有效的，但仅限于…</a></li><li class="weekly-digest-item"><a href="#article-f661d099c369"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>作者：Yanjun Hou、Jun Cheng Hua、Ze Wu、Wei Xia、Yuquan Chen、Xiaopeng Li、Zhaokai Li、Xinh…</a></li><li class="weekly-digest-item"><a href="#article-e336d7ddf8b9"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>作者：T. Dörstel、T. Iadecola、J. H. Wilson 和 M. Buchhold 我们引入了无挫败控制，这是一种用于量子态制备的测量反馈框…</a></li></ul>
+</div>
+<div class="weekly-digest-card ferro">
+<div class="weekly-digest-title"><span>⚡ 磁性/铁电</span><span>4 篇</span></div>
+<ul class="weekly-digest-list"><li class="weekly-digest-item"><a href="#article-56f122930b2d"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>作者：Chowdhury S. Awsaf、Sangeeta Thakur、Markus Weißenhofer、Jendrik Gördes、Marcel Wa…</a></li><li class="weekly-digest-item"><a href="#article-54e3bfe00f28"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>作者：T. T. Gareev、N. E. Khokhlov、L. Körber、A. P. Pyatakov 和 A. V. Kimel 超快泵浦探针成像揭示了…</a></li><li class="weekly-digest-item"><a href="#article-15f4812528d6"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>作者：黄胜普、秦政、詹方阳、徐东辉、马大帅、王锐 二维共线反铁磁体中的奇宇称、f波或p波、自旋分裂可以通过光照射来实现，并通过操纵入射光的偏振和晶体对称性来控制。…</a></li><li class="weekly-digest-item"><a href="#article-37bfc34bc0dc"><span class="weekly-digest-journal">[Phys. Rev. Lett.]</span>作者：朱同帅、周迪、王怀强、魏素怀、阮家伟 二维共线反铁磁体中的奇宇称、f波或p波、自旋分裂可以通过光照射来实现，并通过操纵入射光的偏振和晶体对称性来控制。 [物…</a></li></ul>
+</div>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="cross">
+<div class="weekly-section-head">
+<span class="weekly-section-index">02</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">交叉研究<a class="weekly-permalink-link" href="#cross" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">优先覆盖 AI × 物理 / 化学 / 材料的直接交叉工作。</p>
+</div>
+</div>
+<div class="weekly-paper-list">
+<article class="weekly-paper-card cross" id="article-2a25f9e10405">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">01</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/rpj5-cns6" rel="noopener noreferrer" target="_blank">神经量子态中纠缠的束缚</a><a class="weekly-permalink-link" href="#article-2a25f9e10405" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Bound on Entanglement in Neural Quantum States</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Nisarga Paul</span><span class="weekly-chip">📅 2026-03-25</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>核心摘录：</strong>作者：Nisarga Paul 变分波函数为解决多体希尔伯特空间的指数复杂性提供了一条实用途径，但它们的表达能力往往受到严重限制。例如，矩阵积态是有效的，但仅限于面积法纠缠态。神经量子态（NQS）很宽……[物理。莱特牧师。 136, 120403] 2026 年 3 月 25 日星期三发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-2a25f9e10405', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/rpj5-cns6" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-2a25f9e10405">页内定位</a><a class="weekly-inline-link" href="#cross">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-2a25f9e10405-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Nisarga Paul 变分波函数为解决多体希尔伯特空间的指数复杂性提供了一条实用途径，但它们的表达能力往往受到严重限制。例如，矩阵积态是有效的，但仅限于面积法纠缠态。神经量子态（NQS）很宽……[物理。莱特牧师。 136, 120403] 2026 年 3 月 25 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Nisarga Paul Variational wave functions offer a practical route around the exponential complexity of many-body Hilbert spaces, but their expressive power is often sharply constrained. Matrix product states, for instance, are efficient but limited to area law entangled states. Neural quantum states (NQS) are wide… [Phys. Rev. Lett. 136, 120403] Published Wed Mar 25, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card cross" id="article-f661d099c369">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">02</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/r8ww-qw7j" rel="noopener noreferrer" target="_blank">通过相关自旋中的实验量子储库计算进行高精度时间预测</a><a class="weekly-permalink-link" href="#article-f661d099c369" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">High-Accuracy Temporal Prediction via Experimental Quantum Reservoir Computing in Correlated Spins</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Yanjun Hou, Juncheng Hua, Ze Wu, Wei Xia, Yuquan Chen, Xiaopeng Li, Zhaokai Li, Xinhua Peng, and Jiangfeng Du</span><span class="weekly-chip">📅 2026-03-25</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>核心摘录：</strong>作者：Yanjun Hou、Jun Cheng Hua、Ze Wu、Wei Xia、Yuquan Chen、Xiaopeng Li、Zhaokai Li、Xinhua Peng 和 Jiangfeng Du 物理油藏计算提供了强大的机器学习范式，利用非线性物理动力学进行有效的信息处理。通过结合量子效应，量子储库计算为机器学习应用提供了卓越的潜力，因为量子动…</div>
+<div class="weekly-paper-preview">作者：Yanjun Hou、Jun Cheng Hua、Ze Wu、Wei Xia、Yuquan Chen、Xiaopeng Li、Zhaokai Li、Xinhua Peng 和 Jiangfeng Du 物理油藏计算提供了强大的机器学习范式，利用非线性物理动力学进行有效的信息处理。通过结合量子效应，量子储库计算为机器学习应用提供了卓越的潜力，因为量子动力学… [Phys。莱特牧师。 136, 120602] 2026 年 3 月…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-f661d099c369', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/r8ww-qw7j" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-f661d099c369">页内定位</a><a class="weekly-inline-link" href="#cross">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-f661d099c369-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Yanjun Hou、Jun Cheng Hua、Ze Wu、Wei Xia、Yuquan Chen、Xiaopeng Li、Zhaokai Li、Xinhua Peng 和 Jiangfeng Du 物理油藏计算提供了强大的机器学习范式，利用非线性物理动力学进行有效的信息处理。通过结合量子效应，量子储库计算为机器学习应用提供了卓越的潜力，因为量子动力学… [Phys。莱特牧师。 136, 120602] 2026 年 3 月 25 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Yanjun Hou, Juncheng Hua, Ze Wu, Wei Xia, Yuquan Chen, Xiaopeng Li, Zhaokai Li, Xinhua Peng, and Jiangfeng Du Physical reservoir computing provides a powerful machine learning paradigm that exploits nonlinear physical dynamics for efficient information processing. By incorporating quantum effects, quantum reservoir computing offers superior potential for machine learning applications, as quantum dynamics ar… [Phys. Rev. Lett. 136, 120602] Published Wed Mar 25, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card cross" id="article-e336d7ddf8b9">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">03</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/zp25-ppgk" rel="noopener noreferrer" target="_blank">纠缠态制备中的无挫控制和吸收态传输</a><a class="weekly-permalink-link" href="#article-e336d7ddf8b9" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Frustration-Free Control and Absorbing-State Transport in Entangled State Preparation</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 T. Dörstel, T. Iadecola, J. H. Wilson, and M. Buchhold</span><span class="weekly-chip">📅 2026-03-25</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span><span class="weekly-chip weekly-chip-ai">🤖 AI/机器学习</span></div>
+<div class="weekly-paper-summary"><strong>核心摘录：</strong>作者：T. Dörstel、T. Iadecola、J. H. Wilson 和 M. Buchhold 我们引入了无挫败控制，这是一种用于量子态制备的测量反馈框架，它将无挫败哈密顿量扩展到受监控的随机动力学。该协议驱动多体系统进入高度纠缠的目标状态，所有测量投影的常见暗状态...... [Phys。莱特牧师。 136, 120603] 2026 年 3…</div>
+<div class="weekly-paper-preview">作者：T. Dörstel、T. Iadecola、J. H. Wilson 和 M. Buchhold 我们引入了无挫败控制，这是一种用于量子态制备的测量反馈框架，它将无挫败哈密顿量扩展到受监控的随机动力学。该协议驱动多体系统进入高度纠缠的目标状态，所有测量投影的常见暗状态...... [Phys。莱特牧师。 136, 120603] 2026 年 3 月 25 日星期三发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-e336d7ddf8b9', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/zp25-ppgk" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-e336d7ddf8b9">页内定位</a><a class="weekly-inline-link" href="#cross">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-e336d7ddf8b9-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：T. Dörstel、T. Iadecola、J. H. Wilson 和 M. Buchhold 我们引入了无挫败控制，这是一种用于量子态制备的测量反馈框架，它将无挫败哈密顿量扩展到受监控的随机动力学。该协议驱动多体系统进入高度纠缠的目标状态，所有测量投影的常见暗状态...... [Phys。莱特牧师。 136, 120603] 2026 年 3 月 25 日星期三发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): T. Dörstel, T. Iadecola, J. H. Wilson, and M. Buchhold We introduce frustration-free control, a measurement-feedback framework for quantum state preparation that extends frustration-free Hamiltonians to monitored stochastic dynamics. The protocol drives many-body systems into highly entangled target states, common dark states of all measurement projecto… [Phys. Rev. Lett. 136, 120603] Published Wed Mar 25, 2026</p></div></div>
+</article>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="ferro">
+<div class="weekly-section-head">
+<span class="weekly-section-index">03</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">磁性 / 铁电专题<a class="weekly-permalink-link" href="#ferro" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">聚焦自旋、铁电、多铁与相关功能材料研究。</p>
+</div>
+</div>
+<div class="weekly-paper-list">
+<article class="weekly-paper-card ferro" id="article-56f122930b2d">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">01</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/gcwk-tsj5" rel="noopener noreferrer" target="_blank">Fe/CoO 双层中超快铁磁-反铁磁有序动力学的元素选择性探测</a><a class="weekly-permalink-link" href="#article-56f122930b2d" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Element-Selective Probing of Ultrafast Ferromagnetic-Antiferromagnetic Order Dynamics in Fe/CoO Bilayers</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Chowdhury S. Awsaf, Sangeeta Thakur, Markus Weißenhofer, Jendrik Gördes, Marcel Walter, Mohamad-Assaad Mawass, Niko Pontius, Christian Schüßler-Langeheine, Peter M. Oppeneer, and Wolfgang Kuch</span><span class="weekly-chip">📅 2026-03-27</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>核心摘录：</strong>作者：Chowdhury S. Awsaf、Sangeeta Thakur、Markus Weißenhofer、Jendrik Gördes、Marcel Walter、Mohamad-Assaad Mawass、Niko Pontius、Christian Schüßler-Langeheine、Peter M. Oppeneer 和 Wolfgang…</div>
+<div class="weekly-paper-preview">作者：Chowdhury S. Awsaf、Sangeeta Thakur、Markus Weißenhofer、Jendrik Gördes、Marcel Walter、Mohamad-Assaad Mawass、Niko Pontius、Christian Schüßler-Langeheine、Peter M. Oppeneer 和 Wolfgang Kuch 在 Ag(001) 上外延 Fe/CoO 双层的超快磁化动力学进行了…</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-56f122930b2d', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/gcwk-tsj5" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-56f122930b2d">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-56f122930b2d-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：Chowdhury S. Awsaf、Sangeeta Thakur、Markus Weißenhofer、Jendrik Gördes、Marcel Walter、Mohamad-Assaad Mawass、Niko Pontius、Christian Schüßler-Langeheine、Peter M. Oppeneer 和 Wolfgang Kuch 在 Ag(001) 上外延 Fe/CoO 双层的超快磁化动力学进行了研究通过共振软 X 射线反射率进行元素解析。 Co L2 边缘处的瞬态磁线性二色性和 Fe L₃ 边缘处的磁圆二色性...... [Phys.莱特牧师。 136, 12670</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Chowdhury S. Awsaf, Sangeeta Thakur, Markus Weißenhofer, Jendrik Gördes, Marcel Walter, Mohamad-Assaad Mawass, Niko Pontius, Christian Schüßler-Langeheine, Peter M. Oppeneer, and Wolfgang Kuch The ultrafast magnetization dynamics of an epitaxial Fe/CoO bilayer on Ag(001) is examined in an element-resolved way by resonant soft-x-ray reflectivity. The transient magnetic linear dichroism at the Co L₂ edge and the magnetic circular dichroism at the Fe L₃ edge… [Phys. Rev. Lett. 136, 126705] Published Fri Mar 27, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-54e3bfe00f28">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">02</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/wx41-2bsr" rel="noopener noreferrer" target="_blank">室温下磁电铁石榴石中电门控激光诱导自旋动力学</a><a class="weekly-permalink-link" href="#article-54e3bfe00f28" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Electrically Gated Laser-Induced Spin Dynamics in Magnetoelectric Iron Garnet at Room Temperature</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 T. T. Gareev, N. E. Khokhlov, L. Körber, A. P. Pyatakov, and A. V. Kimel</span><span class="weekly-chip">📅 2026-03-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>核心摘录：</strong>作者：T. T. Gareev、N. E. Khokhlov、L. Körber、A. P. Pyatakov 和 A. V. Kimel 超快泵浦探针成像揭示了外延铁石榴石薄膜中相干自旋波的光学激发效率可以在室温下通过外部电场有效控制。尽管飞秒激光脉冲本身并不能激发任何明显的相干自旋……[物理学。莱特牧师。 136, 126702] 2026 年 3 月…</div>
+<div class="weekly-paper-preview">作者：T. T. Gareev、N. E. Khokhlov、L. Körber、A. P. Pyatakov 和 A. V. Kimel 超快泵浦探针成像揭示了外延铁石榴石薄膜中相干自旋波的光学激发效率可以在室温下通过外部电场有效控制。尽管飞秒激光脉冲本身并不能激发任何明显的相干自旋……[物理学。莱特牧师。 136, 126702] 2026 年 3 月 26 日星期四发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-54e3bfe00f28', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/wx41-2bsr" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-54e3bfe00f28">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-54e3bfe00f28-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：T. T. Gareev、N. E. Khokhlov、L. Körber、A. P. Pyatakov 和 A. V. Kimel 超快泵浦探针成像揭示了外延铁石榴石薄膜中相干自旋波的光学激发效率可以在室温下通过外部电场有效控制。尽管飞秒激光脉冲本身并不能激发任何明显的相干自旋……[物理学。莱特牧师。 136, 126702] 2026 年 3 月 26 日星期四发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): T. T. Gareev, N. E. Khokhlov, L. Körber, A. P. Pyatakov, and A. V. Kimel Ultrafast pump-probe imaging reveals that the efficiency of optical excitation of coherent spin waves in epitaxial iron garnet films can be effectively controlled by an external electric field at room temperature. Although a femtosecond laser pulse alone does not excite any pronounced coherent spin … [Phys. Rev. Lett. 136, 126702] Published Thu Mar 26, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-15f4812528d6">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">03</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/9346-9jpf" rel="noopener noreferrer" target="_blank">传统反铁磁性中的光致奇宇称磁性</a><a class="weekly-permalink-link" href="#article-15f4812528d6" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Light-Induced Odd-Parity Magnetism in Conventional Antiferromagnetism</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Shengpu Huang, Zheng Qin, Fangyang Zhan, Dong-Hui Xu, Da-Shuai Ma, and Rui Wang</span><span class="weekly-chip">📅 2026-03-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>核心摘录：</strong>作者：黄胜普、秦政、詹方阳、徐东辉、马大帅、王锐 二维共线反铁磁体中的奇宇称、f波或p波、自旋分裂可以通过光照射来实现，并通过操纵入射光的偏振和晶体对称性来控制。 [物理。莱特牧师。 136, 126703] 2026 年 3 月 26 日星期四发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-15f4812528d6', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/9346-9jpf" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-15f4812528d6">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-15f4812528d6-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：黄胜普、秦政、詹方阳、徐东辉、马大帅、王锐 二维共线反铁磁体中的奇宇称、f波或p波、自旋分裂可以通过光照射来实现，并通过操纵入射光的偏振和晶体对称性来控制。 [物理。莱特牧师。 136, 126703] 2026 年 3 月 26 日星期四发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Shengpu Huang, Zheng Qin, Fangyang Zhan, Dong-Hui Xu, Da-Shuai Ma, and Rui Wang Odd-parity, f -wave or p -wave, spin splitting in 2D collinear antiferromagnets can be achieved through irradiation of light, and controlled by manipulating the polarization of the incident light and crystalline symmetry. [Phys. Rev. Lett. 136, 126703] Published Thu Mar 26, 2026</p></div></div>
+</article>
+<article class="weekly-paper-card ferro" id="article-37bfc34bc0dc">
+<div class="weekly-paper-head">
+<span class="weekly-paper-number">04</span>
+<div class="weekly-paper-titles">
+<h3 class="weekly-paper-title-zh"><a href="http://link.aps.org/doi/10.1103/7ywb-ml2q" rel="noopener noreferrer" target="_blank">Floquet 奇宇称共线磁铁</a><a class="weekly-permalink-link" href="#article-37bfc34bc0dc" title="复制本页定位">#</a></h3>
+<div class="weekly-paper-title-en">Floquet Odd-Parity Collinear Magnets</div>
+</div>
+</div>
+<div class="weekly-paper-meta"><span class="weekly-chip weekly-chip-journal">📚 Phys. Rev. Lett.</span><span class="weekly-chip weekly-chip-authors">👤 Tongshuai Zhu, Di Zhou, Huaiqiang Wang, Su-Huai Wei, and Jiawei Ruan</span><span class="weekly-chip">📅 2026-03-26</span><span class="weekly-chip weekly-chip-ferro">⚡ 磁性/铁电</span></div>
+<div class="weekly-paper-summary"><strong>核心摘录：</strong>作者：朱同帅、周迪、王怀强、魏素怀、阮家伟 二维共线反铁磁体中的奇宇称、f波或p波、自旋分裂可以通过光照射来实现，并通过操纵入射光的偏振和晶体对称性来控制。 [物理。莱特牧师。 136, 126704] 2026 年 3 月 26 日星期四发布</div>
+<div class="weekly-paper-actions">
+<button class="toggle-abstract-btn" onclick="toggleAbstract('article-37bfc34bc0dc', this)">📖 查看完整摘要</button>
+<a class="insight-btn insight-btn-secondary" href="http://link.aps.org/doi/10.1103/7ywb-ml2q" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="weekly-inline-links"><a class="weekly-inline-link" href="#article-37bfc34bc0dc">页内定位</a><a class="weekly-inline-link" href="#ferro">所在专题</a></div></div>
+<div class="weekly-paper-abstract" id="article-37bfc34bc0dc-abstract" style="display:none;"><div class="weekly-abstract-block"><div class="weekly-abstract-label">中文摘要</div><p>作者：朱同帅、周迪、王怀强、魏素怀、阮家伟 二维共线反铁磁体中的奇宇称、f波或p波、自旋分裂可以通过光照射来实现，并通过操纵入射光的偏振和晶体对称性来控制。 [物理。莱特牧师。 136, 126704] 2026 年 3 月 26 日星期四发布</p></div><div class="weekly-abstract-block"><div class="weekly-abstract-label">English Abstract</div><p class="weekly-abstract-en">Author(s): Tongshuai Zhu, Di Zhou, Huaiqiang Wang, Su-Huai Wei, and Jiawei Ruan Odd-parity, f-wave or p-wave, spin splitting in 2D collinear antiferromagnets can be achieved through irradiation of light, and controlled by manipulating the polarization of the incident light and crystalline symmetry. [Phys. Rev. Lett. 136, 126704] Published Thu Mar 26, 2026</p></div></div>
+</article>
+</div>
+</section>
+<section class="insight-panel weekly-report-section" id="journals">
+<div class="weekly-section-head">
+<span class="weekly-section-index">04</span>
+<div class="weekly-section-copy">
+<h2 class="insight-panel-title">期刊分布<a class="weekly-permalink-link" href="#journals" title="复制本页定位">#</a></h2>
+<p class="insight-panel-subtitle">按来源快速判断本周成果主要集中在哪些期刊或预印本平台。</p>
+</div>
+</div>
+<div class="weekly-journal-list"><div class="weekly-journal-item"><div class="weekly-journal-name">Phys. Rev. Lett.</div><div class="weekly-journal-count">7 篇</div></div></div>
+</section>
+<div class="weekly-page-nav" id="weekly-enhancement-bottom-nav"><a class="weekly-page-nav-link" href="2026-03-16.html">前一周 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="2026-03-30.html">后一周 · 2026-03-30 → 2026-04-05</a><a class="weekly-page-nav-link" href="2026-04-06.html">最新一期 · 2026-04-06 → 2026-04-12</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../feed.xml">站点RSS</a><a class="weekly-page-nav-link" href="../index.html">主页</a><a class="weekly-page-nav-link" href="#overview">本周总览</a><a class="weekly-page-nav-link" href="#cross">交叉研究</a><a class="weekly-page-nav-link" href="#article-2a25f9e10405">全文速览</a><a class="weekly-page-nav-link" href="#journals">期刊分布</a></div><div class="weekly-report-footer">
+                    本页由文献追踪系统自动生成，保留中英标题、期刊、作者与摘要入口，便于按周追踪 AI × 物理 / 化学 / 材料交叉研究。<br/>
+                    生成方式：fallback ｜ 更新时间：2026-04-10 09:14
+                </div>
+</main>
+<aside class="insight-sidebar-card weekly-report-sidebar">
+<h3 class="insight-sidebar-title">快速导航</h3>
+<div class="weekly-sidebar-block" id="weekly-enhancement-sidebar-nav"><div class="weekly-sidebar-heading">日期跳转</div><div class="weekly-page-nav" id="weekly-enhancement-sidebar-nav-links"><a class="weekly-page-nav-link" href="2026-03-16.html">前一周 · 2026-03-16 → 2026-03-22</a><a class="weekly-page-nav-link" href="2026-03-30.html">后一周 · 2026-03-30 → 2026-04-05</a><a class="weekly-page-nav-link" href="2026-04-06.html">最新一期 · 2026-04-06 → 2026-04-12</a><a class="weekly-page-nav-link" href="index.html">周报归档</a><a class="weekly-page-nav-link" href="../daily/index.html">日报归档</a><a class="weekly-page-nav-link" href="../feed.xml">站点RSS</a><a class="weekly-page-nav-link" href="../index.html">主页</a></div></div><div class="weekly-sidebar-block" id="weekly-enhancement-outline"><div class="weekly-sidebar-heading">单页目录</div><div class="weekly-outline-scroll"><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#overview">本周总览<span class="weekly-outline-meta">分区</span></a></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#cross">交叉研究<span class="weekly-outline-meta">3 篇</span></a><div class="weekly-outline-list"><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-2a25f9e10405">神经量子态中纠缠的束缚<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-f661d099c369">通过相关自旋中的实验量子储库计算进行高精度时间预测<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-e336d7ddf8b9">纠缠态制备中的无挫控制和吸收态传输<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a></div></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#ferro">磁性 / 铁电专题<span class="weekly-outline-meta">4 篇</span></a><div class="weekly-outline-list"><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-56f122930b2d">Fe/CoO 双层中超快铁磁-反铁磁有序动力学的元素选择性探测<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-54e3bfe00f28">室温下磁电铁石榴石中电门控激光诱导自旋动力学<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-15f4812528d6">传统反铁磁性中的光致奇宇称磁性<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a><a class="weekly-outline-link weekly-outline-link-highlight" href="#article-37bfc34bc0dc">Floquet 奇宇称共线磁铁<span class="weekly-outline-meta">Phys. Rev. Lett.</span></a></div></div><div class="weekly-outline-group"><a class="weekly-outline-group-title" href="#journals">期刊分布<span class="weekly-outline-meta">分区</span></a></div></div></div><div class="weekly-sidebar-block">
+<div class="weekly-sidebar-heading">本页分区</div>
+<div class="weekly-sidebar-stats"><div class="weekly-sidebar-fact"><span>交叉研究</span><strong>3</strong></div><div class="weekly-sidebar-fact"><span>磁性/铁电</span><strong>4</strong></div><div class="weekly-sidebar-fact"><span>AI/机器学习</span><strong>0</strong></div></div>
+</div>
+<div class="weekly-sidebar-block">
+<div class="weekly-sidebar-heading">阅读建议</div>
+<ul class="insight-note-list">
+<li class="insight-note-item">先读本周总览，再看交叉研究，最后按磁性/铁电与 AI 分区深挖。</li>
+<li class="insight-note-item">期刊分布适合快速判断本周成果主要来自顶刊还是预印本平台。</li>
+<li class="insight-note-item">若需要长期追踪某条研究线，可回到归档页连续浏览多周内容。</li>
+</ul>
+</div>
+</aside>
+</div>
+</div>
+<script>
+        const THEME_KEY = 'literature_theme';
+
+        function initTheme() {
+            const theme = localStorage.getItem(THEME_KEY) || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            updateThemeButton();
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            const next = current === 'light' ? 'dark' : 'light';
+            localStorage.setItem(THEME_KEY, next);
+            document.documentElement.setAttribute('data-theme', next);
+            updateThemeButton();
+        }
+
+        function updateThemeButton() {
+            const btn = document.getElementById('themeToggle');
+            const theme = document.documentElement.getAttribute('data-theme') || 'light';
+            if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        function toggleAbstract(articleId, button) {
+            const abstractDiv = document.getElementById(articleId + '-abstract');
+            if (!abstractDiv) return;
+            const trigger = button || window.event?.target;
+            const isHidden = abstractDiv.style.display === 'none' || !abstractDiv.style.display;
+            abstractDiv.style.display = isHidden ? 'grid' : 'none';
+            if (trigger) {
+                trigger.textContent = isHidden ? '📖 收起摘要' : '📖 查看完整摘要';
+            }
+        }
+
+        initTheme();
+    </script>
+</body>
+</html>

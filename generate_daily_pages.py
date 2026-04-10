@@ -18,6 +18,7 @@ from typing import List, Dict
 import hashlib
 
 from ai_summarizer import AISummarizer
+from local_kimi_provider import build_provider_extended
 from author_utils import authors_label
 from daily_page_enhancer import enhance_daily_archive
 from focus_filter import analyze_focus, filter_daily_focus_items, filter_focus_items, focus_priority, topic_bucket
@@ -685,9 +686,22 @@ def main():
     existing_by_date = {s.get("date"): s for s in existing_items if isinstance(s, dict) and s.get("date")}
 
     new_entries: List[Dict] = []
+    
+    # 检测是否使用本地Kimi模式
+    use_local_kimi = os.environ.get('AI_PROVIDER', '').lower() == 'localkimi'
     api_key = os.environ.get('AI_API_KEY') or os.environ.get('GEMINI_API_KEY')
     provider = os.environ.get('AI_PROVIDER') or 'openrouter'
-    summarizer = AISummarizer(provider, api_key) if api_key else None
+    
+    if use_local_kimi:
+        # 本地模式：不初始化远程API，使用LocalKimiProvider
+        print("🤖 使用本地Kimi模式（通过OpenClaw AI助手）")
+        summarizer = AISummarizer('localkimi', 'dummy_key')
+        # 替换provider
+        summarizer.provider = build_provider_extended('localkimi', 'dummy_key')
+    elif api_key:
+        summarizer = AISummarizer(provider, api_key)
+    else:
+        summarizer = None
 
     base_dt = datetime.strptime(date_str, "%Y-%m-%d")
     # Generate newest -> oldest to keep logs intuitive.
