@@ -279,54 +279,121 @@ TIER2_JOURNAL_HINTS: Tuple[str, ...] = (
 )
 
 
+# ========== 日报第三层筛选：标题关键词匹配 ==========
+
+# 日报标题AI关键词（必须在标题中）
+DAILY_TITLE_AI_TERMS: Tuple[str, ...] = (
+    'learning', 'neural', 'network', 'machine learn', 'deep learn', 'artificial intelligence', 'ai ',
+    'graph neural', 'transformer', 'diffusion model', 'ml ', 'gnn',
+)
+
+# 日报标题物理关键词（必须在标题中）
+DAILY_TITLE_PHYSICS_TERMS: Tuple[str, ...] = (
+    'quantum', 'spin', 'magnetic', 'magnetism', 'superconduct', 'moire', 'moiré', 
+    'altermagnet', 'ferro', 'magne', 'topological', 'skyrmion', 'hall effect',
+    '凝聚态', '量子', '磁性', '铁电', '铁磁', '反铁磁', '多铁', '超导', '拓扑',
+)
+
+# 日报标题化学关键词
+DAILY_TITLE_CHEMISTRY_TERMS: Tuple[str, ...] = (
+    'catalysis', 'catalyst', 'electrochem', 'reaction mechanism', 'spectroscopy',
+    'molecular', 'chemical', 'polymer', 'ionic', 'redox',
+)
+
+# 日报标题材料关键词
+DAILY_TITLE_MATERIALS_TERMS: Tuple[str, ...] = (
+    'material', 'materials', 'perovskite', 'oxide', 'heterostructure', 
+    '2d material', 'interface', 'surface', 'nanostructure', 'alloy',
+)
+
+# 日报标题模拟关键词
+DAILY_TITLE_SIMULATION_TERMS: Tuple[str, ...] = (
+    'dft', 'density functional', 'ab initio', 'first-principles', 'first principles',
+    'molecular dynamics', 'monte carlo', 'phase field', 'simulation', 
+    'machine learning potential', 'ml potential', 'interatomic potential',
+    '第一性原理', '分子动力学', '模拟',
+)
+
+
 def is_daily_focus(item: Mapping[str, Any]) -> bool:
-    """日报筛选：所有1区+指定2区+arXiv的文章都进入日报"""
+    """
+    日报精选过滤 - 第三层
+    必须同时满足：
+    1. 属于目标领域（通过第二层过滤）
+    2. 标题中包含核心科学关键词
+    3. 满足组合A或组合B
+    """
     signals = analyze_focus(item)
-    journal = _normalize_text(item.get('journal') or '')
     
-    # 检查是否来自1区期刊
-    is_tier1 = _has_any(journal, TIER1_JOURNAL_HINTS)
+    # 条件1: 必须属于目标领域
+    if not signals['target_domain']:
+        return False
     
-    # 检查是否来自指定的2区期刊
-    is_tier2 = _has_any(journal, TIER2_JOURNAL_HINTS)
+    # 只检查标题
+    title_text = _item_title_focus_text(item)
     
-    # 检查是否来自arXiv物理/化学/材料类
-    is_arxiv_physical = signals['arxiv_physical']
+    # 标题关键词检测
+    title_has_ai = _has_any(title_text, DAILY_TITLE_AI_TERMS)
+    title_has_physics = _has_any(title_text, DAILY_TITLE_PHYSICS_TERMS)
+    title_has_chemistry = _has_any(title_text, DAILY_TITLE_CHEMISTRY_TERMS)
+    title_has_materials = _has_any(title_text, DAILY_TITLE_MATERIALS_TERMS)
+    title_has_simulation = _has_any(title_text, DAILY_TITLE_SIMULATION_TERMS)
     
-    # 只要满足以下任一条件，就进入日报：
-    # 1. 1区期刊文章
-    # 2. 指定的2区期刊文章 (JAP, CPL)
-    # 3. arXiv物理/化学/材料类文章
-    return is_tier1 or is_tier2 or is_arxiv_physical
+    # 核心科学关键词（物理/化学/材料/模拟）
+    title_has_core_science = title_has_physics or title_has_chemistry or title_has_materials or title_has_simulation
+    
+    # 条件3: 满足组合A或组合B
+    # 组合A: 标题AI + 标题核心科学
+    combination_a = title_has_ai and title_has_core_science
+    # 组合B: 标题模拟 + 标题核心科学（物理/化学/材料）
+    combination_b = title_has_simulation and (title_has_physics or title_has_chemistry or title_has_materials)
+    
+    return combination_a or combination_b
 
 
 def daily_focus_priority(item: Mapping[str, Any]) -> tuple:
-    """日报优先级：1区 > 2区 > arXiv"""
+    """
+    日报优先级排序
+    Band 0: 标题AI + 标题核心科学
+    Band 1: 标题模拟 + 标题核心科学  
+    Band 2: 内容AI + 强科学关键词
+    Band 3: 1区/2区期刊文章
+    Band 4: 其他符合条件的文章
+    """
     signals = analyze_focus(item)
     journal = _normalize_text(item.get('journal') or '')
+    title_text = _item_title_focus_text(item)
     
-    # 检查期刊等级
+    # 标题关键词检测
+    title_has_ai = _has_any(title_text, DAILY_TITLE_AI_TERMS)
+    title_has_physics = _has_any(title_text, DAILY_TITLE_PHYSICS_TERMS)
+    title_has_chemistry = _has_any(title_text, DAILY_TITLE_CHEMISTRY_TERMS)
+    title_has_materials = _has_any(title_text, DAILY_TITLE_MATERIALS_TERMS)
+    title_has_simulation = _has_any(title_text, DAILY_TITLE_SIMULATION_TERMS)
+    
+    title_core_science = title_has_physics or title_has_chemistry or title_has_materials or title_has_simulation
+    
+    # 期刊等级
     is_tier1 = _has_any(journal, TIER1_JOURNAL_HINTS)
     is_tier2 = _has_any(journal, TIER2_JOURNAL_HINTS)
-    is_arxiv = signals['arxiv_physical']
     
-    # 优先级分配：1区(0-1) > 2区(2) > arXiv(3)
-    if is_tier1:
-        if signals['ai_science']:
-            band = 0  # 1区 + AI相关
-        else:
-            band = 1  # 1区但非AI
-    elif is_tier2:
-        band = 2  # 2区期刊
-    elif is_arxiv:
-        band = 3  # arXiv
+    # Band 0: 标题AI + 标题核心科学
+    if title_has_ai and title_core_science:
+        band = 0
+    # Band 1: 标题模拟 + 标题核心科学
+    elif title_has_simulation and title_core_science:
+        band = 1
+    # Band 2: 内容AI + 强科学关键词（标题不满足但全文满足）
+    elif signals['ai_science'] and (signals['strong_physics'] or signals['strong_chemistry'] or signals['strong_materials']):
+        band = 2
+    # Band 3: 期刊文章（1区/2区）
+    elif is_tier1 or is_tier2:
+        band = 3
+    # Band 4: 其他
     else:
-        band = 4  # 其他
+        band = 4
     
-    # 在同级内，按AI相关度排序
-    ai_boost = -1 if signals['ai_science'] else 0
-    
-    return (band, ai_boost)
+    return (band,)
 
 
 def filter_daily_focus_items(
@@ -335,7 +402,7 @@ def filter_daily_focus_items(
     min_keep: int = 12,
     max_keep: int = 60,
 ) -> Tuple[List[Mapping[str, Any]], List[Mapping[str, Any]]]:
-    """筛选日报文献：只保留1区+指定2区+arXiv的文章"""
+    """筛选日报文献：只保留满足标题关键词组合的文章"""
     # 使用is_daily_focus筛选符合条件的文章
     eligible = [item for item in items if is_daily_focus(item)]
     
