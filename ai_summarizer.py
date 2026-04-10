@@ -439,8 +439,9 @@ class AISummarizer:
     "summaries": [
         {{
             "index": 1,
-            "title_zh": "中文标题",
-            "one_sentence_summary": "一句话中文总结"
+            "title_zh": "中文标题（翻译原标题）",
+            "abstract_zh": "摘要中文翻译（100字以内）",
+            "one_sentence_summary": "一句话中文总结（突出研究亮点）"
         }},
         ... (直到序号 {len(articles)})
     ],
@@ -454,7 +455,7 @@ class AISummarizer:
 
 要求：
 1. summaries 必须包含输入的所有文献，且 index 必须与输入的 [序号] 严格一致。
-2. title_zh 和 one_sentence_summary 必须使用中文。
+2. title_zh、abstract_zh 和 one_sentence_summary 必须使用中文。
 3. 不要输出任何链接，链接将由 Python 程序根据序号自动补全。
 """
 
@@ -489,15 +490,16 @@ class AISummarizer:
   "summaries": [
     {{
       "index": 1,
-      "title_zh": "中文标题",
-      "one_sentence_summary": "一句话中文总结"
+      "title_zh": "中文标题（翻译原标题）",
+      "abstract_zh": "摘要中文翻译（100字以内）",
+      "one_sentence_summary": "一句话中文总结（突出研究亮点）"
     }}
   ]
 }}
 
 要求：
 1. 只返回上面给出的缺失 index。
-2. 每个 index 都必须返回 title_zh 和 one_sentence_summary，且都使用中文。
+2. 每个 index 都必须返回 title_zh、abstract_zh 和 one_sentence_summary，且都使用中文。
 3. 不要输出 JSON 以外的任何内容。
 """
 
@@ -603,7 +605,11 @@ class AISummarizer:
     def _summary_fields_missing(item: Optional[Dict[str, Any]]) -> bool:
         if not isinstance(item, dict):
             return True
-        return not str(item.get("title_zh") or "").strip() or not str(item.get("one_sentence_summary") or "").strip()
+        # 检查关键字段：中文标题、摘要翻译、一句话总结
+        has_title_zh = bool(str(item.get("title_zh") or "").strip())
+        has_abstract_zh = bool(str(item.get("abstract_zh") or "").strip())
+        has_summary = bool(str(item.get("one_sentence_summary") or "").strip())
+        return not (has_title_zh and has_abstract_zh and has_summary)
 
     def _fill_missing_summaries(
         self,
@@ -670,6 +676,7 @@ class AISummarizer:
                 full_list.append({
                     "title_en": article.get('title'),
                     "title_zh": ai_info.get('title_zh') or article.get('title_zh') or "标题翻译失败",
+                    "abstract_zh": ai_info.get('abstract_zh') or "",  # 摘要中文翻译
                     "summary": ai_info.get('one_sentence_summary') or "总结生成失败",
                     "link": article.get('link'),  # 核心：直接使用 Python 里的原始链接
                     "journal": article.get("journal", ""),
@@ -691,6 +698,7 @@ class AISummarizer:
                     h_item = {
                         "title_en": art.get('title'),
                         "title_zh": info.get('title_zh'),
+                        "abstract_zh": info.get('abstract_zh') or "",  # 摘要中文翻译
                         "link": art.get('link'),
                         "summary": info.get('one_sentence_summary'),
                         "reason": h.get('reason'),
@@ -737,6 +745,7 @@ class AISummarizer:
                 {
                     "title_en": a.get('title'),
                     "title_zh": a.get('title_zh') or "待翻译",
+                    "abstract_zh": "",  # 摘要中文翻译
                     "summary": "请查阅原文了解详情",
                     "link": a.get('link'),
                     "journal": a.get("journal", ""),

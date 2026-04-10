@@ -68,20 +68,9 @@ RSS_FEEDS = [
     "https://rss.sciencedirect.com/publication/science/13697021",  # Materials Today
     "https://www.nature.com/npj2dmaterials.rss",  # npj 2D Materials and Applications
     "http://feeds.aps.org/rss/recent/prapplied.xml",  # Physical Review Applied
-    # ========== 新增2区期刊 ==========
-    "https://aip.scitation.org/action/showFeed?type=etoc&feed=rss&jc=jap",  # Journal of Applied Physics
-    "https://iopscience.iop.org/journal/rss/0953-8984",  # Journal of Physics: Condensed Matter
-    "https://feeds.rsc.org/rss/cp",  # Physical Chemistry Chemical Physics (PCCP)
-    "https://feeds.rsc.org/rss/tc",  # Journal of Materials Chemistry C
-    "https://rss.sciencedirect.com/publication/science/02728842",  # Ceramics International
-    "https://onlinelibrary.wiley.com/action/showFeed?jc=15512916&type=etoc&feed=rss",  # Journal of the American Ceramic Society
-    "https://rss.sciencedirect.com/publication/science/13596462",  # Scripta Materialia
-    "https://rss.sciencedirect.com/publication/science/09669795",  # Intermetallics
-    "https://rss.sciencedirect.com/publication/science/09258388",  # Journal of Alloys and Compounds
-    "https://rss.sciencedirect.com/publication/science/03048853",  # Journal of Magnetism and Magnetic Materials
-    "https://ieeexplore.ieee.org/rss/TOC20.XML",  # IEEE Transactions on Magnetics
-    "https://onlinelibrary.wiley.com/action/showFeed?jc=16193688&type=etoc&feed=rss",  # physica status solidi (b)
-    "https://onlinelibrary.wiley.com/action/showFeed?jc=1619368X&type=etoc&feed=rss",  # physica status solidi (c)
+    # ========== 2区期刊（仅保留指定）==========
+    "https://aip.scitation.org/action/showFeed?type=etoc&feed=rss&jc=jap",  # Journal of Applied Physics (JAP)
+    "https://rss.sciencedirect.com/publication/science/00092614",  # Chemical Physics Letters (CPL)
 ]
 
 # 多用户关键词配置

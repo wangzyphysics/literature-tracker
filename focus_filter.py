@@ -90,25 +90,21 @@ SIMULATION_CORE_TERMS: Tuple[str, ...] = (
 DAILY_SIMULATION_TERMS: Tuple[str, ...] = tuple(term for term in SIMULATION_CORE_TERMS if term != 'physics-informed')
 
 CURATED_JOURNAL_HINTS: Tuple[str, ...] = (
-    'phys. rev.', 'physical review', 'j. chem. phys', 'journal of chemical physics', 'advanced materials',
-    'advanced science', 'materials today', 'npj comput', 'npj quantum', 'nature materials', 'nature physics',
-    'nature chemistry', 'nature electronics', 'nature energy', 'science advances', 'nano letters', 'jacs',
+    # ========== 1区期刊 ==========
+    'phys. rev. lett', 'phys. rev. x', 'phys. rev. b', 'phys. rev. materials', 'phys. rev. applied',
+    'physical review letters', 'physical review x', 'physical review b', 'physical review materials', 'physical review applied',
+    'j. am. chem. soc', 'journal of the american chemical society', 'jacs',
+    'nano lett', 'nano letters',
+    'j. phys. chem. lett', 'journal of physical chemistry letters', 'jpcl',
+    'j. chem. theory comput', 'journal of chemical theory and computation', 'jctc',
+    'advanced materials', 'advanced science', 'materials today',
+    'npj comput', 'npj quantum', 'nature materials', 'nature physics',
+    'nature chemistry', 'nature electronics', 'nature energy', 'science advances',
     'computer physics communications', 'computational materials science', 'digital discovery',
-    'nature machine intelligence', 'phys. rev. materials',
-    # 新增2区期刊
-    'journal of applied physics', 'j. appl. phys.',
-    'journal of physics: condensed matter', 'j. phys. condens. matter',
-    'physical chemistry chemical physics', 'pccp',
-    'journal of materials chemistry', 'j. mater. chem.',
-    'ceramics international',
-    'journal of the american ceramic society', 'j. am. ceram. soc.',
-    'scripta materialia',
-    'intermetallics',
-    'journal of alloys and compounds', 'j. alloys compd.',
-    'journal of magnetism and magnetic materials', 'j. magn. magn. mater.',
-    'ieee transactions on magnetics', 'ieee trans. magn.',
-    'physica status solidi', 'phys. stat. sol.',
-    'applied physics letters', 'appl. phys. lett.',
+    'nature machine intelligence',
+    # ========== 2区期刊（仅保留指定）==========
+    'j. appl. phys', 'journal of applied physics',  # JAP
+    'chem. phys. lett', 'chemical physics letters',  # CPL
 )
 
 ALLOWED_ARXIV_PHYSICAL: Tuple[str, ...] = (
@@ -261,62 +257,76 @@ def filter_focus_items(items: Iterable[Mapping[str, Any]]) -> Tuple[List[Mapping
     return kept, dropped
 
 
-# 日报聚焦关键词：磁性/铁电相关
-DAILY_FERRO_MAGNET_TERMS: Tuple[str, ...] = (
-    'ferro', 'magnet', 'magnetic', 'magnetism', 'ferromagnet', 'ferroelectric', 
-    'antiferromagnet', 'multiferroic', 'magnetoresistance', 'magnetoelectric',
-    'spin', 'spintronic', 'spintronics', 'skyrmion', 'altermagnet',
-    '铁磁', '铁电', '反铁磁', '多铁', '磁性', '磁电阻', '磁电',
+# 1区期刊列表（用于日报筛选）
+TIER1_JOURNAL_HINTS: Tuple[str, ...] = (
+    'phys. rev. lett', 'phys. rev. x', 'phys. rev. b', 'phys. rev. materials', 'phys. rev. applied',
+    'physical review letters', 'physical review x', 'physical review b', 'physical review materials', 'physical review applied',
+    'j. am. chem. soc', 'journal of the american chemical society', 'jacs',
+    'nano lett', 'nano letters',
+    'j. phys. chem. lett', 'journal of physical chemistry letters', 'jpcl',
+    'j. chem. theory comput', 'journal of chemical theory and computation', 'jctc',
+    'advanced materials', 'advanced science', 'materials today',
+    'npj comput', 'npj quantum', 'nature materials', 'nature physics',
+    'nature chemistry', 'nature electronics', 'nature energy', 'science advances',
+    'computer physics communications', 'computational materials science', 'digital discovery',
+    'nature machine intelligence', 'nature', 'science',
 )
 
-def is_daily_focus(item: Mapping[str, Any]) -> bool:
-    signals = analyze_focus(item)
-    if not signals['target_domain']:
-        return False
+# 2区期刊列表（仅保留指定）
+TIER2_JOURNAL_HINTS: Tuple[str, ...] = (
+    'j. appl. phys', 'journal of applied physics',  # JAP
+    'chem. phys. lett', 'chemical physics letters',  # CPL
+)
 
-    title_text = _item_title_focus_text(item)
-    title_has_ai = _has_any(title_text, AI_TERMS)
-    title_has_physics = _has_any(title_text, DAILY_PHYSICS_TERMS)
-    title_has_chemistry = _has_any(title_text, CHEMISTRY_CORE_TERMS)
-    title_has_materials = _has_any(title_text, MATERIALS_CORE_TERMS)
-    title_has_simulation = _has_any(title_text, DAILY_SIMULATION_TERMS)
-    title_has_ferro_magnet = _has_any(title_text, DAILY_FERRO_MAGNET_TERMS)
-    title_core_science = title_has_physics or title_has_chemistry or title_has_materials or title_has_simulation
+
+def is_daily_focus(item: Mapping[str, Any]) -> bool:
+    """日报筛选：所有1区+指定2区+arXiv的文章都进入日报"""
+    signals = analyze_focus(item)
+    journal = _normalize_text(item.get('journal') or '')
     
-    # 放宽标准：
-    # 1. 原有标准：标题AI+核心科学 或 标题模拟+核心科学
-    # 2. 新增：标题含ferro/magnet关键词的物理/材料文献（无需AI）
-    return (
-        (title_has_ai and title_core_science) or 
-        (title_has_simulation and title_core_science) or
-        (title_has_ferro_magnet and (title_has_physics or title_has_materials))
-    )
+    # 检查是否来自1区期刊
+    is_tier1 = _has_any(journal, TIER1_JOURNAL_HINTS)
+    
+    # 检查是否来自指定的2区期刊
+    is_tier2 = _has_any(journal, TIER2_JOURNAL_HINTS)
+    
+    # 检查是否来自arXiv物理/化学/材料类
+    is_arxiv_physical = signals['arxiv_physical']
+    
+    # 只要满足以下任一条件，就进入日报：
+    # 1. 1区期刊文章
+    # 2. 指定的2区期刊文章 (JAP, CPL)
+    # 3. arXiv物理/化学/材料类文章
+    return is_tier1 or is_tier2 or is_arxiv_physical
 
 
 def daily_focus_priority(item: Mapping[str, Any]) -> tuple:
+    """日报优先级：1区 > 2区 > arXiv"""
     signals = analyze_focus(item)
-    title_text = _item_title_focus_text(item)
-    title_has_ai = _has_any(title_text, AI_TERMS)
-    title_has_simulation = _has_any(title_text, DAILY_SIMULATION_TERMS)
-    title_has_physics = _has_any(title_text, DAILY_PHYSICS_TERMS)
-    title_has_chemistry = _has_any(title_text, CHEMISTRY_CORE_TERMS)
-    title_has_materials = _has_any(title_text, MATERIALS_CORE_TERMS)
-    title_has_ferro_magnet = _has_any(title_text, DAILY_FERRO_MAGNET_TERMS)
-    title_core_science = title_has_physics or title_has_chemistry or title_has_materials or title_has_simulation or signals['arxiv_physical']
-
-    if title_has_ai and title_core_science:
-        band = 0
-    elif title_has_simulation and title_core_science:
-        band = 1
-    elif title_has_ferro_magnet and (title_has_physics or title_has_materials):
-        band = 2  # 新增：ferro/magnet物理/材料文献
-    elif signals['has_ai'] and (signals['strong_physics'] or signals['strong_chemistry'] or signals['strong_materials'] or signals['strong_simulation']):
-        band = 3
-    elif signals['curated_journal'] or signals['arxiv_physical']:
-        band = 4
+    journal = _normalize_text(item.get('journal') or '')
+    
+    # 检查期刊等级
+    is_tier1 = _has_any(journal, TIER1_JOURNAL_HINTS)
+    is_tier2 = _has_any(journal, TIER2_JOURNAL_HINTS)
+    is_arxiv = signals['arxiv_physical']
+    
+    # 优先级分配：1区(0-1) > 2区(2) > arXiv(3)
+    if is_tier1:
+        if signals['ai_science']:
+            band = 0  # 1区 + AI相关
+        else:
+            band = 1  # 1区但非AI
+    elif is_tier2:
+        band = 2  # 2区期刊
+    elif is_arxiv:
+        band = 3  # arXiv
     else:
-        band = 5
-    return (band,) + focus_priority(item)
+        band = 4  # 其他
+    
+    # 在同级内，按AI相关度排序
+    ai_boost = -1 if signals['ai_science'] else 0
+    
+    return (band, ai_boost)
 
 
 def filter_daily_focus_items(
@@ -325,7 +335,11 @@ def filter_daily_focus_items(
     min_keep: int = 12,
     max_keep: int = 60,
 ) -> Tuple[List[Mapping[str, Any]], List[Mapping[str, Any]]]:
-    eligible = [item for item in items if is_target_domain(item)]
+    """筛选日报文献：只保留1区+指定2区+arXiv的文章"""
+    # 使用is_daily_focus筛选符合条件的文章
+    eligible = [item for item in items if is_daily_focus(item)]
+    
+    # 按优先级排序
     eligible = sorted(eligible, key=daily_focus_priority)
 
     def item_key(item: Mapping[str, Any]) -> str:

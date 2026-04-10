@@ -256,7 +256,18 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
     }
 
     def safe_summary_text(item: Dict) -> str:
-        return safe_text(item.get('summary') or item.get('one_sentence_summary') or '')
+        """返回文章的摘要信息：优先显示AI生成的摘要翻译，其次是一句话总结"""
+        # 优先显示摘要中文翻译
+        abstract_zh = item.get('abstract_zh', '')
+        one_sentence = item.get('one_sentence_summary', '')
+        
+        parts = []
+        if abstract_zh:
+            parts.append(f"<p class='daily-paper-abstract'><strong>📄 摘要：</strong>{safe_text(abstract_zh)}</p>")
+        if one_sentence:
+            parts.append(f"<p class='daily-paper-highlight'><strong>💡 亮点：</strong>{safe_text(one_sentence)}</p>")
+        
+        return "".join(parts) if parts else "<p class='daily-paper-abstract'>暂无摘要</p>"
 
     def item_key(item: Dict) -> str:
         return str(item.get('link') or item.get('title_en') or item.get('title') or item.get('title_zh') or '')
@@ -281,18 +292,26 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
         return "".join(meta_parts)
 
     def render_focus_item(item: Dict, index: int) -> str:
-        title_zh = safe_text(item.get('title_zh', ''))
-        title_en = safe_text(item.get('title_en') or item.get('title') or '')
+        # 确保有中文标题
+        title_zh = item.get('title_zh', '')
+        title_en = item.get('title_en') or item.get('title', '')
+        
+        if not title_zh:
+            title_zh = title_en
+            
+        title_zh_html = safe_text(title_zh)
+        title_en_html = safe_text(title_en)
         meta_html = render_meta_chips(item)
         reason = safe_text(build_highlight_reason(item))
+        
         return f"""
         <li class="daily-news-item">
             <div class="daily-news-index">{index:02d}</div>
             <div class="daily-news-body">
-                <div class="daily-news-title-zh">{title_zh}</div>
-                <div class="daily-news-title-en">{title_en}</div>
+                <div class="daily-news-title-zh">{title_zh_html}</div>
+                <div class="daily-news-title-en">{title_en_html}</div>
                 <div class="daily-news-meta">{meta_html}</div>
-                <p class="daily-news-summary">{safe_summary_text(item)}</p>
+                {safe_summary_text(item)}
                 <p class="daily-news-reason"><strong>关注理由：</strong>{reason}</p>
                 <a class="daily-news-link" href="{safe_url(item.get('link',''))}" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
             </div>
@@ -300,17 +319,26 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
         """
 
     def render_item(item: Dict, index: int) -> str:
-        title_zh = safe_text(item.get('title_zh', ''))
-        title_en = safe_text(item.get('title_en') or item.get('title') or '')
+        # 确保有中文标题（使用AI生成的或显示原标题）
+        title_zh = item.get('title_zh', '')
+        title_en = item.get('title_en') or item.get('title', '')
+        
+        # 如果没有中文标题，用英文标题代替
+        if not title_zh:
+            title_zh = title_en
+        
+        title_zh_html = safe_text(title_zh)
+        title_en_html = safe_text(title_en)
         meta_html = render_meta_chips(item)
+        
         return f"""
         <li class="daily-paper-card" id="paper-{index}">
             <span class="daily-paper-number">{index:02d}</span>
             <div class="daily-paper-body">
                 <div class="daily-paper-head">
                     <div class="daily-paper-titles">
-                        <div class="daily-paper-title-zh">{title_zh}</div>
-                        <div class="daily-paper-title-en">{title_en}</div>
+                        <div class="daily-paper-title-zh">{title_zh_html}</div>
+                        <div class="daily-paper-title-en">{title_en_html}</div>
                     </div>
                 </div>
                 <div class="daily-paper-meta">{meta_html}</div>
