@@ -76,15 +76,25 @@ def generate_html_with_existing_data(date_str: str):
     return True
 
 if __name__ == '__main__':
-    dates = ['2026-04-01', '2026-04-02', '2026-04-03', '2026-04-06', '2026-04-07', '2026-04-08', '2026-04-09']
+    import sys
+    
+    # 支持命令行参数指定日期
+    if len(sys.argv) > 1:
+        dates = sys.argv[1:]
+    else:
+        # 默认生成4月1日到4月10日的日报
+        dates = ['2026-04-01', '2026-04-02', '2026-04-03', '2026-04-06', 
+                 '2026-04-07', '2026-04-08', '2026-04-09', '2026-04-10']
     
     print("=" * 50)
     print("使用现有数据生成日报")
     print("=" * 50)
     
+    success_count = 0
     for date in dates:
-        generate_html_with_existing_data(date)
+        if generate_html_with_existing_data(date):
+            success_count += 1
     
     print("\n" + "=" * 50)
-    print("完成！")
+    print(f"完成！成功生成 {success_count}/{len(dates)} 个日报")
     print("=" * 50)
