@@ -87,6 +87,20 @@ def main() -> int:
     assert "toggleAbstract" in html
     assert "查看完整摘要" in html
 
+    # ----- Weekly core-focus section -----
+    from weekly_summary import render_core_weekly_section as _rcw
+    wk = {
+        'core_items':[{'title':'等变神经网络势','title_en':'Equivariant NNP','link':'https://ex/1','journal':'Nature','abstract_zh':'为 BaTiO3 训练 MACE。','method_point':'MACE 等变势','related_work':'与 NequIP 同族','implication':'可迁移反铁磁'}],
+        'core_weekly_note':'本周 MACE 用于 BaTiO3；CrI3 中 GNN 学习自旋哈密顿量。'
+    }
+    block = _rcw(wk)
+    if 'weekly-core-section' not in block or '本周核心方向' not in block:
+        print('FAIL: weekly core section missing heading'); return 1
+    if '方法要点' not in block or '启示' not in block:
+        print('FAIL: weekly deep labels missing'); return 1
+    if _rcw({'core_items':[], 'core_weekly_note':''}).strip() != '':
+        print('FAIL: weekly core section should be empty when no items'); return 1
+
     print("[OK] weekly renderer sanity checks passed")
     return 0
 

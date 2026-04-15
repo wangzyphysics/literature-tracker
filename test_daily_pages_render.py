@@ -59,6 +59,34 @@ def main() -> int:
     assert "测试2中文" in html2
     assert "完整速览" in html2
 
+    # ----- Core-focus section -----
+    from generate_daily_pages import render_daily_html as _rdh
+    summary_with_core = {
+        'date':'2026-04-15','total':0,'overview':'','trends':'',
+        'full_list':[],'summaries':[],'ml_highlights':[],'ferro_highlights':[],
+        'core_items':[{
+            'title_en':'Equivariant neural network potential for ferroelectric perovskites',
+            'title_zh':'用于铁电钙钛矿的等变神经网络势','abstract_zh':'为 BaTiO3 训练 MACE。',
+            'summary':'一句话总结。','link':'https://ex/1','journal':'Nature',
+            'method_point':'MACE 等变势训练','related_work':'与 NequIP/Allegro 同族','implication':'可迁移反铁磁'
+        }],
+        'core_direction_note':'本日 ML×ferro 方向出现 MACE 势应用于 BaTiO3。'
+    }
+    html_core = _rdh('2026-04-15', summary_with_core)
+    if 'id="core-focus"' not in html_core:
+        print('FAIL: missing core-focus section when core_items present'); return 1
+    if '核心关注（ML' not in html_core:
+        print('FAIL: missing core heading'); return 1
+    if '方法要点' not in html_core or '启示' not in html_core:
+        print('FAIL: missing deep fields'); return 1
+
+    summary_no_core = dict(summary_with_core)
+    summary_no_core['core_items'] = []
+    summary_no_core['core_direction_note'] = ''
+    html_empty = _rdh('2026-04-15', summary_no_core)
+    if 'id="core-focus"' in html_empty:
+        print('FAIL: should NOT render core section when empty'); return 1
+
     print("[OK] daily renderer sanity checks passed")
     return 0
 
