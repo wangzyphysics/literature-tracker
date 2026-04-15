@@ -418,6 +418,7 @@ def topic_bucket(item: Mapping[str, Any]) -> str:
 
 
 def focus_priority(item: Mapping[str, Any]) -> tuple:
+    from focus_core import is_core_focus, core_score  # lazy import to avoid circular deps
     signals = analyze_focus(item)
     bucket = topic_bucket(item)
     bucket_rank = {
@@ -435,6 +436,8 @@ def focus_priority(item: Mapping[str, Any]) -> tuple:
     is_arxiv = journal == 'arxiv'
     direct_bonus = 0 if signals['direct_science'] else 1
     return (
+        0 if is_core_focus(item) else 1,      # 核心关注永远置顶
+        -core_score(item),                     # 核心分数高者靠前
         0 if signals['ai_science'] else 1,
         direct_bonus,
         bucket_rank,

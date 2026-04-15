@@ -58,6 +58,21 @@ def main() -> int:
     assert {item["title"] for item in dropped} == {medical["title"], cancer_ai["title"], education["title"]}
 
     print("[OK] focus filter sanity checks passed")
+
+    # ——— 核心关注置顶测试 ———
+    from focus_filter import focus_priority as _fp
+    core_item = {
+        "title": "Equivariant neural network potential for ferroelectric perovskites",
+        "abstract": "We train MACE on BaTiO3.",
+        "journal": "npj Computational Materials",
+    }
+    noncore_item = {
+        "title": "A transformer for protein structure prediction",
+        "journal": "Nature",
+    }
+    if _fp(core_item) >= _fp(noncore_item):
+        print("FAIL: core_focus item should sort BEFORE non-core")
+        return 1
     return 0
 
 
