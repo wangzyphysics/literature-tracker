@@ -73,6 +73,29 @@ def main() -> int:
     if _fp(core_item) >= _fp(noncore_item):
         print("FAIL: core_focus item should sort BEFORE non-core")
         return 1
+    # Assert the first tuple element is *specifically* the core_focus rank.
+    # This fails if focus_priority doesn't expose core_focus as its top-most sort key.
+    if _fp(core_item)[0] != 0:
+        print(f"FAIL: core_focus item's priority[0] must be 0, got {_fp(core_item)[0]}")
+        return 1
+    if _fp(noncore_item)[0] != 1:
+        print(f"FAIL: non-core item's priority[0] must be 1, got {_fp(noncore_item)[0]}")
+        return 1
+    # Stress case: a weak-on-everything-else core item must still beat a strong non-core.
+    weak_core = {
+        "title": "Some note about ferroelectric coupling",
+        "abstract": "machine learning mentioned.",
+        "journal": "Unknown Journal",
+    }
+    strong_noncore = {
+        "title": "Machine learning for catalyst discovery across the reaction network",
+        "abstract": "Graph neural network surrogate for electrochemistry.",
+        "journal": "Nature",
+        "ai_score": 10,
+    }
+    if _fp(weak_core) >= _fp(strong_noncore):
+        print("FAIL: weak core_focus item must still beat strong non-core via priority[0]")
+        return 1
     return 0
 
 
