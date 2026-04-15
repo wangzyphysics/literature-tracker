@@ -68,6 +68,26 @@ def main() -> int:
     if score_title <= score_abs:
         failures.append(f"title hits should outweigh abstract-only: title={score_title}, abs={score_abs}")
 
+    # Pure condensed-matter Hamiltonian paper (no ML) — must NOT be core
+    ham_no_ml = {
+        "title": "Effective Hamiltonian for multiferroic BiFeO3 from symmetry analysis",
+        "abstract": "We derive a symmetry-adapted spin Hamiltonian for the cycloidal ordering in BiFeO3.",
+    }
+    if is_core_focus(ham_no_ml):
+        failures.append("UNEXPECTED core_focus for pure-theory Hamiltonian paper")
+
+    # None input robustness
+    if is_core_focus(None) is not False:
+        failures.append("is_core_focus(None) must be False")
+    if core_score(None) != 0.0:
+        failures.append("core_score(None) must be 0.0")
+
+    # Empty dict robustness
+    if is_core_focus({}) is not False:
+        failures.append("is_core_focus({}) must be False")
+    if core_score({}) != 0.0:
+        failures.append("core_score({}) must be 0.0")
+
     if failures:
         for f in failures:
             print(f"FAIL: {f}")

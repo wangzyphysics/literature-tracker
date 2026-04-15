@@ -14,12 +14,11 @@ CORE_METHOD_TERMS: Tuple[str, ...] = (
     "equivariant gnn", "equivariant network",
     # 势函数 / Hamiltonian
     "ml potential", "mlip", "interatomic potential", "neural network potential",
-    "nnp", "ml hamiltonian", "learnable hamiltonian", "symmetry-adapted",
+    "nnp", "ml hamiltonian", "learnable hamiltonian",
     "equivariant force field", "mace", "nequip", "allegro", "schnet",
-    "hamiltonian", "effective hamiltonian", "spin hamiltonian",
     # 中文
     "机器学习", "深度学习", "神经网络", "大语言模型", "人工智能",
-    "哈密顿量", "神经网络势", "机器学习势",
+    "神经网络势", "机器学习势",
 )
 
 # —— ferro/磁/凝聚态侧 ——
@@ -71,12 +70,16 @@ def _has_any(text: str, terms: Tuple[str, ...]) -> bool:
 
 def is_core_focus(item: Mapping[str, Any]) -> bool:
     """核心关注 = 同时命中方法侧与 ferro/凝聚态侧。"""
+    if not item:
+        return False
     text = _item_fulltext(item)
     return _has_any(text, CORE_METHOD_TERMS) and _has_any(text, CORE_FERRO_TERMS)
 
 
 def core_score(item: Mapping[str, Any]) -> float:
     """0.0 ~ 1.0；未命中核心关注时返回 0.0。"""
+    if not item:
+        return 0.0
     if not is_core_focus(item):
         return 0.0
     title = _item_title_text(item)
@@ -87,7 +90,7 @@ def core_score(item: Mapping[str, Any]) -> float:
         score += 0.15
     text = _item_fulltext(item)
     # Hamiltonian + 磁/铁 组合加成
-    if ("hamiltonian" in text) and _has_any(text, ("ferro", "magnet", "铁", "磁")):
+    if _has_any(text, ("ml hamiltonian", "learnable hamiltonian", "neural network potential", "ml potential", "mlip")) and _has_any(text, ("ferro", "magnet", "铁", "磁")):
         score += 0.10
     # arXiv cond-mat 加成
     src = _normalize(item.get("source_url") or item.get("arxiv_category") or "")
