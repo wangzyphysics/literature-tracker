@@ -52,6 +52,66 @@ def _safe_id(value) -> str:
     return cleaned or "x"
 
 
+def render_core_weekly_section(summary: Dict) -> str:
+    import html as _html
+    def _t(s: str) -> str:
+        return _html.escape(str(s or ""), quote=True)
+    def _u(url: str) -> str:
+        url = (url or "").strip()
+        if not url:
+            return "#"
+        if not (url.startswith("http://") or url.startswith("https://")):
+            return "#"
+        return _html.escape(url, quote=True)
+
+    items = summary.get('core_items') or []
+    if not items:
+        return ""
+    note = summary.get('core_weekly_note') or ""
+    cards = []
+    for i, it in enumerate(items, 1):
+        title = (it.get('title') or '').strip()
+        title_en = (it.get('title_en') or '').strip()
+        journal = (it.get('journal') or '').strip()
+        link = (it.get('link') or '').strip() or '#'
+        abstract_zh = (it.get('abstract_zh') or '').strip()
+        mp = (it.get('method_point') or '').strip()
+        rw = (it.get('related_work') or '').strip()
+        im = (it.get('implication') or '').strip()
+        show_en = bool(title) and title.casefold() != title_en.casefold()
+        deep = ""
+        if mp or rw or im:
+            parts = []
+            if mp: parts.append(f"<p><strong>📐 方法要点：</strong>{_t(mp)}</p>")
+            if rw: parts.append(f"<p><strong>🔗 相关工作关联：</strong>{_t(rw)}</p>")
+            if im: parts.append(f"<p><strong>💡 对你方向的启示：</strong>{_t(im)}</p>")
+            deep = f"<div class='weekly-core-deep'>{''.join(parts)}</div>"
+        title_en_html = f"<div class='weekly-core-title-en'>{_t(title_en)}</div>" if show_en else ""
+        abs_block = f"<p class='weekly-core-abs'><strong>📄 摘要：</strong>{_t(abstract_zh)}</p>" if abstract_zh else ""
+        display_title = _t(title or title_en)
+        cards.append(f"""
+        <li class="weekly-core-card">
+          <div class="weekly-core-number">{i:02d}</div>
+          <div class="weekly-core-body">
+            <div class="weekly-core-title-zh">{display_title}</div>
+            {title_en_html}
+            <div class="weekly-core-meta"><span class="weekly-chip weekly-chip-core">🎯 核心</span><span class="weekly-chip">📖 {_t(journal)}</span></div>
+            {abs_block}
+            {deep}
+            <div class="weekly-core-actions"><a href="{_u(link)}" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></div>
+          </div>
+        </li>
+        """)
+    note_html = f"<p class='weekly-core-note'>{_t(note)}</p>" if note else ""
+    return f"""
+    <section id="core-focus" class="weekly-section weekly-core-section">
+      <div class="weekly-section-head"><span class="weekly-section-index">🎯</span><h2 class="weekly-section-title">本周核心方向（ML × ferro / 凝聚态）</h2><span class="weekly-core-count">{len(items)} 篇</span></div>
+      {note_html}
+      <ol class="weekly-core-list">{''.join(cards)}</ol>
+    </section>
+    """
+
+
 class WeeklySummarizer:
     """周报生成器"""
     
@@ -762,7 +822,41 @@ class WeeklySummarizer:
                 ferro_only.append(article)
             elif is_ai:
                 ai_only.append(article)
-        
+
+        # ---- Core-focus: ML × ferro/凝聚态 ----
+        try:
+            from config import CORE_FOCUS_CONFIG
+        except Exception:
+            CORE_FOCUS_CONFIG = {"enabled": True, "weekly_max_items": 20, "min_score": 0.60}
+
+        from focus_core import is_core_focus as _icf, core_score as _cs
+        core_items_raw = [a for a in all_articles if _icf(a)]
+        core_items_raw.sort(key=lambda x: -_cs(x))
+        min_s = float(CORE_FOCUS_CONFIG.get("min_score", 0.60))
+        core_items_raw = [a for a in core_items_raw if _cs(a) >= min_s]
+        core_items_raw = core_items_raw[: int(CORE_FOCUS_CONFIG.get("weekly_max_items", 20))]
+
+        weekly_note = ""
+        core_deep: Dict[str, Dict[str, str]] = {}
+        if CORE_FOCUS_CONFIG.get("enabled", True) and core_items_raw:
+            weekly_note, core_deep = self._generate_core_weekly(core_items_raw, week_start, week_end)
+
+        core_items_enriched = []
+        for a in core_items_raw:
+            link = a.get("link") or ""
+            info = core_deep.get(link, {})
+            core_items_enriched.append({
+                "title": a.get("title_zh") or a.get("title", ""),
+                "title_en": a.get("title", ""),
+                "link": a.get("link", ""),
+                "journal": a.get("journal", ""),
+                "abstract_zh": a.get("abstract_zh", ""),
+                "method_point": info.get("method_point", ""),
+                "related_work": info.get("related_work", ""),
+                "implication": info.get("implication", ""),
+                "core_score": _cs(a),
+            })
+
         return {
             'week_start': week_start,
             'week_end': week_end,
@@ -781,10 +875,87 @@ class WeeklySummarizer:
             'ferro_articles': ferro_only,
             'ai_articles': ai_only,
             'both_articles': both,
+            'core_items': core_items_enriched,
+            'core_weekly_note': weekly_note,
             'generated_by': getattr(self, 'provider_name', None) or 'ai'
         }
-    
-    def _fallback_summary(self, all_articles: List[Dict], ferro_articles: List[Dict], 
+
+    def _generate_core_weekly(
+        self,
+        core_items: List[Dict],
+        week_start: str,
+        week_end: str,
+    ) -> tuple:
+        """对核心关注论文批量产出 direction_weekly_note + 三深度字段。
+
+        Returns: (note_str, {link -> {method_point, related_work, implication}})
+        """
+        if not core_items or not self.provider:
+            return "", {}
+
+        lines = []
+        for i, it in enumerate(core_items, 1):
+            title = it.get('title') or ''
+            title_zh = it.get('title_zh') or ''
+            abstract = (it.get('abstract_zh') or it.get('abstract') or '')[:400]
+            journal = it.get('journal', '')
+            lines.append(f"[{i}] 中文: {title_zh}\n    EN: {title}\n    期刊: {journal}\n    摘要: {abstract}")
+        articles_str = "\n".join(lines)
+
+        prompt = (
+            f"你是深耕 ML × 铁电/磁性/凝聚态方向的资深研究员。下面是 {week_start} 至 {week_end} "
+            f"这一周 {len(core_items)} 篇属于该方向的核心论文。\n\n"
+            f"【文献列表】\n{articles_str}\n\n"
+            "请给出两部分输出：\n"
+            "A. weekly_direction_note（6-8 句中文）：回顾本周 ML × ferro/凝聚态方向的实质进展，"
+            "按 '新材料 / 新方法 / 新现象' 三条主线展开，必须点名具体材料、方法与关键数值或结论。"
+            "禁止 '整体来看/具有重要意义/为…提供新思路' 之类套话。\n"
+            "B. items：每篇三字段（全中文）：\n"
+            "   1) method_point ≤60 字\n   2) related_work ≤70 字\n   3) implication ≤70 字\n\n"
+            "只输出 JSON：\n"
+            "{\n"
+            '  "weekly_direction_note": "...",\n'
+            '  "items": [{"index": 1, "method_point": "...", "related_work": "...", "implication": "..."}]\n'
+            "}\n"
+        )
+
+        try:
+            response = self.provider.call_api(prompt)
+            from ai_summarizer import AISummarizer as _AS
+            data = _AS._load_json_lenient(response, context="weekly core deep")
+        except Exception as e:
+            print(f"⚠️ _generate_core_weekly failed: {e}")
+            return "", {}
+
+        if not isinstance(data, dict):
+            return "", {}
+
+        def _c(s, n):
+            s = (s or "").strip()
+            return s if len(s) <= n else s[: n - 1].rstrip() + "…"
+
+        deep: Dict[str, Dict[str, str]] = {}
+        for entry in data.get("items", []) or []:
+            if not isinstance(entry, dict):
+                continue
+            try:
+                idx = int(entry.get("index"))
+            except Exception:
+                continue
+            if not (1 <= idx <= len(core_items)):
+                continue
+            link = core_items[idx - 1].get("link") or ""
+            if not link:
+                continue
+            deep[link] = {
+                "method_point": _c(entry.get("method_point", ""), 80),
+                "related_work": _c(entry.get("related_work", ""), 100),
+                "implication": _c(entry.get("implication", ""), 100),
+            }
+        note = _c(data.get("weekly_direction_note", ""), 800)
+        return note, deep
+
+    def _fallback_summary(self, all_articles: List[Dict], ferro_articles: List[Dict],
                          ai_articles: List[Dict], week_start: str, week_end: str, 
                          by_journal: Dict) -> Dict:
         """降级周报（无AI）- 展示所有文献"""
@@ -2056,6 +2227,24 @@ class WeeklySummarizer:
                 flex-direction: column;
             }}
         }}
+
+        /* ---- Core focus (ML × ferro/凝聚态) ---- */
+        .weekly-core-section {{ border-radius:22px; padding:22px; margin-bottom:26px; background:linear-gradient(135deg,rgba(253,244,215,0.55),rgba(255,248,230,0.88)); border:1.5px solid rgba(245,158,11,0.45); box-shadow:0 4px 18px rgba(245,158,11,0.08); }}
+        .weekly-core-section .weekly-section-title {{ color:#b45309; }}
+        .weekly-core-count {{ margin-left:auto; padding:6px 12px; border-radius:999px; background:rgba(245,158,11,0.15); color:#b45309; font-weight:700; font-size:.9rem; }}
+        .weekly-core-note {{ margin:12px 0 18px; padding:14px 16px; border-radius:14px; background:rgba(255,255,255,.7); border-left:3px solid #f59e0b; line-height:1.8; }}
+        .weekly-core-list {{ list-style:none; margin:0; padding:0; }}
+        .weekly-core-card {{ display:grid; grid-template-columns:auto minmax(0,1fr); gap:14px; padding:18px; border-radius:18px; background:rgba(255,255,255,0.95); border:1px solid rgba(245,158,11,0.25); border-left:3px solid #f59e0b; }}
+        .weekly-core-card + .weekly-core-card {{ margin-top:14px; }}
+        .weekly-core-number {{ width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:14px; font-weight:800; color:white; background:linear-gradient(135deg,#f59e0b,#fbbf24); }}
+        .weekly-core-title-zh {{ font-size:1.08rem; font-weight:700; line-height:1.5; margin-bottom:4px; }}
+        .weekly-core-title-en {{ color:#64748b; font-size:.92rem; line-height:1.6; }}
+        .weekly-core-meta {{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }}
+        .weekly-chip {{ padding:6px 10px; border-radius:999px; background:rgba(99,102,241,.08); font-size:.88rem; color:#475569; }}
+        .weekly-chip-core {{ background:rgba(245,158,11,.18); color:#b45309; font-weight:600; }}
+        .weekly-core-deep {{ margin-top:10px; padding:12px 14px; border-radius:12px; background:rgba(245,158,11,.06); border:1px dashed rgba(245,158,11,.35); line-height:1.75; }}
+        .weekly-core-deep p + p {{ margin-top:6px; }}
+        @media (max-width:720px){{ .weekly-core-card{{ grid-template-columns:1fr; }} }}
     </style>
 </head>
 <body>
@@ -2103,6 +2292,7 @@ class WeeklySummarizer:
                     </div>
                 </section>
 
+                {render_core_weekly_section(summary)}
                 {''.join(sections)}
 
                 <div class="weekly-report-footer">
