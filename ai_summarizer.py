@@ -986,6 +986,89 @@ class AISummarizer:
         text = (article.get('title', '') + article.get('abstract', '')).lower()
         return any(kw in text for kw in ['ferroelectric', 'ferromagnet', 'multiferroic', 'piezoelectric', 'antiferromagnet'])
 
+    def generate_core_deep_fields(
+        self,
+        core_items: List[Dict],
+        date: str,
+    ) -> Tuple[Dict[str, Dict[str, str]], str]:
+        """对核心关注论文批量生成 3 深度字段 + 方向点评。
+
+        Returns: (deep_fields_by_link, direction_note)
+          deep_fields_by_link: {link: {method_point, related_work, implication}}
+          direction_note: 3-4 句中文段落，失败时返回空串
+        """
+        if not core_items:
+            return {}, ""
+
+        lines = []
+        for i, it in enumerate(core_items, 1):
+            title = it.get('title_en') or it.get('title') or ''
+            title_zh = it.get('title_zh') or ''
+            abstract = (it.get('abstract_zh') or it.get('abstract') or '')[:400]
+            journal = it.get('journal', '')
+            lines.append(
+                f"[{i}] 中文标题: {title_zh}\n    EN: {title}\n    期刊: {journal}\n    摘要: {abstract}"
+            )
+        articles_str = "\n".join(lines)
+
+        prompt = (
+            f"你是深耕 ML × 铁电/磁性/凝聚态方向的资深研究员。以下是 {date} 当日的 "
+            f"{len(core_items)} 篇核心关注论文（均已判定为 ML × ferro/凝聚态方向）。\n\n"
+            f"【文献列表】\n{articles_str}\n\n"
+            "请给出两部分输出：\n"
+            "A. direction_note（3-4 句中文）：概括本日 ML × ferro/凝聚态方向的**实质进展**，"
+            "必须点名具体材料（如 NbOI2、CrI3、CrSBr、BaTiO3）与具体方法（如 equivariant GNN、"
+            "MACE、NEP、DFT+U），禁止 '整体来看 / 值得关注 / 有望 / 为…提供新思路' 之类套话。\n"
+            "B. items：对每篇文章输出三条线索（全中文、信息密度高）：\n"
+            "   1) method_point（≤60 字）：核心技术/方法/模型，一针见血；\n"
+            "   2) related_work（≤70 字）：与哪些已知方法/体系/方向呼应，只写方向名不编造文献；\n"
+            "   3) implication（≤70 字）：对 ML × ferro/凝聚态研究者的具体启发。\n\n"
+            "【输出格式】只输出 JSON，无 markdown、无额外文字：\n"
+            "{\n"
+            '  "direction_note": "...",\n'
+            '  "items": [\n'
+            '    {"index": 1, "method_point": "...", "related_work": "...", "implication": "..."},\n'
+            "    ...\n"
+            "  ]\n"
+            "}\n"
+        )
+
+        try:
+            response = self.provider.call_api(prompt)
+            data = self._load_json_lenient(response, context="core deep fields")
+        except Exception as e:
+            print(f"⚠️ generate_core_deep_fields failed: {e}")
+            return {}, ""
+
+        if not isinstance(data, dict):
+            return {}, ""
+
+        def _clamp(s, n):
+            s = (s or "").strip()
+            return s if len(s) <= n else s[: n - 1].rstrip() + "…"
+
+        deep_fields: Dict[str, Dict[str, str]] = {}
+        for entry in data.get("items", []) or []:
+            if not isinstance(entry, dict):
+                continue
+            try:
+                idx = int(entry.get("index"))
+            except Exception:
+                continue
+            if not (1 <= idx <= len(core_items)):
+                continue
+            link = core_items[idx - 1].get("link") or ""
+            if not link:
+                continue
+            deep_fields[link] = {
+                "method_point": _clamp(entry.get("method_point", ""), 80),
+                "related_work": _clamp(entry.get("related_work", ""), 100),
+                "implication": _clamp(entry.get("implication", ""), 100),
+            }
+
+        direction_note = _clamp(data.get("direction_note", ""), 400)
+        return deep_fields, direction_note
+
     def fallback_summary(self, articles: List[Dict], date: str) -> Dict:
         data = {
             'date': date,
