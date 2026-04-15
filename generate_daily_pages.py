@@ -853,6 +853,39 @@ def main():
                     summary["raw_total"] = len(raw_day_articles)
                     summary["focused_total"] = len(focused_articles)
 
+                # ---- Core-focus deep fields (ML × ferro/凝聚态) ----
+                try:
+                    from config import CORE_FOCUS_CONFIG
+                except Exception:
+                    CORE_FOCUS_CONFIG = {"enabled": True, "daily_max_items": 8, "min_score": 0.60}
+                if CORE_FOCUS_CONFIG.get("enabled", True) and summarizer is not None:
+                    full = summary.get("full_list", []) or []
+                    min_score = float(CORE_FOCUS_CONFIG.get("min_score", 0.60))
+                    max_n = int(CORE_FOCUS_CONFIG.get("daily_max_items", 8))
+                    core_items = [
+                        it for it in full
+                        if it.get("is_core_focus") and float(it.get("core_score") or 0.0) >= min_score
+                    ]
+                    core_items.sort(key=lambda x: -float(x.get("core_score") or 0.0))
+                    core_items = core_items[:max_n]
+                    if core_items:
+                        try:
+                            deep_fields, direction_note = summarizer.generate_core_deep_fields(core_items, day_str)
+                        except Exception as e:
+                            print(f"⚠️ core deep-fields skipped: {e}")
+                            deep_fields, direction_note = {}, ""
+                        for it in core_items:
+                            link = it.get("link") or ""
+                            info = deep_fields.get(link, {})
+                            it["method_point"] = info.get("method_point", "")
+                            it["related_work"] = info.get("related_work", "")
+                            it["implication"] = info.get("implication", "")
+                        summary["core_items"] = core_items
+                        summary["core_direction_note"] = direction_note
+                    else:
+                        summary["core_items"] = []
+                        summary["core_direction_note"] = ""
+
                 page_html = render_daily_html(day_str, summary)
                 with open(out_path, "w", encoding="utf-8") as f:
                     f.write(page_html)
