@@ -193,3 +193,12 @@ DATA_DIR = "data"
 ARTICLES_DIR = "articles"
 HISTORY_FILE = "data/history.json"
 FAVORITES_FILE = "data/favorites.json"
+
+
+# 核心关注（ML × ferro/凝聚态）开关与阈值
+CORE_FOCUS_CONFIG = {
+    "enabled": (os.environ.get("CORE_FOCUS_ENABLED", "1").strip().lower() not in ("0", "false", "no")),
+    "daily_max_items": int(os.environ.get("CORE_FOCUS_DAILY_MAX", "8")),
+    "weekly_max_items": int(os.environ.get("CORE_FOCUS_WEEKLY_MAX", "20")),
+    "min_score": float(os.environ.get("CORE_FOCUS_MIN_SCORE", "0.60")),
+}
