@@ -437,6 +437,59 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
     if excluded_count > 0 or focused_total > len(items):
         filtered_note = f"<p class='daily-filter-note'>原始候选 {raw_total} 篇中，已剔除 {excluded_count} 篇明显偏离主线的内容，并从剩余 {focused_total} 篇主线相关文献中精选 {len(items)} 篇进入日报页，优先保留 AI × 物理 / 化学 / 材料交叉与关键计算方法工作。</p>"
 
+    def render_core_section(core_items: List[Dict], note: str) -> str:
+        if not core_items:
+            return ""
+        note_html = f"<p class='daily-core-note'>{safe_text(note)}</p>" if note else ""
+        cards = []
+        for i, it in enumerate(core_items, 1):
+            title_zh = safe_text((it.get('title_zh') or '').strip())
+            title_en = safe_text((it.get('title_en') or it.get('title') or '').strip())
+            show_zh_block = bool(title_zh) and title_zh.casefold() != title_en.casefold()
+            journal = safe_text(it.get('journal') or '')
+            abstract_zh = safe_text((it.get('abstract_zh') or '').strip())
+            one_sentence = safe_text((it.get('summary') or '').strip())
+            mp = safe_text((it.get('method_point') or '').strip())
+            rw = safe_text((it.get('related_work') or '').strip())
+            im = safe_text((it.get('implication') or '').strip())
+            link = safe_url(it.get('link') or '')
+            title_en_block = f"<div class='daily-core-title-en'>{title_en}</div>" if show_zh_block else ""
+            display_title = title_zh if show_zh_block else title_en
+            deep_block = ""
+            if mp or rw or im:
+                deep_parts = []
+                if mp: deep_parts.append(f"<p><strong>📐 方法要点：</strong>{mp}</p>")
+                if rw: deep_parts.append(f"<p><strong>🔗 相关工作关联：</strong>{rw}</p>")
+                if im: deep_parts.append(f"<p><strong>💡 对你方向的启示：</strong>{im}</p>")
+                deep_block = f"<div class='daily-core-deep'>{''.join(deep_parts)}</div>"
+            abstract_html = f"<p class='daily-paper-abstract'><strong>📄 摘要：</strong>{abstract_zh}</p>" if abstract_zh else ""
+            highlight_html = f"<p class='daily-paper-highlight'><strong>💡 亮点：</strong>{one_sentence}</p>" if one_sentence else ""
+            cards.append(f"""
+            <li class="daily-core-card">
+                <div class="daily-core-number">{i:02d}</div>
+                <div class="daily-core-body">
+                    <div class="daily-core-title-zh">{display_title}</div>
+                    {title_en_block}
+                    <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 {journal}</span></div>
+                    {abstract_html}
+                    {highlight_html}
+                    {deep_block}
+                    <div class="daily-paper-actions"><a class="daily-news-link" href="{link}" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></div>
+                </div>
+            </li>
+            """)
+        return f"""
+        <section id="core-focus" class="daily-section daily-core-section">
+          <div class="daily-section-head">
+            <span class="daily-section-index">🎯</span>
+            <h2 class="daily-section-title">核心关注（ML × ferro / 凝聚态）</h2>
+            <span class="daily-core-count">{len(core_items)} 篇</span>
+          </div>
+          {note_html}
+          <ol class="daily-core-list">{''.join(cards)}</ol>
+        </section>
+        """
+
     date_nav_top = _render_date_nav(date_str, position="top")
     date_nav_bottom = _render_date_nav(date_str, position="bottom")
 
@@ -537,7 +590,24 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
       .daily-news-item, .daily-paper-card {{ grid-template-columns: 1fr; }}
       .daily-news-index, .daily-paper-number {{ width: 38px; height: 38px; }}
       .daily-paper-head, .daily-topic-head {{ flex-direction: column; gap: 12px; }}
+      .daily-core-card {{ grid-template-columns: 1fr; }}
+      .daily-core-number {{ width: 38px; height: 38px; }}
     }}
+    .daily-core-section {{ border-radius: 22px; padding: 22px; margin-top: 26px; background: linear-gradient(135deg, rgba(253,244,215,0.55), rgba(255,248,230,0.88)); border: 1.5px solid rgba(245,158,11,0.45); box-shadow: 0 4px 18px rgba(245,158,11,0.08); }}
+    .daily-core-section .daily-section-title {{ color: #b45309; }}
+    .daily-core-section .daily-section-index {{ background: rgba(245,158,11,0.18); color: #b45309; }}
+    .daily-core-count {{ margin-left: auto; padding: 6px 12px; border-radius: 999px; background: rgba(245,158,11,0.15); color: #b45309; font-weight: 700; font-size: 0.9rem; }}
+    .daily-core-note {{ margin: 12px 0 18px; padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.7); border-left: 3px solid #f59e0b; color: var(--text-primary); line-height: 1.8; }}
+    .daily-core-list {{ list-style: none; margin: 0; padding: 0; }}
+    .daily-core-card {{ display: grid; grid-template-columns: auto minmax(0,1fr); gap: 14px; padding: 18px; border-radius: 18px; background: rgba(255,255,255,0.95); border: 1px solid rgba(245,158,11,0.25); border-left: 3px solid #f59e0b; box-shadow: var(--shadow-sm); }}
+    .daily-core-card + .daily-core-card {{ margin-top: 14px; }}
+    .daily-core-number {{ width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: linear-gradient(135deg, #f59e0b, #fbbf24); box-shadow: var(--shadow-sm); flex-shrink: 0; }}
+    .daily-core-title-zh {{ font-size: 1.1rem; font-weight: 700; line-height: 1.5; margin-bottom: 4px; }}
+    .daily-core-title-en {{ color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }}
+    .daily-core-meta {{ display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }}
+    .daily-chip-core {{ background: rgba(245,158,11,0.18); color: #b45309; font-weight: 600; }}
+    .daily-core-deep {{ margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: rgba(245,158,11,0.06); border: 1px dashed rgba(245,158,11,0.35); line-height: 1.75; }}
+    .daily-core-deep p + p {{ margin-top: 6px; }}
   </style>
 </head>
 <body>
@@ -584,6 +654,7 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
           {filtered_note}
         </div>
 
+        {render_core_section(summary.get('core_items', []) or [], summary.get('core_direction_note') or '')}
         <section id="summary" class="daily-section">
           <div class="daily-section-head">
             <span class="daily-section-index">01</span>
@@ -621,6 +692,7 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
       <aside class="daily-toc">
         <div class="daily-toc-card">
           <div class="daily-toc-title">目录</div>
+          {'<a href="#core-focus"><span>🎯 核心关注</span><span>00</span></a>' if summary.get('core_items') else ''}
           <a href="#summary"><span>今日摘要</span><span>01</span></a>
           <a href="#highlights"><span>交叉重点</span><span>02</span></a>
           <a href="#papers"><span>完整速览</span><span>03</span></a>
