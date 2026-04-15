@@ -1,0 +1,81 @@
+name: Backfill Weekly Summaries (one-shot)
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_week:
+        description: "Start Monday (YYYY-MM-DD)"
+        required: true
+        default: "2026-01-05"
+      to_week:
+        description: "End Monday inclusive (YYYY-MM-DD)"
+        required: true
+        default: "2026-04-13"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "backfill-weekly"
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Loop weekly_summary.py from ${{ inputs.from_week }} to ${{ inputs.to_week }}
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
+          AI_MODEL: ${{ secrets.AI_MODEL }}
+          KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+          KIMI_BASE_URL: ${{ secrets.KIMI_BASE_URL }}
+          AI_RESPONSE_JSON: "1"
+          AI_WAIT_MAX_SECONDS: "600"
+          AI_WAIT_BASE_SECONDS: "10"
+          AI_WAIT_MAX_SLEEP_SECONDS: "60"
+        run: |
+          python - <<'PY'
+          import os, subprocess, sys
+          from datetime import datetime, timedelta
+          start = datetime.strptime(os.environ.get("FROM_WEEK", "${{ inputs.from_week }}"), "%Y-%m-%d")
+          end = datetime.strptime(os.environ.get("TO_WEEK", "${{ inputs.to_week }}"), "%Y-%m-%d")
+          cur = start
+          while cur <= end:
+              wk = cur.strftime("%Y-%m-%d")
+              print(f"\n========== generating weekly for {wk} ==========", flush=True)
+              rc = subprocess.call([sys.executable, "weekly_summary.py", wk])
+              print(f"[{wk}] exit={rc}", flush=True)
+              cur = cur + timedelta(days=7)
+          PY
+        shell: bash
+
+      - name: Commit and push
+        run: |
+          git config user.name 'GitHub Action'
+          git config user.email 'action@github.com'
+          git add docs/weekly
+          if git diff --cached --quiet; then
+            echo 'nothing to commit'
+          else
+            git commit -m "🔬 Backfill weekly summaries ${{ inputs.from_week }}..${{ inputs.to_week }}"
+            git push origin main
+          fi
