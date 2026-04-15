@@ -904,6 +904,8 @@ class AISummarizer:
                     )
                 ):
                     truncated_count += 1
+                # lazy import to avoid circular deps at module top
+                from focus_core import is_core_focus as _icf, core_score as _cs
                 full_list.append({
                     "title_en": article.get('title'),
                     # Empty-on-failure (front-end shows "—"), never leak "标题翻译失败" style placeholders.
@@ -917,6 +919,8 @@ class AISummarizer:
                     "ai_score": article.get("ai_score"),
                     "source_url": article.get("source_url", ""),
                     "arxiv_category": article.get("arxiv_category", ""),
+                    "is_core_focus": _icf(article),
+                    "core_score": _cs(article),
                 })
             if truncated_count:
                 print(f"ℹ️ _parse_response: clamped {truncated_count} over-long field(s)")
