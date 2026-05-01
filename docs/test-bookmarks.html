@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>bookmarks unit tests</title></head>
+<body>
+<h1>bookmarks.js unit tests</h1>
+<pre id="out"></pre>
+<script>window.__bookmarksInited = true;</script>
+<script src="bookmarks.js"></script>
+<script>
+const out = document.getElementById('out');
+const log = (...a) => { out.textContent += a.join(' ') + '\n'; console.log(...a); };
+let pass = 0, fail = 0;
+function assert(cond, msg) { if (cond) { pass++; log('  ✓', msg); } else { fail++; log('  ✗ FAIL:', msg); } }
+
+// Clean slate for each run
+localStorage.removeItem('literature_bookmarks');
+localStorage.removeItem('literature_favorites');
+
+log('--- BookmarkStore basics ---');
+const s = new window.BookmarkStore();
+assert(s.count() === 0, 'empty store count is 0');
+
+s.add('https://ex.com/a', {title_zh: 'A', title_en: 'A en', journal: 'Nature', source_date: '2026-04-15'});
+assert(s.has('https://ex.com/a'), 'has() returns true after add');
+assert(s.count() === 1, 'count is 1 after first add');
+
+s.add('https://ex.com/a', {title_zh: 'A2'});  // duplicate
+assert(s.count() === 1, 'duplicate add is idempotent (count stays 1)');
+assert(s.data['https://ex.com/a'].title_zh === 'A', 'duplicate add does not overwrite first record');
+
+s.toggle('https://ex.com/b', {title_zh: 'B'});
+assert(s.has('https://ex.com/b'), 'toggle on missing adds');
+s.toggle('https://ex.com/b', {});
+assert(!s.has('https://ex.com/b'), 'toggle on existing removes');
+
+s.remove('https://ex.com/a');
+assert(s.count() === 0, 'remove deletes entry');
+
+log('--- persistence ---');
+s.add('https://ex.com/p', {title_zh: 'P'});
+const s2 = new window.BookmarkStore();
+assert(s2.has('https://ex.com/p'), 'new instance loads from localStorage');
+
+log('--- legacy migration ---');
+localStorage.removeItem('literature_bookmarks');
+localStorage.setItem('literature_favorites', JSON.stringify(['https://ex.com/legacy', 'invalid-id']));
+const s3 = new window.BookmarkStore();
+assert(s3.has('https://ex.com/legacy'), 'legacy URL-shaped favorite migrated');
+assert(!s3.has('invalid-id'), 'non-URL legacy entry skipped');
+assert(localStorage.getItem('literature_favorites') === null, 'legacy key cleared after migration');
+
+log('--- list ---');
+localStorage.removeItem('literature_bookmarks');
+const s5 = new window.BookmarkStore();
+s5.add('https://ex.com/x', {title_zh: 'X', source_date: '2026-04-10'});
+s5.add('https://ex.com/y', {title_zh: 'Y', source_date: '2026-04-15'});
+const list = s5.list();
+assert(list.length === 2, 'list returns all entries');
+assert(list[0].link && list[0].title_zh, 'list entries have link + title_zh');
+
+log('\n--- summary ---');
+log(`PASS: ${pass}  FAIL: ${fail}`);
+if (fail > 0) document.title = '✗ ' + document.title;
+else document.title = '✓ ' + document.title;
+</script>
+</body></html>
