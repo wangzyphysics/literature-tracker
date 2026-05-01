@@ -1531,7 +1531,7 @@ class WeeklySummarizer:
                     abstract_html = f'<div class="weekly-paper-abstract" id="{anchor}-abstract" style="display:none;">{"".join(abstract_blocks)}</div>'
 
                 cards.append(f'''
-                <article class="weekly-paper-card {tone_class}" id="{anchor}" data-bookmark-key="{html.escape((article.get('link') or '').strip(), quote=True)}">
+                <article class="weekly-paper-card {tone_class}" id="{anchor}" data-bookmark-key="{_safe_text((article.get('link') or '').strip())}">
                     <div class="weekly-paper-head">
                         <span class="weekly-paper-number">{idx:02d}</span>
                         <div class="weekly-paper-titles">
