@@ -90,7 +90,7 @@ def render_core_weekly_section(summary: Dict) -> str:
         abs_block = f"<p class='weekly-core-abs'><strong>📄 摘要：</strong>{_t(abstract_zh)}</p>" if abstract_zh else ""
         display_title = _t(title or title_en)
         cards.append(f"""
-        <li class="weekly-core-card">
+        <li class="weekly-core-card" data-bookmark-key="{_t(link)}">
           <div class="weekly-core-number">{i:02d}</div>
           <div class="weekly-core-body">
             <div class="weekly-core-title-zh">{display_title}</div>
@@ -1531,7 +1531,7 @@ class WeeklySummarizer:
                     abstract_html = f'<div class="weekly-paper-abstract" id="{anchor}-abstract" style="display:none;">{"".join(abstract_blocks)}</div>'
 
                 cards.append(f'''
-                <article class="weekly-paper-card {tone_class}" id="{anchor}">
+                <article class="weekly-paper-card {tone_class}" id="{anchor}" data-bookmark-key="{html.escape((article.get('link') or '').strip(), quote=True)}">
                     <div class="weekly-paper-head">
                         <span class="weekly-paper-number">{idx:02d}</span>
                         <div class="weekly-paper-titles">
@@ -1713,6 +1713,13 @@ class WeeklySummarizer:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI × Science 周报 - {week_start} 至 {week_end}</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../bookmarks.css">
+    <script defer src="../exports.js"></script>
+    <script defer src="../bookmarks.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="文献追踪">
+    <meta name="theme-color" content="#f59e0b">
     <style>
         body {{
             background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 240px), var(--bg-primary);
@@ -2291,6 +2298,15 @@ class WeeklySummarizer:
                         <a class="insight-btn insight-btn-secondary" href="../daily/">查看日报</a>
                     </div>
                 </section>
+
+                <nav class="weekly-toc-sticky" aria-label="移动目录">
+                  {'<a href="#core-focus">核心方向</a>' if summary.get('core_items') else ''}
+                  <a href="#overview">本周总览</a>
+                  {'<a href="#cross">交叉研究</a>' if both_articles else ''}
+                  {'<a href="#ferro">磁性/铁电</a>' if ferro_articles else ''}
+                  {'<a href="#ai">AI专题</a>' if ai_articles else ''}
+                  {'<a href="#journals">期刊分布</a>' if journal_items else ''}
+                </nav>
 
                 {render_core_weekly_section(summary)}
                 {''.join(sections)}
