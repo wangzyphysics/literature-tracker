@@ -27,10 +27,10 @@ def _parse_json(text):
 def extract_elements(meta, markdown, provider, language="中文", max_chars=40000):
     if not markdown or provider is None:
         return None
-    ctx = markdown[:max_chars]
-    prompt = Template(_load_template()).safe_substitute(
-        language=language, title=str(meta.get("title", "")), context=ctx)
     try:
+        ctx = markdown[:max_chars]
+        prompt = Template(_load_template()).safe_substitute(
+            language=language, title=str(meta.get("title", "")), context=ctx)
         return _parse_json(provider.call_api(prompt))
     except Exception as e:
         print(f"⚠️ extract_elements failed: {e}"); return None
