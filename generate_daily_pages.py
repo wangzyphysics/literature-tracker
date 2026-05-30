@@ -292,13 +292,16 @@ def render_deep_section(aps_items):
         link = safe_text((a.get("link") or a.get("doi") or "").strip())
         poster = a.get("poster") or {}
         img = poster.get("image"); el = poster.get("elements") or {}
+        # Daily pages live at docs/daily/<date>.html; sibling-dir assets need a ../ prefix
+        # (image paths are stored relative to docs/, e.g. "images/posters/<id>.webp").
+        img_src = img if (not img or img.startswith(("http", "/", "../"))) else f"../{img}"
         overlay = ""
         if el:
             rows = "".join(
                 f'<div class="poster-row"><b>{safe_text(k)}</b>{safe_text(el.get(k,""))}</div>'
                 for k in ["研究问题","创新方法","工作流程","关键结果","应用价值"] if el.get(k))
             overlay = f'<div class="poster-overlay">{rows}</div>'
-        figure = (f'<div class="poster-figure"><img loading="lazy" src="{safe_text(img)}" '
+        figure = (f'<div class="poster-figure"><img loading="lazy" src="{safe_text(img_src)}" '
                   f'onerror="this.style.display=\'none\'">{overlay}</div>') if img else ""
         deep = safe_text(a.get("deep_analysis","")) if a.get("deep_analysis") else ""
         deep_html = (f'<details class="deep-details"><summary>展开精读</summary>'
@@ -546,7 +549,7 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
   <link rel="stylesheet" href="../bookmarks.css" />
   <script defer src="../exports.js"></script>
   <script defer src="../bookmarks.js"></script>
-  <script src="likes.js" defer></script>
+  <script defer src="../likes.js"></script>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="文献追踪" />

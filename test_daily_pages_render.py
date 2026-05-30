@@ -101,7 +101,8 @@ def test_daily_renders_deep_read_section():
             "link": "http://x", "doc_id": "d1"}]
     html = render_deep_section(aps)
     assert "今日精读" in html
-    assert "images/posters/d1.webp" in html
+    # daily pages live at docs/daily/<date>.html → sibling assets need ../ prefix
+    assert 'src="../images/posters/d1.webp"' in html
     assert "poster-overlay" in html
     assert "AI×物理" in html
     assert 'data-bookmark-key="http://x"' in html
