@@ -47,7 +47,11 @@ jobs:
           AI_PROVIDER: aigw
           AI_MODEL: gpt-5.5
           AI_BASE_URL: ${{ secrets.AI_BASE_URL }}
-        run: python generate_daily_pages.py --days 3
+          AI_TIMEOUT_SECONDS: "300"
+          AI_RESPONSE_JSON: "1"
+          AI_DAILY_MAX_PER_CALL: "20"
+          AI_DAILY_WAIT_MAX_SECONDS: "1800"
+        run: python generate_daily_pages.py --days 4 --force
       - name: Commit and push (race-safe)
         run: |
           git config user.email action@github.com
