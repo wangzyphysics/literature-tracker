@@ -1,0 +1,48 @@
+import os, tempfile
+from unittest import mock
+import run_deep
+
+def test_process_date_enriches_aps():
+    metas = [{"title": "ML potential for perovskite", "journal": "PRL",
+              "has_full_text": True, "markdown_oss_key": "k", "doc_id": "d1",
+              "summary": "graph neural network"}]
+    class FakeClient:
+        def fetch_metadata(self, d): return metas
+        def fetch_markdown(self, m): return "# Paper\nbody"
+    class FakeProv:
+        def call_api(self, p):
+            # poster extraction prompt contains JSON/研究问题; deep-read prompt does not
+            if ("研究问题" in p) or ("JSON" in p):
+                return '{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v"}'
+            return "## 精读\n内容"
+    d = tempfile.mkdtemp()
+    with mock.patch.object(run_deep, "generate_and_save",
+                           side_effect=lambda prompt, out_path, **k: out_path):
+        out = run_deep.process_date("2026-05-28", client=FakeClient(),
+                                    provider=FakeProv(), out_dir=d)
+    assert len(out) == 1
+    assert out[0]["deep_analysis"]
+    assert out[0]["category"] in ("AI×物理", "AI×化学·材料")
+    assert out[0]["poster"]["elements"]["创新方法"] == "m"
+
+def test_process_date_skips_non_fulltext():
+    metas = [{"title": "x", "has_full_text": False, "doc_id": "d2"}]
+    class FakeClient:
+        def fetch_metadata(self, d): return metas
+        def fetch_markdown(self, m): return ""
+    class FakeProv:
+        def call_api(self, p): return "{}"
+    out = run_deep.process_date("2026-05-28", client=FakeClient(), provider=FakeProv())
+    assert out == []
+
+def test_prune_images_removes_old(tmpdir=None):
+    import datetime
+    d = tempfile.mkdtemp()
+    old = os.path.join(d, "old.webp"); new = os.path.join(d, "new.webp")
+    open(old, "wb").write(b"x"); open(new, "wb").write(b"y")
+    # backdate 'old' 100 days
+    past = (datetime.datetime.now() - datetime.timedelta(days=100)).timestamp()
+    os.utime(old, (past, past))
+    run_deep.prune_images(window_days=60, dirs=(d,))
+    assert not os.path.exists(old)
+    assert os.path.exists(new)
