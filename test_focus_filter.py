@@ -87,9 +87,11 @@ def main() -> int:
         "abstract": "machine learning mentioned.",
         "journal": "Unknown Journal",
     }
+    # Genuinely non-core after the AI×physics/chem/materials taxonomy update:
+    # strong ML signal but a medical/off-topic domain (no physics/chem/materials hit).
     strong_noncore = {
-        "title": "Machine learning for catalyst discovery across the reaction network",
-        "abstract": "Graph neural network surrogate for electrochemistry.",
+        "title": "Deep learning for tumor segmentation in clinical radiology",
+        "abstract": "Convolutional neural network for medical imaging diagnosis.",
         "journal": "Nature",
         "ai_score": 10,
     }
