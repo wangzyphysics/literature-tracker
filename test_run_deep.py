@@ -79,12 +79,36 @@ def test_process_date_reuses_cache():
         def fetch_markdown(self, m): raise AssertionError("should not fetch when cached")
     class Explode:
         def call_api(self, p): raise AssertionError("provider should not be called when cached")
-    cache = {"d1": {"doc_id": "d1", "source": "APS", "deep_analysis": "## cached",
+    cache = {"d1": {"doc_id": "d1", "source": "APS", "deep_analysis": "## cached\n第五部分：创新评估 " + "x"*6000,
                     "category": "AI×物理", "poster": None}}
     out, _used = run_deep.process_date("2026-05-28", client=FakeClient(),
                                 provider=Explode(), cache=cache)
     assert len(out) == 1
-    assert out[0]["deep_analysis"] == "## cached"
+    assert out[0]["deep_analysis"].startswith("## cached")
+
+
+def test_truncated_deep_is_retried():
+    """缺第五部分(创新)的截断深读不算完成，应重新处理。"""
+    metas = [{"title": "x", "has_full_text": True, "markdown_oss_key": "k",
+              "doc_id": "d1", "summary": "s"}]
+    class FakeClient:
+        def fetch_metadata(self, d): return metas
+        def fetch_markdown(self, m): return "# P\nbody"
+    class FakeProv:
+        def call_api(self, p):
+            return '{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v"}' \
+                   if ("研究问题" in p or "JSON" in p) else ("## 完整\n第五部分：创新评估 " + "y"*6000)
+    import tempfile
+    from unittest import mock
+    # cached but truncated (no 创新, short) -> must be reprocessed
+    cache = {"d1": {"doc_id": "d1", "deep_analysis": "## 截断在这里", "poster": None}}
+    with mock.patch.object(run_deep, "generate_and_save",
+                           side_effect=lambda prompt, out_path, **k: out_path):
+        out, used = run_deep.process_date("2026-05-28", client=FakeClient(),
+                                          provider=FakeProv(), out_dir=tempfile.mkdtemp(),
+                                          cache=cache)
+    assert used == 1  # 被当作 fresh 重处理
+    assert "创新" in out[0]["deep_analysis"]
 
 
 def test_process_date_respects_max_new_budget():

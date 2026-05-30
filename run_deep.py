@@ -15,9 +15,14 @@ from image_provider import generate_and_save
 from feed_builder import build_feed, write_feed_json
 
 
+def _deep_complete(text):
+    """深读是否完整：苏格拉底 prompt 第五部分为「创新评估」，截断会缺它。"""
+    return bool(text) and ("创新" in text) and len(text) >= 5000
+
+
 def _enrich_one(meta, client, provider, out_dir, cached=None):
-    # 幂等复用：只有已生成深读(主内容)的论文才算完成、直接复用
-    if cached and cached.get("deep_analysis"):
+    # 幂等复用：只有已生成完整深读(含第五部分创新评估)的论文才算完成、直接复用
+    if cached and _deep_complete(cached.get("deep_analysis")):
         return cached
     md = client.fetch_markdown(meta)
     rec = dict(meta)
@@ -42,8 +47,8 @@ def process_date(date, client, provider, out_dir="docs/images/posters", max_work
     cached, fresh = [], []
     for m in full:
         c = cache.get(m.get("doc_id") or m.get("paper_id"))
-        # 只有带 deep_analysis 才算完成；有海报但缺深读的要重试(走 fresh，复用海报)
-        (cached if (c and c.get("deep_analysis")) else fresh).append((m, c))
+        # 只有带完整深读才算完成；缺深读或被截断(缺第五部分)的要重试(走 fresh，复用海报)
+        (cached if (c and _deep_complete(c.get("deep_analysis"))) else fresh).append((m, c))
     if max_new is not None:
         fresh = fresh[:max(0, max_new)]
     results = [c for (_m, c) in cached]  # 复用缓存，零成本
