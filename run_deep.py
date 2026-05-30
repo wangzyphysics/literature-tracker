@@ -1,5 +1,5 @@
 """编排：拉 APS → 精读 → 海报 → 分类 → 写 feed.json。所有步骤失败静默降级。"""
-import os, json, glob, datetime
+import os, json, glob, datetime, hashlib
 from concurrent.futures import ThreadPoolExecutor
 
 from aps_client import ApsClient
@@ -46,6 +46,21 @@ def prune_images(window_days=60, today=None, dirs=("docs/images/posters", "docs/
             except Exception:
                 pass
 
+def enrich_arxiv_core(items, provider=None, out_dir="docs/images/cards"):
+    out = []
+    for a in (items or []):
+        rec = dict(a)
+        rec["source"] = "arxiv"
+        rec["category"] = classify(a, provider=provider)
+        h = hashlib.sha1((a.get("link") or a.get("title", "")).encode("utf-8")).hexdigest()[:16]
+        prompt = ("Flat vector minimalist scientific illustration, single clear concept, "
+                  "clean lines, off-white background, deep blue + teal accents, no text. "
+                  f"Concept: {a.get('title','')[:120]}")
+        saved = generate_and_save(prompt, os.path.join(out_dir, f"{h}.webp"), max_edge=768)
+        rec["image"] = (saved or "").replace("docs/", "") or None
+        out.append(rec)
+    return out
+
 def _load_arxiv_core(date):
     path = f"data/arxiv_core_{date}.json"
     if os.path.exists(path):
@@ -77,6 +92,14 @@ def main():
     for d in dates:
         aps = process_date(d, client, provider)
         _save_aps_index(d, aps)
+        try:
+            core = _load_arxiv_core(d)
+            if core:
+                enriched = enrich_arxiv_core(core, provider=provider)
+                with open(f"data/arxiv_core_{d}.json", "w", encoding="utf-8") as f:
+                    json.dump(enriched, f, ensure_ascii=False)
+        except Exception as e:
+            print(f"⚠️ arxiv core enrich failed for {d}: {e}")
     write_feed_json(_load_existing_feeds(), window_days=60)
     prune_images(window_days=60)
 

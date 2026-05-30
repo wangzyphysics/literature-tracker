@@ -46,3 +46,25 @@ def test_prune_images_removes_old(tmpdir=None):
     run_deep.prune_images(window_days=60, dirs=(d,))
     assert not os.path.exists(old)
     assert os.path.exists(new)
+
+def test_enrich_arxiv_core_adds_image():
+    import run_deep, tempfile
+    from unittest import mock
+    d = tempfile.mkdtemp()
+    items = [{"title": "ML potential for magnet", "summary": "neural network",
+              "link": "http://z"}]
+    with mock.patch.object(run_deep, "generate_and_save",
+                           side_effect=lambda prompt, out_path, **k: out_path):
+        out = run_deep.enrich_arxiv_core(items, out_dir=d)
+    assert out[0]["image"].endswith(".webp")
+    assert out[0]["category"]
+    assert out[0]["source"] == "arxiv"
+
+def test_enrich_arxiv_core_image_none_on_failure():
+    import run_deep, tempfile
+    from unittest import mock
+    items = [{"title": "x", "link": "http://z"}]
+    with mock.patch.object(run_deep, "generate_and_save",
+                           side_effect=lambda prompt, out_path, **k: None):
+        out = run_deep.enrich_arxiv_core(items, out_dir=tempfile.mkdtemp())
+    assert out[0]["image"] is None
