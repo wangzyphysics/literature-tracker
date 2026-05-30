@@ -18,7 +18,7 @@ def test_process_date_enriches_aps():
     d = tempfile.mkdtemp()
     with mock.patch.object(run_deep, "generate_and_save",
                            side_effect=lambda prompt, out_path, **k: out_path):
-        out = run_deep.process_date("2026-05-28", client=FakeClient(),
+        out, _used = run_deep.process_date("2026-05-28", client=FakeClient(),
                                     provider=FakeProv(), out_dir=d)
     assert len(out) == 1
     assert out[0]["deep_analysis"]
@@ -32,7 +32,7 @@ def test_process_date_skips_non_fulltext():
         def fetch_markdown(self, m): return ""
     class FakeProv:
         def call_api(self, p): return "{}"
-    out = run_deep.process_date("2026-05-28", client=FakeClient(), provider=FakeProv())
+    out, _used = run_deep.process_date("2026-05-28", client=FakeClient(), provider=FakeProv())
     assert out == []
 
 def test_prune_images_removes_old(tmpdir=None):
@@ -81,7 +81,28 @@ def test_process_date_reuses_cache():
         def call_api(self, p): raise AssertionError("provider should not be called when cached")
     cache = {"d1": {"doc_id": "d1", "source": "APS", "deep_analysis": "## cached",
                     "category": "AI×物理", "poster": None}}
-    out = run_deep.process_date("2026-05-28", client=FakeClient(),
+    out, _used = run_deep.process_date("2026-05-28", client=FakeClient(),
                                 provider=Explode(), cache=cache)
     assert len(out) == 1
     assert out[0]["deep_analysis"] == "## cached"
+
+
+def test_process_date_respects_max_new_budget():
+    metas = [{"title": "p%d" % i, "has_full_text": True, "markdown_oss_key": "k",
+              "doc_id": "d%d" % i, "summary": "s"} for i in range(10)]
+    class FakeClient:
+        def fetch_metadata(self, d): return metas
+        def fetch_markdown(self, m): return "# P\nbody"
+    class FakeProv:
+        def call_api(self, p):
+            return '{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v"}' \
+                   if ("研究问题" in p or "JSON" in p) else "## 精读"
+    import tempfile
+    from unittest import mock
+    with mock.patch.object(run_deep, "generate_and_save",
+                           side_effect=lambda prompt, out_path, **k: out_path):
+        out, used = run_deep.process_date("2026-05-28", client=FakeClient(),
+                                          provider=FakeProv(), out_dir=tempfile.mkdtemp(),
+                                          max_new=3)
+    assert used == 3
+    assert len(out) == 3

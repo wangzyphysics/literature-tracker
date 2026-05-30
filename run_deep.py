@@ -28,20 +28,28 @@ def _enrich_one(meta, client, provider, out_dir, cached=None):
     return rec
 
 
-def process_date(date, client, provider, out_dir="docs/images/posters", max_workers=5, cache=None):
+def process_date(date, client, provider, out_dir="docs/images/posters", max_workers=5,
+                 cache=None, max_new=None):
+    """处理某天的全文论文。cache 命中(已带深读)直接复用；max_new 限制本轮新生成的论文数
+    （超出预算的新论文本轮跳过，下轮再处理，靠幂等累积回填）。返回 (records, new_used)。"""
     metas = client.fetch_metadata(date)
     full = [m for m in metas if m.get("has_full_text")]
     if not full:
-        return []
+        return [], 0
     cache = cache or {}
-    results = []
+    cached, fresh = [], []
+    for m in full:
+        c = cache.get(m.get("doc_id") or m.get("paper_id"))
+        (cached if (c and (c.get("deep_analysis") or c.get("poster"))) else fresh).append((m, c))
+    if max_new is not None:
+        fresh = fresh[:max(0, max_new)]
+    results = [c for (_m, c) in cached]  # 复用缓存，零成本
     with ThreadPoolExecutor(max_workers=max_workers) as ex:
-        futs = [ex.submit(_enrich_one, m, client, provider, out_dir,
-                          cache.get(m.get("doc_id") or m.get("paper_id"))) for m in full]
+        futs = [ex.submit(_enrich_one, m, client, provider, out_dir, c) for (m, c) in fresh]
         for f in futs:
             try: results.append(f.result())
             except Exception as e: print(f"⚠️ enrich failed: {e}")
-    return results
+    return results, len(fresh)
 
 
 def prune_images(window_days=60, today=None, dirs=("docs/images/posters", "docs/images/cards")):
@@ -127,17 +135,25 @@ def main():
                               os.environ.get("AI_API_KEY", ""),
                               os.environ.get("AI_MODEL", "gpt-5.5"))
     client = ApsClient()
-    window = int(os.environ.get("DEEP_WINDOW_DAYS", "1"))
+    # APS data lags ~1-2 days, so window must cover it (default 4 days).
+    window = int(os.environ.get("DEEP_WINDOW_DAYS", "4"))
     workers = int(os.environ.get("DEEP_WORKERS", "5"))
+    # Per-run budget of NEW papers to deep-read (prevents 90-min timeout on first backfill;
+    # idempotent cache lets repeated/scheduled runs finish the rest).
+    budget = int(os.environ.get("DEEP_MAX_NEW_PER_RUN", "14"))
     arxiv_images = (os.environ.get("DEEP_ENABLE_ARXIV_IMAGES", "") or "").lower() in ("1", "true", "yes")
     dates = client.list_dates(window_days=window)
-    print(f"📚 APS dates to process (window={window}): {dates}")
-    for d in dates:
+    print(f"📚 APS dates to process (window={window}, new-budget={budget}): {dates}")
+    # newest first so the freshest papers get processed within budget
+    for d in sorted(dates, reverse=True):
         cache = _load_aps_cache(d)
-        aps = process_date(d, client, provider, max_workers=workers, cache=cache)
+        aps, used = process_date(d, client, provider, max_workers=workers,
+                                 cache=cache, max_new=budget)
+        budget -= used
         enriched = sum(1 for a in aps if a.get("deep_analysis"))
-        print(f"  {d}: {len(aps)} papers ({enriched} with deep_analysis)")
-        _save_aps_index(d, aps)
+        print(f"  {d}: {len(aps)} papers ({enriched} with deep_analysis), {used} new this run")
+        if aps:
+            _save_aps_index(d, aps)
         if arxiv_images:
             try:
                 core = _load_arxiv_core(d)
