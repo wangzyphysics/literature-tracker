@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>2026-05-30 文献日报 - 文献追踪系统</title>
+<link href="../style.css" rel="stylesheet"/>
+<link href="../bookmarks.css" rel="stylesheet"/>
+<script defer="" src="../exports.js"></script>
+<script defer="" src="../bookmarks.js"></script>
+<script defer="" src="../likes.js"></script>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="文献追踪" name="apple-mobile-web-app-title"/>
+<meta content="#f59e0b" name="theme-color"/>
+<link href="2026-05-30.xml" rel="alternate" title="2026-05-30 日报 RSS" type="application/rss+xml"/>
+<style>
+    body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); overflow-x: hidden; }
+    body::before { content: none !important; }
+    .daily-deep-section{margin:18px 0;}
+    .daily-deep-card{border:1px solid #e3e8f0;border-radius:12px;padding:14px;margin:12px 0;background:#fff;}
+    .cat-tag{display:inline-block;padding:2px 10px;border-radius:999px;background:#eef2f7;color:#1456b8;font-size:12px;}
+    .poster-figure{position:relative;margin:10px 0;}
+    .poster-figure img{width:100%;border-radius:10px;display:block;}
+    .poster-overlay{position:absolute;inset:0;display:flex;flex-direction:column;gap:4px;padding:14px;
+      background:linear-gradient(180deg,rgba(245,245,247,.82),rgba(245,245,247,.62));
+      font-family:"Songti SC","SimSun",serif;overflow:auto;}
+    .poster-row b{color:#1456b8;margin-right:6px;}
+    .deep-details{margin-top:8px;} .deep-body{white-space:pre-wrap;font-size:14px;line-height:1.6;}
+    .src-link{display:inline-block;margin-top:8px;color:#1456b8;}
+    .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
+    .daily-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+    .daily-topbar-left, .daily-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+    .back-link:hover { color: var(--accent-hover); }
+    .daily-mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.75); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; backdrop-filter: blur(8px); }
+    .daily-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
+    .daily-article { background: rgba(255,255,255,0.76); border: 1px solid rgba(148,163,184,0.28); border-radius: 28px; box-shadow: var(--shadow-lg); backdrop-filter: blur(14px); padding: 32px; }
+    .daily-hero { padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
+    .daily-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(99,102,241,0.12); color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em; }
+    .daily-title { margin: 18px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.03em; }
+    .daily-subtitle { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.8; }
+    .daily-quote { margin: 0; padding: 16px 18px; border-left: 4px solid var(--accent-primary); border-radius: 16px; background: rgba(99,102,241,0.08); color: var(--text-secondary); font-size: 1rem; }
+    .daily-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 22px; }
+    .daily-tag { display: inline-flex; align-items: center; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,0.92); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; }
+    .daily-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .daily-stat { padding: 18px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)); border: 1px solid var(--border-color); }
+    .daily-stat-label { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
+    .daily-stat-value { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; }
+    .daily-filter-note { margin-top: 16px; color: var(--text-secondary); line-height: 1.8; }
+    .daily-section { margin-top: 28px; }
+    .daily-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .daily-section-index { font-size: 0.92rem; font-weight: 800; color: var(--accent-primary); padding: 5px 10px; border-radius: 999px; background: rgba(99,102,241,0.1); }
+    .daily-section-title { font-size: 1.45rem; letter-spacing: -0.02em; }
+    .daily-summary-card { padding: 18px 20px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); line-height: 1.85; }
+    .daily-summary-card p + p { margin-top: 12px; }
+    .daily-topic-group + .daily-topic-group { margin-top: 22px; }
+    .daily-topic-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
+    .daily-topic-title { font-size: 1.15rem; margin: 0 0 6px; }
+    .daily-topic-desc { color: var(--text-secondary); line-height: 1.75; }
+    .daily-topic-count { padding: 8px 12px; border-radius: 999px; background: rgba(99,102,241,0.1); color: var(--accent-primary); font-weight: 700; white-space: nowrap; }
+    .daily-news-list, .daily-paper-list { list-style: none; margin: 0; padding: 0; }
+    .daily-news-item, .daily-paper-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 20px; border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,250,251,0.92)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); align-items: flex-start; }
+    .daily-news-item + .daily-news-item, .daily-paper-card + .daily-paper-card { margin-top: 16px; }
+    .daily-news-index, .daily-paper-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: var(--gradient-accent); box-shadow: var(--shadow-sm); flex-shrink: 0; }
+    .daily-news-body, .daily-paper-body { min-width: 0; }
+    .daily-paper-body { display: flex; flex-direction: column; }
+    .daily-news-title-zh, .daily-paper-title-zh { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
+    .daily-news-title-en, .daily-paper-title-en { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.6; }
+    .daily-news-meta, .daily-paper-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .daily-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.88rem; color: var(--text-secondary); background: rgba(99,102,241,0.08); }
+    .daily-chip-authors { background: rgba(16,185,129,0.08); }
+    .daily-chip-score { background: rgba(245,158,11,0.12); }
+    .daily-chip-topic { background: rgba(139,92,246,0.12); color: var(--accent-primary); }
+    .daily-news-summary, .daily-paper-summary { color: var(--text-primary); line-height: 1.8; }
+    .daily-news-reason { margin-top: 10px; color: var(--text-secondary); }
+    .daily-paper-actions, .daily-news-link { margin-top: 14px; }
+    .daily-news-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
+    .daily-news-link:hover { color: var(--accent-hover); }
+    .daily-paper-head { display: flex; gap: 16px; align-items: flex-start; }
+    .daily-paper-titles { min-width: 0; }
+    .daily-toc { position: sticky; top: 24px; }
+    .daily-toc-card { padding: 18px; border-radius: 20px; background: rgba(255,255,255,0.78); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); backdrop-filter: blur(12px); }
+    .daily-toc-title, .daily-sidebar-title { font-size: 0.95rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .daily-toc a { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px; color: var(--text-secondary); text-decoration: none; }
+    .daily-toc a:hover { background: rgba(99,102,241,0.08); color: var(--accent-primary); }
+    .daily-sidebar-block + .daily-sidebar-block { margin-top: 18px; }
+    .daily-sidebar-stats { display: grid; gap: 10px; }
+    .daily-sidebar-fact { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); }
+    .daily-footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.94rem; line-height: 1.8; }
+    .daily-nav { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; padding: 14px 18px; margin: 18px 0; border-radius: 18px; background: rgba(255,255,255,0.88); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+    .daily-nav-top { margin: 0 0 22px; }
+    .daily-nav-bottom { margin: 28px 0 12px; }
+    .daily-nav-link { color: var(--accent-primary); text-decoration: none; font-weight: 600; padding: 8px 12px; border-radius: 12px; transition: background 0.15s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .daily-nav-link:hover { background: rgba(99,102,241,0.08); }
+    .daily-nav-prev { justify-self: start; }
+    .daily-nav-next { justify-self: end; text-align: right; }
+    .daily-nav-home { color: var(--text-secondary); text-decoration: none; padding: 8px 14px; border-radius: 999px; background: rgba(99,102,241,0.08); font-weight: 600; font-size: 0.95rem; }
+    .daily-nav-home:hover { background: rgba(99,102,241,0.16); color: var(--accent-primary); }
+    .daily-nav-disabled { color: var(--text-muted); opacity: 0.55; padding: 8px 12px; }
+    @media (max-width: 720px) {
+      .daily-nav { grid-template-columns: 1fr 1fr; padding: 10px 12px; }
+      .daily-nav-home { grid-column: span 2; justify-self: center; order: 3; }
+      .daily-nav-link { font-size: 0.92rem; }
+    }
+    @media (max-width: 980px) {
+      .daily-layout { grid-template-columns: 1fr; }
+      .daily-toc { position: static; order: -1; }
+    }
+    @media (max-width: 720px) {
+      .daily-shell { padding: 16px 12px 36px; }
+      .daily-article { padding: 22px 16px; border-radius: 22px; }
+      .daily-stats { grid-template-columns: 1fr; }
+      .daily-news-item, .daily-paper-card { grid-template-columns: 1fr; }
+      .daily-news-index, .daily-paper-number { width: 38px; height: 38px; }
+      .daily-paper-head, .daily-topic-head { flex-direction: column; gap: 12px; }
+      .daily-core-card { grid-template-columns: 1fr; }
+      .daily-core-number { width: 38px; height: 38px; }
+    }
+    .daily-core-section { border-radius: 22px; padding: 22px; margin-top: 26px; background: linear-gradient(135deg, rgba(253,244,215,0.55), rgba(255,248,230,0.88)); border: 1.5px solid rgba(245,158,11,0.45); box-shadow: 0 4px 18px rgba(245,158,11,0.08); }
+    .daily-core-section .daily-section-title { color: #b45309; }
+    .daily-core-section .daily-section-index { background: rgba(245,158,11,0.18); color: #b45309; }
+    .daily-core-count { margin-left: auto; padding: 6px 12px; border-radius: 999px; background: rgba(245,158,11,0.15); color: #b45309; font-weight: 700; font-size: 0.9rem; }
+    .daily-core-note { margin: 12px 0 18px; padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.7); border-left: 3px solid #f59e0b; color: var(--text-primary); line-height: 1.8; }
+    .daily-core-list { list-style: none; margin: 0; padding: 0; }
+    .daily-core-card { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 14px; padding: 18px; border-radius: 18px; background: rgba(255,255,255,0.95); border: 1px solid rgba(245,158,11,0.25); border-left: 3px solid #f59e0b; box-shadow: var(--shadow-sm); }
+    .daily-core-card + .daily-core-card { margin-top: 14px; }
+    .daily-core-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: linear-gradient(135deg, #f59e0b, #fbbf24); box-shadow: var(--shadow-sm); flex-shrink: 0; }
+    .daily-core-title-zh { font-size: 1.1rem; font-weight: 700; line-height: 1.5; margin-bottom: 4px; }
+    .daily-core-title-en { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+    .daily-core-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .daily-chip-core { background: rgba(245,158,11,0.18); color: #b45309; font-weight: 600; }
+    .daily-core-deep { margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: rgba(245,158,11,0.06); border: 1px dashed rgba(245,158,11,0.35); line-height: 1.75; }
+    .daily-core-deep p + p { margin-top: 6px; }
+  </style>
+<style id="daily-enhancement-style">
+#daily-enhancement-top-nav, #daily-enhancement-bottom-nav {
+    margin-top: 18px;
+}
+
+.daily-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.daily-page-nav-link,
+.daily-page-nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.92);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all var(--transition-fast);
+}
+
+.daily-page-nav-link:hover,
+.daily-page-nav-pill:hover {
+    color: var(--accent-primary);
+    border-color: rgba(99,102,241,0.35);
+    background: rgba(99,102,241,0.08);
+}
+
+.daily-page-nav-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.daily-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.daily-title-link:hover {
+    color: var(--accent-primary);
+}
+
+.daily-permalink-link {
+    margin-left: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.daily-permalink-link:hover {
+    color: var(--accent-primary);
+}
+
+.daily-inline-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.daily-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.daily-inline-link:hover {
+    color: var(--accent-hover);
+}
+
+.daily-toc-card {
+    max-height: min(74vh, calc(100vh - 40px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 12px;
+}
+
+.daily-toc-card::-webkit-scrollbar {
+    width: 10px;
+}
+
+.daily-toc-card::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.daily-toc-card::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
+.daily-outline-scroll {
+    max-height: min(40vh, calc(100vh - 320px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+    padding-right: 6px;
+}
+
+.daily-outline-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.daily-outline-scroll::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.daily-outline-scroll::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.10);
+    border-radius: 999px;
+}
+
+.daily-outline-group + .daily-outline-group {
+    margin-top: 14px;
+}
+
+.daily-outline-group-title {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.daily-outline-group-title:hover {
+    color: var(--accent-primary);
+}
+
+.daily-outline-list {
+    display: grid;
+    gap: 6px;
+}
+
+.daily-outline-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(148,163,184,0.18);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.daily-outline-link:hover {
+    color: var(--accent-primary);
+    background: rgba(99,102,241,0.08);
+}
+
+.daily-outline-link-highlight {
+    border-color: rgba(99,102,241,0.24);
+}
+
+.daily-outline-meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.daily-topic-anchor {
+    margin-left: 8px;
+}
+
+@media (max-width: 980px) {
+    .daily-toc-card {
+        max-height: none;
+    }
+    .daily-outline-scroll {
+        max-height: none;
+    }
+}
+</style></head>
+<body>
+<div class="daily-shell">
+<div class="daily-topbar">
+<div class="daily-topbar-left">
+<a class="back-link" href="../index.html">← 返回主页</a>
+<span class="daily-mini-chip">AI × Science Daily</span>
+</div>
+<div class="daily-topbar-right">
+<a class="daily-mini-chip" href="2026-05-30.xml">📡 当日 RSS</a>
+<a class="daily-mini-chip" href="../feed.xml">📰 全站 RSS</a>
+<span class="daily-mini-chip">2026-05-30</span>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+</div>
+</div>
+<nav aria-label="日报日期导航" class="daily-nav daily-nav-top"><a class="daily-nav-link daily-nav-prev" href="2026-05-29.html">← 前一天 · 2026-05-29</a><a class="daily-nav-home" href="../index.html#daily">📅 日报索引</a><span class="daily-nav-link daily-nav-disabled">后一天 →</span></nav>
+<nav aria-label="移动目录" class="daily-toc-sticky">
+<a href="#summary">摘要</a>
+<a href="#core-focus">核心关注</a>
+<a href="#highlights">交叉重点</a>
+<a href="#papers">完整速览</a>
+</nav>
+<div class="daily-layout">
+<article class="daily-article">
+<div class="daily-hero">
+<div class="daily-kicker">AI 文献日报</div>
+<h1 class="daily-title">AI × Science 文献日报 2026/05/30</h1>
+<p class="daily-subtitle">聚焦 AI × 物理 / 化学 / 材料交叉方向，自动过滤明显偏题的医学、教育与社会科学内容，并按主题重新排版，便于快速深读。</p>
+<blockquote class="daily-quote">AI | 物理 | 化学 | 材料 | 交叉学科</blockquote>
+<div class="daily-tags"><span class="daily-tag">AI</span><span class="daily-tag">物理</span><span class="daily-tag">化学</span><span class="daily-tag">材料</span><span class="daily-tag">交叉学科</span></div>
+<div class="daily-stats">
+<div class="daily-stat">
+<div class="daily-stat-label">日报精选</div>
+<div class="daily-stat-value">14</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">主线候选</div>
+<div class="daily-stat-value">18</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">期刊 / 来源</div>
+<div class="daily-stat-value">4</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-label">arXiv 相关</div>
+<div class="daily-stat-value">0</div>
+</div>
+</div>
+<p class="daily-filter-note">原始候选 18 篇中，已剔除 0 篇明显偏离主线的内容，并从剩余 18 篇主线相关文献中精选 14 篇进入日报页，优先保留 AI × 物理 / 化学 / 材料交叉与关键计算方法工作。</p>
+<div class="daily-page-nav" id="daily-enhancement-top-nav"><a class="daily-page-nav-link" href="2026-05-29.html">前一天 · 2026-05-29</a><span class="daily-page-nav-link daily-page-nav-disabled">后一天 · 暂无</span><a class="daily-page-nav-link" href="2026-05-30.html">最新一期 · 2026-05-30</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-05-30.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div>
+<section class="daily-section daily-core-section" id="core-focus">
+<div class="daily-section-head">
+<span class="daily-section-index">🎯</span>
+<h2 class="daily-section-title">核心关注（ML × ferro / 凝聚态）</h2>
+<span class="daily-core-count">6 篇</span>
+</div>
+<p class="daily-core-note">今日清单没有出现面向 NbOI2、CrI3、CrSBr、BaTiO3 的 equivariant GNN、MACE、NEP 或 DFT+U 级铁电/磁性数据驱动势能面工作。实质进展集中在物理先验特征工程：QM9 偶极矩用物理约束描述符+MLP，石墨烯太赫兹谐振器用相位积分替代峰值读出。凝聚态实验侧以 NbSe2 为核心，扫描隧道谱成像和超流多普勒位移模型解析 CDW 调制的磁场诱导对称性破缺。交替磁体方向推进的是金刚石量子传感读出方案，而非 CrI3/CrSBr 等范德华磁体的机器学习建模。</p>
+<ol class="daily-core-list">
+<li class="daily-core-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9501441/latest">
+<div class="daily-core-number">01</div>
+<div class="daily-core-body">
+<div class="daily-core-title-zh">物理约束描述符预测 QM9 偶极矩</div>
+<div class="daily-core-title-en">Physics-Informed Descriptors Base Machine Learning Model for High-Precision (Molecular Property Dipole Moment(μ)) Prediction on QM9</div>
+<div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Preprints</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向 QM9 分子偶极矩 μ，采用含物理启发描述符的多层感知机进行性质预测；摘要未给出误差数值，仅说明目标是高精度分子偶极矩建模。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>用物理描述符增强 QM9 偶极矩预测。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>物理启发描述符输入 MLP，回归 QM9 分子偶极矩。</p><p><strong>🔗 相关工作关联：</strong>呼应物理约束分子描述符、QM9 性质预测、SchNet/MPNN 分子图学习。</p><p><strong>💡 对你方向的启示：</strong>铁电分子或有机极化材料可把电荷、几何、对称性先验显式编码。</p></div>
+<div class="daily-paper-actions"><a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
+</div>
+</li>
+<li class="daily-core-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9735641/latest">
+<div class="daily-core-number">02</div>
+<div class="daily-core-body">
+<div class="daily-core-title-zh">路线天气融合的电动汽车能耗预测</div>
+<div class="daily-core-title-en">Smart Electric Vehicle Energy Consumption Prediction Using Hybrid Physics–Machine Learning Approach with Route and Weather Integration</div>
+<div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Preprints</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对真实道路电动汽车能耗，构建物理模型与机器学习混合框架，并整合路线和天气变量；用于弥补纯物理模型灵活性不足。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>路线与天气被并入电动汽车混合能耗模型。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>物理能耗模型与机器学习融合，联合路线和天气变量。</p><p><strong>🔗 相关工作关联：</strong>呼应 physics-informed ML、混合数字孪生、时空环境特征融合。</p><p><strong>💡 对你方向的启示：</strong>凝聚态实验设备漂移建模可借鉴物理模型+环境变量残差学习。</p></div>
+<div class="daily-paper-actions"><a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
+</div>
+</li>
+<li class="daily-core-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9532090/latest">
+<div class="daily-core-number">03</div>
+<div class="daily-core-body">
+<div class="daily-core-title-zh">卢旺达单台站地震震级机器学习估计</div>
+<div class="daily-core-title-en">Earthquake Magnitude Estimation Using Machine Learning from Single Station Seismic Data in Rwanda</div>
+<div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Preprints</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在台站稀疏的卢旺达，利用单台站地震波形数据训练机器学习模型进行快速震级估计；摘要强调面向数据受限区域的可靠监测。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>单台站波形用于卢旺达地震震级估计。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>单台站地震波形特征驱动机器学习震级快速估计。</p><p><strong>🔗 相关工作关联：</strong>呼应少台站信号学习、波形特征工程、数据受限区域稳健预测。</p><p><strong>💡 对你方向的启示：</strong>低通量磁电实验可用单探针时序信号训练快速状态判别器。</p></div>
+<div class="daily-paper-actions"><a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
+</div>
+</li>
+<li class="daily-core-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9838003/latest">
+<div class="daily-core-number">04</div>
+<div class="daily-core-body">
+<div class="daily-core-title-zh">石墨烯太赫兹谐振器相位累积读出</div>
+<div class="daily-core-title-en">Phase Accumulation for Machine Learning Readoutin Graphene Terahertz Resonators</div>
+<div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Preprints</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对动态扰动石墨烯太赫兹谐振器，积分瞬态相位响应构造机器学习特征，替代稳态或峰值观测量，以捕捉扰动过程信息。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>瞬态相位积分成为太赫兹谐振器读出特征。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>积分石墨烯太赫兹谐振器瞬态相位，构造 ML 读出特征。</p><p><strong>🔗 相关工作关联：</strong>呼应物理储备计算、太赫兹传感、相位型特征与动态系统读出。</p><p><strong>💡 对你方向的启示：</strong>铁电/磁振子器件读出不必限于峰位，可学习完整相位演化。</p></div>
+<div class="daily-paper-actions"><a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9838003/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
+</div>
+</li>
+<li class="daily-core-card" data-bookmark-key="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html">
+<div class="daily-core-number">05</div>
+<div class="daily-core-body">
+<div class="daily-core-title-zh">金刚石量子传感揭示交替磁体</div>
+<div class="daily-core-title-en">Diamond quantum sensor could reveal elusive altermagnets</div>
+<div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Physics News</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>新闻报道介绍用金刚石量子传感探测交替磁体的可能性；该类磁体区别于铁磁和反铁磁，具有隐蔽磁序和潜在自旋电子学价值。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>金刚石量子传感可探测交替磁体磁序。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>金刚石量子传感探测交替磁体隐蔽磁序与杂散场特征。</p><p><strong>🔗 相关工作关联：</strong>呼应 NV 中心磁成像、反铁磁自旋电子学、交替磁体磁序表征。</p><p><strong>💡 对你方向的启示：</strong>可把 NV 磁场图像作为监督信号，训练磁畴和自旋纹理识别模型。</p></div>
+<div class="daily-paper-actions"><a class="daily-news-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
+</div>
+</li>
+<li class="daily-core-card" data-bookmark-key="https://www.nature.com/articles/s41467-026-73778-7">
+<div class="daily-core-number">06</div>
+<div class="daily-core-body">
+<div class="daily-core-title-zh">电荷密度波超导体中的超电流效应</div>
+<div class="daily-core-title-en">Supercurrent effect in a charge density wave intertwined superconductor</div>
+<div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Nature Communications</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在超导 NbSe2 中，扫描隧道谱成像发现磁场驱动的电荷密度波调制对称性破缺；模型表明各向异性源于超流相关的多普勒位移。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>NbSe2 中超流可重塑电荷密度波对称性。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>NbSe2 扫描隧道谱成像结合超流多普勒位移模型。</p><p><strong>🔗 相关工作关联：</strong>呼应 CDW-超导交织、涡旋态谱学、BdG/准粒子多普勒位移分析。</p><p><strong>💡 对你方向的启示：</strong>ML 分析 STS 图谱时需显式纳入超流速度和场诱导对称性破缺。</p></div>
+<div class="daily-paper-actions"><a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
+</div>
+</li>
+</ol>
+</section>
+<section class="daily-section" id="summary">
+<div class="daily-section-head">
+<span class="daily-section-index">01</span>
+<h2 class="daily-section-title">今日摘要</h2>
+</div>
+<div class="daily-summary-card">
+<p><strong>总览：</strong>今日 14 篇覆盖凝聚态实验、超快自旋动力学、超材料、电磁器件、材料化学与面向科学的机器学习。代表性工作包括 NbSe2 中超流驱动的电荷密度波对称性破缺、单层过渡金属硫族化物中选择性声子激发调控瞬态磁化，以及石墨烯太赫兹谐振器的相位累积机器学习读出。</p>
+<p><strong>热点：</strong>物理先验与机器学习的结合继续扩展：分子偶极矩、电动汽车能耗、地震震级、太赫兹谐振器读出均强调把动力学或环境变量嵌入特征。凝聚态方向突出“电荷—超导—晶格—自旋”耦合，NbSe2 的多序参量纠缠和单层过渡金属硫族化物的声子选择性激发是核心例子。超材料与电磁结构集中在可调响应：曲率自适应雷达散射截面降低、分裂环谐振器磁多极模式图谱、石墨烯太赫兹传感读出。材料应用侧关注可持续与器件性能，包括亲水稳定表面活性剂双层、铀吸附中空聚合物纤维和钙钛矿量子点发光二极管的合成—性能关联。</p>
+</div>
+</section>
+<section class="daily-section" id="highlights">
+<div class="daily-section-head">
+<span class="daily-section-index">02</span>
+<h2 class="daily-section-title">交叉重点</h2>
+</div>
+<ol class="daily-news-list">
+<li class="daily-news-item" data-bookmark-key="https://www.researchsquare.com/article/rs-9501441/latest" id="highlight-1">
+<div class="daily-news-index">01</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">物理约束描述符预测 QM9 偶极矩</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">Physics-Informed Descriptors Base Machine Learning Model for High-Precision (Molecular Property Dipole Moment(μ)) Prediction on QM9</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 化学 / 分子</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Mirza Mudassar Hussain, Uzma Ahmad, Saira Hameed, Fikadu Tasgera Tolesa</span><span class="daily-chip daily-chip-score">🔥 AI 98</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向 QM9 分子偶极矩 μ，采用含物理启发描述符的多层感知机进行性质预测；摘要未给出误差数值，仅说明目标是高精度分子偶极矩建模。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>用物理描述符增强 QM9 偶极矩预测。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 98</p>
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-1">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" data-bookmark-key="https://www.nature.com/articles/s41467-026-73778-7" id="highlight-2">
+<div class="daily-news-index">02</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">电荷密度波超导体中的超电流效应</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">Supercurrent effect in a charge density wave intertwined superconductor</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Nature Communications</span><span class="daily-chip daily-chip-authors">👤 Zhen Zhu, Wei Cheng, Dang Liu, Pengyu Hu, Yi Yang, Qiaoyan Yu 等18位作者</span><span class="daily-chip daily-chip-score">🔥 AI 88</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在超导 NbSe2 中，扫描隧道谱成像发现磁场驱动的电荷密度波调制对称性破缺；模型表明各向异性源于超流相关的多普勒位移。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>NbSe2 中超流可重塑电荷密度波对称性。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 88</p>
+<a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-2">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" data-bookmark-key="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" id="highlight-3">
+<div class="daily-news-index">03</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">金刚石量子传感揭示交替磁体</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">Diamond quantum sensor could reveal elusive altermagnets</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Physics News</span><span class="daily-chip daily-chip-score">🔥 AI 82</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>新闻报道介绍用金刚石量子传感探测交替磁体的可能性；该类磁体区别于铁磁和反铁磁，具有隐蔽磁序和潜在自旋电子学价值。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>金刚石量子传感可探测交替磁体磁序。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 82</p>
+<a class="daily-news-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-3">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" data-bookmark-key="https://www.researchsquare.com/article/rs-9532090/latest" id="highlight-4">
+<div class="daily-news-index">04</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">卢旺达单台站地震震级机器学习估计</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">Earthquake Magnitude Estimation Using Machine Learning from Single Station Seismic Data in Rwanda</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 方法 / 工具</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 UWAMUNGU Dany, NIZEYIMANA Eric, NIZEYIMANA Pacifique, HAGUMUWUMVA David</span><span class="daily-chip daily-chip-score">🔥 AI 92</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在台站稀疏的卢旺达，利用单台站地震波形数据训练机器学习模型进行快速震级估计；摘要强调面向数据受限区域的可靠监测。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>单台站波形用于卢旺达地震震级估计。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 92</p>
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-4">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" data-bookmark-key="https://www.researchsquare.com/article/rs-9735641/latest" id="highlight-5">
+<div class="daily-news-index">05</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">路线天气融合的电动汽车能耗预测</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">Smart Electric Vehicle Energy Consumption Prediction Using Hybrid Physics–Machine Learning Approach with Route and Weather Integration</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 方法 / 工具</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Nirmitha S, Kavita V. Horadi</span><span class="daily-chip daily-chip-score">🔥 AI 88</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对真实道路电动汽车能耗，构建物理模型与机器学习混合框架，并整合路线和天气变量；用于弥补纯物理模型灵活性不足。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>路线与天气被并入电动汽车混合能耗模型。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 88</p>
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-5">页内定位</a></div></div>
+</li>
+<li class="daily-news-item" data-bookmark-key="https://www.researchsquare.com/article/rs-9838003/latest" id="highlight-6">
+<div class="daily-news-index">06</div>
+<div class="daily-news-body">
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9838003/latest" rel="noopener noreferrer" target="_blank">石墨烯太赫兹谐振器相位累积读出</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
+<div class="daily-news-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9838003/latest" rel="noopener noreferrer" target="_blank">Phase Accumulation for Machine Learning Readoutin Graphene Terahertz Resonators</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
+<div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 方法 / 工具</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Álvaro Garay</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对动态扰动石墨烯太赫兹谐振器，积分瞬态相位响应构造机器学习特征，替代稳态或峰值观测量，以捕捉扰动过程信息。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>瞬态相位积分成为太赫兹谐振器读出特征。</p>
+<p class="daily-news-reason"><strong>关注理由：</strong>相位累积读出石墨烯太赫兹器件</p>
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9838003/latest" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9838003/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-6">页内定位</a></div></div>
+</li>
+</ol>
+</section>
+<section class="daily-section" id="papers">
+<div class="daily-section-head">
+<span class="daily-section-index">03</span>
+<h2 class="daily-section-title">完整速览</h2>
+</div>
+<section class="daily-topic-group" id="topic-ai-物理-凝聚态">
+<div class="daily-topic-head">
+<div>
+<h3 class="daily-topic-title">AI × 物理 / 凝聚态</h3><a class="daily-permalink-link daily-topic-anchor" href="#topic-ai-物理-凝聚态" title="复制专题定位">#</a>
+<p class="daily-topic-desc">量子、自旋、凝聚态、电子结构与相关物理方法。</p>
+</div>
+<div class="daily-topic-count">3 篇</div>
+</div>
+<ol class="daily-paper-list">
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9639807/latest" id="paper-1">
+<span class="daily-paper-number">01</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">选择性声子激发调控单层过渡金属硫族化物磁化</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">Selective Phonon-Excitation Controls Transient Magnetization in Monolayer Transition Metal Dichalcogenides</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Jinhong Xu, Youyou Tu, Zhenfa Zheng, Qijing Zheng, Jin Zhao</span><span class="daily-chip daily-chip-score">🔥 AI 9</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>在非磁性单层过渡金属硫族化物中，通过选择性激发声子调控光诱导瞬态磁化；声子不再只是弛豫通道，而成为超快自旋控制变量。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>特定声子模式可调控单层材料瞬态磁化。</p></div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-1">页内定位</a></div></div>
+</div>
+</li>
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9847966/latest" id="paper-2">
+<span class="daily-paper-number">02</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">耦合分裂环谐振器磁多极模式图</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">Theoretical Regime Map of Magnetic MultipoleModes in Coupled Split-Ring ResonatorMetamolecules</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Álvaro Garay</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>将每个分裂环谐振器视为有效共振磁元件，用耦合比 |M|/L 和归一化参数构建磁多极模式理论分类图，适用于耦合超分子。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>耦合比分区刻画分裂环磁多极模式。</p></div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-2">页内定位</a></div></div>
+</div>
+</li>
+<li class="daily-paper-card" data-bookmark-key="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" id="paper-3">
+<span class="daily-paper-number">03</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">钙钛矿量子点发光二极管合成与性能关联</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">Bridging Synthesis and Device Performance in Perovskite Quantum Dot Light‐Emitting Diodes</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Materials: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Zi‐Hao Zhang, Wan‐Shan Shen, Ya‐Kun Wang, Liang‐Sheng Liao</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>围绕钙钛矿量子点发光二极管，梳理合成条件、量子点特性与器件性能之间的对应关系；原摘要未给出效率或寿命数值。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>钙钛矿量子点合成被关联到器件性能。</p></div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-3">页内定位</a></div></div>
+</div>
+</li>
+</ol>
+</section>
+<section class="daily-topic-group" id="topic-ai-化学-分子-催化">
+<div class="daily-topic-head">
+<div>
+<h3 class="daily-topic-title">AI × 化学 / 分子 / 催化</h3><a class="daily-permalink-link daily-topic-anchor" href="#topic-ai-化学-分子-催化" title="复制专题定位">#</a>
+<p class="daily-topic-desc">分子设计、反应、催化、电化学与化学计算。</p>
+</div>
+<div class="daily-topic-count">1 篇</div>
+</div>
+<ol class="daily-paper-list">
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9807049/latest" id="paper-4">
+<span class="daily-paper-number">04</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">图注意多智能体策略用于多无人机围捕</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">Graph Attention-Based Multi-Agent Deep Deterministic Policy Gradient for Multi-UAV Cooperative Encirclement and Capture</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 化学 / 分子</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Qiang Ge, Yimin Xu, Rui Xiao, Junjie Wei, Mengzhen Gan, Yangzhao Lan</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向多无人机协同围捕逃逸目标，提出图注意机制结合多智能体深度确定性策略梯度，用于实时空间协同和压缩目标机动空间。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>图注意强化学习协调多无人机围捕。</p></div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-4">页内定位</a></div></div>
+</div>
+</li>
+</ol>
+</section>
+<section class="daily-topic-group" id="topic-ai-材料-器件">
+<div class="daily-topic-head">
+<div>
+<h3 class="daily-topic-title">AI × 材料 / 器件</h3><a class="daily-permalink-link daily-topic-anchor" href="#topic-ai-材料-器件" title="复制专题定位">#</a>
+<p class="daily-topic-desc">材料发现、结构、器件、表界面与性能预测。</p>
+</div>
+<div class="daily-topic-count">1 篇</div>
+</div>
+<ol class="daily-paper-list">
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9504988/latest" id="paper-5">
+<span class="daily-paper-number">05</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">钙盐生物基阴离子表面活性剂亲水双层</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">Calcium Salts of Biobased Anionic Surfactant Result in Hydrophilic, Air-Stable Bilayers by Distorted Hydrogen-Bond Networks</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 材料 / 器件</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Taichi Habe, Tadashi Sugahara, Hiroko Endo, Kana Tsumura, Atsushi Miyazaki, Kenta Motobayashi 等10位作者</span><span class="daily-chip daily-chip-score">🔥 AI 4</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>生物基羟基烷烃磺酸盐的钙盐形成亲水、空气稳定双层；畸变氢键网络解释其不同于常规表面活性剂处理后疏水化的界面行为。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>钙盐 HAS 通过畸变氢键形成亲水稳定双层。</p></div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-5">页内定位</a></div></div>
+</div>
+</li>
+</ol>
+</section>
+<section class="daily-topic-group" id="topic-相关方法-计算工具">
+<div class="daily-topic-head">
+<div>
+<h3 class="daily-topic-title">相关方法 / 计算工具</h3><a class="daily-permalink-link daily-topic-anchor" href="#topic-相关方法-计算工具" title="复制专题定位">#</a>
+<p class="daily-topic-desc">AI 方法、模拟工具与具有直接科研支撑价值的工作。</p>
+</div>
+<div class="daily-topic-count">3 篇</div>
+</div>
+<ol class="daily-paper-list">
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9707588/latest" id="paper-6">
+<span class="daily-paper-number">06</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">乳液力纺中空聚合物纤维去除水中铀</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">Emulsion-forcespun hollow polymer fibers as functional sorbents for uranium removal from water</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Mahmoud Firouzzare, Roshanak Rostamian</span><span class="daily-chip daily-chip-score">🔥 AI 8</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>采用乳液辅助溶液力纺制备中空偕胺肟化苯乙烯—丙烯腈纤维；中空结构提升表面可及性和传质速率，用于水中铀吸附。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>中空偕胺肟化 SAN 纤维加速铀吸附。</p></div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-6">页内定位</a></div></div>
+</div>
+</li>
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9521194/latest" id="paper-7">
+<span class="daily-paper-number">07</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">氪氩工质无加热器 60 A 空心阴极表征</a><a class="daily-permalink-link" href="#paper-7" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">Characterization of a Heaterless 60 A Hollow Cathode on Krypton and Argon</a><a class="daily-permalink-link" href="#paper-7" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Naia Butler-Craig, Dan Lev, Mitchell L.R. Walker</span><span class="daily-chip daily-chip-score">🔥 AI 8</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>对 9 kW 级 H9 霍尔推进器无加热器空心阴极进行稳态电流—电压表征，工质为氪和氩，背景压力为 0.22–0.70 µTorr。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>60 A 无加热器空心阴极在氪氩中完成表征。</p></div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-7">页内定位</a></div></div>
+</div>
+</li>
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9747555/latest" id="paper-8">
+<span class="daily-paper-number">08</span>
+<div class="daily-paper-body">
+<div class="daily-paper-head">
+<div class="daily-paper-titles">
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">Ku 波段形状自适应雷达散射降低超结构</a><a class="daily-permalink-link" href="#paper-8" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">Shape Adaptive Radar Cross Section Reduction (RCSR) metastructure for Ku-Band</a><a class="daily-permalink-link" href="#paper-8" title="复制本页定位">#</a></div>
+</div>
+</div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Debasish Das, Nidhi Bhattacharyya</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>设计 Ku 波段曲率自适应雷达散射截面降低超结构，在介质基体中周期嵌入八边形亚波长 EG-PUR 谐振器，形成电磁俘获以降低散射。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>八边形亚波长谐振器实现曲面散射降低。</p></div>
+<div class="daily-paper-actions">
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-8">页内定位</a></div></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<nav aria-label="日报日期导航" class="daily-nav daily-nav-bottom"><a class="daily-nav-link daily-nav-prev" href="2026-05-29.html">← 前一天 · 2026-05-29</a><a class="daily-nav-home" href="../index.html#daily">📅 日报索引</a><span class="daily-nav-link daily-nav-disabled">后一天 →</span></nav>
+<div class="daily-page-nav" id="daily-enhancement-bottom-nav"><a class="daily-page-nav-link" href="2026-05-29.html">前一天 · 2026-05-29</a><span class="daily-page-nav-link daily-page-nav-disabled">后一天 · 暂无</span><a class="daily-page-nav-link" href="2026-05-30.html">最新一期 · 2026-05-30</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-05-30.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div><div class="daily-footer">
+          本页由文献追踪系统自动生成，仅保留 AI × 物理 / 化学 / 材料主线相关文献，并按专题重新整理，方便快速筛选与深度阅读。
+        </div>
+</article>
+<aside class="daily-toc">
+<div class="daily-toc-card">
+<div class="daily-toc-title">目录</div>
+<a href="#core-focus"><span>🎯 核心关注</span><span>00</span></a>
+<a href="#summary"><span>今日摘要</span><span>01</span></a>
+<a href="#highlights"><span>交叉重点</span><span>02</span></a>
+<a href="#papers"><span>完整速览</span><span>03</span></a>
+<div class="daily-sidebar-block">
+<div class="daily-sidebar-title">专题分布</div>
+<div class="daily-sidebar-stats"><div class="daily-sidebar-fact"><span>AI × 物理 / 凝聚态</span><strong>3</strong></div><div class="daily-sidebar-fact"><span>AI × 化学 / 分子 / 催化</span><strong>1</strong></div><div class="daily-sidebar-fact"><span>AI × 材料 / 器件</span><strong>1</strong></div><div class="daily-sidebar-fact"><span>相关方法 / 计算工具</span><strong>3</strong></div></div>
+</div>
+<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">物理约束描述符预测 QM9 偶极矩<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">电荷密度波超导体中的超电流效应<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">金刚石量子传感揭示交替磁体<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">卢旺达单台站地震震级机器学习估计<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-5">路线天气融合的电动汽车能耗预测<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-6">石墨烯太赫兹谐振器相位累积读出<span class="daily-outline-meta">交叉重点</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-物理-凝聚态">AI × 物理 / 凝聚态</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">选择性声子激发调控单层过渡金属硫族化物磁化<span class="daily-outline-meta">01</span></a><a class="daily-outline-link" href="#paper-2">耦合分裂环谐振器磁多极模式图<span class="daily-outline-meta">02</span></a><a class="daily-outline-link" href="#paper-3">钙钛矿量子点发光二极管合成与性能关联<span class="daily-outline-meta">03</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-化学-分子-催化">AI × 化学 / 分子 / 催化</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-4">图注意多智能体策略用于多无人机围捕<span class="daily-outline-meta">04</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-材料-器件">AI × 材料 / 器件</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-5">钙盐生物基阴离子表面活性剂亲水双层<span class="daily-outline-meta">05</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-相关方法-计算工具">相关方法 / 计算工具</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-6">乳液力纺中空聚合物纤维去除水中铀<span class="daily-outline-meta">06</span></a><a class="daily-outline-link" href="#paper-7">氪氩工质无加热器 60 A 空心阴极表征<span class="daily-outline-meta">07</span></a><a class="daily-outline-link" href="#paper-8">Ku 波段形状自适应雷达散射降低超结构<span class="daily-outline-meta">08</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-05-29.html">前一天 · 2026-05-29</a><span class="daily-page-nav-link daily-page-nav-disabled">后一天 · 暂无</span><a class="daily-page-nav-link" href="2026-05-30.html">最新一期 · 2026-05-30</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-05-30.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
+<div class="daily-sidebar-title">阅读建议</div>
+<ul class="insight-note-list">
+<li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
+<li class="insight-note-item">明显偏离主线的医学、教育等内容已自动剔除。</li>
+<li class="insight-note-item">若需回看历史日报，可从日报索引页按日期倒序进入。</li>
+</ul>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
+    const THEME_KEY = 'literature_theme';
+
+    function initTheme() {
+      const theme = localStorage.getItem(THEME_KEY) || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      updateThemeButton();
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      localStorage.setItem(THEME_KEY, next);
+      document.documentElement.setAttribute('data-theme', next);
+      updateThemeButton();
+    }
+
+    function updateThemeButton() {
+      const btn = document.getElementById('themeToggle');
+      const theme = document.documentElement.getAttribute('data-theme') || 'light';
+      if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+    }
+
+    initTheme();
+  </script>
+</body>
+</html>
