@@ -113,5 +113,31 @@ def test_render_deep_section_empty_returns_empty():
     assert render_deep_section([]) == ""
 
 
+def test_build_core_export_has_category_and_link():
+    from generate_daily_pages import build_core_export
+    items = [{"title": "ML interatomic potential for perovskite",
+              "title_zh": "钙钛矿的机器学习势", "summary": "图神经网络势",
+              "abstract": "graph neural network potential for materials",
+              "abstract_zh": "用于材料的图神经网络势",
+              "link": "http://arxiv.org/abs/2601.001", "journal": "arXiv"}]
+    out = build_core_export(items)
+    assert out[0]["category"] in ("AI×物理", "AI×化学·材料")
+    assert out[0]["abstract"]
+    assert out[0]["link"].startswith("http")
+    assert out[0]["title_zh"] == "钙钛矿的机器学习势"
+
+def test_build_tier2_candidates_picks_ai_cross():
+    from generate_daily_pages import build_tier2_candidates
+    full = [
+        {"title": "Deep learning for catalyst discovery", "summary": "neural network",
+         "abstract": "graph neural network for chemistry catalyst", "link": "http://x", "journal": "arXiv"},
+        {"title": "A study of medieval poetry", "summary": "", "abstract": "", "link": "http://y"},
+    ]
+    cand = build_tier2_candidates(full)
+    links = [c["link"] for c in cand]
+    assert "http://x" in links and "http://y" not in links
+    assert cand and cand[0]["category"]
+
+
 if __name__ == "__main__":
     raise SystemExit(main())
