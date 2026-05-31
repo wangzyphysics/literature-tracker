@@ -25,8 +25,8 @@ const mockItems = [
   },
   {
     source: 'arxiv', title_en: 'EN B', abstract: 'english abstract fallback text',
-    category: '其他', link: 'http://arxiv.org/abs/1', date: '2026-05-28',
-    daily_url: 'daily/2026-05-28.html'
+    category: '其他', link: 'http://arxiv.org/abs/1', date: '2026-05-27',
+    daily_url: 'daily/2026-05-27.html'
   }
 ];
 
@@ -40,6 +40,9 @@ log('--- renderFeed ---');
 const container = document.createElement('main');
 container.id = 'feed';
 document.body.appendChild(container);
+const prog = document.createElement('div');
+prog.id = 'feed-progress';
+document.body.appendChild(prog);
 let threw = false;
 try { window.FeedUI.renderFeed(mockItems, container); } catch (e) { threw = true; log('  render threw:', e.message); }
 assert(!threw, 'renderFeed does not throw');
@@ -47,6 +50,27 @@ assert(!threw, 'renderFeed does not throw');
 const cards = container.querySelectorAll('.feed-card');
 assert(cards.length === 2, 'one .feed-card per item (2 cards) — got ' + cards.length);
 const card1 = cards[0], card2 = cards[1];
+
+log('--- day grouping ---');
+const distinctDates = Array.from(new Set(mockItems.map(it => it.date)));
+const dayHeaders = container.querySelectorAll('.feed-day-header');
+assert(dayHeaders.length === distinctDates.length,
+  '.feed-day-header count === distinct dates (' + distinctDates.length + ') — got ' + dayHeaders.length);
+
+log('--- progress indicator ---');
+const progText = document.getElementById('feed-progress').textContent;
+assert(/共/.test(progText), 'feed-progress text contains 共 — got ' + progText);
+assert(progText.indexOf(String(mockItems.length)) !== -1,
+  'feed-progress text contains total item count (' + mockItems.length + ') — got ' + progText);
+
+log('--- unread tracking ---');
+try { localStorage.removeItem('literature_feed_read'); } catch (e) {}
+assert(typeof window.FeedUI.markRead === 'function', 'FeedUI.markRead exists');
+assert(typeof window.FeedUI.getRead === 'function', 'FeedUI.getRead exists');
+window.FeedUI.markRead('d1');
+assert(window.FeedUI.getRead().indexOf('d1') !== -1, 'getRead() includes d1 after markRead');
+assert((localStorage.getItem('literature_feed_read') || '').indexOf('d1') !== -1,
+  'localStorage literature_feed_read contains d1');
 
 log('--- Chinese title + English fallback ---');
 const t1 = card1 && card1.querySelector('.feed-title-zh');

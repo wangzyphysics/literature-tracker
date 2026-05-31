@@ -8,6 +8,20 @@
   'use strict';
 
   const POSTER_ROWS = ['研究问题', '创新方法', '工作流程', '关键结果', '应用价值'];
+  const READ_KEY = 'literature_feed_read';
+  function getRead() {
+    try { return JSON.parse(localStorage.getItem(READ_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function markRead(id) {
+    if (!id) return;
+    const r = getRead();
+    if (r.indexOf(id) === -1) { r.push(id); try { localStorage.setItem(READ_KEY, JSON.stringify(r)); } catch (e) {} }
+  }
+  function updateProgress(total) {
+    const p = document.getElementById('feed-progress');
+    if (!p) return;
+    p.textContent = '已读 ' + getRead().length + ' / 共 ' + total + ' 篇';
+  }
   const ALL_CAT = '全部';
   const CAT_ORDER = ['AI×物理', 'AI×化学·材料', '磁性·自旋电子学', '铁电·极化', '拓扑·电子结构',
     '超导', '量子信息·计算', '软物质·流体·统计', '其他凝聚态', '其他'];
@@ -92,9 +106,17 @@
   function renderFeed(items, container) {
     if (!container) return;
     container.innerHTML = '';
+    let lastDate = null;
     (items || []).forEach(function (item) {
+      if (item.date && item.date !== lastDate) {
+        lastDate = item.date;
+        const dayCount = (items || []).filter(function (x) { return x.date === item.date; }).length;
+        container.appendChild(el('div', 'feed-day-header',
+          '📅 ' + esc(item.date) + '（共 ' + dayCount + ' 篇）'));
+      }
       container.appendChild(buildCard(item));
     });
+    updateProgress((items || []).length);
     if (window.literatureBookmarks && window.literatureBookmarks.ui) {
       const bu = window.literatureBookmarks.ui;
       bu.attachToCards(container);
@@ -182,6 +204,21 @@
         }
         renderFeed(items, main);
         buildCatBar(items, bar);
+        let ticking = false;
+        main.addEventListener('scroll', function () {
+          if (ticking) return; ticking = true;
+          requestAnimationFrame(function () {
+            const cards = main.querySelectorAll('.feed-card');
+            for (const c of cards) {
+              const r = c.getBoundingClientRect();
+              if (r.top >= 0 && r.top < window.innerHeight * 0.5) {
+                markRead(c.dataset.doc || c.dataset.bookmarkKey); break;
+              }
+            }
+            updateProgress((data.items || []).length);
+            ticking = false;
+          });
+        });
         const sp = new URLSearchParams(location.search);
         applyDeepLink({ doc: sp.get('doc'), date: sp.get('date') });
       })
@@ -197,6 +234,8 @@
     filterByCategory: filterByCategory,
     applyDeepLink: applyDeepLink,
     loadFeed: loadFeed,
+    markRead: markRead,
+    getRead: getRead,
   };
 
   function _autoInit() {
