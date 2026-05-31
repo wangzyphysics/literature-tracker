@@ -98,7 +98,9 @@ def process_arxiv_tier2(date, candidates, provider, out_dir="docs/images/posters
         key = c.get("link") or c.get("title")
         prev = cache.get(key)
         (cached if (prev and _deep_complete_abstract(prev.get("deep_analysis"))) else fresh).append((c, prev))
-    if max_new is not None:
+    overflow = []
+    if max_new is not None and len(fresh) > max_new:
+        overflow = fresh[max_new:]
         fresh = fresh[:max(0, max_new)]
     results = [p for (_c, p) in cached]
     with ThreadPoolExecutor(max_workers=max_workers) as ex:
@@ -106,6 +108,10 @@ def process_arxiv_tier2(date, candidates, provider, out_dir="docs/images/posters
         for f in futs:
             try: results.append(f.result())
             except Exception as e: print(f"⚠️ tier2 enrich failed: {e}")
+    # over-budget candidates: keep them in the feed as plain text cards (no deep/image yet);
+    # they get enriched in a later run thanks to the idempotent cache.
+    for (c, prev) in overflow:
+        results.append(prev if prev else {**c, "source": "arxiv"})
     return results, len(fresh)
 
 

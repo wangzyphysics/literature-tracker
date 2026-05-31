@@ -166,3 +166,19 @@ def test_build_tier2_candidates_picks_ai_cross():
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def test_classify_uses_title_en_when_title_empty():
+    # full_list stores English under title_en with title empty → must still classify AI×
+    from generate_daily_pages import build_tier2_candidates, build_core_export
+    full = [{"title": "", "title_en": "Physics-Informed Machine Learning for quantum materials",
+             "title_zh": "面向量子材料的物理信息机器学习", "summary": "机器学习",
+             "abstract_zh": "用神经网络预测材料性质", "link": "http://x", "is_core_focus": False}]
+    cand = build_tier2_candidates(full)
+    assert cand, "AI-cross paper with title_en must be selected"
+    assert cand[0]["category"] in ("AI×物理", "AI×化学·材料")
+    assert cand[0]["title"].startswith("Physics-Informed")  # English title resolved
+    assert cand[0]["abstract"]  # non-empty (falls back to abstract_zh)
+    ce = build_core_export(full)
+    assert ce[0]["category"] in ("AI×物理", "AI×化学·材料")
+    assert ce[0]["abstract"]

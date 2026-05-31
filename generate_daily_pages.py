@@ -286,18 +286,40 @@ def _render_date_nav(date_str: str, position: str = "top") -> str:
     )
 
 
+def _en_title(it):
+    """English title for classification/display. full_list often stores English under
+    `title_en` with `title` empty/Chinese, while raw articles use `title`."""
+    return (it.get("title_en") or it.get("title") or "").strip()
+
+
+def _best_abstract(it):
+    """Non-empty abstract text for analysis: English preferred, then Chinese, then summary.
+    full_list drops the English abstract, so we must fall back to abstract_zh/summary."""
+    return (it.get("abstract") or it.get("abstract_en") or it.get("abstract_zh")
+            or it.get("summary") or "").strip()
+
+
+def _classify(it):
+    """Classify on resolved English title + best abstract (not the raw `it`, whose
+    `title` may be empty/Chinese → would mis-bucket AI×交叉 papers as 其他)."""
+    return classify_taxonomy({
+        "title": _en_title(it),
+        "summary": it.get("summary") or "",
+        "abstract": _best_abstract(it),
+    })
+
+
 def build_core_export(core_items):
     """Pure helper: build the core-export list with category and abstract fields."""
     out = []
     for it in (core_items or []):
-        link = (it.get("link") or "").strip()
         out.append({
-            "title": it.get("title") or it.get("title_en") or "",
+            "title": _en_title(it),
             "title_zh": it.get("title_zh") or "",
             "summary": it.get("summary") or it.get("abstract_zh") or "",
-            "abstract": it.get("abstract") or it.get("abstract_en") or "",
-            "category": classify_taxonomy(it),
-            "link": link,
+            "abstract": _best_abstract(it),
+            "category": _classify(it),
+            "link": (it.get("link") or "").strip(),
             "journal": it.get("journal") or "",
         })
     return out
@@ -307,13 +329,13 @@ def build_tier2_candidates(full_list, max_n=20):
     """Pure helper: select AI-intersection / core-focus candidates for deep analysis."""
     cand = []
     for it in (full_list or []):
-        cat = classify_taxonomy(it)
+        cat = _classify(it)
         if cat in ("AI×物理", "AI×化学·材料") or it.get("is_core_focus"):
             cand.append({
-                "title": it.get("title") or it.get("title_en") or "",
+                "title": _en_title(it),
                 "title_zh": it.get("title_zh") or "",
                 "summary": it.get("summary") or it.get("abstract_zh") or "",
-                "abstract": it.get("abstract") or it.get("abstract_en") or "",
+                "abstract": _best_abstract(it),
                 "category": cat,
                 "link": (it.get("link") or "").strip(),
                 "journal": it.get("journal") or "",
@@ -1057,18 +1079,18 @@ def main():
                     ]
                     core_items.sort(key=lambda x: -float(x.get("core_score") or 0.0))
                     core_items = core_items[:max_n]
-                    # Export the selected arXiv core list for later enrichment
-                    # (e.g. adding illustrations). Never let this break generation.
+                    # Export ONLY the tier-2 candidate list (core-focus ∪ AI×交叉) for run_deep
+                    # to enrich. run_deep is the SOLE writer of arxiv_core_<date>.json (with
+                    # deep_analysis/image) — daily must NOT write arxiv_core, or it would clobber
+                    # run_deep's enrichment (daily runs after run_deep in the workflow) and break the
+                    # idempotent cache, causing tier-2 to be regenerated every run. Never break generation.
                     try:
-                        core_export = build_core_export(core_items)
                         os.makedirs("data", exist_ok=True)
-                        with open(os.path.join("data", f"arxiv_core_{day_str}.json"), "w", encoding="utf-8") as cf:
-                            json.dump(core_export, cf, ensure_ascii=False, indent=2)
                         tier2 = build_tier2_candidates(summary.get("full_list", []))
                         with open(os.path.join("data", f"arxiv_tier2_{day_str}.json"), "w", encoding="utf-8") as tf:
                             json.dump(tier2, tf, ensure_ascii=False, indent=2)
                     except Exception as e:
-                        print(f"⚠️ arxiv core/tier2 export skipped: {e}")
+                        print(f"⚠️ arxiv tier2 export skipped: {e}")
                     if core_items:
                         try:
                             deep_fields, direction_note = summarizer.generate_core_deep_fields(core_items, day_str)

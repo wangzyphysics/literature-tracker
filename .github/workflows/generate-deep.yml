@@ -26,7 +26,22 @@ jobs:
           python-version: "3.11"
           cache: "pip"
       - run: pip install -r requirements.txt
-      - name: Run deep pipeline
+      # Daily FIRST: regenerates daily pages (今日精读 from existing aps_*.json) and writes the
+      # corrected arxiv_tier2_<date>.json candidates that run_deep then enriches SAME run.
+      - name: Generate daily pages (writes tier2 candidates)
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_PROVIDER: aigw
+          AI_MODEL: gpt-5.5
+          AI_BASE_URL: ${{ secrets.AI_BASE_URL }}
+          AI_TIMEOUT_SECONDS: "300"
+          AI_RESPONSE_JSON: "1"
+          AI_DAILY_MAX_PER_CALL: "20"
+          AI_DAILY_WAIT_MAX_SECONDS: "1800"
+        run: python generate_daily_pages.py --days 4 --force
+      # run_deep SECOND: APS full-text deep+poster, enrich tier2 (abstract-level + infographic),
+      # sole writer of arxiv_core_<date>.json, writes feed.json (with enrichment) — no clobber.
+      - name: Run deep pipeline (enrich + feed.json)
         env:
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
           AI_PROVIDER: aigw
@@ -41,17 +56,6 @@ jobs:
           AI_TIMEOUT_SECONDS: "600"
           AI_MAX_RETRIES: "2"
         run: python run_deep.py
-      - name: Regenerate daily pages (insert 今日精读)
-        env:
-          AI_API_KEY: ${{ secrets.AI_API_KEY }}
-          AI_PROVIDER: aigw
-          AI_MODEL: gpt-5.5
-          AI_BASE_URL: ${{ secrets.AI_BASE_URL }}
-          AI_TIMEOUT_SECONDS: "300"
-          AI_RESPONSE_JSON: "1"
-          AI_DAILY_MAX_PER_CALL: "20"
-          AI_DAILY_WAIT_MAX_SECONDS: "1800"
-        run: python generate_daily_pages.py --days 4 --force
       - name: Commit and push (race-safe)
         run: |
           git config user.email action@github.com
