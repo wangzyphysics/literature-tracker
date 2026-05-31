@@ -583,6 +583,7 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
   <title>{date_str} 文献日报 - 文献追踪系统</title>
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="../bookmarks.css" />
+  <link rel="stylesheet" href="../likes.css" />
   <script defer src="../exports.js"></script>
   <script defer src="../bookmarks.js"></script>
   <script defer src="../likes.js"></script>

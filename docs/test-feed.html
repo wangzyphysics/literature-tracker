@@ -89,6 +89,12 @@ log('--- hooks attached ---');
 assert(!!card1.querySelector('.bookmark-btn'), 'BookmarkUI star button attached');
 assert(!!card1.querySelector('.like-btn'), 'LikeUI heart button attached');
 
+log('--- every card has both buttons ---');
+Array.from(cards).forEach((c, i) => {
+  assert(!!c.querySelector('.bookmark-btn'), 'card' + (i + 1) + ' has .bookmark-btn');
+  assert(!!c.querySelector('.like-btn'), 'card' + (i + 1) + ' has .like-btn');
+});
+
 log('--- applyDeepLink ---');
 let dlThrew = false;
 try { window.FeedUI.applyDeepLink({ doc: 'd1' }); } catch (e) { dlThrew = true; log('  applyDeepLink threw:', e.message); }
@@ -105,6 +111,19 @@ assert(chips.length >= 3, 'cat bar has chips for distinct categories + all — g
 assert(chipText.some(t => /AI×物理/.test(t)), 'chip for AI×物理 present');
 assert(chipText.some(t => /其他/.test(t)), 'chip for 其他 present');
 assert(chipText.some(t => /全部/.test(t)), 'chip for 全部 (all) present');
+
+log('--- AI-cross category pinned first ---');
+const barEl = document.createElement('nav');
+barEl.id = 'cat-bar';
+document.body.appendChild(barEl);
+window.FeedUI.buildCatBar([{ category: '其他' }, { category: 'AI×物理' }, { category: '磁性·自旋电子学' }], barEl);
+const orderedChips = Array.from(barEl.querySelectorAll('.chip')).map(c => c.textContent);
+const nonAll = orderedChips.filter(t => t !== '全部');
+assert(nonAll[0] === 'AI×物理', 'AI×物理 is first (excluding 全部) — got ' + nonAll[0]);
+assert(nonAll.indexOf('AI×物理') < nonAll.indexOf('其他'), 'AI×物理 before 其他');
+assert(nonAll.indexOf('AI×物理') < nonAll.indexOf('磁性·自旋电子学'), 'AI×物理 before 磁性·自旋电子学');
+const aiChip = Array.from(barEl.querySelectorAll('.chip')).find(c => c.textContent === 'AI×物理');
+assert(aiChip && aiChip.classList.contains('chip-ai'), 'AI×物理 chip has chip-ai class');
 
 log('--- filterByCategory ---');
 function visible(card) { return !card.classList.contains('hidden') && card.style.display !== 'none'; }

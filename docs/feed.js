@@ -9,6 +9,8 @@
 
   const POSTER_ROWS = ['研究问题', '创新方法', '工作流程', '关键结果', '应用价值'];
   const ALL_CAT = '全部';
+  const CAT_ORDER = ['AI×物理', 'AI×化学·材料', '磁性·自旋电子学', '铁电·极化', '拓扑·电子结构',
+    '超导', '量子信息·计算', '软物质·流体·统计', '其他凝聚态', '其他'];
 
   function esc(s) {
     const d = document.createElement('div');
@@ -93,8 +95,11 @@
     (items || []).forEach(function (item) {
       container.appendChild(buildCard(item));
     });
-    if (window.BookmarkUI && window.literatureBookmarks && window.literatureBookmarks.ui) {
-      window.literatureBookmarks.ui.attachToCards(container);
+    if (window.literatureBookmarks && window.literatureBookmarks.ui) {
+      const bu = window.literatureBookmarks.ui;
+      bu.attachToCards(container);
+      if (bu.renderFab) { try { bu.renderFab(); } catch (e) {} }
+      if (bu.bindGestures) { try { bu.bindGestures(container); } catch (e) {} }
     } else if (window.BookmarkUI && window.BookmarkStore) {
       new window.BookmarkUI(new window.BookmarkStore()).attachToCards(container);
     }
@@ -109,6 +114,10 @@
       const c = it && it.category;
       if (c && seen.indexOf(c) === -1) seen.push(c);
     });
+    seen.sort(function (a, b) {
+      const ia = CAT_ORDER.indexOf(a), ib = CAT_ORDER.indexOf(b);
+      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+    });
     return seen;
   }
 
@@ -122,6 +131,7 @@
       chip.type = 'button';
       chip.textContent = cat;
       chip.dataset.cat = cat;
+      if (cat === 'AI×物理' || cat === 'AI×化学·材料') chip.classList.add('chip-ai');
       if (i === 0) chip.classList.add('active');
       chip.addEventListener('click', function () {
         bar.querySelectorAll('.chip').forEach(function (c) {

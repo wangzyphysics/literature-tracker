@@ -1714,6 +1714,7 @@ class WeeklySummarizer:
     <title>AI × Science 周报 - {week_start} 至 {week_end}</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../bookmarks.css">
+    <link rel="stylesheet" href="../likes.css">
     <script defer src="../exports.js"></script>
     <script defer src="../bookmarks.js"></script>
     <meta name="apple-mobile-web-app-capable" content="yes">
