@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from aps_client import ApsClient
 from ai_summarizer import build_provider
-from deep_reader import deep_read
+from deep_reader import deep_read, abstract_read
 from poster_generator import generate_poster
 from auto_classifier import classify
 from image_provider import generate_and_save
@@ -32,6 +32,8 @@ def _enrich_one(meta, client, provider, out_dir, cached=None):
     # 复用已有海报，避免重复图像生成；缺失才生成
     rec["poster"] = (cached or {}).get("poster") or (
         generate_poster(meta, md, provider=provider, out_dir=out_dir) if md else None)
+    if rec.get("poster") and rec["poster"].get("title_zh"):
+        rec["title_zh"] = rec["poster"]["title_zh"]
     return rec
 
 
@@ -57,6 +59,47 @@ def process_date(date, client, provider, out_dir="docs/images/posters", max_work
         for f in futs:
             try: results.append(f.result())
             except Exception as e: print(f"⚠️ enrich failed: {e}")
+    return results, len(fresh)
+
+
+def _enrich_arxiv_tier2_one(cand, provider, out_dir, cached=None):
+    if cached and _deep_complete(cached.get("deep_analysis")):
+        return cached
+    import hashlib
+    abs_txt = cand.get("abstract") or cand.get("summary") or ""
+    rec = dict(cand)
+    rec["source"] = "arxiv"
+    rec["category"] = cand.get("category") or classify(cand, provider=provider)
+    rec["deep_analysis"] = abstract_read(cand, abs_txt, provider=provider) if abs_txt else ""
+    doc_id = "ax" + hashlib.sha1((cand.get("link") or cand.get("title", "")).encode("utf-8")).hexdigest()[:14]
+    meta = {"title": cand.get("title", ""), "doc_id": doc_id}
+    poster = (cached or {}).get("poster") or (
+        generate_poster(meta, abs_txt, provider=provider, out_dir=out_dir) if abs_txt else None)
+    rec["poster"] = poster
+    rec["image"] = (poster or {}).get("image")
+    rec["poster_elements"] = (poster or {}).get("elements")
+    if poster and poster.get("title_zh") and not rec.get("title_zh"):
+        rec["title_zh"] = poster["title_zh"]
+    return rec
+
+
+def process_arxiv_tier2(date, candidates, provider, out_dir="docs/images/posters",
+                        max_workers=5, cache=None, max_new=None):
+    cache = cache or {}
+    cands = candidates or []
+    cached, fresh = [], []
+    for c in cands:
+        key = c.get("link") or c.get("title")
+        prev = cache.get(key)
+        (cached if (prev and _deep_complete(prev.get("deep_analysis"))) else fresh).append((c, prev))
+    if max_new is not None:
+        fresh = fresh[:max(0, max_new)]
+    results = [p for (_c, p) in cached]
+    with ThreadPoolExecutor(max_workers=max_workers) as ex:
+        futs = [ex.submit(_enrich_arxiv_tier2_one, c, provider, out_dir, prev) for (c, prev) in fresh]
+        for f in futs:
+            try: results.append(f.result())
+            except Exception as e: print(f"⚠️ tier2 enrich failed: {e}")
     return results, len(fresh)
 
 
@@ -110,6 +153,14 @@ def _load_arxiv_core(date):
     return []
 
 
+def _load_core_cache(date):
+    path = f"data/arxiv_core_{date}.json"
+    if os.path.exists(path):
+        try: return json.load(open(path, encoding="utf-8"))
+        except Exception: return []
+    return []
+
+
 def _load_aps_cache(date):
     """已生成的 aps_<date>.json → {doc_id: rec} 供幂等复用。"""
     path = f"data/aps_{date}.json"
@@ -149,7 +200,6 @@ def main():
     # Per-run budget of NEW papers to deep-read (prevents 90-min timeout on first backfill;
     # idempotent cache lets repeated/scheduled runs finish the rest).
     budget = int(os.environ.get("DEEP_MAX_NEW_PER_RUN", "14"))
-    arxiv_images = (os.environ.get("DEEP_ENABLE_ARXIV_IMAGES", "") or "").lower() in ("1", "true", "yes")
     dates = client.list_dates(window_days=window)
     print(f"📚 APS dates to process (window={window}, new-budget={budget}): {dates}")
     # newest first so the freshest papers get processed within budget
@@ -162,16 +212,23 @@ def main():
         print(f"  {d}: {len(aps)} papers ({enriched} with deep_analysis), {used} new this run")
         if aps:
             _save_aps_index(d, aps)
-        if arxiv_images:
-            try:
-                core = _load_arxiv_core(d)
-                if core:
-                    out = enrich_arxiv_core(core, provider=provider, max_workers=workers)
-                    with open(f"data/arxiv_core_{d}.json", "w", encoding="utf-8") as f:
-                        json.dump(out, f, ensure_ascii=False)
-            except Exception as e:
-                print(f"⚠️ arxiv core enrich failed for {d}: {e}")
-    write_feed_json(_load_existing_feeds(), window_days=60)
+        # T2: arXiv AI×交叉 摘要级深析 + 信息图（用剩余预算）
+        try:
+            tpath = f"data/arxiv_tier2_{d}.json"
+            if budget > 0 and os.path.exists(tpath):
+                cands = json.load(open(tpath, encoding="utf-8"))
+                t2cache = {(x.get("link") or x.get("title")): x for x in _load_core_cache(d)}
+                t2, t2used = process_arxiv_tier2(d, cands, provider, max_workers=workers,
+                                                 cache=t2cache, max_new=budget)
+                budget -= t2used
+                if t2:
+                    with open(f"data/arxiv_core_{d}.json", "w", encoding="utf-8") as cf:
+                        json.dump(t2, cf, ensure_ascii=False)
+        except Exception as e:
+            print(f"⚠️ tier2 processing failed for {d}: {e}")
+    import datetime as _dt
+    today = (_dt.datetime.utcnow() + _dt.timedelta(hours=8)).date().isoformat()
+    write_feed_json(_load_existing_feeds(), today=today, window_days=60)
     prune_images(window_days=60)
     print("✅ run_deep done; feed.json written")
 

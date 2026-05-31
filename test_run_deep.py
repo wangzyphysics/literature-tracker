@@ -130,3 +130,36 @@ def test_process_date_respects_max_new_budget():
                                           max_new=3)
     assert used == 3
     assert len(out) == 3
+
+
+def test_enrich_one_sets_title_zh_from_poster():
+    import run_deep, tempfile
+    from unittest import mock
+    meta = {"title": "EN title", "has_full_text": True, "markdown_oss_key": "k", "doc_id": "d1"}
+    class FakeClient:
+        def fetch_markdown(self, m): return "# P\nbody"
+    class P:
+        def call_api(self, p):
+            return ('{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v",'
+                    '"title_zh":"中文标题","elements_en":{"method":"GNN"}}') if ("研究问题" in p or "JSON" in p) \
+                   else "## 完整\n第五部分：创新评估 " + "y"*6000
+    with mock.patch.object(run_deep, "generate_and_save", side_effect=lambda prompt, out_path, **k: out_path):
+        rec = run_deep._enrich_one(meta, FakeClient(), P(), tempfile.mkdtemp())
+    assert rec["title_zh"] == "中文标题"
+
+
+def test_process_arxiv_tier2_enriches_and_budgets():
+    import run_deep, tempfile
+    from unittest import mock
+    cands = [{"title": "ML for magnet", "abstract": "neural network spin", "link": "http://z%d" % i,
+              "category": "AI×物理"} for i in range(5)]
+    class P:
+        def call_api(self, p):
+            return ('{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v",'
+                    '"title_zh":"标题","elements_en":{"method":"GNN"}}') if ("研究问题" in p or "JSON" in p) \
+                   else "## 摘要级\n创新性判断 " + "z"*5200
+    with mock.patch.object(run_deep, "generate_and_save", side_effect=lambda prompt, out_path, **k: out_path):
+        out, used = run_deep.process_arxiv_tier2("2026-05-28", cands, P(),
+                                                 out_dir=tempfile.mkdtemp(), max_new=3)
+    assert used == 3
+    assert sum(1 for x in out if x.get("deep_analysis")) == 3
