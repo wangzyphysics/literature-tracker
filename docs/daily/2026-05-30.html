@@ -384,7 +384,7 @@
 <h2 class="daily-section-title">核心关注（ML × ferro / 凝聚态）</h2>
 <span class="daily-core-count">8 篇</span>
 </div>
-<p class="daily-core-note">今日 ML 端的实质增量主要是物理特征工程：QM9 偶极矩用结构描述符+MLP，石墨烯太赫兹谐振器用相位积分读出，电动车/地震稿件偏物理量融合回归。与 NbOI2、CrI3、CrSBr、BaTiO3 中常见的 equivariant GNN、MACE、NEP、DFT+U 数据闭环相比，本日没有新的铁电/磁性势函数或磁哈密顿量学习结果。凝聚态实质推进来自交变磁体的反常霍尔散射、线性磁双折射和金刚石量子传感，以及 NbSe2 中超流诱导的 CDW 对称性破缺。这些结果把 ML 任务从直接预测相图转向可观测量设计：相位、双折射、局域磁场和 STM 谱可作为后续模型输入。</p>
+<p class="daily-core-note">本日真正的 ML 进展集中在物理约束特征工程：QM9 偶极矩用物理描述符+MLP，石墨烯太赫兹谐振器用瞬态相位积分替代稳态峰值读出。凝聚态实验侧以 NbSe2 的 CDW-超导交织态、交替磁体的反常霍尔效应和线性磁双折射为主，给 ML 提供可标注的输运、光学与局域谱图目标。与 NbOI2、CrI3、CrSBr、BaTiO3 中常见的 equivariant GNN、MACE、NEP、DFT+U 势能面训练相比，本日论文更偏向物理特征读出和实验信号建模，而非端到端原子结构学习。对铁电/磁性 ML 研究者而言，关键增量是把对称性、散射机制、超流多普勒位移和历史相位响应显式写入特征或标签。</p>
 <ol class="daily-core-list">
 <li class="daily-core-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9501441/latest">
 <div class="daily-core-number">01</div>
@@ -392,9 +392,9 @@
 <div class="daily-core-title-zh">基于物理描述符的 QM9 偶极矩预测</div>
 <div class="daily-core-title-en">Physics-Informed Descriptors Base Machine Learning Model for High-Precision (Molecular Property Dipole Moment(μ)) Prediction on QM9</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Preprints</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向 QM9 分子偶极矩 μ，构建基于物理启发描述符的多层感知机模型，用分子结构相关特征提升偶极矩预测精度；摘要未给出误差数值。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>物理描述符驱动 MLP 预测 QM9 分子偶极矩。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>物理启发分子结构描述符输入 MLP 回归 QM9 偶极矩。</p><p><strong>🔗 相关工作关联：</strong>呼应物理特征工程、SchNet/MPNN 分子性质预测、极性描述符学习。</p><p><strong>💡 对你方向的启示：</strong>铁电分子/有机极化筛选可先用电荷-几何描述符压缩样本量。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在 QM9 分子数据集上，将物理信息描述符输入多层感知机，用于预测分子偶极矩 μ；目标是提高分子性质预测精度。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>物理信息描述符用于 QM9 偶极矩 MLP 预测。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>物理信息描述符输入MLP，高精度回归QM9偶极矩。</p><p><strong>🔗 相关工作关联：</strong>呼应分子图网络、SchNet/DimeNet类量子性质预测和物理特征工程。</p><p><strong>💡 对你方向的启示：</strong>铁电分子筛选可把电荷分布、键极化、几何矩作为显式特征。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
@@ -404,21 +404,21 @@
 <div class="daily-core-title-zh">融合路线天气的电动车能耗预测</div>
 <div class="daily-core-title-en">Smart Electric Vehicle Energy Consumption Prediction Using Hybrid Physics–Machine Learning Approach with Route and Weather Integration</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Preprints</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对电动车真实路况能耗，将物理模型与机器学习结合，并整合路线和天气变量，以弥补纯物理模型灵活性不足；摘要未给出测试误差。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>路线与天气进入物理-机器学习混合能耗模型。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>物理能耗方程与路线、天气特征融合回归。</p><p><strong>🔗 相关工作关联：</strong>呼应混合物理-ML、PINN 式残差校正、时空环境特征融合。</p><p><strong>💡 对你方向的启示：</strong>凝聚态实验自动化也可把温度、场、路径作为显式外参建模。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向真实道路电动车能耗，结合物理模型与机器学习，并纳入路线和天气信息，以克服纯物理模型灵活性不足的问题。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>路线与天气被并入混合物理机器学习能耗模型。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>物理能耗模型与ML融合，并接入路线和天气变量。</p><p><strong>🔗 相关工作关联：</strong>对应physics-informed ML、灰盒建模、时空环境变量融合预测。</p><p><strong>💡 对你方向的启示：</strong>凝聚态器件老化或热输运预测可借鉴物理骨架+外场数据融合。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
 <li class="daily-core-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9532090/latest">
 <div class="daily-core-number">03</div>
 <div class="daily-core-body">
-<div class="daily-core-title-zh">单台站地震数据的震级机器学习估计</div>
+<div class="daily-core-title-zh">卢旺达单台站地震震级机器学习估计</div>
 <div class="daily-core-title-en">Earthquake Magnitude Estimation Using Machine Learning from Single Station Seismic Data in Rwanda</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Preprints</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>使用卢旺达单台站地震波形数据训练机器学习模型，用于台站稀疏地区快速震级估计，目标是提高单站监测可靠性；摘要未列具体模型分数。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>单台站波形可用于卢旺达震级机器学习估计。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>单台站波形特征训练震级回归/分类模型。</p><p><strong>🔗 相关工作关联：</strong>呼应弱监督时序、地震波形 CNN/Transformer、稀疏传感。</p><p><strong>💡 对你方向的启示：</strong>稀疏磁/铁电探针可借鉴单传感器不确定性校准。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>利用卢旺达单台站地震波形数据训练机器学习模型，面向台站稀疏地区实现快速震级估计，评估单站数据的可靠性。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>单台站波形被用于卢旺达地震震级快速估计。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>单台站地震波形特征训练ML模型快速估计震级。</p><p><strong>🔗 相关工作关联：</strong>呼应稀疏传感、时序波形学习、异常事件快速反演方向。</p><p><strong>💡 对你方向的启示：</strong>磁畴翻转、声发射、相变脉冲可用单探头时序模型降成本监测。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
@@ -428,57 +428,57 @@
 <div class="daily-core-title-zh">石墨烯太赫兹谐振器相位累积读出</div>
 <div class="daily-core-title-en">Phase Accumulation for Machine Learning Readoutin Graphene Terahertz Resonators</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Preprints</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对动态扰动石墨烯太赫兹谐振器，积分瞬态相位响应构建物理特征，替代稳态或峰值读出，用于机器学习识别扰动动力学。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>瞬态相位累积成为石墨烯太赫兹读出特征。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>积分石墨烯太赫兹谐振器瞬态相位作 ML 读出特征。</p><p><strong>🔗 相关工作关联：</strong>呼应物理储备计算、光/太赫兹传感、时序特征工程。</p><p><strong>💡 对你方向的启示：</strong>相位累积比峰值更稳，可用于磁振子/铁电软模动力学识别。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对动态扰动石墨烯太赫兹谐振器，积分瞬态相位响应构造机器学习特征，替代稳态峰值读出以捕捉扰动历史。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>瞬态相位积分成为石墨烯太赫兹读出特征。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>积分石墨烯太赫兹谐振器瞬态相位作为ML读出特征。</p><p><strong>🔗 相关工作关联：</strong>呼应物理储备池计算、瞬态响应编码、太赫兹可调谐器件读出。</p><p><strong>💡 对你方向的启示：</strong>铁电/磁振子器件可用历史相位轨迹表征外场扰动与记忆效应。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9838003/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
 <li class="daily-core-card" data-bookmark-key="https://www.nature.com/articles/s41535-026-00895-3">
 <div class="daily-core-number">05</div>
 <div class="daily-core-body">
-<div class="daily-core-title-zh">交变磁体中的外禀反常霍尔效应</div>
+<div class="daily-core-title-zh">交替磁体中的外禀反常霍尔效应</div>
 <div class="daily-core-title-en">Extrinsic anomalous Hall effect in altermagnets</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 npj Quantum Materials</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>讨论交变磁体中的外禀反常霍尔效应，发表于 npj Quantum Materials；题名指向无净磁化且自旋劈裂体系的杂质散射输运机制。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>外禀散射机制可在交变磁体中产生反常霍尔响应。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>分析交变磁体杂质散射导致的外禀反常霍尔项。</p><p><strong>🔗 相关工作关联：</strong>呼应自旋劈裂反铁磁、Boltzmann 输运、skew/side-jump 机制。</p><p><strong>💡 对你方向的启示：</strong>ML 筛选交变磁体需加入散射寿命和对称性允许霍尔张量。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>讨论交替磁体中的外禀反常霍尔效应，聚焦由非本征散射机制引起的横向输运响应，扩展交替磁性电输运图像。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>外禀散射可在交替磁体中产生反常霍尔响应。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>从外禀散射机制解析交替磁体反常霍尔输运。</p><p><strong>🔗 相关工作关联：</strong>对应交替磁性、自旋分裂能带、反常霍尔效应和散射输运建模。</p><p><strong>💡 对你方向的启示：</strong>构建ML输运数据集时需区分本征Berry曲率与外禀散射标签。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.nature.com/articles/s41535-026-00895-3" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
 <li class="daily-core-card" data-bookmark-key="https://www.nature.com/articles/s41535-026-00901-8">
 <div class="daily-core-number">06</div>
 <div class="daily-core-body">
-<div class="daily-core-title-zh">线性磁双折射探测交变磁性</div>
+<div class="daily-core-title-zh">线性磁双折射探测交替磁性</div>
 <div class="daily-core-title-en">Linear magneto-birefringence as a probe of altermagnetism</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 npj Quantum Materials</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>提出用线性磁双折射探测交变磁性，发表于 npj Quantum Materials；光学各向异性响应可作为识别交变磁体自旋-晶格对称性的实验通道。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>线性磁双折射被提出为交变磁体光学判据。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>以线性磁双折射张量识别交变磁自旋-晶格对称性。</p><p><strong>🔗 相关工作关联：</strong>呼应磁光 Kerr、线性二色性、磁点群表征和光学张量反演。</p><p><strong>💡 对你方向的启示：</strong>可把偏振光谱张量作为监督标签训练磁结构分类器。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>提出以线性磁双折射作为交替磁性的光学探针，通过磁场相关折射率各向异性识别交替磁有序而非净磁化。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>线性磁双折射可光学识别交替磁有序。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>用线性磁双折射识别交替磁有序的折射率各向异性。</p><p><strong>🔗 相关工作关联：</strong>呼应磁光克尔、线性二色性、各向异性光谱和对称性诊断。</p><p><strong>💡 对你方向的启示：</strong>可把偏振分辨光谱作为交替磁体分类模型的低维可解释输入。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.nature.com/articles/s41535-026-00901-8" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
 <li class="daily-core-card" data-bookmark-key="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html">
 <div class="daily-core-number">07</div>
 <div class="daily-core-body">
-<div class="daily-core-title-zh">金刚石量子传感揭示隐匿交变磁体</div>
+<div class="daily-core-title-zh">金刚石量子传感器探测交替磁体</div>
 <div class="daily-core-title-en">Diamond quantum sensor could reveal elusive altermagnets</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Physics News</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>新闻介绍金刚石量子传感用于寻找交变磁体；该第三类磁性区别于铁磁体和反铁磁体，可能呈现隐匿磁有序与可探测局域磁响应。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>金刚石量子传感瞄准交变磁体局域磁信号。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>报道金刚石 NV 量子传感探测隐匿交变磁局域场。</p><p><strong>🔗 相关工作关联：</strong>呼应 NV 磁成像、弱磁有序探测、反铁磁畴和边界磁响应。</p><p><strong>💡 对你方向的启示：</strong>ML 图像重建可从 NV 场图反演交变磁畴与缺陷分布。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>报道金刚石量子传感器用于寻找交替磁体的设想；交替磁体区别于铁磁体和反铁磁体，外部磁信号隐蔽但具应用潜力。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>金刚石量子传感或可揭示隐蔽交替磁性。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>提出金刚石量子传感器探测隐蔽交替磁体磁信号。</p><p><strong>🔗 相关工作关联：</strong>对应NV中心磁成像、弱磁纹理探测、反铁磁/交替磁畴成像。</p><p><strong>💡 对你方向的启示：</strong>ML可用于从NV弱信号图像中反演交替磁畴和杂散场分布。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
 <li class="daily-core-card" data-bookmark-key="https://www.nature.com/articles/s41467-026-73778-7">
 <div class="daily-core-number">08</div>
 <div class="daily-core-body">
-<div class="daily-core-title-zh">CDW 交织超导体中的超流效应</div>
+<div class="daily-core-title-zh">电荷密度波交织超导体中的超流效应</div>
 <div class="daily-core-title-en">Supercurrent effect in a charge density wave intertwined superconductor</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 Nature Communications</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>扫描隧道谱成像发现超导 NbSe2 中磁场驱动的 CDW 调制对称性破缺；模型表明各向异性源于超流速度导致的多带电子谱多普勒位移。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>NbSe2 超流多普勒位移使 CDW 调制各向异性化。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>STM 谱成像+模型揭示超流多普勒位移驱动 CDW 各向异性。</p><p><strong>🔗 相关工作关联：</strong>呼应 NbSe2 多带超导、CDW-超导交织、BdG/准粒子干涉分析。</p><p><strong>💡 对你方向的启示：</strong>谱图 ML 应显式编码超流速度、磁场和多带能谱漂移。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在 NbSe2 中用扫描隧道谱成像观察到磁场驱动的电荷密度波调制对称性破缺；模型指出各向异性来自超流多普勒位移。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>NbSe2 超流多普勒位移诱导电荷密度波各向异性。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>STS成像揭示NbSe2中磁场驱动CDW对称性破缺。</p><p><strong>🔗 相关工作关联：</strong>呼应CDW-超导交织、涡旋态谱图、多普勒位移和STM图像分析。</p><p><strong>💡 对你方向的启示：</strong>ML分析STS谱图时应把超流速度场作为潜变量而非纯纹理特征。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
@@ -490,8 +490,8 @@
 <h2 class="daily-section-title">今日摘要</h2>
 </div>
 <div class="daily-summary-card">
-<p><strong>总览：</strong>今日 19 篇覆盖交变磁体、NbSe2 中电荷密度波-超导耦合、单层过渡金属二硫族化物声子控磁，以及面向分子性质、太赫兹谐振器和交通能耗的物理约束机器学习。代表性工作包括交变磁体的外禀反常霍尔效应与线性磁双折射探针、NbSe2 中超流诱导的 CDW 对称性破缺、选择性声子激发调控瞬态磁化。</p>
-<p><strong>热点：</strong>交变磁体仍是凝聚态热点，输运、光学与量子传感三条实验判据并行推进。非平衡调控方向集中在超流、多声子与太赫兹瞬态相位等可观测量，强调用动态响应而非静态峰值识别相互作用。AI for science 文献偏向物理先验特征与混合模型，用于 QM9 偶极矩、EV 能耗、单台站地震震级和石墨烯太赫兹读出。材料应用侧包括可愈合形状记忆弹性体、铀吸附中空纤维、钙盐表面双层和钙钛矿量子点发光器件，突出结构-性能关联。</p>
+<p><strong>总览：</strong>今日 19 篇覆盖交替磁体、NbSe2 中超流与电荷密度波耦合、单层过渡金属硫族化物超快磁化、太赫兹/Ku 波段超材料，以及材料与能源场景中的物理约束机器学习。代表性工作包括 NbSe2 扫描隧道谱揭示超流诱导电荷密度波各向异性、线性磁双折射探测交替磁性、选择性声子激发调控瞬态磁化。</p>
+<p><strong>热点：</strong>交替磁体仍是凝聚态热点，今日同时出现外禀反常霍尔效应、光学磁双折射和金刚石量子传感三条探测路线。超快与非平衡调控集中在声子选择性激发、超流多普勒位移和石墨烯太赫兹谐振瞬态相位读出。计算与人工智能方向偏向物理先验特征、图注意力多智能体强化学习和路线/气象耦合预测，强调可解释特征而非纯黑箱。功能材料侧重可修复形状记忆弹性体、钙盐表面双层、铀吸附中空纤维和钙钛矿量子点发光器件的结构—性能关联。</p>
 </div>
 </section>
 <section class="daily-section" id="highlights">
@@ -506,7 +506,7 @@
 <div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">基于物理描述符的 QM9 偶极矩预测</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
 <div class="daily-news-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">Physics-Informed Descriptors Base Machine Learning Model for High-Precision (Molecular Property Dipole Moment(μ)) Prediction on QM9</a><a class="daily-permalink-link" href="#highlight-1" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 化学 / 分子</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Mirza Mudassar Hussain, Uzma Ahmad, Saira Hameed, Fikadu Tasgera Tolesa</span><span class="daily-chip daily-chip-score">🔥 AI 98</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向 QM9 分子偶极矩 μ，构建基于物理启发描述符的多层感知机模型，用分子结构相关特征提升偶极矩预测精度；摘要未给出误差数值。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>物理描述符驱动 MLP 预测 QM9 分子偶极矩。</p>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在 QM9 分子数据集上，将物理信息描述符输入多层感知机，用于预测分子偶极矩 μ；目标是提高分子性质预测精度。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>物理信息描述符用于 QM9 偶极矩 MLP 预测。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 98</p>
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9501441/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-1">页内定位</a></div></div>
@@ -514,10 +514,10 @@
 <li class="daily-news-item" data-bookmark-key="https://onlinelibrary.wiley.com/doi/10.1002/anie.5512890?af=R" id="highlight-2">
 <div class="daily-news-index">02</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5512890?af=R" rel="noopener noreferrer" target="_blank">CoOx/Fe2O3 氧化中的自旋极化和氧迁移</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5512890?af=R" rel="noopener noreferrer" target="_blank">CoOx/Fe2O3 环己烷氧化中的自旋极化</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
 <div class="daily-news-title-en"><a class="daily-title-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5512890?af=R" rel="noopener noreferrer" target="_blank">Evidence for Spin Polarization and Lattice Oxygen Migration During Cyclohexane Oxidation Over CoOx/Fe2O3</a><a class="daily-permalink-link" href="#highlight-2" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Xixi Zhang, Shichao Zhao, Shuangfeng Xing, Xingchen Liu, Chengyuan Liu, Bin Zhang, Zhuo Li, Wentao Hao, Panzhe Qiao, Conghui Wang, Yong Qin</span><span class="daily-chip daily-chip-score">🔥 AI 90</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>Angewandte Chemie EarlyView 报道 CoOx/Fe2O3 催化环己烷氧化中出现自旋极化与晶格氧迁移证据，指向自旋态和氧迁移耦合的氧化路径。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>CoOx/Fe2O3 环己烷氧化涉及自旋极化和晶格氧。</p>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在 CoOx/Fe2O3 催化环己烷氧化中，报道自旋极化与晶格氧迁移的证据，指向磁性电子态和氧迁移参与氧化过程。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>CoOx/Fe2O3 氧化环己烷伴随自旋极化和晶格氧迁移。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 90</p>
 <a class="daily-news-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5512890?af=R" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5512890?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-2">页内定位</a></div></div>
@@ -525,10 +525,10 @@
 <li class="daily-news-item" data-bookmark-key="https://www.nature.com/articles/s41467-026-73778-7" id="highlight-3">
 <div class="daily-news-index">03</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">CDW 交织超导体中的超流效应</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">电荷密度波交织超导体中的超流效应</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
 <div class="daily-news-title-en"><a class="daily-title-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">Supercurrent effect in a charge density wave intertwined superconductor</a><a class="daily-permalink-link" href="#highlight-3" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Nature Communications</span><span class="daily-chip daily-chip-authors">👤 Zhen Zhu, Wei Cheng, Dang Liu, Pengyu Hu, Yi Yang, Qiaoyan Yu 等18位作者</span><span class="daily-chip daily-chip-score">🔥 AI 88</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>扫描隧道谱成像发现超导 NbSe2 中磁场驱动的 CDW 调制对称性破缺；模型表明各向异性源于超流速度导致的多带电子谱多普勒位移。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>NbSe2 超流多普勒位移使 CDW 调制各向异性化。</p>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>在 NbSe2 中用扫描隧道谱成像观察到磁场驱动的电荷密度波调制对称性破缺；模型指出各向异性来自超流多普勒位移。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>NbSe2 超流多普勒位移诱导电荷密度波各向异性。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 88</p>
 <a class="daily-news-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.nature.com/articles/s41467-026-73778-7" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-3">页内定位</a></div></div>
@@ -536,10 +536,10 @@
 <li class="daily-news-item" data-bookmark-key="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" id="highlight-4">
 <div class="daily-news-index">04</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">金刚石量子传感揭示隐匿交变磁体</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">金刚石量子传感器探测交替磁体</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
 <div class="daily-news-title-en"><a class="daily-title-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">Diamond quantum sensor could reveal elusive altermagnets</a><a class="daily-permalink-link" href="#highlight-4" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Physics News</span><span class="daily-chip daily-chip-score">🔥 AI 82</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>新闻介绍金刚石量子传感用于寻找交变磁体；该第三类磁性区别于铁磁体和反铁磁体，可能呈现隐匿磁有序与可探测局域磁响应。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>金刚石量子传感瞄准交变磁体局域磁信号。</p>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>报道金刚石量子传感器用于寻找交替磁体的设想；交替磁体区别于铁磁体和反铁磁体，外部磁信号隐蔽但具应用潜力。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>金刚石量子传感或可揭示隐蔽交替磁性。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 82</p>
 <a class="daily-news-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://phys.org/news/2026-05-diamond-quantum-sensor-reveal-elusive.html" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-4">页内定位</a></div></div>
@@ -547,10 +547,10 @@
 <li class="daily-news-item" data-bookmark-key="https://www.researchsquare.com/article/rs-9532090/latest" id="highlight-5">
 <div class="daily-news-index">05</div>
 <div class="daily-news-body">
-<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">单台站地震数据的震级机器学习估计</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
+<div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">卢旺达单台站地震震级机器学习估计</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
 <div class="daily-news-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">Earthquake Magnitude Estimation Using Machine Learning from Single Station Seismic Data in Rwanda</a><a class="daily-permalink-link" href="#highlight-5" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 方法 / 工具</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 UWAMUNGU Dany, NIZEYIMANA Eric, NIZEYIMANA Pacifique, HAGUMUWUMVA David</span><span class="daily-chip daily-chip-score">🔥 AI 92</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>使用卢旺达单台站地震波形数据训练机器学习模型，用于台站稀疏地区快速震级估计，目标是提高单站监测可靠性；摘要未列具体模型分数。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>单台站波形可用于卢旺达震级机器学习估计。</p>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>利用卢旺达单台站地震波形数据训练机器学习模型，面向台站稀疏地区实现快速震级估计，评估单站数据的可靠性。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>单台站波形被用于卢旺达地震震级快速估计。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 92</p>
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9532090/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-5">页内定位</a></div></div>
@@ -561,7 +561,7 @@
 <div class="daily-news-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">融合路线天气的电动车能耗预测</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
 <div class="daily-news-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">Smart Electric Vehicle Energy Consumption Prediction Using Hybrid Physics–Machine Learning Approach with Route and Weather Integration</a><a class="daily-permalink-link" href="#highlight-6" title="复制本页定位">#</a></div>
 <div class="daily-news-meta"><span class="daily-chip daily-chip-topic">🧭 方法 / 工具</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Nirmitha S, Kavita V. Horadi</span><span class="daily-chip daily-chip-score">🔥 AI 88</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对电动车真实路况能耗，将物理模型与机器学习结合，并整合路线和天气变量，以弥补纯物理模型灵活性不足；摘要未给出测试误差。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>路线与天气进入物理-机器学习混合能耗模型。</p>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向真实道路电动车能耗，结合物理模型与机器学习，并纳入路线和天气信息，以克服纯物理模型灵活性不足的问题。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>路线与天气被并入混合物理机器学习能耗模型。</p>
 <p class="daily-news-reason"><strong>关注理由：</strong>AI相关度 88</p>
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">查看原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9735641/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#highlight-6">页内定位</a></div></div>
@@ -587,12 +587,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5486910?af=R" rel="noopener noreferrer" target="_blank">用于 19F 磁共振的亚 50 纳米硅核壳颗粒</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5486910?af=R" rel="noopener noreferrer" target="_blank">用于 19F 磁共振的亚 50 纳米二氧化硅</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5486910?af=R" rel="noopener noreferrer" target="_blank">Development of Sub‐50 nm Core–Shell Silica Nanoparticles With Controlled In Vivo Behavior for 19F Magnetic Resonance Imaging</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Wiley</span><span class="daily-chip daily-chip-authors">👤 Yue Wu, Masafumi Minoshima, Kazuya Kikuchi</span><span class="daily-chip daily-chip-score">🔥 AI 65</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>Angewandte Chemie EarlyView 制备亚 50 nm 核壳二氧化硅纳米颗粒，用于 19F 磁共振成像，并调控其体内行为；摘要未给载荷或信号数值。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>亚 50 nm 核壳二氧化硅用于 19F MRI。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>开发亚 50 nm 核壳二氧化硅纳米颗粒，用于 19F 磁共振成像，并通过粒子结构控制体内行为。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>亚 50 nm 核壳二氧化硅面向 19F 磁共振成像。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5486910?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://onlinelibrary.wiley.com/doi/10.1002/anie.5486910?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-1">页内定位</a></div></div>
@@ -603,12 +603,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">选择性声子激发调控单层二硫族化物磁化</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">选择性声子激发调控单层硫族化物磁化</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">Selective Phonon-Excitation Controls Transient Magnetization in Monolayer Transition Metal Dichalcogenides</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Jinhong Xu, Youyou Tu, Zhenfa Zheng, Qijing Zheng, Jin Zhao</span><span class="daily-chip daily-chip-score">🔥 AI 9</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>在非磁性单层过渡金属二硫族化物中，选择性激发声子以控制瞬态磁化，尝试绕开载流子快速弛豫导致的短寿命光生磁化限制。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>特定声子模式可调控单层 TMD 的瞬态磁化。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>在单层过渡金属硫族化物中，选择性激发声子以调控光诱导瞬态磁化，改变声子仅导致载流子弛豫的传统角色。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>特定声子模式可调控单层硫族化物瞬态磁化。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9639807/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-2">页内定位</a></div></div>
@@ -619,12 +619,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">耦合开口环超分子的磁多极模式图</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">耦合开口环谐振器磁多极模相图</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">Theoretical Regime Map of Magnetic MultipoleModes in Coupled Split-Ring ResonatorMetamolecules</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Álvaro Garay</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>建立耦合开口环谐振器超分子的磁多极分类框架，将每个 SRR 视作有效磁谐振元件，并用耦合比 |M|/L 与本征模式划分多极响应区间。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>耦合比 |M|/L 统一刻画 SRR 磁多极区间。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>建立耦合开口环谐振器超分子的磁多极模分类框架，以耦合比 η=|M|/L 和本征模式区分不同磁响应区间。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>η=|M|/L 用于划分耦合 SRR 磁多极模。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9847966/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-3">页内定位</a></div></div>
@@ -635,12 +635,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">钙钛矿量子点发光二极管的合成与性能关联</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">钙钛矿量子点发光二极管合成与性能关联</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">Bridging Synthesis and Device Performance in Perovskite Quantum Dot Light‐Emitting Diodes</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Materials: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Zi‐Hao Zhang, Wan‐Shan Shen, Ya‐Kun Wang, Liang‐Sheng Liao</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>Advanced Materials EarlyView 综述或讨论钙钛矿量子点 LED 中合成条件与器件性能之间的联系，聚焦从量子点制备到发光器件表现的桥接。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>钙钛矿量子点合成路线与 LED 性能被系统关联。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>围绕钙钛矿量子点发光二极管，关联量子点合成过程与器件性能，聚焦材料制备对发光器件表现的影响。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>钙钛矿量子点合成条件与发光二极管性能关联。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73516?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-4">页内定位</a></div></div>
@@ -651,12 +651,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41535-026-00895-3" rel="noopener noreferrer" target="_blank">交变磁体中的外禀反常霍尔效应</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41535-026-00895-3" rel="noopener noreferrer" target="_blank">交替磁体中的外禀反常霍尔效应</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.nature.com/articles/s41535-026-00895-3" rel="noopener noreferrer" target="_blank">Extrinsic anomalous Hall effect in altermagnets</a><a class="daily-permalink-link" href="#paper-5" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 npj Quantum Materials</span><span class="daily-chip daily-chip-authors">👤 Alexander Osin, Alex Levchenko, Maxim Khodas</span><span class="daily-chip daily-chip-score">🔥 AI 0</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>讨论交变磁体中的外禀反常霍尔效应，发表于 npj Quantum Materials；题名指向无净磁化且自旋劈裂体系的杂质散射输运机制。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>外禀散射机制可在交变磁体中产生反常霍尔响应。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>讨论交替磁体中的外禀反常霍尔效应，聚焦由非本征散射机制引起的横向输运响应，扩展交替磁性电输运图像。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>外禀散射可在交替磁体中产生反常霍尔响应。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://www.nature.com/articles/s41535-026-00895-3" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.nature.com/articles/s41535-026-00895-3" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-5">页内定位</a></div></div>
@@ -667,12 +667,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73541?af=R" rel="noopener noreferrer" target="_blank">动态超支化拓扑网络赋予韧性可愈形状记忆弹性体</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73541?af=R" rel="noopener noreferrer" target="_blank">动态超支化网络强韧可愈合形状记忆弹性体</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73541?af=R" rel="noopener noreferrer" target="_blank">Tough and Healable Shape‐Memory Elastomers Enabled by Dynamic Hyperbranched Topological Networks</a><a class="daily-permalink-link" href="#paper-6" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Wiley: Advanced Materials: Table of Contents</span><span class="daily-chip daily-chip-authors">👤 Zhao Xu, Juan Chen, Haili Qin, Jiang‐Qi Feng, Pan Guo, Hong Chen, Huai‐Ping Cong</span><span class="daily-chip daily-chip-score">🔥 AI 0</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>Advanced Materials EarlyView 报道动态超支化拓扑网络构筑形状记忆弹性体，目标性能包括高韧性与可愈合；摘要未列力学或愈合效率数值。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>动态超支化网络兼顾弹性体韧性、愈合与形状记忆。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>利用动态超支化拓扑网络构筑弹性体，同时实现强韧性、可愈合性和形状记忆行为，核心在可重构网络结构。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>动态超支化拓扑网络统一强韧、愈合与形状记忆。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73541?af=R" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73541?af=R" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-6">页内定位</a></div></div>
@@ -683,12 +683,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41535-026-00901-8" rel="noopener noreferrer" target="_blank">线性磁双折射探测交变磁性</a><a class="daily-permalink-link" href="#paper-7" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.nature.com/articles/s41535-026-00901-8" rel="noopener noreferrer" target="_blank">线性磁双折射探测交替磁性</a><a class="daily-permalink-link" href="#paper-7" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.nature.com/articles/s41535-026-00901-8" rel="noopener noreferrer" target="_blank">Linear magneto-birefringence as a probe of altermagnetism</a><a class="daily-permalink-link" href="#paper-7" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 npj Quantum Materials</span><span class="daily-chip daily-chip-authors">👤 V. Sunko, J. Orenstein</span><span class="daily-chip daily-chip-score">🔥 AI 0</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>提出用线性磁双折射探测交变磁性，发表于 npj Quantum Materials；光学各向异性响应可作为识别交变磁体自旋-晶格对称性的实验通道。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>线性磁双折射被提出为交变磁体光学判据。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>提出以线性磁双折射作为交替磁性的光学探针，通过磁场相关折射率各向异性识别交替磁有序而非净磁化。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>线性磁双折射可光学识别交替磁有序。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://www.nature.com/articles/s41535-026-00901-8" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.nature.com/articles/s41535-026-00901-8" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-7">页内定位</a></div></div>
@@ -710,12 +710,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">图注意多智能体无人机围捕算法</a><a class="daily-permalink-link" href="#paper-8" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">图注意力多智能体策略梯度无人机围捕</a><a class="daily-permalink-link" href="#paper-8" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">Graph Attention-Based Multi-Agent Deep Deterministic Policy Gradient for Multi-UAV Cooperative Encirclement and Capture</a><a class="daily-permalink-link" href="#paper-8" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 化学 / 分子</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Qiang Ge, Yimin Xu, Rui Xiao, Junjie Wei, Mengzhen Gan, Yangzhao Lan</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向多无人机协同围捕逃逸目标，采用图注意机制结合多智能体深度确定性策略梯度，建模空间协同并压缩目标机动空间。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>图注意强化学习用于多无人机实时协同围捕。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向多无人机协同围捕逃逸目标，引入图注意力多智能体深度确定性策略梯度，处理实时空间协同与目标机动压缩。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>图注意力强化学习用于多无人机协同围捕。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9807049/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-8">页内定位</a></div></div>
@@ -742,42 +742,42 @@
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 方法 / 工具</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Álvaro Garay</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对动态扰动石墨烯太赫兹谐振器，积分瞬态相位响应构建物理特征，替代稳态或峰值读出，用于机器学习识别扰动动力学。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>瞬态相位累积成为石墨烯太赫兹读出特征。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对动态扰动石墨烯太赫兹谐振器，积分瞬态相位响应构造机器学习特征，替代稳态峰值读出以捕捉扰动历史。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>瞬态相位积分成为石墨烯太赫兹读出特征。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9838003/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9838003/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-9">页内定位</a></div></div>
 </div>
 </li>
-<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9707588/latest" id="paper-10">
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9521194/latest" id="paper-10">
 <span class="daily-paper-number">10</span>
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">乳液力纺中空聚合物纤维除铀</a><a class="daily-permalink-link" href="#paper-10" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">Emulsion-forcespun hollow polymer fibers as functional sorbents for uranium removal from water</a><a class="daily-permalink-link" href="#paper-10" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">Kr 与 Ar 中 60 A 无加热空心阴极表征</a><a class="daily-permalink-link" href="#paper-10" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">Characterization of a Heaterless 60 A Hollow Cathode on Krypton and Argon</a><a class="daily-permalink-link" href="#paper-10" title="复制本页定位">#</a></div>
 </div>
 </div>
-<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Mahmoud Firouzzare, Roshanak Rostamian</span><span class="daily-chip daily-chip-score">🔥 AI 8</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>采用乳液辅助溶液力纺制备偕胺肟化 SAN 中空纤维，用于水中铀吸附；中空结构提高表面可达性并加快传质，摘要未给吸附容量。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>偕胺肟化 SAN 中空纤维提升铀吸附传质。</p></div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Naia Butler-Craig, Dan Lev, Mitchell L.R. Walker</span><span class="daily-chip daily-chip-score">🔥 AI 8</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>对 9 kW 级 H9 霍尔推进器无加热空心阴极进行稳态电流—电压表征，工质为 Kr 和 Ar，电流等级为 60 A。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>60 A 无加热空心阴极在 Kr/Ar 中完成 IV 表征。</p></div>
 <div class="daily-paper-actions">
-<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-10">页内定位</a></div></div>
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-10">页内定位</a></div></div>
 </div>
 </li>
-<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9521194/latest" id="paper-11">
+<li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9707588/latest" id="paper-11">
 <span class="daily-paper-number">11</span>
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">氪氩中无加热器 60 安空心阴极表征</a><a class="daily-permalink-link" href="#paper-11" title="复制本页定位">#</a></div>
-<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">Characterization of a Heaterless 60 A Hollow Cathode on Krypton and Argon</a><a class="daily-permalink-link" href="#paper-11" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">乳液力纺中空聚合物纤维吸附铀</a><a class="daily-permalink-link" href="#paper-11" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">Emulsion-forcespun hollow polymer fibers as functional sorbents for uranium removal from water</a><a class="daily-permalink-link" href="#paper-11" title="复制本页定位">#</a></div>
 </div>
 </div>
-<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Naia Butler-Craig, Dan Lev, Mitchell L.R. Walker</span><span class="daily-chip daily-chip-score">🔥 AI 8</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>在 Georgia Tech 高功率电推进实验平台，对 9 kW 级 H9 霍尔推力器无加热器阴极开展稳态电流-电压表征，气体为氪和氩，背景压强 0.22–0.70 µTorr。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>无加热器 60 A 空心阴极在 Kr/Ar 中完成 IV 表征。</p></div>
+<div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Mahmoud Firouzzare, Roshanak Rostamian</span><span class="daily-chip daily-chip-score">🔥 AI 8</span></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>用乳液辅助溶液力纺制备偕胺肟化中空苯乙烯–丙烯腈纤维；中空结构提升表面可达性和传质速率，用于水中铀去除。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>偕胺肟化中空 SAN 纤维增强水中铀吸附。</p></div>
 <div class="daily-paper-actions">
-<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
-<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9521194/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-11">页内定位</a></div></div>
+<a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
+<div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9707588/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-11">页内定位</a></div></div>
 </div>
 </li>
 <li class="daily-paper-card" data-bookmark-key="https://www.researchsquare.com/article/rs-9504988/latest" id="paper-12">
@@ -785,12 +785,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">钙盐生物基阴离子表面活性剂形成亲水双层</a><a class="daily-permalink-link" href="#paper-12" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">生物基阴离子表面活性剂钙盐亲水双层</a><a class="daily-permalink-link" href="#paper-12" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">Calcium Salts of Biobased Anionic Surfactant Result in Hydrophilic, Air-Stable Bilayers by Distorted Hydrogen-Bond Networks</a><a class="daily-permalink-link" href="#paper-12" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Taichi Habe, Tadashi Sugahara, Hiroko Endo, Kana Tsumura, Atsushi Miyazaki, Kenta Motobayashi 等10位作者</span><span class="daily-chip daily-chip-score">🔥 AI 4</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>生物基羟基烷烃磺酸盐与钙离子形成表面双层；扭曲氢键网络使其保持亲水和空气稳定，不同于常见表面活性剂处理后的疏水表面。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>钙盐 HAS 通过扭曲氢键网络形成亲水空气稳定双层。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>生物基羟基烷烃磺酸盐的钙盐形成亲水、空气稳定双层；扭曲氢键网络使其区别于常见表面活性剂疏水表面。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>羟基烷烃磺酸钙盐形成空气稳定亲水双层。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9504988/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-12">页内定位</a></div></div>
@@ -801,12 +801,12 @@
 <div class="daily-paper-body">
 <div class="daily-paper-head">
 <div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">Ku 波段形状自适应雷达截面降低超结构</a><a class="daily-permalink-link" href="#paper-13" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">Ku 波段形状自适应雷达截面减缩超结构</a><a class="daily-permalink-link" href="#paper-13" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">Shape Adaptive Radar Cross Section Reduction (RCSR) metastructure for Ku-Band</a><a class="daily-permalink-link" href="#paper-13" title="复制本页定位">#</a></div>
 </div>
 </div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 其他</span><span class="daily-chip daily-chip-journal">📖 Preprints</span><span class="daily-chip daily-chip-authors">👤 Debasish Das, Nidhi Bhattacharyya</span><span class="daily-chip daily-chip-score">🔥 AI 1</span></div>
-<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>设计 Ku 波段可弯曲 RCS 降低超结构，在介质中周期嵌入八边形亚波长 EG-PUR 谐振器形成电磁陷阱，适配不同曲率状态。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>八边形谐振器超结构在弯曲状态降低 Ku 波段 RCS。</p></div>
+<div class="daily-paper-summary"><p class="daily-paper-abstract"><strong>📄 摘要：</strong>设计 Ku 波段雷达截面减缩超结构，在介质中周期嵌入八边形亚波长 EG-PUR 谐振子，以适应不同弯曲状态。</p><p class="daily-paper-highlight"><strong>💡 亮点：</strong>八边形亚波长谐振子实现可弯曲 Ku 波段 RCS 减缩。</p></div>
 <div class="daily-paper-actions">
 <a class="daily-news-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a>
 <div class="daily-inline-links"><a class="daily-inline-link" href="https://www.researchsquare.com/article/rs-9747555/latest" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-13">页内定位</a></div></div>
@@ -831,7 +831,7 @@
 <div class="daily-sidebar-title">专题分布</div>
 <div class="daily-sidebar-stats"><div class="daily-sidebar-fact"><span>AI × 物理 / 凝聚态</span><strong>7</strong></div><div class="daily-sidebar-fact"><span>AI × 化学 / 分子 / 催化</span><strong>1</strong></div><div class="daily-sidebar-fact"><span>相关方法 / 计算工具</span><strong>5</strong></div></div>
 </div>
-<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">基于物理描述符的 QM9 偶极矩预测<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">CoOx/Fe2O3 氧化中的自旋极化和氧迁移<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">CDW 交织超导体中的超流效应<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">金刚石量子传感揭示隐匿交变磁体<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-5">单台站地震数据的震级机器学习估计<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-6">融合路线天气的电动车能耗预测<span class="daily-outline-meta">交叉重点</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-物理-凝聚态">AI × 物理 / 凝聚态</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">用于 19F 磁共振的亚 50 纳米硅核壳颗粒<span class="daily-outline-meta">01</span></a><a class="daily-outline-link" href="#paper-2">选择性声子激发调控单层二硫族化物磁化<span class="daily-outline-meta">02</span></a><a class="daily-outline-link" href="#paper-3">耦合开口环超分子的磁多极模式图<span class="daily-outline-meta">03</span></a><a class="daily-outline-link" href="#paper-4">钙钛矿量子点发光二极管的合成与性能关联<span class="daily-outline-meta">04</span></a><a class="daily-outline-link" href="#paper-5">交变磁体中的外禀反常霍尔效应<span class="daily-outline-meta">05</span></a><a class="daily-outline-link" href="#paper-6">动态超支化拓扑网络赋予韧性可愈形状记忆弹性体<span class="daily-outline-meta">06</span></a><a class="daily-outline-link" href="#paper-7">线性磁双折射探测交变磁性<span class="daily-outline-meta">07</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-化学-分子-催化">AI × 化学 / 分子 / 催化</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-8">图注意多智能体无人机围捕算法<span class="daily-outline-meta">08</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-相关方法-计算工具">相关方法 / 计算工具</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-9">石墨烯太赫兹谐振器相位累积读出<span class="daily-outline-meta">09</span></a><a class="daily-outline-link" href="#paper-10">乳液力纺中空聚合物纤维除铀<span class="daily-outline-meta">10</span></a><a class="daily-outline-link" href="#paper-11">氪氩中无加热器 60 安空心阴极表征<span class="daily-outline-meta">11</span></a><a class="daily-outline-link" href="#paper-12">钙盐生物基阴离子表面活性剂形成亲水双层<span class="daily-outline-meta">12</span></a><a class="daily-outline-link" href="#paper-13">Ku 波段形状自适应雷达截面降低超结构<span class="daily-outline-meta">13</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-05-29.html">前一天 · 2026-05-29</a><a class="daily-page-nav-link" href="2026-05-31.html">后一天 · 2026-05-31</a><a class="daily-page-nav-link" href="2026-06-01.html">最新一期 · 2026-06-01</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-05-30.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
+<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#highlights">交叉重点</a><div class="daily-outline-list"><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-1">基于物理描述符的 QM9 偶极矩预测<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-2">CoOx/Fe2O3 环己烷氧化中的自旋极化<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-3">电荷密度波交织超导体中的超流效应<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-4">金刚石量子传感器探测交替磁体<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-5">卢旺达单台站地震震级机器学习估计<span class="daily-outline-meta">交叉重点</span></a><a class="daily-outline-link daily-outline-link-highlight" href="#highlight-6">融合路线天气的电动车能耗预测<span class="daily-outline-meta">交叉重点</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-物理-凝聚态">AI × 物理 / 凝聚态</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">用于 19F 磁共振的亚 50 纳米二氧化硅<span class="daily-outline-meta">01</span></a><a class="daily-outline-link" href="#paper-2">选择性声子激发调控单层硫族化物磁化<span class="daily-outline-meta">02</span></a><a class="daily-outline-link" href="#paper-3">耦合开口环谐振器磁多极模相图<span class="daily-outline-meta">03</span></a><a class="daily-outline-link" href="#paper-4">钙钛矿量子点发光二极管合成与性能关联<span class="daily-outline-meta">04</span></a><a class="daily-outline-link" href="#paper-5">交替磁体中的外禀反常霍尔效应<span class="daily-outline-meta">05</span></a><a class="daily-outline-link" href="#paper-6">动态超支化网络强韧可愈合形状记忆弹性体<span class="daily-outline-meta">06</span></a><a class="daily-outline-link" href="#paper-7">线性磁双折射探测交替磁性<span class="daily-outline-meta">07</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-ai-化学-分子-催化">AI × 化学 / 分子 / 催化</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-8">图注意力多智能体策略梯度无人机围捕<span class="daily-outline-meta">08</span></a></div></div><div class="daily-outline-group"><a class="daily-outline-group-title" href="#topic-相关方法-计算工具">相关方法 / 计算工具</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-9">石墨烯太赫兹谐振器相位累积读出<span class="daily-outline-meta">09</span></a><a class="daily-outline-link" href="#paper-10">Kr 与 Ar 中 60 A 无加热空心阴极表征<span class="daily-outline-meta">10</span></a><a class="daily-outline-link" href="#paper-11">乳液力纺中空聚合物纤维吸附铀<span class="daily-outline-meta">11</span></a><a class="daily-outline-link" href="#paper-12">生物基阴离子表面活性剂钙盐亲水双层<span class="daily-outline-meta">12</span></a><a class="daily-outline-link" href="#paper-13">Ku 波段形状自适应雷达截面减缩超结构<span class="daily-outline-meta">13</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-05-29.html">前一天 · 2026-05-29</a><a class="daily-page-nav-link" href="2026-05-31.html">后一天 · 2026-05-31</a><a class="daily-page-nav-link" href="2026-06-01.html">最新一期 · 2026-06-01</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-05-30.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#highlights">交叉重点</a><a class="daily-page-nav-link" href="#papers">完整速览</a></div></div><div class="daily-sidebar-block">
 <div class="daily-sidebar-title">阅读建议</div>
 <ul class="insight-note-list">
 <li class="insight-note-item">先看交叉重点，再按物理、化学、材料与方法分区深读。</li>
