@@ -40,8 +40,8 @@ jobs:
           AI_DAILY_WAIT_MAX_SECONDS: "1800"
         run: python generate_daily_pages.py --days 4 --force
       # run_deep SECOND: APS full-text deep+poster, enrich tier2 (abstract-level + infographic),
-      # sole writer of arxiv_core_<date>.json, writes feed.json (with enrichment) — no clobber.
-      - name: Run deep pipeline (enrich + feed.json)
+      # sole writer of arxiv_core_<date>.json (deep_analysis/image/poster_elements) — no clobber.
+      - name: Run deep pipeline (enrich arxiv_core/aps)
         env:
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
           AI_PROVIDER: aigw
@@ -56,6 +56,10 @@ jobs:
           AI_TIMEOUT_SECONDS: "600"
           AI_MAX_RETRIES: "2"
         run: python run_deep.py
+      # THIRD: re-render daily HTML so TODAY's pages pick up the enrichment run_deep just wrote
+      # (daily ran BEFORE run_deep, so its pages had no arxiv_core yet). No AI / no fetch.
+      - name: Re-render daily pages with fresh enrichment
+        run: python generate_daily_pages.py --rerender-only --days 4
       - name: Commit and push (race-safe)
         run: |
           git config user.email action@github.com

@@ -980,12 +980,25 @@ def sync_daily_rss_feeds(index_articles: List[Dict], relevant_articles: List[Dic
         shutil.copyfile(latest_source, latest_target)
     return changed
 
+def _load_cached_summary(date_str: str):
+    """读 data/daily_summary_<date>.json（正常生成时写入的完整 summary）。缺失/坏 → None。
+    供 --rerender-only 复用 overview/trends/full_list，避免重新调用 AI。"""
+    try:
+        with open(os.path.join("data", f"daily_summary_{date_str}.json"), "r", encoding="utf-8") as f:
+            s = json.load(f)
+        return s if isinstance(s, dict) else None
+    except Exception:
+        return None
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--date', default=None, help='YYYY-MM-DD (Beijing). 默认使用北京时间昨天以保证日报完整。')
     parser.add_argument('--days', default="1", help='生成最近 N 天（包含 --date 指定的日期）。用于补回漏抓/晚到数据。')
     parser.add_argument('--force', action='store_true', help='强制重新生成（忽略 summaries.json 中的 digest/total 缓存）。')
+    parser.add_argument('--rerender-only', action='store_true',
+                        help='只重渲染最近 N 天的 HTML（复用 data/daily_summary_*.json 缓存 + 新鲜 arxiv_core/aps 富化），不调用 AI、不抓取。')
     args = parser.parse_args()
 
     # 默认生成“北京时间昨天”的日报：与 Actions 的抓取频率 (08:00/20:00) 匹配，避免当天数据不全导致“摘要缺失/为0”。
@@ -996,6 +1009,26 @@ def main():
         days = 1
 
     ensure_dirs()
+
+    if args.rerender_only:
+        # 仅重渲染：复用已落盘的 summary（含 overview/trends/full_list/core_items），
+        # render_daily_html 会读最新 arxiv_core/aps 富化。绝不调用 AI / 不抓取。
+        base_dt = datetime.strptime(date_str, "%Y-%m-%d")
+        wanted = sorted({(base_dt - timedelta(days=k)).strftime("%Y-%m-%d") for k in range(days)},
+                        reverse=True)
+        n = 0
+        for ds in wanted:
+            summ = _load_cached_summary(ds)
+            if not summ:
+                print(f"⏭️  rerender skip {ds}: 无 daily_summary sidecar")
+                continue
+            html = render_daily_html(ds, summ)
+            with open(os.path.join("docs/daily", f"{ds}.html"), "w", encoding="utf-8") as f:
+                f.write(html)
+            n += 1
+            print(f"♻️  re-rendered {ds} with fresh enrichment")
+        print(f"♻️  re-rendered {n} daily page(s) (no AI)")
+        return
 
     # Prefer full daily list from index.json, but always union with ai_relevant.json
     # to avoid omitting focus-relevant papers.
@@ -1129,6 +1162,15 @@ def main():
                     else:
                         summary["core_items"] = []
                         summary["core_direction_note"] = ""
+
+                # Persist the full summary (overview/trends/full_list/core_items) so
+                # --rerender-only can re-render HTML with FRESH enrichment (arxiv_core/aps)
+                # WITHOUT calling AI again. Never break generation on sidecar failure.
+                try:
+                    with open(os.path.join("data", f"daily_summary_{day_str}.json"), "w", encoding="utf-8") as sf:
+                        json.dump(summary, sf, ensure_ascii=False)
+                except Exception as e:
+                    print(f"⚠️ daily summary sidecar skip {day_str}: {e}")
 
                 page_html = render_daily_html(day_str, summary)
                 with open(out_path, "w", encoding="utf-8") as f:
