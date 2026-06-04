@@ -451,6 +451,84 @@ def render_deep_section(aps_items, date=""):
             + "".join(cards) + "</section>")
 
 
+TOPIC_LABELS = {
+    "physics": "物理 / 凝聚态",
+    "chemistry": "化学 / 分子",
+    "materials": "材料 / 器件",
+    "methods": "方法 / 工具",
+    "other": "其他",
+}
+
+
+def render_meta_chips(item: Dict) -> str:
+    journal = safe_text(item.get("journal", ""))
+    arxiv_cat = safe_text(arxiv_badge(item))
+    authors = safe_text(format_authors(item.get("authors")))
+    ai_score = item.get("ai_score")
+    bucket = topic_bucket(item)
+    topic_name = safe_text(TOPIC_LABELS.get(bucket, "相关"))
+    meta_parts = [f"<span class='daily-chip daily-chip-topic'>🧭 {topic_name}</span>"]
+    if journal:
+        if arxiv_cat:
+            meta_parts.append(f"<span class='daily-chip daily-chip-journal'>📖 {journal} / {arxiv_cat}</span>")
+        else:
+            meta_parts.append(f"<span class='daily-chip daily-chip-journal'>📖 {journal}</span>")
+    if authors:
+        meta_parts.append(f"<span class='daily-chip daily-chip-authors'>👤 {authors}</span>")
+    if ai_score is not None and str(ai_score).strip() != "":
+        meta_parts.append(f"<span class='daily-chip daily-chip-score'>🔥 AI {safe_text(ai_score)}</span>")
+    return "".join(meta_parts)
+
+
+def render_unified_item(item: Dict, index: int) -> str:
+    """单列表条目：列表态 = 中文标题 + 一句话亮点 + 标签(+含图深析徽标)；
+    富化时 <details> 展开 = 信息图 + 中文5要素 + 深析正文。"""
+    en = item.get("_enrich")
+    title_en = (item.get("title_en") or item.get("title") or "").strip()
+    title_zh = (item.get("title_zh") or (en or {}).get("title_zh") or "").strip()
+    show_zh = bool(title_zh) and title_zh.casefold() != title_en.casefold()
+    disp_zh = safe_text(title_zh if show_zh else title_en)
+    title_en_block = (f'<div class="daily-paper-title-en">{safe_text(title_en)}</div>'
+                      if show_zh and title_en else "")
+    meta_html = render_meta_chips(item)
+    highlight = (item.get("summary") or item.get("abstract_zh")
+                 or item.get("one_sentence_summary") or "").strip()
+    hl_html = (f'<p class="daily-paper-highlight"><strong>💡 亮点：</strong>{safe_text(highlight)}</p>'
+               if highlight else "")
+    link = safe_url(item.get("link") or "")
+    badge = '<span class="enrich-badge">📊 含图深析</span>' if en else ""
+    details = ""
+    if en:
+        img = en.get("image")
+        img_src = img if (not img or str(img).startswith(("http", "/", "../"))) else f"../{img}"
+        figure = (f'<div class="poster-figure"><img loading="lazy" src="{safe_text(img_src)}" '
+                  f'onerror="this.style.display=\'none\'"></div>') if img else ""
+        el = en.get("elements") or {}
+        rows = "".join(
+            f'<div class="poster-row"><b>{safe_text(k)}</b>{safe_text(el.get(k, ""))}</div>'
+            for k in ["研究问题", "创新方法", "工作流程", "关键结果", "应用价值"] if el.get(k))
+        elems = f'<div class="daily-deep-elements">{rows}</div>' if rows else ""
+        deep = safe_text(en.get("deep_analysis") or "")
+        deep_html = f'<div class="deep-body">{deep}</div>' if deep else ""
+        details = (f'<details class="enrich-details"><summary>📖 展开分析 + 配图</summary>'
+                   f'{figure}{elems}{deep_html}</details>')
+    return f"""
+    <li class="daily-paper-card" id="paper-{index}" data-bookmark-key="{link}">
+        <span class="daily-paper-number">{index:02d}</span>
+        <div class="daily-paper-body">
+            <div class="daily-paper-head"><div class="daily-paper-titles">
+                <div class="daily-paper-title-zh">{disp_zh}{badge}</div>
+                {title_en_block}
+            </div></div>
+            <div class="daily-paper-meta">{meta_html}</div>
+            {hl_html}
+            {details}
+            <div class="daily-paper-actions"><a class="daily-news-link" href="{link}" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></div>
+        </div>
+    </li>
+    """
+
+
 def render_daily_html(date_str: str, summary: Dict) -> str:
     # 「今日精读」(deep-read) section, populated from APS full-text papers.
     # Absent/broken file → empty list → page identical to before.
@@ -477,14 +555,6 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
     raw_total = int(summary.get("raw_total") or (len(items) + excluded_count))
     focused_total = int(summary.get("focused_total") or len(items))
 
-    topic_labels = {
-        "physics": "物理 / 凝聚态",
-        "chemistry": "化学 / 分子",
-        "materials": "材料 / 器件",
-        "methods": "方法 / 工具",
-        "other": "其他",
-    }
-
     def safe_summary_text(item: Dict) -> str:
         """返回文章的摘要信息：优先显示AI生成的摘要翻译，其次是一句话总结"""
         abstract_zh = (item.get('abstract_zh') or '').strip()
@@ -501,25 +571,6 @@ def render_daily_html(date_str: str, summary: Dict) -> str:
 
     def item_key(item: Dict) -> str:
         return str(item.get('link') or item.get('title_en') or item.get('title') or item.get('title_zh') or '')
-
-    def render_meta_chips(item: Dict) -> str:
-        journal = safe_text(item.get("journal", ""))
-        arxiv_cat = safe_text(arxiv_badge(item))
-        authors = safe_text(format_authors(item.get("authors")))
-        ai_score = item.get("ai_score")
-        bucket = topic_bucket(item)
-        topic_name = safe_text(topic_labels.get(bucket, "相关"))
-        meta_parts = [f"<span class='daily-chip daily-chip-topic'>🧭 {topic_name}</span>"]
-        if journal:
-            if arxiv_cat:
-                meta_parts.append(f"<span class='daily-chip daily-chip-journal'>📖 {journal} / {arxiv_cat}</span>")
-            else:
-                meta_parts.append(f"<span class='daily-chip daily-chip-journal'>📖 {journal}</span>")
-        if authors:
-            meta_parts.append(f"<span class='daily-chip daily-chip-authors'>👤 {authors}</span>")
-        if ai_score is not None and str(ai_score).strip() != "":
-            meta_parts.append(f"<span class='daily-chip daily-chip-score'>🔥 AI {safe_text(ai_score)}</span>")
-        return "".join(meta_parts)
 
     def render_focus_item(item: Dict, index: int) -> str:
         title_zh = (item.get('title_zh') or '').strip()

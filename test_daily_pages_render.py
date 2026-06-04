@@ -242,6 +242,36 @@ def test_build_unified_items_dedups_aps_already_in_full_list():
     assert len(out) == 1 and out[0]["_tier"] == 0
 
 
+def test_render_unified_item_enriched_has_details_and_image():
+    from generate_daily_pages import render_unified_item
+    item = {"title": "Cross", "title_en": "Cross", "title_zh": "交叉标题",
+            "summary": "一句话亮点", "link": "http://arxiv.org/abs/cross", "journal": "arXiv",
+            "_tier": 1, "_enrich": {"deep_analysis": "## 深析正文", "image": "images/posters/c.webp",
+                                    "elements": {"研究问题": "q", "创新方法": "m", "工作流程": "f",
+                                                 "关键结果": "r", "应用价值": "v"},
+                                    "category": "AI×物理", "title_zh": "交叉标题"}}
+    html = render_unified_item(item, 1)
+    assert "交叉标题" in html
+    assert "enrich-badge" in html and "含图深析" in html
+    assert "<details" in html
+    assert 'src="../images/posters/c.webp"' in html
+    assert "daily-deep-elements" in html and "研究问题" in html
+    assert "深析正文" in html
+    assert 'data-bookmark-key="http://arxiv.org/abs/cross"' in html
+    assert "poster-overlay" not in html
+
+
+def test_render_unified_item_plain_has_no_details():
+    from generate_daily_pages import render_unified_item
+    item = {"title": "Plain", "title_en": "Plain", "summary": "brief",
+            "link": "http://x", "journal": "arXiv", "_tier": 2, "_enrich": None}
+    html = render_unified_item(item, 2)
+    assert "<details" not in html
+    assert "enrich-badge" not in html
+    assert "brief" in html
+    assert 'data-bookmark-key="http://x"' in html
+
+
 if __name__ == "__main__":
     raise SystemExit(main())
 
