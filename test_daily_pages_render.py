@@ -164,6 +164,44 @@ def test_build_tier2_candidates_picks_ai_cross():
     assert cand and cand[0]["category"]
 
 
+def test_load_enrichment_keys_by_link_and_skips_plain():
+    import json, os, tempfile
+    from generate_daily_pages import load_enrichment
+    d = tempfile.mkdtemp()
+    os.makedirs(os.path.join(d, "data"), exist_ok=True)
+    rows = [
+        {"link": "http://arxiv.org/abs/1", "deep_analysis": "## 深析",
+         "image": "images/posters/a.webp",
+         "poster": {"elements": {"研究问题": "q", "创新方法": "m"}},
+         "category": "AI×物理", "title_zh": "中文一"},
+        {"link": "10.1103/xyz", "deep_analysis": "## 二",
+         "poster": {"image": "images/posters/b.webp", "elements": {"关键结果": "r"}},
+         "category": "AI×化学·材料", "title_zh": "中文二"},
+        {"link": "http://arxiv.org/abs/3", "summary": "no enrichment"},  # plain → skipped
+    ]
+    with open(os.path.join(d, "data", "arxiv_core_2026-06-01.json"), "w", encoding="utf-8") as f:
+        json.dump(rows, f, ensure_ascii=False)
+    cwd = os.getcwd()
+    try:
+        os.chdir(d)
+        m = load_enrichment("2026-06-01")
+    finally:
+        os.chdir(cwd)
+    assert "http://arxiv.org/abs/1" in m
+    assert m["http://arxiv.org/abs/1"]["image"] == "images/posters/a.webp"
+    assert m["http://arxiv.org/abs/1"]["elements"]["研究问题"] == "q"
+    # bare DOI normalized as key
+    assert "https://doi.org/10.1103/xyz" in m
+    assert m["https://doi.org/10.1103/xyz"]["image"] == "images/posters/b.webp"
+    # plain row (no deep, no image) skipped
+    assert "http://arxiv.org/abs/3" not in m
+
+
+def test_load_enrichment_missing_file_returns_empty():
+    from generate_daily_pages import load_enrichment
+    assert load_enrichment("1999-01-01") == {}
+
+
 if __name__ == "__main__":
     raise SystemExit(main())
 

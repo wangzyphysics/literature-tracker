@@ -343,6 +343,38 @@ def build_tier2_candidates(full_list, max_n=20):
     return cand[:max_n]
 
 
+def load_enrichment(date_str: str) -> Dict[str, Dict]:
+    """读 data/arxiv_core_<date>.json → {normalize_link(link): enrich}。
+    enrich = {deep_analysis, image, elements, category, title_zh}。
+    仅返回真正带 deep_analysis 或 image 的行；缺文件/坏文件 → {}（安全降级）。"""
+    out: Dict[str, Dict] = {}
+    path = os.path.join("data", f"arxiv_core_{date_str}.json")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            rows = json.load(f)
+    except Exception:
+        return out
+    if not isinstance(rows, list):
+        return out
+    for r in rows:
+        link = normalize_link((r.get("link") or "").strip())
+        if not link:
+            continue
+        poster = r.get("poster") or {}
+        image = r.get("image") or poster.get("image")
+        deep = r.get("deep_analysis") or ""
+        if not (deep or image):
+            continue
+        out[link] = {
+            "deep_analysis": deep,
+            "image": image,
+            "elements": r.get("poster_elements") or poster.get("elements") or {},
+            "category": r.get("category") or "",
+            "title_zh": r.get("title_zh") or poster.get("title_zh") or "",
+        }
+    return out
+
+
 def render_deep_section(aps_items, date=""):
     if not aps_items:
         return ""
