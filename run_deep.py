@@ -12,7 +12,6 @@ from deep_reader import deep_read, abstract_read
 from poster_generator import generate_poster
 from auto_classifier import classify
 from image_provider import generate_and_save
-from feed_builder import build_feed, write_feed_json
 
 
 def _deep_complete(text):
@@ -191,23 +190,6 @@ def _save_aps_index(date, aps):
         json.dump(aps, f, ensure_ascii=False)
 
 
-def _load_existing_feeds():
-    # union of APS dates and arXiv-core dates: an arXiv-only date (no APS that day) must
-    # still contribute its arxiv items to the feed.
-    aps_dates = {os.path.basename(p)[len("aps_"):-len(".json")]
-                 for p in glob.glob("data/aps_*.json")}
-    core_dates = {os.path.basename(p)[len("arxiv_core_"):-len(".json")]
-                  for p in glob.glob("data/arxiv_core_*.json")}
-    feeds = []
-    for date in sorted(aps_dates | core_dates):
-        try:
-            aps = json.load(open(f"data/aps_{date}.json", encoding="utf-8")) if date in aps_dates else []
-        except Exception:
-            aps = []
-        feeds.append(build_feed(aps, _load_arxiv_core(date), date=date))
-    return feeds
-
-
 def main():
     provider = build_provider(os.environ.get("AI_PROVIDER", "aigw"),
                               os.environ.get("AI_API_KEY", ""),
@@ -256,11 +238,8 @@ def main():
         except Exception as e:
             print(f"⚠️ tier2 processing failed for {d}: {e}")
 
-    import datetime as _dt
-    today = (_dt.datetime.utcnow() + _dt.timedelta(hours=8)).date().isoformat()
-    write_feed_json(_load_existing_feeds(), today=today, window_days=60)
     prune_images(window_days=60)
-    print("✅ run_deep done; feed.json written")
+    print("✅ run_deep done (feed.json no longer written; enrichment lives in arxiv_core/aps)")
 
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ from focus_filter import analyze_focus, filter_daily_focus_items, filter_focus_i
 from rss_generator import generate_daily_rss_feed
 from text_normalizer import normalize_articles_inplace, normalize_text
 from focus_core import classify_taxonomy, is_core_focus
-from feed_builder import normalize_link
+from link_utils import normalize_link
 
 
 def beijing_today() -> str:
