@@ -975,6 +975,7 @@ def main():
         wanted = sorted({(base_dt - timedelta(days=k)).strftime("%Y-%m-%d") for k in range(days)},
                         reverse=True)
         n = 0
+        rerendered_files = []
         for ds in wanted:
             summ = _load_cached_summary(ds)
             if not summ:
@@ -983,8 +984,18 @@ def main():
             html = render_daily_html(ds, summ)
             with open(os.path.join("docs/daily", f"{ds}.html"), "w", encoding="utf-8") as f:
                 f.write(html)
+            rerendered_files.append(f"{ds}.html")
             n += 1
             print(f"♻️  re-rendered {ds} with fresh enrichment")
+        # Re-apply the enhancer post-processing (day-nav / single-page outline / title links):
+        # rerender overwrote the raw render_daily_html output, dropping the prior enhancement.
+        if rerendered_files:
+            try:
+                from daily_page_enhancer import enhance_daily_archive
+                enhanced = enhance_daily_archive("docs/daily/summaries.json", files=rerendered_files)
+                print(f"🧭 Re-enhanced {enhanced} re-rendered page(s)")
+            except Exception as e:
+                print(f"⚠️ rerender enhancer skipped: {e}")
         print(f"♻️  re-rendered {n} daily page(s) (no AI)")
         return
 
