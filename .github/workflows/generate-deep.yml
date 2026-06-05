@@ -55,6 +55,8 @@ jobs:
           DEEP_WINDOW_DAYS: ${{ github.event.inputs.window || '4' }}
           AI_TIMEOUT_SECONDS: "600"
           AI_MAX_RETRIES: "2"
+          DEEP_MAX_NEW_PER_RUN: "24"
+          DEEP_WORKERS: "6"
         run: python run_deep.py
       # THIRD: re-render daily HTML so TODAY's pages pick up the enrichment run_deep just wrote
       # (daily ran BEFORE run_deep, so its pages had no arxiv_core yet). No AI / no fetch.
