@@ -87,18 +87,31 @@ def process_date(date, client, provider, out_dir="docs/images/posters", max_work
 
 
 def _enrich_arxiv_tier2_one(cand, provider, out_dir, cached=None):
-    if cached and _deep_complete_abstract(cached.get("deep_analysis")):
+    if cached and _tier2_complete(cached):
         return cached
     import hashlib
-    abs_txt = cand.get("abstract") or cand.get("summary") or ""
+    from arxiv_fulltext import fetch_fulltext
     rec = dict(cand)
     rec["source"] = "arxiv"
     rec["category"] = cand.get("category") or classify(cand, provider=provider)
-    rec["deep_analysis"] = abstract_read(cand, abs_txt, provider=provider) if abs_txt else ""
     doc_id = "ax" + hashlib.sha1((cand.get("link") or cand.get("title", "")).encode("utf-8")).hexdigest()[:14]
-    meta = {"title": cand.get("title", ""), "doc_id": doc_id}
+    meta = {"title": cand.get("title", ""), "authors": cand.get("authors"),
+            "year": cand.get("year"), "doc_id": doc_id}
+    # 抓全文(HTML 优先/PDF 兜底) → 苏格拉底深读；拿不到 → 退回摘要解析
+    fulltext, mode = fetch_fulltext(cand.get("link") or "")
+    prev_attempts = int((cached or {}).get("ft_attempts") or 0)
+    if fulltext:
+        rec["deep_analysis"] = deep_read(meta, fulltext, provider=provider)
+        rec["analysis_mode"] = mode
+        poster_src = fulltext
+    else:
+        abs_txt = cand.get("abstract") or cand.get("summary") or ""
+        rec["deep_analysis"] = abstract_read(cand, abs_txt, provider=provider) if abs_txt else ""
+        rec["analysis_mode"] = "abstract"
+        poster_src = abs_txt
+    rec["ft_attempts"] = prev_attempts + 1
     poster = (cached or {}).get("poster") or (
-        generate_poster(meta, abs_txt, provider=provider, out_dir=out_dir) if abs_txt else None)
+        generate_poster(meta, poster_src, provider=provider, out_dir=out_dir) if poster_src else None)
     rec["poster"] = poster
     rec["image"] = (poster or {}).get("image")
     rec["poster_elements"] = (poster or {}).get("elements")
@@ -115,7 +128,7 @@ def process_arxiv_tier2(date, candidates, provider, out_dir="docs/images/posters
     for c in cands:
         key = c.get("link") or c.get("title")
         prev = cache.get(key)
-        (cached if (prev and _deep_complete_abstract(prev.get("deep_analysis"))) else fresh).append((c, prev))
+        (cached if (prev and _tier2_complete(prev)) else fresh).append((c, prev))
     overflow = []
     if max_new is not None and len(fresh) > max_new:
         overflow = fresh[max_new:]

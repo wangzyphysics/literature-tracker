@@ -177,7 +177,10 @@ def test_tier2_short_abstract_analysis_is_complete_not_reprocessed():
     assert run_deep._deep_complete_abstract(short) is True
     assert run_deep._deep_complete(short) is False  # full-text bar would wrongly reject
     cands = [{"title": "P", "abstract": "abs", "link": "http://z", "category": "AI×物理"}]
-    cache = {"http://z": {"link": "http://z", "deep_analysis": short, "poster": {"image": "x.webp"}}}
+    # A settled abstract-mode record (full-text retries exhausted) must NOT be reprocessed.
+    cache = {"http://z": {"link": "http://z", "deep_analysis": short, "poster": {"image": "x.webp"},
+                          "analysis_mode": "abstract", "ft_attempts": 3}}
+    assert run_deep._tier2_complete(cache["http://z"]) is True
     class Explode:
         def call_api(self, p): raise AssertionError("provider must not be called for complete tier-2")
     with mock.patch.object(run_deep, "generate_and_save",
@@ -224,3 +227,52 @@ def test_tier2_complete_fulltext_too_short_not_done():
     import run_deep
     rec = {"deep_analysis": "创新 " + "x" * 100, "analysis_mode": "html", "ft_attempts": 1}
     assert run_deep._tier2_complete(rec) is False
+
+
+def test_enrich_tier2_uses_fulltext_deepread_when_available():
+    import run_deep, arxiv_fulltext, tempfile
+    from unittest import mock
+    cand = {"title": "ML for magnet", "abstract": "abs", "link": "https://arxiv.org/abs/2406.04520",
+            "category": "AI×物理"}
+    class P:
+        def call_api(self, p):
+            if ("研究问题" in p) or ("JSON" in p):
+                return '{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v","title_zh":"标题"}'
+            return "## 全文苏格拉底\n第五部分：创新评估 " + "z" * 3500
+    with mock.patch.object(arxiv_fulltext, "fetch_fulltext", return_value=("FULLTEXT BODY " * 500, "html")), \
+         mock.patch.object(run_deep, "generate_and_save", side_effect=lambda prompt, out_path, **k: out_path):
+        rec = run_deep._enrich_arxiv_tier2_one(cand, P(), tempfile.mkdtemp())
+    assert rec["analysis_mode"] == "html"
+    assert "创新评估" in rec["deep_analysis"] and len(rec["deep_analysis"]) >= 3000
+    assert rec["ft_attempts"] == 1
+    assert run_deep._tier2_complete(rec) is True
+
+
+def test_enrich_tier2_falls_back_to_abstract_and_increments_attempts():
+    import run_deep, arxiv_fulltext, tempfile
+    from unittest import mock
+    cand = {"title": "P", "abstract": "neural network spin", "link": "https://arxiv.org/abs/2606.99999",
+            "category": "AI×物理"}
+    class P:
+        def call_api(self, p):
+            if ("研究问题" in p) or ("JSON" in p):
+                return '{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v"}'
+            return "## 摘要级\n创新性判断 " + "z" * 200
+    cached = {"ft_attempts": 1}  # 此前已尝试 1 次
+    with mock.patch.object(arxiv_fulltext, "fetch_fulltext", return_value=("", "")), \
+         mock.patch.object(run_deep, "generate_and_save", side_effect=lambda prompt, out_path, **k: out_path):
+        rec = run_deep._enrich_arxiv_tier2_one(cand, P(), tempfile.mkdtemp(), cached=cached)
+    assert rec["analysis_mode"] == "abstract"
+    assert rec["ft_attempts"] == 2
+
+
+def test_enrich_tier2_returns_cached_when_complete():
+    import run_deep, arxiv_fulltext
+    from unittest import mock
+    done = {"deep_analysis": "创新评估 " + "x" * 3500, "analysis_mode": "html", "ft_attempts": 1,
+            "poster": {"image": "p.webp"}}
+    with mock.patch.object(arxiv_fulltext, "fetch_fulltext",
+                           side_effect=AssertionError("must not refetch a complete record")):
+        rec = run_deep._enrich_arxiv_tier2_one({"link": "https://arxiv.org/abs/2406.04520"},
+                                               provider=None, out_dir="x", cached=done)
+    assert rec is done
