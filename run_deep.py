@@ -27,19 +27,19 @@ def _deep_complete_abstract(text):
 
 def _tier2_complete(rec):
     """tier-2 富化完成判定（支持全文升级 + attempts 封顶防无限重处理）。
-    - 全文模式(html/pdf) 且含"创新" 且 ≥3000 字 → 完成。
-    - 否则继续尝试升级全文；attempts≥3 且含"创新" 且 ≥120 字 → 接受(摘要)定稿。
-    - 旧缓存(无 mode/attempts) → 未完成(待升级)。"""
+    - 全文模式(html/pdf) 且含"创新" 且 ≥3000 字 → 完成（拿到真正全文苏格拉底）。
+    - 否则继续尝试升级全文；attempts≥3 → **无条件**定稿（HTML-less / provider 持续失败的论文
+      在 3 次后停手，避免空/无关键词的记录每轮重处理、耗尽预算）。
+    - 旧缓存(无 mode/attempts, attempts=0) → 未完成(待升级)。"""
     if not rec:
         return False
     text = rec.get("deep_analysis") or ""
-    if not text:
-        return False
     attempts = int(rec.get("ft_attempts") or 0)
     mode = rec.get("analysis_mode") or "abstract"
     if mode in ("html", "pdf") and ("创新" in text) and len(text) >= 3000:
         return True
-    if attempts >= 3 and ("创新" in text) and len(text) >= 120:
+    # 硬封顶：尝试 3 次后接受现状（即便分析为空/缺关键词），杜绝无限重处理拖垮预算
+    if attempts >= 3:
         return True
     return False
 

@@ -276,3 +276,14 @@ def test_enrich_tier2_returns_cached_when_complete():
         rec = run_deep._enrich_arxiv_tier2_one({"link": "https://arxiv.org/abs/2406.04520"},
                                                provider=None, out_dir="x", cached=done)
     assert rec is done
+
+
+def test_tier2_complete_caps_retries_on_empty_or_keywordless_text():
+    # B1 regression: empty / keyword-less analysis MUST settle at the attempt cap,
+    # else the record is reprocessed every run and drains the shared budget forever.
+    import run_deep
+    assert run_deep._tier2_complete({"deep_analysis": "", "ft_attempts": 5}) is True       # settled empty
+    assert run_deep._tier2_complete({"deep_analysis": "无关键词的文本", "ft_attempts": 3}) is True
+    # below the cap → still retried (eligible for full-text upgrade)
+    assert run_deep._tier2_complete({"deep_analysis": "", "ft_attempts": 2}) is False
+    assert run_deep._tier2_complete({"deep_analysis": "短文本", "analysis_mode": "abstract", "ft_attempts": 1}) is False

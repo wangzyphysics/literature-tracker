@@ -22,8 +22,8 @@ def arxiv_id(link):
     m = _OLD_ID.search(s)
     if m:
         return m.group(1)
-    # 仅当像 arxiv 链接或裸 ID 时才接受新式数字 ID（避免误抓 DOI 里的数字）
-    if "arxiv.org" in s or re.fullmatch(r'\d{4}\.\d{4,5}(v\d+)?', s):
+    # 仅当像 arxiv 链接 / arXiv: 前缀 / 裸 ID 时才接受新式数字 ID（避免误抓 DOI 里的数字）
+    if "arxiv.org" in s or s.lower().startswith("arxiv:") or re.fullmatch(r'\d{4}\.\d{4,5}(v\d+)?', s):
         m = _NEW_ID.search(s)
         if m:
             return m.group(1)

@@ -29,6 +29,11 @@ def test_arxiv_id_empty_or_nonarxiv():
     assert arxiv_id("https://doi.org/10.1103/abc") == ""
 
 
+def test_arxiv_id_arxiv_prefix():
+    assert arxiv_id("arXiv:2606.04803") == "2606.04803"
+    assert arxiv_id("arxiv:2606.04803v3") == "2606.04803"
+
+
 def test_html_to_text_extracts_visible_and_skips_script_style():
     from arxiv_fulltext import html_to_text
     html = ("<html><head><style>.x{color:red}</style>"
@@ -88,6 +93,15 @@ def test_fetch_fulltext_truncates_to_max_chars():
 def test_fetch_fulltext_non_arxiv_returns_empty():
     import arxiv_fulltext as af
     assert af.fetch_fulltext("https://doi.org/10.1/x") == ("", "")
+
+
+
+def test_fetch_fulltext_short_pdf_also_rejected():
+    import arxiv_fulltext as af
+    af._get_text = lambda url: "<body><p>太短占位</p></body>"  # HTML below gate
+    af._get_bytes = lambda url: b"%PDF"
+    af.extract_pdf_text = lambda b: "短"  # PDF extraction also below min_chars
+    assert af.fetch_fulltext("https://arxiv.org/abs/2606.04803") == ("", "")
 
 
 if __name__ == "__main__":
