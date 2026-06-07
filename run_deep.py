@@ -53,9 +53,11 @@ def _enrich_one(meta, client, provider, out_dir, cached=None):
     rec["source"] = "APS"
     rec["category"] = (cached or {}).get("category") or classify(meta, provider=provider)
     rec["deep_analysis"] = deep_read(meta, md, provider=provider) if md else ""
+    # 海报要素复用深读产出(更聚焦、省 input token)；深读为空才退回原文
+    poster_src = rec["deep_analysis"] or md
     # 复用已有海报，避免重复图像生成；缺失才生成
     rec["poster"] = (cached or {}).get("poster") or (
-        generate_poster(meta, md, provider=provider, out_dir=out_dir) if md else None)
+        generate_poster(meta, poster_src, provider=provider, out_dir=out_dir) if poster_src else None)
     if rec.get("poster") and rec["poster"].get("title_zh"):
         rec["title_zh"] = rec["poster"]["title_zh"]
     return rec
@@ -103,13 +105,13 @@ def _enrich_arxiv_tier2_one(cand, provider, out_dir, cached=None):
     if fulltext:
         rec["deep_analysis"] = deep_read(meta, fulltext, provider=provider)
         rec["analysis_mode"] = mode
-        poster_src = fulltext
     else:
         abs_txt = cand.get("abstract") or cand.get("summary") or ""
         rec["deep_analysis"] = abstract_read(cand, abs_txt, provider=provider) if abs_txt else ""
         rec["analysis_mode"] = "abstract"
-        poster_src = abs_txt
     rec["ft_attempts"] = prev_attempts + 1
+    # 海报要素优先喂深读产出(更聚焦、省 input token)；深读为空再退回全文/摘要
+    poster_src = rec["deep_analysis"] or fulltext or cand.get("abstract") or cand.get("summary") or ""
     poster = (cached or {}).get("poster") or (
         generate_poster(meta, poster_src, provider=provider, out_dir=out_dir) if poster_src else None)
     rec["poster"] = poster

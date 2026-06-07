@@ -278,6 +278,48 @@ def test_enrich_tier2_returns_cached_when_complete():
     assert rec is done
 
 
+def test_poster_extraction_reuses_deepread_output_not_raw_fulltext():
+    # 开关1回归：海报要素抽取必须喂"深读产出"(更聚焦、省 input)，而非原始全文。
+    import run_deep, arxiv_fulltext, tempfile
+    from unittest import mock
+    seen = {}
+    cand = {"title": "ML for magnet", "abstract": "abs", "link": "https://arxiv.org/abs/2406.04520",
+            "category": "AI×物理"}
+    class P:
+        def call_api(self, p):
+            if ("研究问题" in p) or ("JSON" in p):
+                seen["poster_prompt"] = p
+                return '{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v","title_zh":"标题"}'
+            return "## 全文苏格拉底深读\n第五部分：创新评估 " + "z" * 3500
+    with mock.patch.object(arxiv_fulltext, "fetch_fulltext",
+                           return_value=("RAW_FULLTEXT_MARKER BODY " * 500, "html")), \
+         mock.patch.object(run_deep, "generate_and_save", side_effect=lambda prompt, out_path, **k: out_path):
+        rec = run_deep._enrich_arxiv_tier2_one(cand, P(), tempfile.mkdtemp())
+    assert "全文苏格拉底深读" in seen["poster_prompt"]        # 喂的是深读产出
+    assert "RAW_FULLTEXT_MARKER" not in seen["poster_prompt"]  # 不是原始全文
+    assert rec["analysis_mode"] == "html"
+
+
+def test_poster_falls_back_to_source_when_deepread_empty():
+    # 深读为空(抓全文失败且摘要也空)时，海报来源退回全文/摘要，不应崩。
+    import run_deep, arxiv_fulltext, tempfile
+    from unittest import mock
+    seen = {}
+    cand = {"title": "P", "abstract": "FALLBACK_ABS spin", "link": "https://arxiv.org/abs/2606.99999",
+            "category": "AI×物理"}
+    class P:
+        def call_api(self, p):
+            if ("研究问题" in p) or ("JSON" in p):
+                seen["poster_prompt"] = p
+                return '{"研究问题":"q","创新方法":"m","工作流程":"f","关键结果":"r","应用价值":"v"}'
+            return ""  # 摘要解析也返回空 → deep_analysis 为空
+    with mock.patch.object(arxiv_fulltext, "fetch_fulltext", return_value=("", "")), \
+         mock.patch.object(run_deep, "generate_and_save", side_effect=lambda prompt, out_path, **k: out_path):
+        rec = run_deep._enrich_arxiv_tier2_one(cand, P(), tempfile.mkdtemp())
+    assert rec["deep_analysis"] == ""
+    assert "FALLBACK_ABS" in seen["poster_prompt"]  # 退回摘要做海报来源
+
+
 def test_tier2_complete_caps_retries_on_empty_or_keywordless_text():
     # B1 regression: empty / keyword-less analysis MUST settle at the attempt cap,
     # else the record is reprocessed every run and drains the shared budget forever.
