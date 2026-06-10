@@ -2,8 +2,8 @@ name: Generate Weekly Summary
 
 on:
   schedule:
-    # 每周日 00:00 UTC (北京时间周日 08:00)
-    - cron: '0 0 * * 0'
+    # 每周日 01:00 UTC (北京时间周日 09:00)——错开 fetch.yml 的 00:00,避免并发推 main 撞车
+    - cron: '0 1 * * 0'
   workflow_dispatch:
 
 permissions:
@@ -19,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup Python
@@ -49,14 +49,21 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           git add -A
-          git diff --staged --quiet || git commit -m "🔬 自动生成周报 [skip ci]"
-          git fetch origin main
-          git rebase origin/main || git rebase --abort
-          git push origin main
+          if git diff --staged --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "🔬 自动生成周报 [skip ci]"
+          # race-safe push: rebase onto moved origin/main and retry (parallel workflows push to main)
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase -X ours origin/main || { git rebase --abort; exit 1; }
+            if git push origin main; then echo "pushed on attempt $i"; exit 0; fi
+            sleep 5
+          done
+          echo "push failed after 5 attempts"; exit 1
 
   deploy:
     needs: generate
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     concurrency:
       group: "pages"
       cancel-in-progress: false

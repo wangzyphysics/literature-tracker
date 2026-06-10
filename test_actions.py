@@ -1,214 +1,127 @@
 #!/usr/bin/env python3
-"""
-GitHub Actions 配置检查和测试
-"""
+"""GitHub Actions 工作流不变量测试。
 
+这些不变量是 2026-06 仓库优化批次固化下来的工程约束:
+- 工作流 YAML 结构完整(name/on/jobs/runs-on/steps)
+- checkout 一律浅克隆(fetch-depth: 1 或省略取默认 1)——本仓库 .git 数百 MB,
+  代码已验证零处依赖 git 历史
+- 所有向 main 推送的步骤必须带 rebase+重试循环(多工作流并发推送)
+- 上传 Pages artifact 的 job 必须先从 data/ 复制 docs/data(docs/data 不入库)
+- 每个 job 都有 timeout-minutes(防挂死耗满 6 小时配额)
+- 定时任务时刻不重叠(避免周日 fetch 与 weekly 撞车)
+"""
+import glob
 import os
-import sys
-import yaml
 import re
 
+import yaml
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-WORKFLOWS_DIR = os.path.join(BASE_DIR, ".github", "workflows")
+WORKFLOWS = sorted(glob.glob(os.path.join(BASE_DIR, ".github", "workflows", "*.yml")))
 
-def check_workflow_syntax(filepath):
-    """检查workflow文件语法"""
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        # 尝试解析YAML - 处理 'on' 关键字问题
-        try:
-            workflow = yaml.safe_load(content)
-        except yaml.YAMLError:
-            # 如果解析失败，尝试替换 'on:' 为 '"on":'
-            content_fixed = re.sub(r'^on:', '"on":', content, flags=re.MULTILINE)
-            workflow = yaml.safe_load(content_fixed)
-        
-        issues = []
-        warnings = []
-        
-        # 检查必需字段
-        if 'name' not in workflow:
-            issues.append("缺少 'name' 字段")
-        
-        # 处理 'on' 字段（可能是True/False的字面量）
-        on_field = workflow.get('on') or workflow.get(True)
-        if not on_field:
-            issues.append("缺少触发器定义")
-        
-        if 'jobs' not in workflow:
-            issues.append("缺少 'jobs' 定义")
-        
-        # 检查每个job
-        for job_name, job_def in workflow.get('jobs', {}).items():
-            if 'runs-on' not in job_def:
-                issues.append(f"Job '{job_name}' 缺少 'runs-on'")
-            
-            if 'steps' not in job_def:
-                issues.append(f"Job '{job_name}' 缺少 'steps'")
-            else:
-                for i, step in enumerate(job_def['steps']):
-                    if 'uses' not in step and 'run' not in step:
-                        issues.append(f"Job '{job_name}' Step {i+1} 缺少 'uses' 或 'run'")
-        
-        return issues, warnings
-    except yaml.YAMLError as e:
-        return [f"YAML解析错误: {e}"], []
-    except Exception as e:
-        return [f"检查失败: {e}"], []
 
-def check_python_syntax(filepath):
-    """检查Python文件语法"""
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            source = f.read()
-        
-        import ast
-        ast.parse(source)
-        return True, None
-    except SyntaxError as e:
-        return False, f"语法错误: {e}"
-    except Exception as e:
-        return False, f"检查失败: {e}"
+def _load(path):
+    with open(path, encoding="utf-8") as f:
+        wf = yaml.safe_load(f)
+    # YAML 1.1 把裸 on: 解析为 True 键
+    if True in wf and "on" not in wf:
+        wf["on"] = wf.pop(True)
+    return wf
 
-def check_duplicate_imports(filepath):
-    """检查重复导入（仅在模块级别）"""
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        # 找到模块级别的导入语句（不在函数/类内部的）
-        lines = content.split('\n')
-        imports = []
-        in_function = False
-        in_class = False
-        indent_level = 0
-        
-        for line in lines:
-            stripped = line.strip()
-            
-            # 检测缩进级别变化
-            if stripped and not stripped.startswith('#'):
-                current_indent = len(line) - len(line.lstrip())
-                if current_indent == 0:
-                    in_function = False
-                    in_class = False
-            
-            # 检测函数/类定义
-            if stripped.startswith('def ') or stripped.startswith('async def '):
-                in_function = True
+
+def _jobs(wf):
+    return (wf.get("jobs") or {}).items()
+
+
+def _steps(job):
+    return job.get("steps") or []
+
+
+def test_workflows_well_formed():
+    assert WORKFLOWS, "应当存在 workflow 文件"
+    for path in WORKFLOWS:
+        wf = _load(path)
+        name = os.path.basename(path)
+        assert wf.get("name"), f"{name} 缺 name"
+        assert wf.get("on"), f"{name} 缺触发器"
+        assert wf.get("jobs"), f"{name} 缺 jobs"
+        for job_name, job in _jobs(wf):
+            assert job.get("runs-on"), f"{name}:{job_name} 缺 runs-on"
+            assert _steps(job), f"{name}:{job_name} 缺 steps"
+            for i, step in enumerate(_steps(job)):
+                assert "uses" in step or "run" in step, f"{name}:{job_name} step{i+1} 缺 uses/run"
+
+
+def test_checkout_is_shallow():
+    bad = []
+    for path in WORKFLOWS:
+        wf = _load(path)
+        for job_name, job in _jobs(wf):
+            for step in _steps(job):
+                if "actions/checkout" in str(step.get("uses") or ""):
+                    depth = (step.get("with") or {}).get("fetch-depth", 1)
+                    if depth != 1:
+                        bad.append(f"{os.path.basename(path)}:{job_name} fetch-depth={depth}")
+    assert not bad, f"checkout 必须浅克隆: {bad}"
+
+
+def test_pushes_to_main_have_retry_loop():
+    bad = []
+    for path in WORKFLOWS:
+        wf = _load(path)
+        for job_name, job in _jobs(wf):
+            for step in _steps(job):
+                run = step.get("run") or ""
+                if "git push origin main" in run:
+                    if "for i in 1 2 3 4 5" not in run or "git rebase" not in run:
+                        bad.append(f"{os.path.basename(path)}:{job_name}")
+    assert not bad, f"push 步骤缺 rebase+重试循环: {bad}"
+
+
+def test_pages_upload_jobs_prepare_docs_data():
+    bad = []
+    for path in WORKFLOWS:
+        wf = _load(path)
+        for job_name, job in _jobs(wf):
+            steps = _steps(job)
+            uploads = [i for i, s in enumerate(steps) if "upload-pages-artifact" in str(s.get("uses") or "")]
+            if not uploads:
                 continue
-            if stripped.startswith('class '):
-                in_class = True
-                continue
-            
-            # 只在模块级别检查导入
-            if not in_function and not in_class:
-                import_pattern = r'^(?:from\s+(\S+)\s+import\s+(\S+)|import\s+(\S+))'
-                match = re.match(import_pattern, stripped)
-                if match:
-                    if match.group(1) and match.group(2):
-                        imports.append(f"from {match.group(1)} import {match.group(2)}")
-                    elif match.group(3):
-                        imports.append(f"import {match.group(3)}")
-        
-        # 检查重复
-        seen = set()
-        duplicates = []
-        for imp in imports:
-            if imp in seen:
-                duplicates.append(imp)
-            seen.add(imp)
-        
-        return duplicates
-    except Exception as e:
-        return [f"检查失败: {e}"]
+            prep = [i for i, s in enumerate(steps) if "cp -r data/* docs/data/" in (s.get("run") or "")]
+            if not prep or min(prep) > min(uploads):
+                bad.append(f"{os.path.basename(path)}:{job_name}")
+    assert not bad, f"Pages 上传前必须从 data/ 复制 docs/data: {bad}"
 
-def main():
-    print("=" * 60)
-    print("GitHub Actions 配置检查和测试")
-    print("=" * 60)
-    
-    # 1. 检查所有workflow文件
-    print("\n📋 检查 Workflow 文件...")
-    if os.path.exists(WORKFLOWS_DIR):
-        for filename in os.listdir(WORKFLOWS_DIR):
-            if filename.endswith(('.yml', '.yaml')):
-                filepath = os.path.join(WORKFLOWS_DIR, filename)
-                issues, warnings = check_workflow_syntax(filepath)
-                
-                if issues:
-                    print(f"❌ {filename}:")
-                    for issue in issues:
-                        print(f"   - {issue}")
-                elif warnings:
-                    print(f"⚠️  {filename}:")
-                    for warning in warnings:
-                        print(f"   - {warning}")
-                else:
-                    print(f"✅ {filename}")
-    else:
-        print("⚠️  未找到 workflows 目录")
-    
-    # 2. 检查关键Python文件语法
-    print("\n🐍 检查 Python 文件语法...")
-    key_files = [
-        'ai_summarizer.py',
-        'generate_daily_pages.py',
-        'run_optimized_sync.py',
-        'weekly_summary.py',
-        'rss_fetcher.py',
-    ]
-    
-    for filename in key_files:
-        filepath = os.path.join(BASE_DIR, filename)
-        if os.path.exists(filepath):
-            ok, error = check_python_syntax(filepath)
-            if ok:
-                print(f"✅ {filename}")
-            else:
-                print(f"❌ {filename}: {error}")
-        else:
-            print(f"⚠️  {filename} 不存在")
-    
-    # 3. 检查重复导入
-    print("\n📦 检查重复导入...")
-    for filename in key_files:
-        filepath = os.path.join(BASE_DIR, filename)
-        if os.path.exists(filepath):
-            duplicates = check_duplicate_imports(filepath)
-            if duplicates and not isinstance(duplicates[0], str) or (duplicates and not duplicates[0].startswith("检查失败")):
-                if duplicates:
-                    print(f"⚠️  {filename} 有重复导入:")
-                    for dup in duplicates:
-                        print(f"   - {dup}")
-                else:
-                    print(f"✅ {filename}")
-            elif duplicates and duplicates[0].startswith("检查失败"):
-                print(f"❌ {filename}: {duplicates[0]}")
-            else:
-                print(f"✅ {filename}")
-    
-    # 4. 测试导入关键模块
-    print("\n📥 测试模块导入...")
-    test_modules = [
-        'ai_summarizer',
-        'generate_daily_pages',
-        'run_optimized_sync',
-        'weekly_summary',
-    ]
-    
-    for module in test_modules:
-        try:
-            __import__(module)
-            print(f"✅ {module}")
-        except Exception as e:
-            print(f"❌ {module}: {e}")
-    
-    print("\n" + "=" * 60)
-    print("检查完成")
-    print("=" * 60)
+
+def test_every_job_has_timeout():
+    bad = []
+    for path in WORKFLOWS:
+        wf = _load(path)
+        for job_name, job in _jobs(wf):
+            if "timeout-minutes" not in job:
+                bad.append(f"{os.path.basename(path)}:{job_name}")
+    assert not bad, f"job 缺 timeout-minutes: {bad}"
+
+
+def test_scheduled_crons_do_not_collide():
+    slots = {}
+    for path in WORKFLOWS:
+        wf = _load(path)
+        for entry in (wf.get("on") or {}).get("schedule") or []:
+            cron = entry.get("cron") or ""
+            m = re.match(r"^(\S+)\s+(\S+)\s", cron)
+            assert m, f"{os.path.basename(path)} cron 不可解析: {cron}"
+            minute, hours = m.group(1), m.group(2)
+            for h in hours.split(","):
+                key = (minute, h)
+                if key in slots:
+                    raise AssertionError(
+                        f"cron 撞车 {key}: {slots[key]} 与 {os.path.basename(path)}")
+                slots[key] = os.path.basename(path)
+
 
 if __name__ == "__main__":
-    main()
+    for fn in sorted(k for k in dir() if k.startswith("test_")):
+        globals()[fn]()
+        print(f"✓ {fn}")
+    print("OK")

@@ -9,7 +9,8 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+    timeout-minutes: 30
+
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
@@ -26,17 +27,18 @@ jobs:
       - name: 运行测试脚本
         run: python test_run.py
       
-      - name: 复制数据到docs目录
-        run: |
-          mkdir -p docs/data
-          cp -r data/* docs/data/
-      
       - name: 提交更改
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
-          git diff --staged --quiet || git commit -m "🧪 测试更新 $(date +'%Y-%m-%d %H:%M')"
-          git fetch origin main
-          git rebase origin/main || git rebase --abort
-          git push origin main
+          if git diff --staged --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "🧪 测试更新 $(date +'%Y-%m-%d %H:%M')"
+          # race-safe push: rebase onto moved origin/main and retry (parallel workflows push to main)
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase -X ours origin/main || { git rebase --abort; exit 1; }
+            if git push origin main; then echo "pushed on attempt $i"; exit 0; fi
+            sleep 5
+          done
+          echo "push failed after 5 attempts"; exit 1

@@ -14,11 +14,14 @@ permissions:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    # AI 富化高峰期观测到 >3h 的运行(commit 时间 vs cron 触发),留足余量
+    timeout-minutes: 240
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          # 浅克隆:.git 数百 MB,代码不依赖历史;rebase 仅需新 tip(fetch 会带下来)
+          fetch-depth: 1
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: 设置Python
@@ -98,6 +101,7 @@ jobs:
   deploy:
     needs: fetch
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     concurrency:
       group: "pages"
       cancel-in-progress: false
