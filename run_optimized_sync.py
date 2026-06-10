@@ -297,8 +297,12 @@ def send_daily_summary():
         print("未发现文献数据，跳过报告")
         return
 
-    with open(index_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    try:
+        with open(index_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (ValueError, OSError) as e:
+        print(f"⚠️ 读取 {index_path} 失败({type(e).__name__}: {e}),跳过报告")
+        return
 
     articles = data.get("articles", [])
     normalize_articles_inplace(articles)

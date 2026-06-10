@@ -54,7 +54,7 @@ class NotionTGNotifier:
         # 1. Try to find existing child page by title
         url = f"https://api.notion.com/v1/blocks/{parent_id.replace('-', '')}/children"
         try:
-            r = requests.get(url, headers=self.notion_headers)
+            r = requests.get(url, headers=self.notion_headers, timeout=15)
             if r.status_code == 200:
                 results = r.json().get("results", [])
                 for block in results:
@@ -74,7 +74,11 @@ class NotionTGNotifier:
                 }
             }
         }
-        r = requests.post(url, headers=self.notion_headers, json=payload)
+        try:
+            r = requests.post(url, headers=self.notion_headers, json=payload, timeout=15)
+        except Exception as e:
+            print(f"Notion Create Page Error: {type(e).__name__}: {e}")
+            return None
         if r.status_code == 200:
             return r.json()["id"]
         else:
@@ -83,7 +87,11 @@ class NotionTGNotifier:
 
     def append_blocks(self, page_id, blocks):
         url = f"https://api.notion.com/v1/blocks/{page_id}/children"
-        r = requests.patch(url, headers=self.notion_headers, json={"children": blocks})
+        try:
+            r = requests.patch(url, headers=self.notion_headers, json={"children": blocks}, timeout=15)
+        except Exception as e:
+            print(f"Notion Append Blocks Error: {type(e).__name__}: {e}")
+            return False
         if r.status_code != 200:
             print(f"Notion Append Blocks Error: {r.text}")
         return r.status_code == 200

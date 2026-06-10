@@ -140,7 +140,7 @@ class RSSFetcher:
                 if article:
                     articles.append(article)
         except Exception as e:
-            print(f"抓取失败 {url}: {e}")
+            print(f"抓取失败 {url}: {type(e).__name__}: {e}")
         
         return articles
     

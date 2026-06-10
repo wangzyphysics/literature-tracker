@@ -193,16 +193,22 @@ def enrich_arxiv_core(items, provider=None, out_dir="docs/images/cards", max_wor
 def _load_arxiv_core(date):
     path = f"data/arxiv_core_{date}.json"
     if os.path.exists(path):
-        try: return json.load(open(path, encoding="utf-8"))
-        except Exception: return []
+        try:
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return []
     return []
 
 
 def _load_core_cache(date):
     path = f"data/arxiv_core_{date}.json"
     if os.path.exists(path):
-        try: return json.load(open(path, encoding="utf-8"))
-        except Exception: return []
+        try:
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return []
     return []
 
 
@@ -212,7 +218,8 @@ def _load_aps_cache(date):
     if not os.path.exists(path):
         return {}
     try:
-        recs = json.load(open(path, encoding="utf-8"))
+        with open(path, encoding="utf-8") as f:
+            recs = json.load(f)
     except Exception:
         return {}
     return {(r.get("doc_id") or r.get("paper_id")): r for r in recs if isinstance(r, dict)}
@@ -259,7 +266,8 @@ def main():
         if budget <= 0:
             break
         try:
-            cands = json.load(open(f"data/arxiv_tier2_{d}.json", encoding="utf-8"))
+            with open(f"data/arxiv_tier2_{d}.json", encoding="utf-8") as f:
+                cands = json.load(f)
             t2cache = {(x.get("link") or x.get("title")): x for x in _load_core_cache(d)}
             t2, t2used = process_arxiv_tier2(d, cands, provider, max_workers=workers,
                                              cache=t2cache, max_new=budget)
