@@ -30,6 +30,18 @@ def main(argv):
         name = os.path.splitext(os.path.basename(path))[0]
         try:
             mod = importlib.import_module(name)
+        except ModuleNotFoundError as e:
+            missing = (e.name or "").split(".")[0]
+            here = os.path.dirname(os.path.abspath(__file__))
+            if missing and not os.path.exists(os.path.join(here, missing + ".py")):
+                # 第三方依赖本机未装(本地无 pip):降级为 skip,CI(装全依赖)仍全量执行
+                skipped += 1
+                print(f"⊘ {name} (missing optional dep: {missing} — skipped locally)")
+                continue
+            failures.append((name, "<import>", traceback.format_exc()))
+            failed += 1
+            print(f"✗ {name}: import error: {e}")
+            continue
         except Exception as e:
             failures.append((name, "<import>", traceback.format_exc()))
             failed += 1
