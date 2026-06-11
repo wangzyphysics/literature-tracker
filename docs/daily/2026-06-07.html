@@ -14,127 +14,7 @@
 <meta content="文献追踪" name="apple-mobile-web-app-title"/>
 <meta content="#f59e0b" name="theme-color"/>
 <link href="2026-06-07.xml" rel="alternate" title="2026-06-07 日报 RSS" type="application/rss+xml"/>
-<style>
-    body { background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(248, 250, 252, 0.85) 220px), var(--bg-primary); overflow-x: hidden; }
-    body::before { content: none !important; }
-    .poster-figure{position:relative;margin:10px 0;}
-    .poster-figure img{width:100%;border-radius:10px;display:block;}
-    .daily-deep-elements{margin:8px 0;display:flex;flex-direction:column;gap:5px;font-size:14px;line-height:1.6;}
-    .daily-deep-elements .poster-row b{color:#1456b8;margin-right:6px;}
-    .enrich-badge{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;background:#e8f1ff;color:#1456b8;font-size:12px;font-weight:600;vertical-align:middle;}
-    .enrich-details{margin:8px 0;border-top:1px dashed #e3e8f0;padding-top:8px;}
-    .enrich-details > summary{cursor:pointer;color:#1456b8;font-weight:600;list-style:none;}
-    .enrich-details > summary::-webkit-details-marker{display:none;}
-    .enrich-details .poster-figure img{width:100%;border-radius:10px;margin:8px 0;}
-    .poster-row b{color:#1456b8;margin-right:6px;}
-    .deep-body{font-size:14px;line-height:1.7;}
-    .deep-body .deep-h{font-size:15px;margin:10px 0 4px;color:#1456b8;}
-    .deep-body .deep-ul{margin:4px 0 4px 18px;} .deep-body p{margin:6px 0;}
-    .daily-shell { max-width: 1260px; margin: 0 auto; padding: 28px 20px 48px; }
-    .daily-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
-    .daily-topbar-left, .daily-topbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
-    .back-link:hover { color: var(--accent-hover); }
-    .daily-mini-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.75); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; backdrop-filter: blur(8px); }
-    .daily-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
-    .daily-article { background: rgba(255,255,255,0.76); border: 1px solid rgba(148,163,184,0.28); border-radius: 28px; box-shadow: var(--shadow-lg); backdrop-filter: blur(14px); padding: 32px; }
-    .daily-hero { padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
-    .daily-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(99,102,241,0.12); color: var(--accent-primary); font-weight: 700; letter-spacing: 0.04em; }
-    .daily-title { margin: 18px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.03em; }
-    .daily-subtitle { font-size: 1.02rem; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.8; }
-    .daily-quote { margin: 0; padding: 16px 18px; border-left: 4px solid var(--accent-primary); border-radius: 16px; background: rgba(99,102,241,0.08); color: var(--text-secondary); font-size: 1rem; }
-    .daily-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 22px; }
-    .daily-tag { display: inline-flex; align-items: center; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,0.92); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.92rem; }
-    .daily-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-    .daily-stat { padding: 18px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)); border: 1px solid var(--border-color); }
-    .daily-stat-label { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
-    .daily-stat-value { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; }
-    .daily-filter-note { margin-top: 16px; color: var(--text-secondary); line-height: 1.8; }
-    .daily-section { margin-top: 28px; }
-    .daily-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-    .daily-section-index { font-size: 0.92rem; font-weight: 800; color: var(--accent-primary); padding: 5px 10px; border-radius: 999px; background: rgba(99,102,241,0.1); }
-    .daily-section-title { font-size: 1.45rem; letter-spacing: -0.02em; }
-    .daily-summary-card { padding: 18px 20px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); line-height: 1.85; }
-    .daily-summary-card p + p { margin-top: 12px; }
-    .daily-topic-group + .daily-topic-group { margin-top: 22px; }
-    .daily-topic-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
-    .daily-topic-title { font-size: 1.15rem; margin: 0 0 6px; }
-    .daily-topic-desc { color: var(--text-secondary); line-height: 1.75; }
-    .daily-topic-count { padding: 8px 12px; border-radius: 999px; background: rgba(99,102,241,0.1); color: var(--accent-primary); font-weight: 700; white-space: nowrap; }
-    .daily-news-list, .daily-paper-list { list-style: none; margin: 0; padding: 0; }
-    .daily-news-item, .daily-paper-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; padding: 20px; border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,250,251,0.92)); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); align-items: flex-start; }
-    .daily-news-item + .daily-news-item, .daily-paper-card + .daily-paper-card { margin-top: 16px; }
-    .daily-news-index, .daily-paper-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: var(--gradient-accent); box-shadow: var(--shadow-sm); flex-shrink: 0; }
-    .daily-news-body, .daily-paper-body { min-width: 0; }
-    .daily-paper-body { display: flex; flex-direction: column; }
-    .daily-news-title-zh, .daily-paper-title-zh { font-size: 1.12rem; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
-    .daily-news-title-en, .daily-paper-title-en { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.6; }
-    .daily-news-meta, .daily-paper-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-    .daily-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.88rem; color: var(--text-secondary); background: rgba(99,102,241,0.08); }
-    .daily-chip-authors { background: rgba(16,185,129,0.08); }
-    .daily-chip-score { background: rgba(245,158,11,0.12); }
-    .daily-chip-topic { background: rgba(139,92,246,0.12); color: var(--accent-primary); }
-    .daily-news-summary, .daily-paper-summary { color: var(--text-primary); line-height: 1.8; }
-    .daily-news-reason { margin-top: 10px; color: var(--text-secondary); }
-    .daily-paper-actions, .daily-news-link { margin-top: 14px; }
-    .daily-news-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-primary); text-decoration: none; font-weight: 600; }
-    .daily-news-link:hover { color: var(--accent-hover); }
-    .daily-paper-head { display: flex; gap: 16px; align-items: flex-start; }
-    .daily-paper-titles { min-width: 0; }
-    .daily-toc { position: sticky; top: 24px; }
-    .daily-toc-card { padding: 18px; border-radius: 20px; background: rgba(255,255,255,0.78); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); backdrop-filter: blur(12px); }
-    .daily-toc-title, .daily-sidebar-title { font-size: 0.95rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-    .daily-toc a { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px; color: var(--text-secondary); text-decoration: none; }
-    .daily-toc a:hover { background: rgba(99,102,241,0.08); color: var(--accent-primary); }
-    .daily-sidebar-block + .daily-sidebar-block { margin-top: 18px; }
-    .daily-sidebar-stats { display: grid; gap: 10px; }
-    .daily-sidebar-fact { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,247,255,0.96)); border: 1px solid var(--border-color); }
-    .daily-footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.94rem; line-height: 1.8; }
-    .daily-nav { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; padding: 14px 18px; margin: 18px 0; border-radius: 18px; background: rgba(255,255,255,0.88); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
-    .daily-nav-top { margin: 0 0 22px; }
-    .daily-nav-bottom { margin: 28px 0 12px; }
-    .daily-nav-link { color: var(--accent-primary); text-decoration: none; font-weight: 600; padding: 8px 12px; border-radius: 12px; transition: background 0.15s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .daily-nav-link:hover { background: rgba(99,102,241,0.08); }
-    .daily-nav-prev { justify-self: start; }
-    .daily-nav-next { justify-self: end; text-align: right; }
-    .daily-nav-home { color: var(--text-secondary); text-decoration: none; padding: 8px 14px; border-radius: 999px; background: rgba(99,102,241,0.08); font-weight: 600; font-size: 0.95rem; }
-    .daily-nav-home:hover { background: rgba(99,102,241,0.16); color: var(--accent-primary); }
-    .daily-nav-disabled { color: var(--text-muted); opacity: 0.55; padding: 8px 12px; }
-    @media (max-width: 720px) {
-      .daily-nav { grid-template-columns: 1fr 1fr; padding: 10px 12px; }
-      .daily-nav-home { grid-column: span 2; justify-self: center; order: 3; }
-      .daily-nav-link { font-size: 0.92rem; }
-    }
-    @media (max-width: 980px) {
-      .daily-layout { grid-template-columns: 1fr; }
-      .daily-toc { position: static; order: -1; }
-    }
-    @media (max-width: 720px) {
-      .daily-shell { padding: 16px 12px 36px; }
-      .daily-article { padding: 22px 16px; border-radius: 22px; }
-      .daily-stats { grid-template-columns: 1fr; }
-      .daily-news-item, .daily-paper-card { grid-template-columns: 1fr; }
-      .daily-news-index, .daily-paper-number { width: 38px; height: 38px; }
-      .daily-paper-head, .daily-topic-head { flex-direction: column; gap: 12px; }
-      .daily-core-card { grid-template-columns: 1fr; }
-      .daily-core-number { width: 38px; height: 38px; }
-    }
-    .daily-core-section { border-radius: 22px; padding: 22px; margin-top: 26px; background: linear-gradient(135deg, rgba(253,244,215,0.55), rgba(255,248,230,0.88)); border: 1.5px solid rgba(245,158,11,0.45); box-shadow: 0 4px 18px rgba(245,158,11,0.08); }
-    .daily-core-section .daily-section-title { color: #b45309; }
-    .daily-core-section .daily-section-index { background: rgba(245,158,11,0.18); color: #b45309; }
-    .daily-core-count { margin-left: auto; padding: 6px 12px; border-radius: 999px; background: rgba(245,158,11,0.15); color: #b45309; font-weight: 700; font-size: 0.9rem; }
-    .daily-core-note { margin: 12px 0 18px; padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.7); border-left: 3px solid #f59e0b; color: var(--text-primary); line-height: 1.8; }
-    .daily-core-list { list-style: none; margin: 0; padding: 0; }
-    .daily-core-card { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 14px; padding: 18px; border-radius: 18px; background: rgba(255,255,255,0.95); border: 1px solid rgba(245,158,11,0.25); border-left: 3px solid #f59e0b; box-shadow: var(--shadow-sm); }
-    .daily-core-card + .daily-core-card { margin-top: 14px; }
-    .daily-core-number { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 14px; font-weight: 800; color: white; background: linear-gradient(135deg, #f59e0b, #fbbf24); box-shadow: var(--shadow-sm); flex-shrink: 0; }
-    .daily-core-title-zh { font-size: 1.1rem; font-weight: 700; line-height: 1.5; margin-bottom: 4px; }
-    .daily-core-title-en { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
-    .daily-core-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-    .daily-chip-core { background: rgba(245,158,11,0.18); color: #b45309; font-weight: 600; }
-    .daily-core-deep { margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: rgba(245,158,11,0.06); border: 1px dashed rgba(245,158,11,0.35); line-height: 1.75; }
-    .daily-core-deep p + p { margin-top: 6px; }
-  </style>
+<link href="../daily-common.css" rel="stylesheet"/>
 <style id="daily-enhancement-style">
 #daily-enhancement-top-nav, #daily-enhancement-bottom-nav {
     margin-top: 18px;
@@ -381,29 +261,29 @@
 <h2 class="daily-section-title">核心关注（ML × ferro / 凝聚态）</h2>
 <span class="daily-core-count">2 篇</span>
 </div>
-<p class="daily-core-note">本日进展集中在“物理约束求解器”和“可解释性质预测”，而非直接报道 NbOI2、CrI3、CrSBr、BaTiO3 等铁电/磁性材料的新势能面或新相图。PINNIES把PINN从微分方程残差扩展到积分算子残差，可与MACE、NEP、equivariant GNN生成的连续场或核函数模型形成互补。Heusler磁热效应工作把可解释机器学习用于磁熵变、居里温度、结构/成分描述符筛选，问题形态接近DFT+U辅助的CrI3、CrSBr磁交换参数建模。对凝聚态ML研究者而言，今天的实质增量是从“只追求预测精度”转向“算子约束与特征可解释性”。</p>
+<p class="daily-core-note">本日进展不在 NbOI2、CrI3、CrSBr、BaTiO3 等具体铁电/磁性材料的 equivariant GNN、MACE、NEP 或 DFT+U 势能面，而在两类上游工具：积分算子 PINN 求解器与赫斯勒合金磁热效应的可解释预测。PINNIES 把物理约束从微分方程扩展到积分算子，可对畴壁长程弹性/退极化核、磁偶极核这类非局域项形成可微求解模板。赫斯勒工作把磁热效应预测从黑箱回归推向特征可解释，直接服务于磁结构-成分-熵变关系筛选，但摘要缺少数据规模与误差，难以判断相对 DFT+U/实验数据库基线的增益。</p>
 <ol class="daily-core-list">
 <li class="daily-core-card" data-bookmark-key="https://www.sciencedirect.com/science/article/pii/S0010465526002377?dgcid=rss_sd_all">
 <div class="daily-core-number">01</div>
 <div class="daily-core-body">
-<div class="daily-core-title-zh">PINNIES：积分算子问题高效物理信息神经网络框架</div>
+<div class="daily-core-title-zh">PINNIES：积分算子问题的高效物理约束神经网络</div>
 <div class="daily-core-title-en">PINNIES: An Efficient Physics-Informed Neural Network Framework for Integral Operator Problems</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 ScienceDirect</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向积分算子问题构建PINNIES物理信息神经网络框架，论文于2026年6月6日在线发表于《计算物理通讯》；摘要未给出误差或加速数值。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>PINNIES将物理信息神经网络用于积分算子求解。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>面向积分算子残差构造PINN框架，强调物理约束训练。</p><p><strong>🔗 相关工作关联：</strong>呼应PINN、神经算子、DeepONet、Fourier neural operator、相场积分核建模。</p><p><strong>💡 对你方向的启示：</strong>可用于铁电畴演化、长程库仑/弹性能积分项的可微求解。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>面向积分算子问题，PINNIES 构建物理约束神经网络框架，目标是高效求解此类算子方程；摘要未给算例误差、加速比或代码细节。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>PINNIES 将物理约束神经网络用于积分算子求解。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>面向积分算子方程的物理约束神经网络，直接嵌入积分残差。</p><p><strong>🔗 相关工作关联：</strong>呼应 DeepONet、Fourier Neural Operator、PINN 求解非局域核方程。</p><p><strong>💡 对你方向的启示：</strong>可迁移到铁电退极化场、弹性相容、磁偶极相互作用的快速求解。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.sciencedirect.com/science/article/pii/S0010465526002377?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
 <li class="daily-core-card" data-bookmark-key="https://www.sciencedirect.com/science/article/pii/S092702562600306X?dgcid=rss_sd_all">
 <div class="daily-core-number">02</div>
 <div class="daily-core-body">
-<div class="daily-core-title-zh">预测Heusler合金磁热效应的可解释机器学习模型</div>
+<div class="daily-core-title-zh">预测赫斯勒合金磁热效应的可解释机器学习模型</div>
 <div class="daily-core-title-en">Interpretable machine-learning model for predicting the magnetocaloric effect in Heusler alloys</div>
 <div class="daily-core-meta"><span class="daily-chip daily-chip-core">🎯 核心关注</span><span class="daily-chip daily-chip-journal">📖 ScienceDirect</span></div>
-<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对Heusler合金磁热效应建立可解释机器学习预测模型，发表于《计算材料科学》272卷；摘要未列出数据集规模、精度或关键特征排序。</p>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>可解释机器学习用于预测Heusler合金磁热效应。</p>
-<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>以可解释机器学习预测Heusler合金磁热效应。</p><p><strong>🔗 相关工作关联：</strong>呼应高通量合金筛选、磁热材料ML、描述符工程、SHAP/特征重要性分析。</p><p><strong>💡 对你方向的启示：</strong>提示磁性材料ML需报告关键成分/结构特征，而非只给黑箱精度。</p></div>
+<p class="daily-paper-abstract"><strong>📄 摘要：</strong>针对赫斯勒合金磁热效应，采用可解释机器学习模型进行性能预测；摘要未披露数据集规模、误差指标或主导特征。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>可解释机器学习用于预测赫斯勒合金磁热效应。</p>
+<div class="daily-core-deep"><p><strong>📐 方法要点：</strong>以可解释机器学习预测赫斯勒合金磁热效应并解析主导特征。</p><p><strong>🔗 相关工作关联：</strong>呼应材料信息学、磁热材料筛选、SHAP/特征重要性分析方向。</p><p><strong>💡 对你方向的启示：</strong>适合构建成分-价电子-磁矩-熵变图谱，需用外部实验集检验泛化。</p></div>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.sciencedirect.com/science/article/pii/S092702562600306X?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a></div>
 </div>
 </li>
@@ -415,8 +295,8 @@
 <h2 class="daily-section-title">今日摘要</h2>
 </div>
 <div class="daily-summary-card">
-<p><strong>总览：</strong>今日4篇集中在物理约束机器学习、材料性质预测与量子计算辅助人工智能。代表性方向包括积分算子问题的物理信息神经网络框架、Heusler合金磁热效应可解释预测，以及量子线路缓解大模型记忆瓶颈和量子测量开销。</p>
-<p><strong>热点：</strong>物理约束模型继续向算子级问题扩展，目标是提升求解积分方程或非局域物理问题的效率。材料信息学强调可解释性，Heusler合金磁热效应预测从黑箱回归转向特征贡献分析。量子计算与人工智能的交叉出现两条路线：用量子线路降低模型新增参数需求，用预测代理模型减少量子测量次数。</p>
+<p><strong>总览：</strong>今日4篇集中在物理约束神经网络、材料机器学习与量子增强人工智能/计算开销压缩。代表性条目包括面向积分算子问题的 PINNIES、赫斯勒合金磁热效应可解释预测，以及可把量子计算测量开销降低逾99.97%的预测替代模型。部分条目仅有新闻或目录式摘要，具体数据集、误差与基准任务尚未披露。</p>
+<p><strong>热点：</strong>物理信息机器学习继续从微分方程扩展到积分算子问题，强调框架化与计算效率。材料信息学更重视可解释性，磁热赫斯勒合金成为可由特征—性能关系筛选的对象。量子计算相关工作呈现两条路径：用量子线路增强人工智能记忆能力，以及用经典或混合替代模型压缩量子测量成本。新闻类摘要显示量子—人工智能交叉正从概念演示转向资源受限场景下的参数量与测量次数优化。</p>
 </div>
 </section>
 <section class="daily-section" id="papers">
@@ -430,11 +310,11 @@
 <span class="daily-paper-number">01</span>
 <div class="daily-paper-body">
 <div class="daily-paper-head"><div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-06-quantum-circuits-ai-memory-limitations.html" rel="noopener noreferrer" target="_blank">量子线路助力人工智能以少量新参数突破记忆限制</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-06-quantum-circuits-ai-memory-limitations.html" rel="noopener noreferrer" target="_blank">量子线路助人工智能以少量新参数突破记忆限制</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://phys.org/news/2026-06-quantum-circuits-ai-memory-limitations.html" rel="noopener noreferrer" target="_blank">Quantum circuits help AI overcome memory limitations with minimal new parameters</a><a class="daily-permalink-link" href="#paper-1" title="复制本页定位">#</a></div>
 </div><span class="enrich-badge">📊 含图深析</span></div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Physics News</span><span class="daily-chip daily-chip-score">🔥 AI 0</span></div>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>量子线路以少量新增参数缓解AI记忆瓶颈。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>量子线路以少量参数缓解人工智能记忆瓶颈。</p>
 <details class="enrich-details"><summary>📖 展开分析 + 配图</summary><div class="daily-deep-elements"><div class="poster-row"><b>研究问题</b>大语言模型依靠不断增加参数来扩展记忆能力，导致训练、存储和推理成本快速上升；核心问题是：能否在几乎不增加新参数的情况下，用量子电路缓解模型的记忆瓶颈，让 AI 获得更高效的内部记忆扩展方式。</div><div class="poster-row"><b>创新方法</b>将量子电路嵌入大语言模型相关模块，作为一种参数高效的记忆增强机制；Aha 点在于不再单纯扩大模型规模，而是利用量子电路的紧凑表示与潜在高维状态表达能力，用少量新增参数承载更多记忆相关信息。</div><div class="poster-row"><b>工作流程</b>输入文本或模型中间表示进入大语言模型模块；特定隐藏状态或记忆相关特征被送入量子电路；量子电路通过少量可训练参数进行状态变换与信息压缩/扩展；变换后的量子增强表示再回到模型中参与预测；最终输出更好保留上下文与记忆信息的 AI 结果。</div><div class="poster-row"><b>关键结果</b>论文核心发现是量子电路能够帮助 AI 或大语言模型克服/缓解记忆限制，同时只需引入极少量新参数；结果强调该方法面向模型扩展成本过高的问题，提供一种比单纯堆叠参数更节省资源的记忆增强路径，但具体基准任务、数值提升幅度和实验细节未在摘要中说明。</div><div class="poster-row"><b>应用价值</b>该研究为低成本扩展大语言模型记忆能力提供新方向，可用于资源受限场景下的长上下文建模、轻量化 AI 部署、参数高效模型升级，以及未来量子计算与大模型结合的混合智能系统设计。</div></div><div class="deep-body"><h3 class="deep-h">核心概览</h3><p>论文探讨将量子线路引入大语言模型，以缓解扩展中的记忆/资源瓶颈，并尽量减少新增参数，属量子机器学习与高效AI模型方向。</p><h3 class="deep-h">方法要点</h3><ul class="deep-ul"><li>将量子线路作为辅助机制引入人工智能/大语言模型框架中。</li><li>目标是改善模型在记忆容量或上下文相关能力上的限制。</li><li>强调参数高效性，即仅增加少量新参数。</li><li>摘要未详述量子线路的具体结构、嵌入位置、训练方式或与经典模型的接口机制。</li><li>摘要未说明使用的基准任务、数据集、模型规模或评估指标。</li></ul><h3 class="deep-h">关键结果</h3><ul class="deep-ul"><li>摘要称量子线路可帮助AI克服或缓解记忆限制。</li><li>摘要称该方法只需少量新增参数。</li><li>摘要未给出具体性能提升幅度、参数增加量、计算成本或统计显著性结果。</li><li>摘要未说明是否在真实量子硬件、量子模拟器或混合量子-经典系统上验证。</li></ul><h3 class="deep-h">创新性判断</h3><ul class="deep-ul"><li>可能的新颖点在于：用量子线路作为参数高效模块来增强大语言模型的记忆能力，而不是单纯扩大模型规模。</li><li>相比常见的参数高效微调、外部记忆模块或长上下文架构，该工作可能尝试从量子计算角度提供替代路径。</li><li>但由于摘要未详述模型架构、实验设置和对比方法，无法确定其创新程度、实际优势及相对同类工作的领先性。</li></ul></div></details>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://phys.org/news/2026-06-quantum-circuits-ai-memory-limitations.html" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a><div class="daily-inline-links"><a class="daily-inline-link" href="https://phys.org/news/2026-06-quantum-circuits-ai-memory-limitations.html" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-1">页内定位</a></div></div>
 </div>
@@ -443,11 +323,11 @@
 <span class="daily-paper-number">02</span>
 <div class="daily-paper-body">
 <div class="daily-paper-head"><div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.sciencedirect.com/science/article/pii/S092702562600306X?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">预测Heusler合金磁热效应的可解释机器学习模型</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.sciencedirect.com/science/article/pii/S092702562600306X?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">预测赫斯勒合金磁热效应的可解释机器学习模型</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.sciencedirect.com/science/article/pii/S092702562600306X?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">Interpretable machine-learning model for predicting the magnetocaloric effect in Heusler alloys</a><a class="daily-permalink-link" href="#paper-2" title="复制本页定位">#</a></div>
 </div><span class="enrich-badge">📊 含图深析</span></div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 材料 / 器件</span><span class="daily-chip daily-chip-journal">📖 ScienceDirect</span></div>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>可解释机器学习用于预测Heusler合金磁热效应。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>可解释机器学习用于预测赫斯勒合金磁热效应。</p>
 <details class="enrich-details"><summary>📖 展开分析 + 配图</summary><div class="daily-deep-elements"><div class="poster-row"><b>研究问题</b>如何在庞大的 Heusler 合金成分空间中，快速预测材料的磁热效应，并识别哪些材料特征主导磁制冷性能，从而避免依赖逐一实验或高成本计算筛选。</div><div class="poster-row"><b>创新方法</b>提出面向 Heusler 合金磁热效应预测的可解释机器学习模型；Aha 点在于模型不仅给出磁热性能预测结果，还通过特征重要性等解释机制揭示影响磁热效应的关键材料因素，把“黑箱预测”转化为“可指导材料设计的透明模型”。</div><div class="poster-row"><b>工作流程</b>输入 Heusler 合金的成分与材料特征数据，经过特征整理和机器学习模型训练，建立磁热效应预测器；随后对未知或候选合金进行快速预测，并利用可解释性分析输出关键影响特征，最终得到适合磁制冷应用的候选材料线索。</div><div class="poster-row"><b>关键结果</b>构建了可用于 Heusler 合金磁热效应预测的可解释机器学习框架；模型能够服务于磁制冷候选材料的计算筛选，并提供影响磁热效应的特征分析结果，为理解材料性能来源提供辅助依据。</div><div class="poster-row"><b>应用价值</b>该研究可加速磁制冷材料发现流程，用低成本计算筛选替代大量试错实验；同时帮助研究者理解 Heusler 合金中影响磁热效应的关键因素，为设计高性能、可持续磁制冷材料提供数据驱动的决策支持。</div></div><div class="deep-body"><h3 class="deep-h">核心概览</h3><p>该论文面向Heusler合金磁热效应预测，建立可解释机器学习模型，属于计算材料学与材料信息学方向。</p><h3 class="deep-h">方法要点</h3><ul class="deep-ul"><li>使用机器学习方法预测Heusler合金的磁热效应。</li><li>强调模型“可解释性”，但摘要未详述具体解释方法，如SHAP、特征重要性或符号模型等。</li><li>研究对象为Heusler合金体系。</li><li>摘要未详述数据集来源、样本规模、输入特征、模型类型或训练验证流程。</li></ul><h3 class="deep-h">关键结果</h3><ul class="deep-ul"><li>论文声称建立了用于预测Heusler合金磁热效应的可解释机器学习模型。</li><li>摘要未列出模型预测精度、误差指标或与其他模型的对比结果。</li><li>摘要未给出关键影响特征、物理机制解释或具体材料筛选结果。</li><li>摘要未详述是否发现了新的高磁热性能候选Heusler合金。</li></ul><h3 class="deep-h">创新性判断</h3><ul class="deep-ul"><li>可能的新颖点在于将“可解释机器学习”用于Heusler合金磁热效应预测，而非仅做黑箱预测；但具体创新强度摘要未详述。</li><li>若论文确实提供了可解释特征与磁热效应之间的物理关联，其价值可能在于辅助材料设计；但摘要未说明具体解释结果。</li><li>相对传统实验筛选或第一性原理计算，该工作可能通过机器学习提高候选材料筛选效率；但摘要未提供效率或性能对比数据，无法进一步判断。</li></ul></div></details>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.sciencedirect.com/science/article/pii/S092702562600306X?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a><div class="daily-inline-links"><a class="daily-inline-link" href="https://www.sciencedirect.com/science/article/pii/S092702562600306X?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-2">页内定位</a></div></div>
 </div>
@@ -456,11 +336,11 @@
 <span class="daily-paper-number">03</span>
 <div class="daily-paper-body">
 <div class="daily-paper-head"><div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.sciencedirect.com/science/article/pii/S0010465526002377?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">PINNIES：积分算子问题高效物理信息神经网络框架</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://www.sciencedirect.com/science/article/pii/S0010465526002377?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">PINNIES：积分算子问题的高效物理约束神经网络</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://www.sciencedirect.com/science/article/pii/S0010465526002377?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">PINNIES: An Efficient Physics-Informed Neural Network Framework for Integral Operator Problems</a><a class="daily-permalink-link" href="#paper-3" title="复制本页定位">#</a></div>
 </div><span class="enrich-badge">📊 含图深析</span></div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 方法 / 工具</span><span class="daily-chip daily-chip-journal">📖 ScienceDirect</span></div>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>PINNIES将物理信息神经网络用于积分算子求解。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>PINNIES 将物理约束神经网络用于积分算子求解。</p>
 <details class="enrich-details"><summary>📖 展开分析 + 配图</summary><div class="daily-deep-elements"><div class="poster-row"><b>研究问题</b>计算物理中的积分算子方程具有非局部积分耦合、算子形式复杂、传统数值离散求解成本高的问题；论文关注如何用物理信息神经网络高效求解这类积分算子问题。</div><div class="poster-row"><b>创新方法</b>提出 PINNIES 框架，将物理信息神经网络从常见的微分方程求解扩展到积分算子问题，把积分算子约束嵌入神经网络训练过程，用网络近似未知解并通过物理残差驱动求解；Aha 点在于用 PINN 直接学习满足积分算子方程的解函数，而不是依赖传统网格化积分求解。</div><div class="poster-row"><b>工作流程</b>输入积分算子方程、物理约束与计算区域；构建 PINNIES 神经网络表示未知解；在采样点上计算积分算子残差或物理残差；以残差损失训练网络参数；输出满足积分算子方程的近似解，用于计算物理场景分析。</div><div class="poster-row"><b>关键结果</b>论文给出了面向积分算子问题的高效 PINN 框架 PINNIES，主张可提升计算物理中积分算子方程的求解效率；摘要未提供具体精度、速度、收敛性或算例对比的定量结果。</div><div class="poster-row"><b>应用价值</b>PINNIES 可作为求解非局部物理模型、积分方程和算子方程的神经网络工具，减少对传统网格离散与复杂数值积分流程的依赖，为计算物理中的高效仿真和复杂物理系统建模提供新路径。</div></div><div class="deep-body"><h3 class="deep-h">核心概览</h3><p>本文提出 PINNIES，一个面向积分算子问题的高效物理信息神经网络（PINN）框架，属于科学机器学习/计算物理中用神经网络求解积分算子相关问题的方向。</p><h3 class="deep-h">方法要点</h3><ul class="deep-ul"><li>构建了名为 PINNIES 的物理信息神经网络框架。</li><li>目标问题类型是“积分算子问题”。</li><li>框架强调“高效”，但摘要未详述具体效率提升机制。</li><li>摘要未详述网络结构、损失函数设计、训练策略或数值积分处理方式。</li></ul><h3 class="deep-h">关键结果</h3><ul class="deep-ul"><li>论文声称 PINNIES 可用于积分算子问题。</li><li>摘要中未给出误差、收敛性、计算加速比或对比实验数值。</li><li>摘要未详述适用的具体积分方程类型、测试案例或基准数据。</li></ul><h3 class="deep-h">创新性判断</h3><ul class="deep-ul"><li>可能的新颖点在于将物理信息神经网络框架专门面向“积分算子问题”进行设计，而非一般微分方程类 PINN 应用。</li><li>“高效”可能意味着在积分算子计算、训练流程或框架实现上有改进，但摘要未详述，无法确定具体创新机制。</li><li>若论文确实提供了通用框架化实现，其贡献可能偏向方法框架与计算工具建设；但具体相对优势需全文或实验数据支撑。</li></ul></div></details>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://www.sciencedirect.com/science/article/pii/S0010465526002377?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a><div class="daily-inline-links"><a class="daily-inline-link" href="https://www.sciencedirect.com/science/article/pii/S0010465526002377?dgcid=rss_sd_all" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-3">页内定位</a></div></div>
 </div>
@@ -469,11 +349,11 @@
 <span class="daily-paper-number">04</span>
 <div class="daily-paper-body">
 <div class="daily-paper-head"><div class="daily-paper-titles">
-<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-06-surrogates-quantum-overhead.html" rel="noopener noreferrer" target="_blank">预测代理模型可将量子计算测量开销削减逾99.97%</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
+<div class="daily-paper-title-zh"><a class="daily-title-link" href="https://phys.org/news/2026-06-surrogates-quantum-overhead.html" rel="noopener noreferrer" target="_blank">预测替代模型可使量子测量开销降逾99.97%</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
 <div class="daily-paper-title-en"><a class="daily-title-link" href="https://phys.org/news/2026-06-surrogates-quantum-overhead.html" rel="noopener noreferrer" target="_blank">Predictive surrogates could cut quantum computing measurement overhead by more than 99.97%</a><a class="daily-permalink-link" href="#paper-4" title="复制本页定位">#</a></div>
 </div><span class="enrich-badge">📊 含图深析</span></div>
 <div class="daily-paper-meta"><span class="daily-chip daily-chip-topic">🧭 物理 / 凝聚态</span><span class="daily-chip daily-chip-journal">📖 Physics News</span><span class="daily-chip daily-chip-score">🔥 AI 0</span></div>
-<p class="daily-paper-highlight"><strong>💡 亮点：</strong>预测代理模型可削减逾99.97%量子测量开销。</p>
+<p class="daily-paper-highlight"><strong>💡 亮点：</strong>预测替代模型可削减逾99.97%量子测量开销。</p>
 <details class="enrich-details"><summary>📖 展开分析 + 配图</summary><div class="daily-deep-elements"><div class="poster-row"><b>研究问题</b>量子计算实验中需要大量重复测量/采样才能获得可靠统计结果，导致量子硬件调用次数高、运行成本高、实验吞吐受限；核心问题是如何在尽量保持结果可用性的前提下，大幅减少真实量子硬件测量次数。</div><div class="poster-row"><b>创新方法</b>引入“预测代理模型”作为量子测量流程中的替代预测器：先用少量真实量子测量数据学习输入条件与测量结果之间的关系，再用代理模型预测大量原本需要硬件采样得到的结果；Aha 点是把昂贵的量子测量调用转化为低成本的经典模型推断，从“多次实测求平均”转向“少量实测校准 + 大量代理预测”。</div><div class="poster-row"><b>工作流程</b>输入量子计算任务与待测量电路/参数 → 采集少量真实量子硬件测量样本 → 训练或校准预测代理模型 → 代理模型对未测量或少测量的量子输出进行预测 → 用预测结果替代部分硬件采样 → 输出近似测量统计量或任务结果，并显著降低实际测量开销。</div><div class="poster-row"><b>关键结果</b>论文声称预测代理模型可将量子计算测量开销削减超过 99.97%，意味着原本需要海量量子硬件采样的测量阶段，可被压缩为极少量真实测量加大量经典预测；主要发现是机器学习代理有潜力突破量子实验中的采样瓶颈。</div><div class="poster-row"><b>应用价值</b>该研究可降低量子硬件使用成本、缩短实验运行时间、提升有限量子设备的任务吞吐量；对变分量子算法、量子实验调参、噪声设备上的重复测量任务等场景具有实际价值，可让研究者用更少硬件资源完成更多量子计算实验。</div></div><div class="deep-body"><h3 class="deep-h">核心概览</h3><p>本文属于量子计算资源优化/测量开销降低方向，提出用“预测代理模型”替代或减少部分量子测量，以缓解量子硬件成本与测量资源消耗，并报告测量开销可降低超过 99.97%。</p><h3 class="deep-h">方法要点</h3><ul class="deep-ul"><li>使用预测代理模型来估计或替代部分量子计算测量结果。</li><li>目标是减少量子硬件运行中的测量次数或测量资源消耗。</li><li>摘要未详述代理模型的具体算法、训练方式、输入输出形式或适用任务。</li><li>摘要未说明实验平台、量子线路类型、基准任务或误差评估方法。</li></ul><h3 class="deep-h">关键结果</h3><ul class="deep-ul"><li>论文报告量子计算测量开销可削减超过 99.97%。</li><li>该方法旨在缓解量子硬件使用成本高和测量资源消耗大的问题。</li><li>摘要未详述该削减幅度对应的具体任务、精度损失、统计置信度或对比基线。</li></ul><h3 class="deep-h">创新性判断</h3><ul class="deep-ul"><li>可能的新颖点在于将预测代理模型用于显著减少量子测量需求，而不是完全依赖实际硬件重复测量。</li><li>若该方法能在保持结果精度的同时大幅减少测量次数，其相对常规量子测量流程具有较强实用价值。</li><li>但由于摘要未给出算法细节、适用范围和验证方式，其创新性强弱仍不确定。</li></ul></div></details>
 <div class="daily-paper-actions"><a class="daily-news-link" href="https://phys.org/news/2026-06-surrogates-quantum-overhead.html" rel="noopener noreferrer" target="_blank">阅读原文 ↗</a><div class="daily-inline-links"><a class="daily-inline-link" href="https://phys.org/news/2026-06-surrogates-quantum-overhead.html" rel="noopener noreferrer" target="_blank">原文链接</a><a class="daily-inline-link" href="#paper-4">页内定位</a></div></div>
 </div>
@@ -495,7 +375,7 @@
 <div class="daily-sidebar-title">专题分布</div>
 <div class="daily-sidebar-stats"><div class="daily-sidebar-fact"><span>文献总数</span><strong>4</strong></div><div class="daily-sidebar-fact"><span>含图深析</span><strong>4</strong></div><div class="daily-sidebar-fact"><span>期刊数</span><strong>2</strong></div></div>
 </div>
-<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#papers">今日文献</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">量子线路助力人工智能以少量新参数突破记忆限制<span class="daily-outline-meta">01</span></a><a class="daily-outline-link" href="#paper-2">预测Heusler合金磁热效应的可解释机器学习模型<span class="daily-outline-meta">02</span></a><a class="daily-outline-link" href="#paper-3">PINNIES：积分算子问题高效物理信息神经网络框架<span class="daily-outline-meta">03</span></a><a class="daily-outline-link" href="#paper-4">预测代理模型可将量子计算测量开销削减逾99.97%<span class="daily-outline-meta">04</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-06-06.html">前一天 · 2026-06-06</a><a class="daily-page-nav-link" href="2026-06-08.html">后一天 · 2026-06-08</a><a class="daily-page-nav-link" href="2026-06-10.html">最新一期 · 2026-06-10</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-06-07.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#papers">今日文献</a></div></div><div class="daily-sidebar-block">
+<div class="daily-sidebar-block" id="daily-enhancement-outline"><div class="daily-sidebar-title">单页目录</div><div class="daily-outline-scroll"><div class="daily-outline-group"><a class="daily-outline-group-title" href="#papers">今日文献</a><div class="daily-outline-list"><a class="daily-outline-link" href="#paper-1">量子线路助人工智能以少量新参数突破记忆限制<span class="daily-outline-meta">01</span></a><a class="daily-outline-link" href="#paper-2">预测赫斯勒合金磁热效应的可解释机器学习模型<span class="daily-outline-meta">02</span></a><a class="daily-outline-link" href="#paper-3">PINNIES：积分算子问题的高效物理约束神经网络<span class="daily-outline-meta">03</span></a><a class="daily-outline-link" href="#paper-4">预测替代模型可使量子测量开销降逾99.97%<span class="daily-outline-meta">04</span></a></div></div></div></div><div class="daily-sidebar-block" id="daily-enhancement-sidebar-nav"><div class="daily-sidebar-title">日期跳转</div><div class="daily-page-nav" id="daily-sidebar-nav-inner"><a class="daily-page-nav-link" href="2026-06-06.html">前一天 · 2026-06-06</a><a class="daily-page-nav-link" href="2026-06-08.html">后一天 · 2026-06-08</a><a class="daily-page-nav-link" href="2026-06-10.html">最新一期 · 2026-06-10</a><a class="daily-page-nav-link" href="index.html">日报归档</a><a class="daily-page-nav-link" href="2026-06-07.xml">当日RSS</a><a class="daily-page-nav-link" href="../feed.xml">站点RSS</a><a class="daily-page-nav-link" href="../index.html">主页</a><a class="daily-page-nav-link" href="#summary">今日摘要</a><a class="daily-page-nav-link" href="#papers">今日文献</a></div></div><div class="daily-sidebar-block">
 <div class="daily-sidebar-title">阅读建议</div>
 <ul class="insight-note-list">
 <li class="insight-note-item">含「📊 含图深析」徽标的条目可点开看信息图、中文要素与深度分析。</li>
