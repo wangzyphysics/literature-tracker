@@ -613,7 +613,7 @@ class AISummarizer:
             else:
                 authors = str(authors or "")
 
-            abstract = (article.get('abstract', ''))[:300]
+            abstract = (article.get('abstract', ''))[:600]
             # 不在提示词里给链接，防止 AI 试图复述链接导致出错
             # 仅给序号、标题、期刊、作者、摘要
             articles_text.append(
@@ -630,8 +630,10 @@ class AISummarizer:
             '  "index": X,\n'
             '  "title_zh": "二维范德华 NbOI2 中的室温铁电性",\n'
             '  "abstract_zh": "在二维 NbOI2 薄层中观测到稳定的面外铁电翻转，矫顽场约 0.3 V/nm，"\n'
-            '                "室温保持时间 > 10^4 s，为低维非易失存储提供候选体系。",\n'
-            '  "one_sentence_summary": "首次在二维 NbOI2 中实现室温稳定的面外铁电翻转。"\n'
+            '                "室温保持时间 > 10^4 s；通过二次谐波与压电力显微镜确认极化方向，"\n'
+            '                "并给出层厚依赖的相变温度，为低维非易失存储提供候选体系。",\n'
+            '  "one_sentence_summary": "首次在二维 NbOI2 中实现室温稳定的面外铁电翻转，矫顽场低至 0.3 V/nm。'
+            '该体系兼具薄层可集成性与长保持时间，为低功耗非易失存储与可重构光电器件提供了新的二维材料平台。"\n'
             "}\n"
         )
 
@@ -643,9 +645,10 @@ class AISummarizer:
             "1. title_zh：**必须**把英文标题翻成中文，不超过 40 字。只有**化学式/材料符号/缩写**"
             "（如 BaTiO3、MoS2、GaN/AlN、DFT、GNN、MBQC）可原样保留，其他英文词一律译成中文。"
             "**禁止**把 title_zh 填成英文原标题或英文多数词；若检测到输出的 title_zh 里中文字符占比 < 50%，视为违反要求。\n"
-            "2. abstract_zh：用中文把摘要压缩成 ≤120 字的研究要点，必须写出：体系/方法/关键数值或结论，至少一项。"
-            "禁止任何套话：'本研究/取得进展/具有重要意义/为…提供新思路/点击查看' 等一律不允许。\n"
-            "3. one_sentence_summary：一句话 ≤40 字，只写最有信息量的那一点（创新点或最强结论），不得空泛。\n"
+            "2. abstract_zh：用中文把摘要写成 ≤200 字的研究要点概括，必须写出：体系/方法/关键数值或结论，"
+            "尽量多覆盖。禁止任何套话：'本研究/取得进展/具有重要意义/为…提供新思路/点击查看' 等一律不允许。\n"
+            "3. one_sentence_summary：一段 2~3 句、≤100 字的中文亮点：核心创新点 + 最强结论 + 对凝聚态/"
+            "AI for science 方向的意义。要落到具体材料/现象/方法，不得空泛。\n"
             "4. 全部用中文；不输出链接（程序按序号自动补全）；不得编造原文没有的数据。\n"
             "5. summaries 必须覆盖所有输入序号，index 严格一致。\n"
             "6. highlights：仅挑选 ≤3 篇**真正**最突出的工作（创新点、方法论或关键结论）。"
@@ -680,7 +683,7 @@ class AISummarizer:
                 authors = ", ".join([str(a) for a in authors[:6]]) + (" 等" if len(authors) > 6 else "")
             else:
                 authors = str(authors or "")
-            abstract = (article.get('abstract', ''))[:300]
+            abstract = (article.get('abstract', ''))[:600]
             articles_text.append(
                 f"[{idx}] Title: {title}\nJournal: {journal}\nAuthors: {authors}\nAbstract: {abstract}\n"
             )
@@ -697,8 +700,8 @@ class AISummarizer:
     {{
       "index": 1,
       "title_zh": "中文标题（翻译原标题）",
-      "abstract_zh": "摘要中文翻译（100字以内）",
-      "one_sentence_summary": "一句话中文总结（突出研究亮点）"
+      "abstract_zh": "摘要中文概括（≤200字，写出体系/方法/关键结论）",
+      "one_sentence_summary": "一段2~3句、≤100字的中文亮点（创新点+最强结论+方向意义）"
     }}
   ]
 }}
@@ -894,7 +897,7 @@ class AISummarizer:
                 title_zh = _clamp_text(raw_title_zh, 80)
                 abstract_zh_raw = ai_info.get('abstract_zh') or ""
                 abstract_zh = _clamp_text(abstract_zh_raw, 240)
-                one_sentence = _clamp_text(ai_info.get('one_sentence_summary') or "", 80)
+                one_sentence = _clamp_text(ai_info.get('one_sentence_summary') or "", 120)
                 if not (title_zh or abstract_zh or one_sentence):
                     missing_summary_count += 1
                 if any(
@@ -953,7 +956,7 @@ class AISummarizer:
                         "title_zh": _clamp_text(info.get('title_zh') or "", 80),
                         "abstract_zh": _clamp_text(info.get('abstract_zh') or "", 240),
                         "link": art.get('link'),
-                        "summary": _clamp_text(info.get('one_sentence_summary') or "", 80),
+                        "summary": _clamp_text(info.get('one_sentence_summary') or "", 120),
                         "reason": _clamp_text(h.get('reason') or "", 50),
                         "journal": art.get("journal", ""),
                         "authors": art.get("authors", []),

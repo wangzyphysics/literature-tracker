@@ -17,6 +17,7 @@ from text_normalizer import normalize_articles_inplace, normalize_text
 from translator import translate_text
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from weekly_page_enhancer import enhance_weekly_archive
+from weekly_prompts import _build_analyze_prompt
 import time
 
 try:
@@ -340,20 +341,7 @@ class WeeklySummarizer:
             if not abstract:
                 return ""
             
-            prompt = f"""请对以下文献进行简要分析，生成一段50-80字的简要总结，突出核心创新点和研究意义。
-
-标题: {title}
-期刊: {journal}
-摘要: {abstract[:500]}
-
-要求:
-1. 用中文输出
-2. 50-80字，简洁明了
-3. 突出核心创新点
-4. 说明研究意义或应用价值
-5. 不要重复摘要内容，而是进行分析总结
-
-直接输出分析结果，不要添加任何前缀或格式："""
+            prompt = _build_analyze_prompt(title, journal, abstract)
             
             response = self.provider.call_api(prompt)
             # 清理响应，移除可能的引号、JSON格式或格式
@@ -378,7 +366,7 @@ class WeeklySummarizer:
             if analysis.startswith('```'):
                 lines = analysis.split('\n')
                 analysis = '\n'.join([l for l in lines if not l.startswith('```')])
-            return analysis[:100]  # 限制长度
+            return analysis[:130]  # 限制长度(≤100字留余量)
             
         except Exception as e:
             print(f"⚠️ 文章分析失败: {e}")
@@ -1509,7 +1497,7 @@ class WeeklySummarizer:
                 preview_raw = ''
                 if raw_abstract_zh or raw_abstract_en:
                     preview_source = raw_abstract_zh or raw_abstract_en
-                    preview_raw = shorten_text(preview_source, 220)
+                    preview_raw = shorten_text(preview_source, 240)
                 preview_html = ''
                 if preview_raw and preview_raw != note_raw:
                     preview_html = f'<div class="weekly-paper-preview">{_safe_text(preview_raw)}</div>'

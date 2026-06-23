@@ -87,6 +87,12 @@ def test_index_main_scripts_deferred_and_preconnect():
         assert "defer" in tag.group(0), f"{script} 应当 defer(内联脚本已验证无同步依赖)"
 
 
+def test_daily_common_css_has_abstract_and_highlight():
+    css = _read("daily-common.css")
+    assert ".daily-paper-abstract" in css, "应为摘要块加样式"
+    assert ".daily-paper-highlight" in css, "应为亮点块加样式"
+
+
 if __name__ == "__main__":
     for _fn in sorted(k for k in dir() if k.startswith("test_")):
         globals()[_fn]()

@@ -500,8 +500,10 @@ def render_unified_item(item: Dict, index: int) -> str:
     title_en_block = (f'<div class="daily-paper-title-en">{safe_text(title_en)}</div>'
                       if show_zh and title_en else "")
     meta_html = render_meta_chips(item)
-    highlight = (item.get("summary") or item.get("abstract_zh")
-                 or item.get("one_sentence_summary") or "").strip()
+    abstract_zh = (item.get("abstract_zh") or "").strip()
+    abs_html = (f'<p class="daily-paper-abstract"><strong>📄 摘要：</strong>{safe_text(abstract_zh)}</p>'
+                if abstract_zh else "")
+    highlight = (item.get("summary") or item.get("one_sentence_summary") or "").strip()
     hl_html = (f'<p class="daily-paper-highlight"><strong>💡 亮点：</strong>{safe_text(highlight)}</p>'
                if highlight else "")
     link = safe_url(item.get("link") or "")
@@ -530,6 +532,7 @@ def render_unified_item(item: Dict, index: int) -> str:
                 {title_en_block}
             </div>{badge}</div>
             <div class="daily-paper-meta">{meta_html}</div>
+            {abs_html}
             {hl_html}
             {details}
             <div class="daily-paper-actions"><a class="daily-news-link" href="{link}" target="_blank" rel="noopener noreferrer">阅读原文 ↗</a></div>

@@ -292,6 +292,31 @@ if __name__ == "__main__":
     raise SystemExit(main())
 
 
+def test_render_unified_item_shows_abstract_then_highlight():
+    from generate_daily_pages import render_unified_item
+    item = {"title": "P", "title_en": "P", "title_zh": "标题",
+            "abstract_zh": "该工作在 BaTiO3 中用 MACE 等变势复现相变温度，误差 < 5K。",
+            "summary": "首次把等变势用于钙钛矿相变预测，精度接近第一性原理。",
+            "link": "http://x", "journal": "arXiv", "_tier": 2, "_enrich": None}
+    html = render_unified_item(item, 1)
+    assert "daily-paper-abstract" in html and "📄 摘要" in html
+    assert "MACE 等变势复现相变温度" in html
+    assert "daily-paper-highlight" in html and "💡 亮点" in html
+    assert "首次把等变势用于钙钛矿相变预测" in html
+    # 摘要块在亮点块之前
+    assert html.index("📄 摘要") < html.index("💡 亮点")
+
+
+def test_render_unified_item_no_abstract_block_when_empty():
+    from generate_daily_pages import render_unified_item
+    item = {"title": "P", "title_en": "P", "summary": "只有亮点",
+            "link": "http://x", "journal": "arXiv", "_tier": 2, "_enrich": None}
+    html = render_unified_item(item, 1)
+    assert "📄 摘要" not in html           # 无 abstract_zh 不出摘要块
+    assert "💡 亮点" in html and "只有亮点" in html
+    # 亮点不再被 abstract_zh 兜底污染(此处无 abstract_zh,亮点仍是 summary)
+
+
 def test_classify_uses_title_en_when_title_empty():
     # full_list stores English under title_en with title empty → must still classify AI×
     from generate_daily_pages import build_tier2_candidates, build_core_export
