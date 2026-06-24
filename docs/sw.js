@@ -12,8 +12,8 @@
  * - 跨域(CDN)请求不拦截
  */
 
-const CACHE_NAME = 'literature-tracker-v5';
-const DATA_CACHE_NAME = 'literature-data-v5';
+const CACHE_NAME = 'literature-tracker-v6';
+const DATA_CACHE_NAME = 'literature-data-v6';
 
 const STATIC_ASSETS = [
     './',
