@@ -6,6 +6,7 @@ import feedparser
 import hashlib
 import os
 import re
+import requests
 from datetime import datetime, timezone, timedelta
 from dateutil import parser as date_parser
 from typing import Optional
@@ -124,7 +125,23 @@ class RSSFetcher:
         """抓取单个RSS源"""
         articles = []
         try:
-            feed = feedparser.parse(url)
+            # 先用 requests 带超时拉取，再交给 feedparser 解析。
+            # feedparser.parse(url) 底层 urllib 无超时，遇到慢/挂起的源(如 feedburner)会无限阻塞。
+            try:
+                timeout = float((os.environ.get("RSS_FETCH_TIMEOUT", "20") or "20").strip())
+            except Exception:
+                timeout = 20.0
+            try:
+                resp = requests.get(
+                    url,
+                    timeout=timeout,
+                    headers={"User-Agent": "Mozilla/5.0 (literature-tracker RSS fetcher)"},
+                )
+                feed = feedparser.parse(resp.content)
+            except requests.RequestException as e:
+                # 网络层失败(超时/连接错误)：跳过该源，不阻塞其余源
+                print(f"抓取失败 {url}: {type(e).__name__}: {e}")
+                return articles
             journal = self._get_journal_name(url, feed)
 
             # Some feeds (e.g., Research Square) can return 1000+ entries, which is wasteful and slows Actions.

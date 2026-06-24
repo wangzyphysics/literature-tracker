@@ -16,9 +16,11 @@ CORE_METHOD_TERMS: Tuple[str, ...] = (
     "ml potential", "mlip", "interatomic potential", "neural network potential",
     "nnp", "ml hamiltonian", "learnable hamiltonian",
     "equivariant force field", "mace", "nequip", "allegro", "schnet",
+    # 生成模型 / 晶体结构预测
+    "generative model", "crystal structure prediciton", "csp",
     # 中文
     "机器学习", "深度学习", "神经网络", "大语言模型", "人工智能",
-    "神经网络势", "机器学习势",
+    "神经网络势", "机器学习势", "生成模型", "晶体结构生成模型", "逆向设计"
 )
 
 # —— ferro/磁/凝聚态侧 ——
@@ -29,10 +31,12 @@ CORE_FERRO_TERMS: Tuple[str, ...] = (
     "moire magnet", "moiré magnet", "spintronic", "spintronics",
     "spin current", "topological magnon", "spin wave", "spin texture",
     "magnetic order", "magnetic anisotropy", "exchange interaction",
+    "high pressure", "superconductor", "hydride superconductor",
     # 中文
     "铁电", "铁磁", "反铁磁", "交错磁", "多铁", "压电", "磁电",
     "斯格明子", "磁振子", "自旋霍尔", "自旋流", "磁性", "拓扑磁",
-    "自旋波", "磁各向异性", "交换相互作用",
+    "自旋波", "磁各向异性", "交换相互作用", "高压", "超导体",
+    "富氢超导体",
 )
 
 # ── Taxonomy: tiered research-focus categories ────────────────────────────────

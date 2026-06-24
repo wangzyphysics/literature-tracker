@@ -25,7 +25,7 @@ PHYSICS_TERMS: Tuple[str, ...] = (
     'multiferroic', 'condensed matter', 'superconduct', 'phonon', 'lattice', 'exciton', 'moire',
     'moiré', 'topological', 'skyrmion', 'hall effect', 'electronic structure', 'band structure',
     'weyl', 'josephson', 'magnon', 'altermagnet', 'quantum gas', 'plasma',
-    '凝聚态', '量子', '磁性', '铁电', '铁磁', '反铁磁', '多铁', '超导', '声子', '晶格', '拓扑',
+    '凝聚态', '量子', '磁性', '铁电', '铁磁', '反铁磁', '多铁', '超导', '声子', '晶格', '拓扑', '高压'
 )
 
 PHYSICS_CORE_TERMS: Tuple[str, ...] = PHYSICS_TERMS + (
@@ -37,7 +37,7 @@ DAILY_PHYSICS_TERMS: Tuple[str, ...] = (
     'quantum', 'spin', 'magnetic', 'magnetism', 'ferroelectric', 'ferromagnet', 'antiferromagnet',
     'multiferroic', 'superconduct', 'phonon', 'exciton', 'moire', 'moiré', 'electronic structure',
     'band structure', 'hall effect', 'skyrmion', 'altermagnet', 'kagome', 'spintronic', 'spintronics',
-    'photonic crystal', 'electron tomography',
+    'photonic crystal', 'electron tomography', 'high pressure', 'csp', 'phase transition'
 )
 
 CHEMISTRY_TERMS: Tuple[str, ...] = (
@@ -283,13 +283,13 @@ TIER2_JOURNAL_HINTS: Tuple[str, ...] = (
 
 # 日报标题AI关键词（用户指定）
 DAILY_TITLE_AI_TERMS: Tuple[str, ...] = (
-    'learning', 'neural', 'network',
+    'learning', 'neural', 'network'
 )
 
 # 日报标题物理关键词（用户指定）
 DAILY_TITLE_PHYSICS_TERMS: Tuple[str, ...] = (
     'quantum', 'spin', 'magnetic', 'superconduct', 'moire', 'moiré', 
-    'altermagnet', 'ferro', 'magent',
+    'altermagnet', 'ferro', 'magent', 'high pressure', 'structure', 'csp'
 )
 
 # 日报标题化学关键词（暂不启用）

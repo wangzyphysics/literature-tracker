@@ -27,7 +27,7 @@ RSS_FEEDS = [
     "https://www.nature.com/npjcompumats.rss",
     "https://academic.oup.com/rss/site_5332/3198.xml",
     "https://rss.sciencedirect.com/publication/science/20959273",
-    "http://feeds.feedburner.com/acs/jacsat",
+    "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=jacsat",  # JACS（feedburner 源已废弃，改用 pubs.acs.org）
     "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=ancac3",
     "https://onlinelibrary.wiley.com/action/showFeed?jc=15213773&type=etoc&feed=rss",
     "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=nalefd",
@@ -45,9 +45,7 @@ RSS_FEEDS = [
     "http://feeds.aps.org/rss/recent/prresearch.xml",
     "http://feeds.aps.org/rss/recent/prb.xml",
     "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=chreay",
-    "http://feeds.feedburner.com/acs/nalefd",
-    "http://feeds.feedburner.com/acs/achre4",
-    "http://feeds.feedburner.com/physicstodaynews",
+    # feedburner ACS 源已废弃(只返回"feed has changed"占位)；nalefd/achre4 上文已有 pubs.acs.org 等价源，physicstodaynews 无替代，一并移除
     "https://iopscience.iop.org/journal/rss/2632-2153",
     "https://onlinelibrary.wiley.com/action/showFeed?jc=15214095&type=etoc&feed=rss",
     "https://onlinelibrary.wiley.com/action/showFeed?jc=16163028&type=etoc&feed=rss",
@@ -116,17 +114,34 @@ KEYWORDS = USER_KEYWORDS.get("于宏宇", [])
 
 import os
 
+# 加载本地配置 config.local.py（已 gitignore）。
+# 注意：不能用 `from config.local import ...` —— config.py 是单文件而非包，
+# 那种写法永远 ModuleNotFoundError。改用按文件路径加载，单文件布局下才生效。
+_local_config = None
+try:
+    import importlib.util as _ilu
+
+    _local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.local.py")
+    if os.path.exists(_local_path):
+        _spec = _ilu.spec_from_file_location("config_local", _local_path)
+        _local_config = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_local_config)
+except Exception as _e:  # 本地配置坏掉不应阻塞主流程（CI 走环境变量）
+    print(f"⚠️ 加载 config.local.py 失败，回退到环境变量/默认值: {_e}")
+    _local_config = None
+
+
+def _local(name, default=None):
+    """从 config.local.py 读取顶层变量；不存在则返回 default。"""
+    return getattr(_local_config, name, default) if _local_config is not None else default
+
+
 # 邮件配置
 # 优先从本地配置文件读取
-_local_email_config = {}
-try:
-    from config.local import EMAIL_CONFIG as LOCAL_EMAIL_CONFIG
-    _local_email_config = LOCAL_EMAIL_CONFIG
-except ImportError:
-    pass
+_local_email_config = _local("EMAIL_CONFIG", {}) or {}
 
 EMAIL_CONFIG = {
-    "recipient": "594836947@qq.com",
+    "recipient": "1276949607@qq.com",
     "smtp_server": "smtp.qq.com",
     "smtp_port": 465,
     "sender_email": _local_email_config.get("sender_email") or os.environ.get("EMAIL_SENDER", ""),  # 优先从config.local.py读取
@@ -136,12 +151,7 @@ EMAIL_CONFIG = {
 
 # 微信推送配置（Server酱）
 # 优先从本地配置文件读取
-_local_wechat_config = {}
-try:
-    from config.local import WECHAT_CONFIG as LOCAL_WECHAT_CONFIG
-    _local_wechat_config = LOCAL_WECHAT_CONFIG
-except ImportError:
-    pass
+_local_wechat_config = _local("WECHAT_CONFIG", {}) or {}
 
 WECHAT_CONFIG = {
     "enabled": _local_wechat_config.get("enabled", False),  # 是否启用微信推送
@@ -150,12 +160,7 @@ WECHAT_CONFIG = {
 
 # AI摘要配置
 # 优先从本地配置文件读取，然后从环境变量读取
-_local_ai_config = {}
-try:
-    from config.local import AI_CONFIG as LOCAL_AI_CONFIG
-    _local_ai_config = LOCAL_AI_CONFIG
-except ImportError:
-    pass
+_local_ai_config = _local("AI_CONFIG", {}) or {}
 
 AI_CONFIG = {
     "enabled": True,

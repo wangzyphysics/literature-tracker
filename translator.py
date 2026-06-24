@@ -14,13 +14,26 @@ import re
 
 from ai_summarizer import build_provider
 
+try:
+    from config import AI_CONFIG as _DEFAULT_AI_CONFIG
+except Exception:
+    _DEFAULT_AI_CONFIG = {}
+
 class Translator:
     def __init__(self):
         self.translator = GoogleTranslator(source='en', target='zh-CN')
         self._ai_provider = None
-        self._ai_provider_name = (os.environ.get("AI_PROVIDER") or "openrouter").strip()
-        self._ai_key = (os.environ.get("AI_API_KEY") or "").strip()
-        self._ai_model = (os.environ.get("AI_MODEL") or "").strip() or None
+        # 配置优先级与 config.py 一致：环境变量 > config.local.py(经 config.AI_CONFIG)
+        _cfg = _DEFAULT_AI_CONFIG if isinstance(_DEFAULT_AI_CONFIG, dict) else {}
+        self._ai_provider_name = (
+            os.environ.get("AI_PROVIDER") or _cfg.get("provider") or "openrouter"
+        ).strip()
+        self._ai_key = (
+            os.environ.get("AI_API_KEY") or _cfg.get("api_key") or ""
+        ).strip()
+        self._ai_model = (
+            (os.environ.get("AI_MODEL") or _cfg.get("model") or "").strip() or None
+        )
     
     def translate(self, text: str) -> str:
         """翻译文本到中文"""

@@ -153,16 +153,22 @@ class KimiClaudeCodeProvider(AIProvider):
     DEFAULT_MODEL = "kimi-k2-turbo-preview"
 
     def __init__(self, api_key: str, model: str = None):
-        self.api_key = (api_key or "").strip()
+        self.api_key = (
+            (api_key or "").strip()
+            or os.environ.get("ANTHROPIC_AUTH_TOKEN", "").strip()
+        )
         self.model = (
             model
             or os.environ.get("AI_MODEL")
             or os.environ.get("KIMI_MODEL")
+            or (DEFAULT_AI_CONFIG.get("model") if isinstance(DEFAULT_AI_CONFIG, dict) else None)
             or self.DEFAULT_MODEL
         )
         base = (
             os.environ.get("KIMI_BASE_URL")
+            or os.environ.get("ANTHROPIC_BASE_URL")
             or os.environ.get("AI_BASE_URL")
+            or (DEFAULT_AI_CONFIG.get("base_url") if isinstance(DEFAULT_AI_CONFIG, dict) else None)
             or self.DEFAULT_BASE_URL
         ).rstrip("/")
         # Accept both ".../coding" and ".../coding/v1/messages"
@@ -432,7 +438,7 @@ def normalize_chat_completions_url(raw_url: Optional[str]) -> str:
 def build_provider(api_provider: str, api_key: str, model: str = None) -> AIProvider:
     """Factory for AI providers."""
     name = (api_provider or "").strip().lower()
-    if name in ("kimi", "kimi-coding", "moonshot-coding", "kimi-claude"):
+    if name in ("kimi", "kimi-coding", "moonshot-coding", "kimi-claude", "anthropic", "claude"):
         return KimiClaudeCodeProvider(api_key=api_key, model=model)
     if name in ("openrouter", "open-router", "or"):
         return OpenRouterProvider(api_key=api_key, model=model)
