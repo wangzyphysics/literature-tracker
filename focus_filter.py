@@ -25,7 +25,7 @@ PHYSICS_TERMS: Tuple[str, ...] = (
     'multiferroic', 'condensed matter', 'superconduct', 'phonon', 'lattice', 'exciton', 'moire',
     'moiré', 'topological', 'skyrmion', 'hall effect', 'electronic structure', 'band structure',
     'weyl', 'josephson', 'magnon', 'altermagnet', 'quantum gas', 'plasma',
-    '凝聚态', '量子', '磁性', '铁电', '铁磁', '反铁磁', '多铁', '超导', '声子', '晶格', '拓扑', '高压'
+    '凝聚态', '量子', '磁性', '铁电', '铁磁', '反铁磁', '多铁', '超导', '声子', '晶格', '拓扑', '高压', '地学'
 )
 
 PHYSICS_CORE_TERMS: Tuple[str, ...] = PHYSICS_TERMS + (

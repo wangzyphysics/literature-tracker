@@ -31,12 +31,13 @@ CORE_FERRO_TERMS: Tuple[str, ...] = (
     "moire magnet", "moiré magnet", "spintronic", "spintronics",
     "spin current", "topological magnon", "spin wave", "spin texture",
     "magnetic order", "magnetic anisotropy", "exchange interaction",
-    "high pressure", "superconductor", "hydride superconductor",
+    "high pressure", "superconductor", "hydride superconductor", "hydrous",
+    "Dense hydrous", "water carrier", "deep Earth", "water cycle"
     # 中文
     "铁电", "铁磁", "反铁磁", "交错磁", "多铁", "压电", "磁电",
     "斯格明子", "磁振子", "自旋霍尔", "自旋流", "磁性", "拓扑磁",
     "自旋波", "磁各向异性", "交换相互作用", "高压", "超导体",
-    "富氢超导体", "含水矿物"
+    "富氢超导体", "含水矿物", "致密含水矿物", "水运输载体", "地球深部", "水循环",
 )
 
 # ── Taxonomy: tiered research-focus categories ────────────────────────────────

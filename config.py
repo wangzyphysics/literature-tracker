@@ -74,6 +74,28 @@ RSS_FEEDS = [
 # 多用户关键词配置
 # 每个用户可以定义自己的关键词列表，用于在网页上筛选相关文献
 USER_KEYWORDS = {
+    "王振雨": [
+        "ferro",
+        "machine",
+        "learn",
+        "magne",
+        "neural",
+        "network",
+        "potential",
+        "hamiltonian",
+        "multiferroics",
+        "symmetry",
+        "superconductor",
+        "superhydride",
+        "high pressure",
+        "crystal structure prediction",
+        "crystal structure generative model",
+        "hydrous",
+        "dense hydrous",
+        "water carrier",
+        "water cycle",
+        "deep Earth",
+    ],
     "于宏宇": [
         "ferro",
         "machine",
