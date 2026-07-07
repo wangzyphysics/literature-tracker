@@ -1,9 +1,9 @@
 [
   {
     "title": "Improving generalization and trainability of quantum eigensolvers via graph neural encoding",
-    "title_zh": "用 GNN 编码改进量子本征求解器",
-    "summary": "把 Hamiltonian 的结构信息注入 VQE 参数化，试图同时提升可训练性和跨实例泛化。若能稳定提高基态重叠，将直接服务量子化学、多体物理和组合优化中的初态制备。",
-    "abstract": "面向多体 Hamiltonian 基态制备，提出图神经网络编码的变分量子本征求解框架，用图结构表征问题实例以改善跨体系泛化和训练稳定性。目标是为相位估计、量子子空间方法等容错算法提供与真实基态有足够重叠的初态，缓解标准 VQE 在可训练性和实例迁移上的瓶颈。",
+    "title_zh": "图神经编码改进量子本征求解器",
+    "summary": "图神经编码被用于把哈密顿量结构注入变分量子本征求解器。核心目标是提升跨体系泛化和训练稳定性，使近端量子线路更适合作为容错算法的高重叠初态生成器。",
+    "abstract": "面向多体哈密顿量基态制备，讨论量子相位估计、量子子空间方法对高基态重叠初态的依赖。以图神经编码增强变分量子本征求解器，目标是缓解标准变分线路在体系增大时的可训练性与泛化不足问题，用于物理、化学和组合优化中的基态近似。",
     "category": "AI×物理",
     "link": "https://iopscience.iop.org/article/10.1088/2632-2153/ae7eee",
     "journal": "Machine Learning: Science and Technology"
@@ -11,8 +11,8 @@
   {
     "title": "Reconstructing quantum dot charge stability diagrams with diffusion models",
     "title_zh": "扩散模型重建量子点电荷稳定图",
-    "summary": "条件扩散模型把少量量子点扫描数据补全为完整电荷稳定图。该策略将生成模型用于低温量子器件表征，有望减少自旋量子比特阵列调参时间。",
-    "abstract": "针对自旋量子处理器中量子点电荷稳定图测量耗时的问题，使用条件扩散模型从稀疏测量重建完整 CSD。方法尤其面向远程传感器架构，其中传感器不能直接探测目标量子点电荷；生成式补全减少高分辨率扫描需求，加速器件调谐与占据态判定。",
+    "summary": "条件扩散模型把少量量子点测量补全为完整电荷稳定图。该方法直接针对远程传感架构的调参瓶颈，有望减少大规模自旋量子芯片的表征时间。",
+    "abstract": "针对自旋量子处理器中量子点电荷稳定图高分辨测量耗时、远程传感器难以直接探测目标量子点的问题，采用条件扩散模型从稀疏测量重建完整电荷稳定图。生成式重建用于加速器件表征，评估对象为决定量子点占据态的二维数据图。",
     "category": "AI×物理",
     "link": "https://iopscience.iop.org/article/10.1088/2632-2153/ae8070",
     "journal": "Machine Learning: Science and Technology"
@@ -20,35 +20,44 @@
   {
     "title": "Towards generalizable deep ptychography neural networks",
     "title_zh": "走向可泛化的深度叠层成像网络",
-    "summary": "工作聚焦深度叠层成像从“单实验拟合”走向跨条件泛化。对同步辐射和电子显微相干成像而言，可泛化网络比单一高精度模型更接近自动化材料表征需求。",
-    "abstract": "论文主题为提高深度学习叠层成像神经网络的泛化能力，面向相干衍射成像中的相位恢复与样品重构。摘要未给出具体网络结构、训练数据规模或误差指标；核心问题是避免模型只适配单一实验条件，使深度重构方法可迁移到不同样品、光束和扫描设置。",
-    "category": "其他",
+    "summary": "工作把深度叠层成像的核心问题从单一数据集精度推进到跨实验泛化。若能稳定迁移，将降低相干衍射成像中反复标定和重新训练的成本。",
+    "abstract": "面向叠层扫描相干衍射成像的深度神经网络，主题聚焦模型在不同样品、光束与实验条件间的可泛化性。论文发表于 npj Computational Materials，目标是减少深度叠层成像对特定训练分布的依赖，使神经网络重建更适合材料显微表征中的跨场景应用。",
+    "category": "AI×化学·材料",
     "link": "https://www.nature.com/articles/s41524-026-02198-4",
     "journal": "npj Computational Materials"
   },
   {
+    "title": "Group convolutional neural network for the low-energy spectrum in the quantum dimer model",
+    "title_zh": "量子二聚体低能谱的群卷积网络",
+    "summary": "p4m 群卷积网络把方格量子二聚体模型的空间群对称性显式写入波函数表示。按不可约表示分解低能态，可提升强关联格点模型神经量子态的效率与可解释性。",
+    "abstract": "在 L×L 方格量子二聚体模型中，构造具有 p4m 对称性的群卷积神经网络表示最低能本征态。模型按晶格空间群的不可约表示分块处理，共涉及 (L²+18L+72)/8 个不可约表示，用对称性约束网络学习低能谱结构。",
+    "category": "AI×物理",
+    "link": "http://link.aps.org/doi/10.1103/nvcg-mb1r",
+    "journal": "Phys. Rev. B"
+  },
+  {
     "title": "Learning complexity gradually in quantum machine learning models",
     "title_zh": "量子机器学习模型的渐进复杂度学习",
-    "summary": "渐进式增加量子模型复杂度，把训练难题拆成更易优化的阶段。该思想为近中期量子机器学习提供了比盲目加深线路更稳健的训练范式。",
-    "abstract": "针对量子机器学习训练初始化困难和优化不稳定，提出逐步增加模型复杂度的训练思路。摘要显示重点在建立有效训练路径，而非一次性优化高表达能力量子模型；该策略旨在降低贫瘠高原和参数初始化敏感性对量子模型学习性能的影响。",
+    "summary": "渐进增加任务或模型复杂度被引入量子机器学习训练。该策略瞄准初始化与优化瓶颈，可能比单次端到端训练更适合噪声量子硬件上的模型学习。",
+    "abstract": "针对量子机器学习训练中有效初始化困难与优化不稳定问题，提出让模型逐步学习复杂度的训练思想。论文关注如何避免量子模型一开始进入难优化区域，并改善混合量子经典模型在实际任务中的训练流程。",
     "category": "AI×物理",
     "link": "http://link.aps.org/doi/10.1103/wnlr-q9xd",
     "journal": "Phys. Rev. Research"
   },
   {
     "title": "Quantum LEGO Learning: A Modular Design Principle for Hybrid Artificial Intelligence",
-    "title_zh": "量子积木学习：混合 AI 模块化原则",
-    "summary": "把混合量子 AI 从端到端训练改为模块化拼装，强调经典预训练与量子块复用。该设计更贴近有噪声量子硬件的工程约束。",
-    "abstract": "提出 Quantum LEGO Learning，将混合量子-经典学习拆解为可复用经典模块和量子模块，显式分离编码、量子处理与读出角色。不同于端到端强耦合训练，该框架利用预训练经典组件降低量子线路优化难度，减少对特定编码器设计和量子噪声的敏感性。",
+    "title_zh": "量子积木学习的混合智能模块设计",
+    "summary": "量子积木学习把混合智能从紧耦合端到端线路改为模块拼装。它强调预训练经典编码与量子处理单元解耦，有助于降低噪声和编码器选择对性能的控制。",
+    "abstract": "提出“量子积木学习”模块化框架，将混合量子经典学习拆为可复用的经典块与量子块，并显式分离角色。针对端到端混合架构难优化、对噪声敏感、强依赖编码器的问题，引入预训练经典模块与量子模块组合的设计原则。",
     "category": "其他",
     "link": "https://www.researchsquare.com/article/rs-9730742/latest",
     "journal": "Preprints"
   },
   {
     "title": "Integration of a Structural Coherence Model with a Semi-Universal Machine Learning Interatomic Potential to Predict Molten Salt Thermal Conductivity",
-    "title_zh": "结构相干模型与机器学习势预测熔盐热导",
-    "summary": "半通用机器学习势被用于熔盐热导率预测，并引入结构相干信息约束。对高温储能和核能工质筛选，关键价值在于用较低成本填补实验热物性空白。",
-    "abstract": "面向能源系统熔盐工质热导率数据缺口，将结构相干模型与半通用机器学习原子间势结合，用分子动力学预测热输运。传统 Green-Kubo 和非平衡 MD 成本高且不确定度受限；该方法试图在保持物理约束的同时降低模拟成本，补全多种熔盐热物性数据库。",
+    "title_zh": "结构相干模型结合机器学习势预测熔盐热导",
+    "summary": "半通用机器学习势被用于熔盐热导率预测，并与结构相干模型耦合。该路线把昂贵的分子动力学热输运计算转化为更可扩展的热物性数据库生成工具。",
+    "abstract": "面向能源系统用熔盐热导率数据缺乏的问题，将结构相干模型与半通用机器学习原子间势结合，用分子动力学补全热物性数据库。目标是降低 Green-Kubo 或非平衡分子动力学直接预测热导的计算成本，并保持较低不确定度。",
     "category": "其他",
     "link": "https://www.researchsquare.com/article/rs-10223172/latest",
     "journal": "Preprints"
@@ -56,127 +65,118 @@
   {
     "title": "Altermagnetic spintronics",
     "title_zh": "交替磁性自旋电子学",
-    "summary": "交替磁性把反铁磁的零杂散场和铁磁式自旋劈裂结合到同一材料类别。其与铁电、超导耦合的综述为新型高速自旋逻辑和存储器件划定了材料路线。",
-    "abstract": "综述交替磁性这一非常规磁有序在自旋电子学中的作用。交替磁体兼具零净磁矩与动量依赖自旋劈裂，可支持快速、低串扰自旋器件；文章讨论其与铁电、超导体系的耦合，以及可扩展器件架构中电控、自旋输运和读写机制的机会与挑战。",
+    "summary": "交替磁性被系统定位为介于铁磁与反铁磁之外的自旋电子学平台。其与铁电、超导耦合的可控性，是构建无杂散场高速器件的关键方向。",
+    "abstract": "综述交替磁性这一非常规磁有序及其自旋电子学潜力。重点讨论交替磁体兼具反铁磁零净磁矩与动量依赖自旋劈裂的特征，以及与铁电、超导体系耦合时可能产生的快速、低耗、可扩展自旋器件方案。",
     "category": "磁性·自旋电子学",
     "link": "https://www.nature.com/articles/s41567-026-03337-w",
     "journal": "Nature Physics"
   },
   {
     "title": "Out-of-plane Ruddlesden–Popper ferroelectrics catch a break",
-    "title_zh": "面外 Ruddlesden–Popper 铁电体破局",
-    "summary": "通过对称性破缺激活 RP 铁电体的面外可调介电响应。高可调性与低损耗组合使层状氧化物更适合可集成射频和可重构电子器件。",
-    "abstract": "报道通过打破 Ruddlesden–Popper 铁电材料对称性，制备具有面外介电响应的材料。该体系表现出高介电可调性和低损耗，解决传统层状 RP 结构面外极化或介电调控受限的问题，面向可调电容、射频器件和低损耗介电调制应用。",
+    "title_zh": "面外 Ruddlesden–Popper 铁电体破缺对称",
+    "summary": "对称性破缺让 Ruddlesden–Popper 铁电体获得面外低损耗可调介电性。层状结构中极化方向的重新设计，为可集成铁电介质提供了新自由度。",
+    "abstract": "报道通过破坏 Ruddlesden–Popper 铁电材料的对称性，制备具有面外介电响应的材料。该面外介电材料表现出高可调性和低损耗，指向层状钙钛矿铁电体在可调射频、存储或集成介电器件中的应用。",
     "category": "铁电·极化",
     "link": "https://www.nature.com/articles/s41928-026-01665-6",
     "journal": "Nature Electronics"
   },
   {
-    "title": "PT-Symmetric Magnon Lasing and Antilasing",
-    "title_zh": "PT 对称磁振子激光与反激光",
-    "summary": "用重金属直流偏置在磁性波导中实现 PT 对称增益-损耗调控。磁振子激光与反激光的电可调方案把非厄米物理推进到自旋波器件层面。",
-    "abstract": "提出电可调 PT 对称磁振子激光和反激光机制，器件为磁有序平面波导中带电流偏置区域，多个重金属导线施加直流电流。偏置产生增益/损耗调控，使磁振子模式可在 PT 对称条件下实现放大或相干吸收，为片上可调磁振子源和非厄米自旋波器件提供方案。",
-    "category": "磁性·自旋电子学",
-    "link": "http://link.aps.org/doi/10.1103/21ts-5d39",
-    "journal": "Phys. Rev. Lett."
-  },
-  {
-    "title": "Toric code under antiferromagnetic isotropic Heisenberg interactions",
-    "title_zh": "反铁磁 Heisenberg 相互作用下的 toric code",
-    "summary": "神经网络量子态被用于追踪 toric code 在反铁磁 Heisenberg 扰动下的相变。该结果连接拓扑量子纠错模型与更现实的自旋交换相互作用。",
-    "abstract": "研究各向同性反铁磁 Heisenberg 扰动对 toric code 的影响，重点是拓扑有序被破坏时的量子相变及新相性质。作者用神经网络量子态在宽参数范围求基态，计算相结构并表征从 toric code 拓扑相到 Heisenberg 主导相的演化。",
-    "category": "磁性·自旋电子学",
-    "link": "http://link.aps.org/doi/10.1103/6jk8-w5r8",
-    "journal": "Phys. Rev. Research"
-  },
-  {
-    "title": "Spin pumping driven by magnon-polaritons in a ferromagnet–coplanar superconducting resonator hybrid system",
-    "title_zh": "铁磁体-超导共面谐振器中磁振子极化激发自旋泵浦",
-    "summary": "强耦合磁振子-光子混合模在 1.4 K 下驱动可电读出的自旋泵浦。该实验把腔磁振子学与自旋输运相连，利于量子自旋电子器件集成。",
-    "abstract": "在 1.4 K 的铁磁体-共面超导谐振器混合系统中，演示由强耦合磁振子-光子模式驱动的自旋泵浦。通过逆自旋 Hall 效应电读出，观测模式劈裂和线宽展宽等强耦合特征，证明磁振子极化激元可作为低温自旋流源。",
-    "category": "磁性·自旋电子学",
-    "link": "http://link.aps.org/doi/10.1103/3d5g-qydt",
-    "journal": "Phys. Rev. Applied"
-  },
-  {
-    "title": "Learning minimal representations of fermionic ground states",
-    "title_zh": "费米子基态的最小表示学习",
-    "summary": "自编码器从约化密度矩阵中学习 Hubbard 基态的低维潜在表示。该方法把多体态压缩从人工选择序参量转向数据驱动的最小自由度发现。",
-    "abstract": "提出无监督机器学习框架，从 L 位点 Fermi-Hubbard 模型的约化密度矩阵数据中学习量子多体基态的最优压缩表示。自编码器自动寻找最小潜在空间，用少量隐变量表征基态结构，服务于相识别、有效自由度提取和高维量子态数据降维。",
-    "category": "其他",
-    "link": "http://link.aps.org/doi/10.1103/qsl5-cyq2",
-    "journal": "Phys. Rev. Research"
-  },
-  {
-    "title": "A Systematic Review of Security Privacy and Provenance in EEG-Based Brain-Computer Interfaces with a Blockchain-Based Reference Architecture",
-    "title_zh": "脑电脑机接口安全隐私与溯源综述",
-    "summary": "EEG 脑机接口的神经数据一旦泄露无法撤销，深度模型还引入对抗和隐私攻击面。综述用 64 篇深度分析文献梳理区块链溯源架构，偏 AI 安全而非凝聚态。",
-    "abstract": "按 PRISMA 2020 规范综述 EEG 脑机接口的安全、隐私和数据溯源问题，共检索 729 条记录，深入分析 64 篇。CNN、Transformer 和联邦模型带来对抗扰动、成员推断等攻击面；作者进一步讨论区块链式参考架构，用于神经数据不可撤销条件下的访问控制和溯源。",
-    "category": "其他",
-    "link": "https://www.researchsquare.com/article/rs-9194366/latest",
-    "journal": "Preprints"
-  },
-  {
-    "title": "Improving Reanalysis Hub-Height Wind Speeds and Wind Shear Across Large Spatial Domains Using Near-Surface Observational Networks",
-    "title_zh": "用近地面观测改进轮毂高度风速与风切变",
-    "summary": "把近地面观测网络和幂律风切变约束并入机器学习校正再分析风场。该工作体现物理约束数据驱动建模在风能资源评估中的实用价值。",
-    "abstract": "利用加拿大和美国近地面气象站网络，并结合较小规模高空观测网络，推导理论风切变指数，训练含幂律约束的机器学习模型以校正再分析产品中的轮毂高度风速和风切变。目标是跨大空间域学习再分析偏差和未解析过程，改善风能资源评估。",
-    "category": "其他",
-    "link": "https://www.researchsquare.com/article/rs-9148341/latest",
-    "journal": "Preprints"
-  },
-  {
-    "title": "Multi‐Legged Magnetic Soft Robot for On‐Demand Targeted Delivery in Pulmonary Environments",
-    "title_zh": "肺部靶向递送多足磁性软机器人",
-    "summary": "多足磁性软机器人被用于肺部靶向递送，强调磁控运动与按需释放。该方向与磁性软材料、微机器人和生物医学输运交叉。",
-    "abstract": "论文题目显示设计多足磁性软机器人，用于肺部环境中的按需靶向递送。摘要未提供材料组成、驱动磁场参数、载荷释放效率或体内外实验结果；可确认的核心是通过磁响应软体结构在复杂肺部通道中实现可控运动和定位递送。",
-    "category": "磁性·自旋电子学",
-    "link": "https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73957?af=R",
-    "journal": "Wiley: Advanced Materials: Table of Contents"
-  },
-  {
-    "title": "Unconventional spectral signatures of a hybrid superconducting flux qubit based on a topological insulator",
-    "title_zh": "拓扑绝缘体混合超导磁通量子比特异常谱",
-    "summary": "拓扑绝缘体 Josephson 结被嵌入超导磁通量子比特以探测异常能谱。4π 周期相位关系若可分辨，将为 Majorana 零模的电路量子电动力学读出提供路径。",
-    "abstract": "研究基于三维拓扑绝缘体的混合超导磁通量子比特谱特征。TI 表面经近邻效应超导化后可承载 Majorana 零模，并可能产生 4π 周期能量-相位关系；作者用 TI Josephson 结构探测这些非常规谱特征，为辨识 Majorana 相关信号提供器件平台。",
+    "title": "Machine learning of topological insulator and Anderson insulator in the one-dimensional extended Su-Schrieffer-Heeger chain",
+    "title_zh": "扩展 SSH 链中拓扑和 Anderson 绝缘体的机器学习",
+    "summary": "仅用无序自由 SSH 数据训练的卷积网络可迁移到含无序相图判别。约化关联矩阵提供了比实空间波函数更直接的拓扑特征输入。",
+    "abstract": "在一维扩展 Su-Schrieffer-Heeger 链中，用无序自由体系的约化关联矩阵训练卷积神经网络，再预测含非对角和对角无序体系的绕数相图。结果表明，基于关联矩阵的模型可识别拓扑绝缘体与 Anderson 绝缘体区域。",
     "category": "拓扑·电子结构",
-    "link": "http://link.aps.org/doi/10.1103/rtwk-dyzh",
-    "journal": "Phys. Rev. Applied"
+    "link": "http://link.aps.org/doi/10.1103/s26s-gd7v",
+    "journal": "Phys. Rev. B"
   },
   {
-    "title": "Impact of multimode sources on ensemble-based quantum repeaters",
-    "title_zh": "多模光源对系综量子中继的影响",
-    "summary": "多模光源被纳入系综量子中继性能分析，直接关系纠缠分发速率与误差。该问题决定量子网络从理想单模模型走向真实光源的可扩展性。",
-    "abstract": "分析多模光源对基于原子系综量子中继的长距离纠缠产生速率和保真度的影响。长距离高率纠缠分发是远程安全量子计算和量子密码的关键；文章聚焦多模源在实际中继协议中引入的模式结构、噪声和成功概率变化。",
-    "category": "其他",
-    "link": "http://link.aps.org/doi/10.1103/2pp6-tzx1",
-    "journal": "Phys. Rev. Research"
+    "title": "Intrinsic structure of relaxor ferroelectrics from first principles",
+    "title_zh": "第一性原理揭示弛豫铁电体内禀结构",
+    "summary": "FIRE-Swap 将化学交换采样和机器学习势弛豫合并，用于复杂钙钛矿弛豫铁电体。它直接处理组分无序与局域畸变耦合，是理解极化纳米区的实用计算框架。",
+    "abstract": "提出 FIRE-Swap 框架，用机器学习原子间势加速复杂钙钛矿中代表性组分结构采样。方法结合蒙特卡罗化学交换与几何弛豫，同时处理化学与结构自由度，用于从第一性原理层面刻画弛豫铁电体的内禀结构无序。",
+    "category": "铁电·极化",
+    "link": "http://link.aps.org/doi/10.1103/fz5h-1t5b",
+    "journal": "Phys. Rev. B"
   },
   {
-    "title": "Selective shuttling of electrons on helium using a CMOS control platform",
-    "title_zh": "用 CMOS 控制平台选择性搬运氦面电子",
-    "summary": "CMOS 电极平台实现液氦表面电子的选择性穿梭。该结果把超洁净氦面电子量子比特与半导体控制工艺连接起来。",
-    "abstract": "在 CMOS 制备控制平台上演示液氦表面电子的选择性穿梭。氦面电子是潜在量子计算平台，可形成高度可移动的自旋量子比特并用 CMOS 电极操控；该实验展示受控电子搬运能力，是实现可扩展氦面电子量子处理器的基础步骤。",
-    "category": "其他",
-    "link": "http://link.aps.org/doi/10.1103/pq6h-679f",
-    "journal": "Phys. Rev. Applied"
+    "title": "Emergent ferroelectric order in strained KTaO₃ by anharmonic and machine learned force fields methods",
+    "title_zh": "应变 KTaO3 中的涌现铁电序",
+    "summary": "KTaO3 的应变诱导铁电性通过非谐与机器学习力场联合刻画。该结果把量子顺电体中可调铁电序的预测推进到有限温度和大尺度动力学层面。",
+    "abstract": "研究量子顺电体 KTaO3 在应变下的铁电序涌现，结合非谐方法与机器学习力场。重点解析自发极化如何由软模、非谐性和应变耦合诱导，面向临界铁电体从非极性到可翻转极化状态的计算预测。",
+    "category": "铁电·极化",
+    "link": "http://link.aps.org/doi/10.1103/8jph-2w9q",
+    "journal": "Phys. Rev. Materials"
   },
   {
-    "title": "Engineering direct nonlinear coupling between microwave photons",
-    "title_zh": "工程化微波光子直接非线性耦合",
-    "summary": "微波谐振子间直接非线性耦合可避免激发非线性耦合器带来的损耗和泄漏。该路线对玻色编码量子计算和硬件高效纠缠门尤为关键。",
-    "abstract": "提出在微波谐振振子之间实现直接非线性耦合的方法，用于硬件高效和可纠错量子信息处理。不同于通过参数驱动非线性耦合器并占据其激发态的传统策略，该方法旨在避免额外耗散通道和编码流形外泄漏，直接生成振子间纠缠操作。",
-    "category": "其他",
-    "link": "https://www.researchsquare.com/article/rs-9951461/latest",
-    "journal": "Preprints"
-  },
-  {
-    "title": "Positron transport and cooling with CF₄ in an inhomogeneous magnetic field",
-    "title_zh": "非均匀磁场中 CF4 冷却正电子输运",
-    "summary": "CF4 冷却使偶极阱正电子损失机制从正电子素形成切换到横场输运。该实验给出非均匀磁场中反物质等离子体输运和冷却的可分辨动力学。",
-    "abstract": "在磁偶极阱中进行时间分辨测量，研究正电子与 CF4 相互作用时的输运和冷却。随着 CF4 将正电子冷却到电荷交换阈值以下，主导损失通道由正电子素形成转变为横场输运；γ 射线湮灭谱和斜坡喷出测量区分静电俘获与磁俘获群体，并量化散射和冷却动力学。",
+    "title": "Magnetizing altermagnets through ultrafast asymmetric spin dynamics",
+    "title_zh": "超快非对称自旋动力学磁化交替磁体",
+    "summary": "线偏振光可在交替磁体中打破等价子晶格退磁的对称性并诱导净磁化。该机制把交替磁自旋劈裂转化为可光控的超快磁化自由度。",
+    "abstract": "利用含时密度泛函理论研究交替磁体的激光响应。不同于铁磁和常规反铁磁中等价子晶格的对称退磁，线偏振激光可驱动交替磁体发生非对称超快退磁，从而在超短时间尺度产生净磁化。",
     "category": "磁性·自旋电子学",
-    "link": "http://link.aps.org/doi/10.1103/dvwc-y28s",
-    "journal": "Phys. Rev. Research"
+    "link": "http://link.aps.org/doi/10.1103/hwy3-mt7r",
+    "journal": "Phys. Rev. B"
+  },
+  {
+    "title": "Growth and hydrostatic pressure study of the single-crystal type-II superconductor Bi₂Ta₃S₆",
+    "title_zh": "Bi2Ta3S6 单晶生长与高压超导",
+    "summary": "Bi2Ta3S6 被制备为高质量单晶并确认为 II 型超导体。其层状 Ta-S/Bi 结构和静水压力响应，为调节硫化物超导性提供了实验平台。",
+    "abstract": "生长 P63/mcm 空间群的 Bi2Ta3S6 单晶，其结构由 Ta-S 层与 Bi 层交替堆叠，Bi 原子与相邻 S 原子连接。通过温度依赖物性与静水压力实验表征其 II 型超导性质，分析压力对超导行为的调控。",
+    "category": "超导",
+    "link": "http://link.aps.org/doi/10.1103/q44s-63jc",
+    "journal": "Phys. Rev. B"
+  },
+  {
+    "title": "Charge disproportionation as a possible mechanism towards polar antiferromagnetic metal in molecular orbital crystal",
+    "title_zh": "分子轨道晶体中电荷歧化诱导极性反铁磁金属",
+    "summary": "电荷歧化被提出为极性反铁磁金属的微观来源。它有望绕开金属性、反铁磁性和极性通常相互排斥的问题，适用于分子轨道晶体设计。",
+    "abstract": "讨论分子轨道晶体中电荷歧化作为产生极性反铁磁金属的可能机制。该类材料需同时满足金属性、反铁磁无净磁矩与空间反演破缺；电荷不均匀分布可在保持反铁磁背景下诱导极性结构，用于自旋电子学。",
+    "category": "磁性·自旋电子学",
+    "link": "http://link.aps.org/doi/10.1103/3m7f-kl1s",
+    "journal": "Phys. Rev. B"
+  },
+  {
+    "title": "Entanglement spectrum of gapless topological phases: A case study with topological superconductors",
+    "title_zh": "无能隙拓扑超导的纠缠谱",
+    "summary": "无能隙拓扑超导中，子系统关联谱仍能诊断拓扑结构。该结论扩展了纠缠谱从有能隙拓扑相到临界或节点拓扑相的适用范围。",
+    "abstract": "以一维和二维无能隙拓扑超导自由费米模型为例，考察子系统关联矩阵谱，即自由费米体系中的纠缠谱，对拓扑性质的表征能力。结果表明，即使体能谱无全局能隙，关联谱仍可揭示拓扑相的特征。",
+    "category": "拓扑·电子结构",
+    "link": "http://link.aps.org/doi/10.1103/svtx-7m6q",
+    "journal": "Phys. Rev. B"
+  },
+  {
+    "title": "Emergent metamagnetism and field-induced phase separation in the frustrated antiferromagnet BaErFeO₄",
+    "title_zh": "BaErFeO4 中涌现变磁性与场诱导相分离",
+    "summary": "BaErFeO4 在外场下出现变磁性和相分离，显示受挫反铁磁氧化物的多相竞争。该体系适合研究稀土-过渡金属耦合引起的场控磁相演化。",
+    "abstract": "系统研究受挫反铁磁氧化物 BaErFeO4 的温度和磁场驱动磁演化。通过磁性测量及相关表征观察变磁行为和磁场诱导相分离，揭示 Er/Fe 磁相互作用与受挫结构导致的复杂磁相共存。",
+    "category": "磁性·自旋电子学",
+    "link": "http://link.aps.org/doi/10.1103/8wp3-3187",
+    "journal": "Phys. Rev. B"
+  },
+  {
+    "title": "Quantum spin ladder with ferromagnetic rungs in Bi₂CuO₃(SO₄)",
+    "title_zh": "Bi2CuO3(SO4) 中铁磁梯级量子自旋梯",
+    "summary": "Bi2CuO3(SO4) 提供了铁磁梯级耦合的量子自旋梯实例。与常见反铁磁梯级自旋梯相比，它为检验一维量子磁性模型提供了不同符号交换的材料实现。",
+    "abstract": "提出 Bi2CuO3(SO4) 作为少见的梯级铁磁相互作用自旋梯材料。通过温度依赖磁化率、热容、场依赖磁化及高场谱学等实验研究其磁响应，确立该化合物的量子自旋梯特征。",
+    "category": "磁性·自旋电子学",
+    "link": "http://link.aps.org/doi/10.1103/nwlh-vnyp",
+    "journal": "Phys. Rev. B"
+  },
+  {
+    "title": "Metallicity and eight-fold magnetic anisotropy of SrRuO₃ under the single-layer limit",
+    "title_zh": "单层极限 SrRuO3 的金属性与八重磁各向异性",
+    "summary": "单层 SrRuO3 同时保持金属铁磁性和八重磁各向异性。该结果为氧化物二维自旋电子器件提供了稀有的单层铁磁金属平台。",
+    "abstract": "研究单层极限下 SrRuO3 的二维铁磁金属性与磁各向异性。针对二维铁磁金属中强磁性和明确各向异性难以同时稳定的问题，实验揭示单层 SrRuO3 仍保持金属性，并表现八重磁各向异性。",
+    "category": "磁性·自旋电子学",
+    "link": "http://link.aps.org/doi/10.1103/qy7k-16ht",
+    "journal": "Phys. Rev. Materials"
+  },
+  {
+    "title": "Topological magnons on the ferromagnetic zigzag lattice",
+    "title_zh": "铁磁锯齿晶格上的拓扑磁振子",
+    "summary": "铁磁锯齿晶格被用作拓扑磁振子模型平台。各向异性交换和实际几何的纳入，使理论更接近锯齿链磁性材料的可观测能带拓扑。",
+    "abstract": "受锯齿链磁性化合物启发，分析铁磁锯齿晶格中的磁振子能带拓扑。模型纳入一般晶格几何、空间各向异性 Heisenberg 交换及相关相互作用，研究不同参数下磁振子能带结构与拓扑性质。",
+    "category": "磁性·自旋电子学",
+    "link": "http://link.aps.org/doi/10.1103/6p3f-l13x",
+    "journal": "Phys. Rev. B"
   }
 ]
