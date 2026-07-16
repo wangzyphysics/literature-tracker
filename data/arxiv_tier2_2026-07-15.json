@@ -1,0 +1,182 @@
+[
+  {
+    "title": "Lattice Configuration Generation with a Self-Learning Diffusion Model",
+    "title_zh": "自学习扩散模型生成格点构型",
+    "summary": "SLDiffusion 把扩散 score 学习与 Metropolis 校正闭环结合，从 β=0 精确样本逐步自举到有限耦合。它避免预先运行外部蒙特卡洛，为格点场与统计物理采样提供数据自洽生成路线。",
+    "abstract": "提出 SLDiffusion：从 β=0 精确采样构型出发，无需外部蒙特卡洛训练集；在每个 β 上用固定学习得分的周期高斯 proposal，并以同一物理目标分布对所有噪声层做 Metropolis-Hastings 校正，再用链中 replay 构型训练下一阶段得分。摘要显示其用于二维格点场构型生成，核心结论是扩散采样器可自举学习目标分布。",
+    "category": "AI×物理",
+    "link": "https://arxiv.org/abs/2607.12587",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Performance of universal machine learning potentials in global optimization of inorganic crystal structures",
+    "title_zh": "通用机器学习势用于无机晶体全局优化",
+    "summary": "12 个 uMLP 被放入无约束演化搜索，而非固定结构弛豫场景中比较。结果框架直接检验模型面对未知配位与结构 motif 的外推可靠性，对机器学习势驱动材料发现很关键。",
+    "abstract": "系统评测 12 个预训练通用机器学习势在无约束演化晶体结构搜索中的表现。全局优化会访问参考数据集中缺失的复杂非磁构型，是 uMLP 的高压测试；工作关注这些势能否稳定预测无机晶体的复杂结构与能量排序。摘要强调需与训练集扩张同步建立基准，避免把局域插值能力误认为可迁移搜索能力。",
+    "category": "AI×化学·材料",
+    "link": "https://arxiv.org/abs/2602.23515",
+    "journal": "arXiv"
+  },
+  {
+    "title": "TXL Fusion: A Hybrid Machine Learning Framework Integrating Chemical Heuristics and Large Language Models for Topological Materials Discovery",
+    "title_zh": "融合启发式与大模型发现拓扑材料",
+    "summary": "TXL Fusion 不只用黑箱分类器，而把化学规则、可解释特征与大语言模型串联用于拓扑材料筛选。它代表拓扑材料发现中从单一 DFT 高通量转向混合智能筛选的趋势。",
+    "abstract": "TXL Fusion 面向拓扑绝缘体和拓扑半金属发现，融合化学启发式、可解释数值描述符和大语言模型。目标是在第一性原理计算与实验验证成本高的条件下筛选候选拓扑材料。摘要指出框架同时利用化学规则、物理描述符与 LLM 推理，服务于量子、低耗散电子和自旋电子材料的高通量发现。",
+    "category": "AI×物理",
+    "link": "https://arxiv.org/abs/2511.04068",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Predicting interface structure using the minima hopping method with a machine learning interatomic potential",
+    "title_zh": "机器学习势最小跳跃预测界面结构",
+    "summary": "界面结构预测被表述为全局优化问题，并用机器学习势加速 minima hopping。该组合适合处理异质界面中大量亚稳重构，是计算界面材料的实用方法进展。",
+    "abstract": "将 minima hopping 全局结构搜索与机器学习原子间势结合，用于预测界面原子结构。npj Computational Materials 论文题名显示目标是降低界面结构搜索的第一性原理成本，同时保留跨局域极小值逃逸能力。摘要未列出具体材料与误差数值；可确定的方法学重点是用 MLIP 加速复杂界面构型空间探索。",
+    "category": "AI×化学·材料",
+    "link": "https://www.nature.com/articles/s41524-026-02214-7",
+    "journal": "npj Computational Materials"
+  },
+  {
+    "title": "Coordination-Resolved Surrogate Models for Thermodynamic Stability, Band Gaps, and Magnetic Moments of Spinel Oxides, Sulfides, and Selenides",
+    "title_zh": "按配位分辨的尖晶石代理模型",
+    "summary": "该工作把尖晶石的 A/B 位信息改写为 CrystalNN 配位分组特征，并对 320 个 Fd-3m 条目做 group-aware 学习。它强调小数据无机代理模型中防泄漏评估与局域配位表征的重要性。",
+    "abstract": "整理 Materials Project 中 320 个立方 Fd-3m 尖晶石条目，覆盖氮化物、氧化物、硫化物、硒化物及单阳离子混合价 A3X4。用树集成模型预测形成能、凸包上能量、带隙、总磁化和金属性；阳离子按 CrystalNN 配位数分为四面体样/八面体样，而非按元素身份。评估采用 reduced formula 分组切分与全流程 group-aware 变换，降低数据泄漏。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.11996",
+    "journal": "arXiv"
+  },
+  {
+    "title": "MUSA-PINN: Multi-scale Weak-form Physics-Informed Neural Networks for Fluid Flow in Complex Geometries",
+    "title_zh": "复杂几何流动的多尺度弱式物理神经网",
+    "summary": "MUSA-PINN 用多尺度弱形式替代点式残差，专门解决 TPMS 等复杂几何中的守恒与收敛问题。它把 PINN 从“无网格拟合”推向更接近有限元弱形式的物理约束学习。",
+    "abstract": "MUSA-PINN 针对三重周期极小曲面等拓扑复杂域中的流体 PDE。标准 PINN 的点残差局域约束难以在弯曲通道中传播全局信息，导致梯度不稳和守恒破坏；该方法把 Navier-Stokes 约束改写为多尺度弱形式，在子域积分层面约束质量与动量。摘要给出的核心结论是多尺度弱式比逐点残差更适合复杂孔道流。",
+    "category": "AI×物理",
+    "link": "https://arxiv.org/abs/2603.08465",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Quantum Port-Hamiltonian Neural Networks: Learning Conservative and Dissipative Dynamics via Measurement-Induced Nonlinearity",
+    "title_zh": "量子端口哈密顿神经网络",
+    "summary": "Q-pHNN 把端口哈密顿系统的 J/R 结构分别编码为幺正演化与测量诱导非线性。它展示量子线路可作为带守恒和耗散先验的动力学学习器。",
+    "abstract": "提出 Q-pHNN，用参数化量子线路以结构保持方式学习经典动力学。等构哈密顿映射中，反对称互连矩阵 J 对应幺正门演化，半正定耗散矩阵 R 对应由中途测量和经典前馈实现的测量诱导非线性。守恒性与无源性由线路构造保证，而非依赖损失惩罚，目标是同时学习保守与耗散动力学。",
+    "category": "AI×物理",
+    "link": "https://arxiv.org/abs/2607.12269",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Physically Consistent Parameter Inference: Transparent Machine Learning Emulation in High Energy Physics and Cosmology",
+    "title_zh": "物理一致的参数推断机器学习仿真",
+    "summary": "该框架用梯度提升树替代昂贵似然评估，并保留对置信区间的可解释控制。虽然面向高能与宇宙学，它反映复杂相图/参数推断中透明代理模型的共同需求。",
+    "abstract": "面向高能物理与宇宙学全局拟合，用 XGBoost 梯度提升树模拟高维、非高斯、拓扑复杂且计算昂贵的似然面。框架强调透明可解释的机器学习仿真，用于加速参数空间扫描并提高置信区域分辨率。摘要指出其优势在复杂似然形貌中明显，但未给出具体物理模型或速度提升数值。",
+    "category": "AI×物理",
+    "link": "https://arxiv.org/abs/2607.12726",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Symmetry-Informed Deep Learning for Electromagnetic Scattering",
+    "title_zh": "电磁散射的对称性深度学习",
+    "summary": "工作把麦克斯韦方程对称变换直接转化为散射参数学习规则。对纳米光子和电磁超构器件设计而言，这比单纯扩大仿真数据集更具可迁移性。",
+    "abstract": "利用麦克斯韦方程的等变性，为电磁散射问题推导设计参数到散射参数的通用变换规则。目标是在训练数据来自昂贵数值仿真的情况下，通过对称性增广或约束提升神经网络数据效率。摘要强调对称性是电磁器件代理建模中尚未充分利用的途径，可减少所需仿真样本并保持物理一致的散射响应。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.12810",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Strain-Tunable Shift Current and Magneto-Optical Kerr Effect in Multiferroic Altermagnet Fe2Mo3O8",
+    "title_zh": "Fe2Mo3O8 中应变可调位移电流与克尔效应",
+    "summary": "Fe2Mo3O8 被用于同时调控极化、交替磁自旋劈裂、位移电流和 Kerr 响应。该计算工作把多铁性与交替磁性连接到可应变调谐的非线性光电和磁光效应。",
+    "abstract": "第一性原理研究极性多铁交替磁体 Fe2Mo3O8 中铁电极化、交替磁有序、动量依赖自旋劈裂、位移电流和磁光 Kerr 效应的耦合。工作聚焦应变调控这些自旋相关光电响应，探索铁电极化与交替磁性共同作用下的非线性光电流和磁光信号。摘要未给出具体峰值或应变范围，但明确 Fe2Mo3O8 是极性多铁交替磁性平台。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.12799",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Scale-Aware Attention for Scarce Neural Data: An RG-Flow Transformer on Sleep-EDF EEG",
+    "title_zh": "稀缺脑电数据的尺度感知注意力",
+    "summary": "该模型把重整化群式粗粒化和反常维数 γ 加入 Transformer，用于 1/fβ 脑电信号。虽非材料体系，但体现物理标度先验如何改善小数据时序学习。",
+    "abstract": "RG-Flow Transformer 面向 Sleep-EDF 脑电睡眠分期，将 1/fβ 标度谱与睡眠深度相关的无周期指数 β 写入模型先验。结构包括普通自注意力、带可学习反常维数 γ 的尺度流、block-spin 粗粒化和熵门控同步桥，并与参数量匹配的普通 Transformer 比较。摘要强调在真实且稀缺 EEG 数据上检验重整化群归纳偏置。",
+    "category": "AI×物理",
+    "link": "https://arxiv.org/abs/2607.11950",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Integrated classical/quantum-classical neural networks, DFT, and experiments for predicting bandgap and color of CrxSbxTi1−2xO2 yellow-orange pigments",
+    "title_zh": "神经网络预测 CrxSbxTi1−2xO2 颜料带隙颜色",
+    "summary": "Cr/Sb 共掺 TiO2 颜料被同时用实验、DFT+U 和经典/量子混合神经网络描述。该工作把量子机器学习尝试引入无机颜料带隙与颜色预测。",
+    "abstract": "研究 CrxSbxTi1−2xO2 金红石黄色—橙色陶瓷颜料的带隙 Eg 与颜色，结合合成表征、DFT、DFT+U、经典神经网络和混合量子—经典神经网络。Cr/Sb 共掺杂金红石被实验制备并分析电子结构；模型用于预测颜料颜色和 Eg。摘要未给出具体 Eg 数值或误差，但明确比较实验、第一性原理与神经网络预测。",
+    "category": "AI×物理",
+    "link": "https://www.researchsquare.com/article/rs-10175395/latest",
+    "journal": "Preprints"
+  },
+  {
+    "title": "Learning Mechanistic Reasoning for Chemical Reactions with Large Language Models",
+    "title_zh": "大语言模型学习化学反应机理推理",
+    "summary": "该工作把化学 LLM 的目标从产物预测推进到基元反应级机理推理。对 AI 化学而言，减少幻觉的关键是让模型学习守恒、电子转移和步骤逻辑。",
+    "abstract": "面向反应机理的逐步基元反应推理，训练或评估大语言模型的机理逻辑能力。作者指出现有化学 LLM 多偏重名称反应、产物预测和逆合成，容易产生物理不一致与幻觉；反应机理的逐步演绎更适合推理型 LLM。摘要强调要从粗粒度反应标签转向基元步骤级别的机制学习。",
+    "category": "其他",
+    "link": "https://arxiv.org/abs/2607.12771",
+    "journal": "arXiv"
+  },
+  {
+    "title": "A Physics-Informed Neural Network Frameworkfor Elastodynamic Wave Propagation inBimaterial Systems",
+    "title_zh": "双材料弹性波传播的物理神经网络",
+    "summary": "PINN 被用于钢—铝双材料杆中的瞬态轴对称弹性波传播，并显式处理界面条件。该问题检验物理神经网络能否处理材料不连续引起的波反射与透射。",
+    "abstract": "提出 PINN 框架求解双材料体系中的瞬态弹性动力学波传播，控制方程为轴对称线弹性方程。算例为钢—铝 Split Hopkinson Pressure Bar 构型，损失中嵌入初始、边界和材料界面条件。目标是在不显式网格离散的情况下捕捉跨界面应力波传播与反射/透射行为；摘要未给出误差或加速数值。",
+    "category": "AI×物理",
+    "link": "https://www.researchsquare.com/article/rs-10282772/latest",
+    "journal": "Preprints"
+  },
+  {
+    "title": "Phase-Controlled Epitaxy and Anisotropic Antiferromagnetism of Polar Wurtzite MnTe",
+    "title_zh": "极性纤锌矿 MnTe 的相控外延与各向异性反铁磁性",
+    "summary": "近相纯纤锌矿 MnTe 在 GaAs(111)B 上实现 MBE 外延，突破了以 NiAs 相为主的实验局面。极性结构与各向异性反铁磁性使其成为交替磁自旋电子学候选薄膜。",
+    "abstract": "通过分子束外延在 GaAs(111)B 上直接生长近相纯极性纤锌矿 MnTe，并研究其结构与磁性。MnTe 通常以稳定 NiAs 型相被研究，纤锌矿相较少实验探索；该工作显示小的生长条件变化可调控相形成。目标是获得兼具补偿磁有序、对称性控制电子响应和外延可调性的交替磁自旋电子薄膜平台。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.12191",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Logarithmic corrections to bulk and surface criticality in a three-dimensional quantum Heisenberg antiferromagnet",
+    "title_zh": "三维量子海森堡反铁磁的对数临界修正",
+    "summary": "该工作把上临界维度的对数修正从体临界推广到边界临界，并用 QMC 验证 (3+1)D O(3) 量子临界点。它为量子磁体表面临界有限尺寸分析提供基准。",
+    "abstract": "结合大规模量子蒙特卡洛和边界重整化群，研究 (3+1) 维 O(3) 量子临界点的体与表面临界性。在上临界维度，边际无关相互作用导致均场标度乘上对数修正；作者先验证已知体有限尺寸标度，再分析边界临界行为及其有限尺寸对数修正。摘要强调表面临界的对数修正此前了解较少。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.12029",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Emergent toroidal induction in a polar Weyl ferromagnet",
+    "title_zh": "极性 Weyl 铁磁体中的环形感生电动势",
+    "summary": "极性 Weyl 铁磁体中发现不依赖畴壁或斯格明子的均匀磁化感生电动势。该 Berry 相机制扩展了自旋轨道互易效应的适用范围。",
+    "abstract": "报道极性 Weyl 铁磁体中空间均匀磁化动力学也可产生涌现电磁感应。传统 EEMI 依赖畴壁、螺旋、斯格明子等具有空间梯度的磁织构；该工作展示由自旋相关 Berry 相引起的此前未识别机制，可在无磁织构梯度的均匀铁磁体中产生电动势。摘要称其为涌现环形感应，涉及 SOC 与磁化动力学的互易响应。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.12322",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Domain wall motion in ferromagnetic nanowires driven by a localized Gaussian thermal gradient",
+    "title_zh": "高斯热梯度驱动铁磁纳米线畴壁运动",
+    "summary": "局域高斯热斑可通过热磁振子推动纳米线畴壁，速度受温度峰值、热斑距离和阻尼共同控制。阻尼的双重作用给热驱动自旋器件设计提出优化条件。",
+    "abstract": "用随机 Landau-Lifshitz-Gilbert 方程研究单轴铁磁纳米线中局域高斯激光温度分布驱动的畴壁动力学。畴壁速度随峰值激光温度线性增加，随激光中心到畴壁距离增大而降低；速度对 Gilbert 阻尼呈非线性，因为阻尼增强热磁振子激发但缩短磁振子传播长度。初始畴壁位于加热区外，温度梯度驱动磁振子输运并推动畴壁。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.12347",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Quantum anomalous Hall effect with tunable Chern numbers induced by d-wave sublattice-staggered altermagnetism",
+    "title_zh": "d 波交错交替磁性诱导可调陈数量子反常霍尔效应",
+    "summary": "d 波子晶格交错交替磁性可在方格子模型中诱导 C=±1、±2 的量子反常霍尔相。它把可调高陈数拓扑输运与交替磁交换纹理直接联系起来。",
+    "abstract": "构造方格子最小自旋紧束缚模型，d 波子晶格交错交替磁性交换场在 A/B 子晶格上取相反符号，以 τz 表示。模型产生量子反常霍尔绝缘相，陈数可在 C=±1 与 C=±2 间调节，由交错交换强度和子晶格交错势控制。作者给出完整相图，并识别谷分辨能带反转作为拓扑转变机制。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.12320",
+    "journal": "arXiv"
+  },
+  {
+    "title": "Second-order topological insulator induced by compensated altermagnetism without bulk spin splitting",
+    "title_zh": "无体自旋劈裂交替磁性诱导二阶拓扑绝缘体",
+    "summary": "补偿交替磁性在不产生体自旋劈裂的情况下，把二维拓扑绝缘体边缘态质量化并生成角态。该机制说明交替磁性可通过边界质量项而非体能带劈裂实现高阶拓扑。",
+    "abstract": "理论证明在二维拓扑绝缘体薄膜中加入层分辨面外 d 波交替磁项，可诱导二阶拓扑绝缘相且保持体能隙不变。上下层交替磁项符号相反，使体系保持 PT 对称并维持体能带自旋简并；同时螺旋边缘态被打开能隙，角落出现局域态。高阶相由非平庸拓扑指标表征。",
+    "category": "磁性·自旋电子学",
+    "link": "https://arxiv.org/abs/2607.12323",
+    "journal": "arXiv"
+  }
+]
