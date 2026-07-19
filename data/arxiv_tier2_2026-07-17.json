@@ -1,9 +1,9 @@
 [
   {
     "title": "Optimization dynamics of Transformer backflow neural quantum states for the two-dimensional Hubbard model",
-    "title_zh": "二维 Hubbard 模型 Transformer 反流态优化动力学",
-    "summary": "把 Transformer 反流神经量子态的训练拆成初始化、预训练和 MARCH 能量优化三阶段，系统诊断超参数对二维 Hubbard 掺杂态的影响。结果直接服务于强关联费米子基态的可控神经变分计算。",
-    "abstract": "面向掺杂二维 Hubbard 模型，分析多行列式 Transformer 反流神经量子态在变分蒙特卡罗中的优化动力学。流程包含神经网络反流初始化、监督式 Transformer 预训练和基于 MARCH 的主能量优化，比较关键优化与结构超参数对能量收敛和训练稳定性的影响。",
+    "title_zh": "二维 Hubbard 模型的 Transformer 反流量子态优化",
+    "summary": "工作把重点从 ansatz 表达能力转向训练动力学，系统比较 Transformer backflow NQS 的初始化、预训练与 MARCH 优化。对用神经量子态求解强关联 Hubbard 基准具有直接方法学价值。",
+    "abstract": "针对掺杂二维 Hubbard 模型，分析多行列式 Transformer backflow 神经量子态的优化动力学。流程含神经网络反流初始化、监督预训练与 VMC 中 MARCH 能量优化，考察关键优化与结构超参数对收敛和能量质量的影响。",
     "category": "AI×物理",
     "link": "https://arxiv.org/abs/2607.14875",
     "journal": "arXiv"
@@ -11,17 +11,17 @@
   {
     "title": "New non-Euclidean neural quantum states from additional types of hyperbolic recurrent neural networks",
     "title_zh": "更多双曲循环神经量子态",
-    "summary": "用 Poincare 与 Lorentz 双曲循环网络构造新型神经量子态，突破仅有双曲 GRU 的 ansatz。双曲几何若稳定优于欧氏对应模型，将为强纠缠波函数提供更合适的表示空间。",
-    "abstract": "将非欧几里得神经量子态从 Poincare 双曲 GRU 扩展到 Poincare RNN、Lorentz RNN 和 Lorentz GRU。通过变分蒙特卡罗基准测试，推广此前双曲 Poincare GRU 相对欧氏网络的优势结论，比较不同双曲几何与循环结构对量子态表达和优化的影响。",
+    "summary": "双曲几何被系统嵌入循环神经量子态，新增 Poincare 与 Lorentz 两类 RNN/GRU ansatz。结果支持非欧几里得表示对量子多体波函数学习的优势。",
+    "abstract": "将非欧几里得神经量子态从 Poincare 双曲 GRU 扩展到 Poincare RNN、Lorentz RNN 与 Lorentz GRU。通过 VMC 基准比较双曲与欧氏循环网络 ansatz，延续并推广双曲 Poincare GRU 相对欧氏版本的性能优势结论。",
     "category": "AI×物理",
     "link": "https://arxiv.org/abs/2604.24337",
     "journal": "arXiv"
   },
   {
     "title": "AB-PINNs: adaptive-basis physics-informed neural networks for residual-driven domain decomposition",
-    "title_zh": "自适应基 PINN 残差驱动区域分解",
-    "summary": "AB-PINN 让子域边界和数量随残差自动调整，而非预先固定区域分解。该策略针对多尺度 PDE 解的局部尖峰和细结构，提升 PINN 在科学计算中的可扩展性。",
-    "abstract": "提出 AB-PINN：训练中可学习子区域随未知解的内禀特征动态演化，局域网络捕捉细尺度结构，全局网络学习大尺度形貌。借鉴自适应网格加密，在残差损失高的区域在线引入新子域，实现残差驱动的区域分解与基函数自适应。",
+    "title_zh": "自适应基物理信息神经网络",
+    "summary": "AB-PINN 用可学习子域和残差触发增 refinement 替代固定区域分解。它直接瞄准 PINN 在多尺度、局部奇异或边界层问题中的分辨率瓶颈。",
+    "abstract": "提出 AB-PINN：可学习子域在训练中随解的内禀特征移动，局域网络描述细尺度结构，全局网络学习大尺度部分。借鉴自适应网格，在残差损失高的区域动态新增子域，实现残差驱动的区域分解 PINN。",
     "category": "AI×物理",
     "link": "https://iopscience.iop.org/article/10.1088/2632-2153/ae8638",
     "journal": "Machine Learning: Science and Technology"
@@ -29,71 +29,71 @@
   {
     "title": "Machine learning of electronic structure and atomistic properties from the external potential",
     "title_zh": "从外势学习电子结构与原子性质",
-    "summary": "该框架把外势作为电子结构机器学习的中心对象，更贴近密度泛函理论的基本变量。相较几何到性质的经验映射，它为跨体系、算子级电子结构代理模型提供更物理的输入表征。",
-    "abstract": "受 Hohenberg-Kohn 定理启发，提出以外势为输入的算子式机器学习框架，而非直接从分子图或局域原子环境映射到性质，也不同于仅预测 AO 基 Fock/密度矩阵的替代模型。目标是从外势统一学习电子结构量与原子尺度性质，降低电子结构计算瓶颈。",
+    "summary": "电子结构机器学习的输入从原子图转向外势算符，物理上贴近密度泛函理论基本变量。该框架可能改善跨化学空间的电子结构代理建模。",
+    "abstract": "提出受 Hohenberg–Kohn 定理启发的算符中心机器学习框架，以外势为输入学习电子结构和原子性质。区别于几何图到性质或 AO 基 Fock/密度矩阵代理模型，该路线强调从决定电子基态的外部势场构造可迁移表示。",
     "category": "AI×物理",
     "link": "https://pubs.aip.org/aip/jcp/article/165/3/034119/3398662/Machine-learning-of-electronic-structure-and",
     "journal": "The Journal of Chemical Physics Current Issue"
   },
   {
     "title": "Quantum machine learning for predicting properties of van der Waals bilayers",
-    "title_zh": "量子机器学习预测范德华双层性质",
-    "summary": "把量子机器学习用于范德华双层材料的构型—性质预测，目标覆盖层组合、扭角和堆垛自由度。该方向检验 QML 在二维材料高维搜索中的实际价值。",
-    "abstract": "针对二维范德华双层中层组合、扭转角和堆垛构型带来的庞大构型空间，探索量子机器学习用于材料性质预测。工作关注在数据规模扩大、经典硬件训练成本升高时，QML 是否可作为二维材料发现的替代路径，面向可调电子性质与量子态筛选。",
+    "title_zh": "范德华双层性质的量子机器学习",
+    "summary": "量子机器学习被用于范德华双层材料发现，关注层组合、扭角和堆垛的高维构型空间。该方向检验量子硬件能否在二维材料性质预测中提供实际加速。",
+    "abstract": "面向二维范德华双层的组合、扭角与堆垛构型空间，探索量子机器学习预测材料性质。目标是在数据规模增长、经典训练成本升高时，用量子模型辅助筛选可调电子性质和新量子态的双层体系。",
     "category": "AI×物理",
     "link": "https://pubs.aip.org/aip/jcp/article/165/3/034703/3398671/Quantum-machine-learning-for-predicting-properties",
     "journal": "The Journal of Chemical Physics Current Issue"
   },
   {
     "title": "Physics-Informed Federated Learning for Decentralized Pharmaceutical Crystallization: Achieving Personalized Predictive Accuracy with Minimal Data",
-    "title_zh": "联邦物理约束学习预测药物结晶",
-    "summary": "F-PINN 将联邦学习和物理约束结合，面向多站点药物结晶的私有数据孤岛。其价值在于用少量异构过程数据获得更稳健的个性化预测。",
-    "abstract": "提出物理约束联邦学习 F-PINN，用于去中心化药物制造中的结晶过程预测。框架允许多生产站点在不共享私有数据的条件下协同训练，并嵌入物理规律，以缓解站点动力学异质性、数据稀缺和异常场景下普通机器学习模型发散的问题。",
+    "title_zh": "制药结晶的物理信息联邦学习",
+    "summary": "F-PINN 把物理信息神经网络与联邦学习结合，用于结晶过程的跨站点个性化预测。其核心价值在于少数据、数据孤岛和物理约束同时存在的工业科学建模。",
+    "abstract": "提出 F-PINN 用于分散式制药结晶建模，在多生产站点间联合训练并保护专有数据。框架将物理约束引入联邦学习，以处理站点动力学异质、数据稀缺和异常场景下普通机器学习发散的问题。",
     "category": "AI×物理",
     "link": "https://www.researchsquare.com/article/rs-9139310/latest",
     "journal": "Preprints"
   },
   {
     "title": "Evaluating Machine Learning and Econometric Models for Inflation Forecasting: Evidence from a Sub-Saharan African Panel",
-    "title_zh": "机器学习与计量模型预测非洲通胀",
-    "summary": "该文虽非材料方向，但提供小样本面板预测中机器学习与朴素基准的可复现实证比较。核心提醒是复杂模型必须和随机游走等强基线同台评估。",
-    "abstract": "构建 8 个撒哈拉以南非洲经济体 1972–2024 年年度宏观面板数据，共 424 个样本，比较随机游走、 pooled OLS、国家固定效应、Elastic Net、随机森林、XGBoost 和循环神经网络等 8 类通胀预测方法。重点检验机器学习是否优于简单持久性基准。",
+    "title_zh": "撒哈拉以南通胀预测模型评估",
+    "summary": "该文并非凝聚态或材料研究，但提供了小样本面板中机器学习与朴素基准的可复现实证比较。其警示意义在于复杂模型需与简单持久性模型严格基准化。",
+    "abstract": "构建 8 个撒哈拉以南非洲经济体 1972–2024 年年度面板数据，共 424 个样本，比较随机游走、 pooled OLS、国家固定效应、Elastic Net、随机森林、XGBoost 与循环神经网络等通胀预测方法。",
     "category": "其他",
     "link": "https://www.researchsquare.com/article/rs-10355831/latest",
     "journal": "Preprints"
   },
   {
     "title": "Split Complex-Valued Physics-Informed Neural Networks for Forward and Inverse Nonlinear PDEs",
-    "title_zh": "分裂复值 PINN 求解正反非线性 PDE",
-    "summary": "SCV-PINN 用复值参数与潜表示增强 PINN 对相位和振荡解的拟合能力。它直接瞄准实值 PINN 在高频非线性 PDE 中的谱偏置瓶颈。",
-    "abstract": "提出分裂复值 PINN，网络参数和隐表示定义在复数域，以提升高频、振荡和相位依赖动力学的表达能力。框架通过分裂复值结构处理正问题和反问题非线性 PDE，针对实值 PINN 常见的谱偏置、表达受限和精度下降问题。",
+    "title_zh": "分裂复值 PINN 求解非线性偏微分方程",
+    "summary": "SCV-PINN 用复值参数和表示处理相位敏感 PDE，比实值 PINN 更契合振荡与高频动力学。它适合波动、量子和非线性场方程的正反问题建模。",
+    "abstract": "提出分裂复值物理信息神经网络，网络参数与隐表示位于复数域，用于正反非线性 PDE。针对实值 PINN 的谱偏置、表达力不足及对高频、振荡、相位依赖动力学精度下降问题，增强复杂波动解的拟合能力。",
     "category": "AI×物理",
     "link": "https://arxiv.org/abs/2607.15087",
     "journal": "arXiv"
   },
   {
     "title": "Probabilistic Physics-Informed Neural Networks for Estimating Heterogeneous Elastic Properties from Low-Resolution and Noisy Displacement Data",
-    "title_zh": "概率 PINN 反演非均匀弹性参数",
-    "summary": "概率 PINN 用于从低质位移场反演非均匀弹性模量，同时处理噪声放大和损失权重敏感性。该框架适合材料/生物组织力学中的病态参数识别。",
-    "abstract": "面向低分辨率、含噪位移数据下的空间非均匀弹性参数估计，提出概率物理约束神经网络。该反问题严重病态，低分辨率会掩盖性质变化，噪声和拟合误差在反演中被放大；方法旨在减少对高保真观测和人工损失权重的依赖，并量化不确定性。",
+    "title_zh": "概率 PINN 反演非均匀弹性性质",
+    "summary": "概率 PINN 将不确定性建模引入非均匀弹性反演，缓解低分辨位移导致的不可辨识和噪声放大。该思路可迁移到材料力学成像与软组织参数识别。",
+    "abstract": "针对低分辨率、含噪位移数据反演空间非均匀弹性参数的病态问题，提出概率物理信息神经网络。方法减少对高保真观测和人工损失权重的依赖，面向噪声与分辨率退化下的稳健不确定性估计。",
     "category": "AI×物理",
     "link": "https://arxiv.org/abs/2607.14563",
     "journal": "arXiv"
   },
   {
     "title": "Fractional quantum ferroelectric control of spin-valley locking and valley Hall effects in altermagnetic monolayer Cr2S2",
-    "title_zh": "Cr2S2 分数量子铁电调控谷霍尔效应",
-    "summary": "单层 Cr2S2 将分数量子铁电与交替磁性结合，使极化翻转可控制自旋—谷锁定和谷霍尔响应。该机制把非易失电控引入零净磁矩二维自旋谷电子学。",
-    "abstract": "第一性原理预言单层 Cr2S2 是二维分数量子铁电—交替磁平台，具有两个可切换极化状态。分数量子铁电性与交替磁性耦合，可在零净磁化体系中非易失调控动量依赖自旋劈裂，并进一步作用于谷自由度和 Berry 曲率驱动的谷霍尔效应。",
+    "title_zh": "Cr2S2 中分数量子铁电调控谷霍尔效应",
+    "summary": "单层 Cr2S2 把分数量子铁电、交替磁性和谷 Hall 效应耦合到同一二维材料。铁电翻转可作为零净磁矩体系中自旋-谷输运的非易失开关。",
+    "abstract": "第一性原理预测单层 Cr2S2 为二维分数量子铁电-交替磁平台，具有两个可翻转铁电态。分数量子铁电性与交替磁性耦合，可非易失调控动量依赖自旋劈裂、谷自由度及 Berry 曲率驱动的谷 Hall 响应。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.14465",
     "journal": "arXiv"
   },
   {
     "title": "Interlayer sliding direction as a symmetry selector in altermagnetic bilayer Fe2WS4: Switchable anomalous Hall and anomalous valley Hall effects",
-    "title_zh": "Fe2WS4 层间滑移选择交替磁对称性",
-    "summary": "双层 Fe2WS4 中，层间滑移方向不仅改变结构，还选择交替磁对称性和霍尔响应通道。该结果给出机械/铁电式非易失控制异常霍尔与谷霍尔效应的具体材料方案。",
-    "abstract": "第一性原理显示，交替磁双层 Fe2WS4 中层间滑移方向可作为对称性选择控制参量。不同滑移方向选择性调控自旋、谷与铁电相关的 Berry 曲率输运，在无净磁化条件下实现可切换异常霍尔效应和异常谷霍尔效应。",
+    "title_zh": "Fe2WS4 滑移方向选择交替磁对称性",
+    "summary": "Fe2WS4 中层间滑移方向不只是结构自由度，而是选择交替磁对称性的开关。它提供了用铁电滑移编程反常 Hall 与谷 Hall 响应的二维方案。",
+    "abstract": "第一性原理显示，双层交替磁 Fe2WS4 的层间滑移方向可作为对称性选择控制参量。不同滑移方向选择性调控自旋、谷与 Berry 曲率输运，实现可切换的反常 Hall 和反常谷 Hall 效应，且无净磁化要求。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.14459",
     "journal": "arXiv"
@@ -101,17 +101,17 @@
   {
     "title": "Multistate ferroelectricity and switchable layer-locked anomalous valley Hall effects in bilayer ReIrGe2Se6",
     "title_zh": "ReIrGe2Se6 多态铁电与层锁定谷霍尔效应",
-    "summary": "双层 ReIrGe2Se6 通过多态铁电实现多个非易失输运状态，而非简单二值开关。层锁定异常谷霍尔响应为二维多态存储和谷电子器件提供了材料级实现。",
-    "abstract": "第一性原理预测 AA0 堆垛双层 ReIrGe2Se6 具有多态铁电性，突破传统铁电仅双稳态的限制。不同非易失极化态可编程调控层锁定的异常谷霍尔效应和 Berry 曲率输运响应，适合多态低功耗信息器件设计。",
+    "summary": "双层 ReIrGe2Se6 将多态铁电与层锁定反常谷 Hall 效应结合。多个极化态对应可编程 Berry 曲率输运，为二维多值存储提供候选材料。",
+    "abstract": "第一性原理预测 AA0 堆垛双层 ReIrGe2Se6 具有多态铁电性，突破传统铁电双稳态限制。不同非易失极化态可编程层锁定 Berry 曲率与反常谷 Hall 响应，面向多态低功耗信息存储。",
     "category": "铁电·极化",
     "link": "https://arxiv.org/abs/2607.14461",
     "journal": "arXiv"
   },
   {
     "title": "Phase coherence control of a programmable high-Tc superconductor created by light",
-    "title_zh": "光控可编程高温超导相干性",
-    "summary": "Al-Si 异质结中飞秒光脉冲可写入、调节和擦除零电阻态，Tc 覆盖 1.8–8.5 K。若相干性证据成立，这是光诱导可编程超导从瞬态响应走向可控量子态的关键案例。",
-    "abstract": "在 Al-Si 异质结中报道飞秒激光脉冲创建并完全控制的光可编程超导态。零电阻态的临界温度可在 1.8–8.5 K 范围调节，可被增强或擦除；核心证据指向由光建立并操控的宏观量子相干，而非仅瞬态电导变化。",
+    "title_zh": "光控可编程高温超导体的相干性",
+    "summary": "Al-Si 界面出现飞秒光脉冲写入、擦除和调节的超导态，Tc 覆盖 1.8–8.5 K。若零电阻和相干性证据成立，这是光诱导超导从瞬态响应走向可编程态的强声明。",
+    "abstract": "在 Al-Si 异质结中报告飞秒激光创建并完全控制的光可编程超导态。临界温度可在 1.8–8.5 K 范围内提高或擦除，声称实现零电阻态及由光产生、调控的宏观量子相干性。",
     "category": "超导",
     "link": "https://arxiv.org/abs/2607.14567",
     "journal": "arXiv"
@@ -119,53 +119,53 @@
   {
     "title": "Emergent d-wave altermagnetism in chlorine-adsorbed FeSe monolayer",
     "title_zh": "氯吸附 FeSe 单层中的 d 波交替磁性",
-    "summary": "通过单侧 Cl 吸附和栅控空穴掺杂，FeSe 单层可被设计成 d 波交替磁平台。该方案把交替磁性引入铁基超导材料家族，利于研究无净磁矩自旋劈裂与配对的耦合。",
-    "abstract": "基于对称性分析和第一性原理，提出在单层 FeSe 上单侧 Cl 吸附形成化学计量 Fe2Se2Cl，并通过栅控空穴掺杂诱导稳健交替磁性。目标是在原型铁基超导单层中工程化实现 d 波交替磁序，使交替磁性与超导候选平台共存。",
+    "summary": "在原型铁基超导 FeSe 单层上，单侧 Cl 吸附与空穴掺杂可诱导 d 波交替磁性。该设计把交替磁自旋劈裂与超导邻近在同一可栅控二维体系中结合。",
+    "abstract": "基于对称性分析和第一性原理，提出单侧 Cl 吸附形成化学计量 Fe2Se2Cl，并通过栅控空穴掺杂在 FeSe 单层中工程化稳健 d 波交替磁性。该平台连接铁基超导体与本征交替磁序。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.15197",
     "journal": "arXiv"
   },
   {
     "title": "Altermagnetic spin textures coupled to superconductors: Domain wall spin-triplet superconductivity and supercurrent-induced torques",
-    "title_zh": "交替磁织构诱导三重态超导与力矩",
-    "summary": "交替磁畴壁可把常规 s 波近邻超导重构为以三重态成分为主的局域配对。该理论连接交替磁织构、超导邻近效应和电流驱动力矩，为低杂散场自旋超导器件提供机制。",
-    "abstract": "研究空间变化交替磁体与常规 s 波超导体耦合后的 Cooper 对形式。交替磁性会抑制自旋单重态配对，而磁有序参数织构导致局域对称性降低，使超导主要出现在交替磁畴之间；重点分析畴壁区域的自旋三重态超导和超流诱导力矩。",
+    "title_zh": "交替磁纹理耦合超导体",
+    "summary": "交替磁畴壁可把常规 s 波邻近超导转化为局域自旋三重态成分。该理论揭示无大杂散场磁纹理中超流力矩与非常规配对的来源。",
+    "abstract": "研究空间变化交替磁体与常规 s 波超导体耦合后的 Cooper 对形式。交替磁性抑制自旋单态配对，磁序纹理造成局域对称性降低，使超导主要影响交替磁畴之间区域，并在畴壁产生自旋三重态超导与超流诱导力矩。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.15249",
     "journal": "arXiv"
   },
   {
     "title": "Giant Domain Walls and Intrinsic Heterogeneity in 214 Cuprate Superconductors",
-    "title_zh": "214 铜氧化物中的巨畴壁与本征非均匀性",
-    "summary": "三维 X 射线衍射直接看到 La1.675Eu0.2Sr0.125CuO4 中巨大的类四方畴壁。该微结构为 1/8 掺杂铜氧化物的条纹、电荷序和超导非均匀性提供了真实空间背景。",
-    "abstract": "利用扫描三维 X 射线衍射解析 1/8 掺杂 La1.675Eu0.2Sr0.125CuO4 块体微结构。结果显示名义正交晶体中存在异常宽的类四方畴壁区域，揭示 214 铜氧化物结构相变产生的三维畴组织和本征结构/电子非均匀性。",
+    "title_zh": "214 铜氧化物中的巨畴壁与内禀非均匀性",
+    "summary": "三维 X 射线衍射直接看到 214 铜氧化物体内宽类四方畴壁。该结果把 1/8 掺杂铜氧化物的结构微畴与电子相分离问题连接起来。",
+    "abstract": "用扫描三维 X 射线衍射解析 1/8 掺杂 La1.675Eu0.2Sr0.125CuO4 的体相微结构。名义正交晶体中存在异常宽的类四方畴壁区域，揭示结构相变产生的三维畴组织与已知电子非均匀性的关联。",
     "category": "超导",
     "link": "https://arxiv.org/abs/2511.18938",
     "journal": "arXiv"
   },
   {
     "title": "Long-range and steady-state entanglement of driven-dissipative nitrogen vacancy centers using microwaves as a drive and synthetic antiferromagnet as a dissipator",
-    "title_zh": "微波驱动和合成反铁磁耗散产生 NV 纠缠",
-    "summary": "用合成反铁磁体作为耗散器、微波作为驱动来稳定远距离 NV 中心纠缠。该方案把磁性异质结构的非平衡耗散用于固态量子比特纠缠工程。",
-    "abstract": "针对两个远距离金刚石 NV 中心的稳态长程纠缠，微观推导以微波为驱动、合成反铁磁体为耗散环境的 Lindblad 量子主方程。目标是在无需简单平衡浴假设的条件下，通过工程化耗散稳定 NV 中心纠缠，服务固态量子传感和量子计算。",
+    "title_zh": "微波和合成反铁磁耗散产生 NV 中心纠缠",
+    "summary": "合成反铁磁体被设计为 NV 中心的工程化耗散器，配合微波驱动稳定长程稳态纠缠。该方案面向固态量子传感与量子计算中的耗散纠缠制备。",
+    "abstract": "针对两个远距离金刚石 NV 中心的稳态长程纠缠，微观推导 Lindblad 量子主方程。方案以微波为驱动、合成反铁磁体为耗散环境，探索无需简单平衡环境即可稳定固态量子比特纠缠的机制。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.15259",
     "journal": "arXiv"
   },
   {
     "title": "Magnetic Order in bilayer Ruddlesden-Popper Nickelates",
-    "title_zh": "双层 Ruddlesden-Popper 镍酸盐磁序",
-    "summary": "La3Ni2O7 的密度波邻近超导被从轨道选择性 Mott 邻近性的局域矩角度重新解释。该图像有助于连接双层镍酸盐的坏金属、磁关联和高温超导起源。",
-    "abstract": "围绕高温超导双层镍酸盐 La3Ni2O7 的正常态关联物理，结合其坏金属和接近轨道选择性 Mott 相的实验事实，提出用有效局域矩描述磁关联。该框架用于理解相图中靠近超导的密度波序性质，强调局域矩与金属电子并存的强关联图像。",
+    "title_zh": "双层 Ruddlesden-Popper 镍酸盐的磁序",
+    "summary": "La3Ni2O7 的磁关联被置于轨道选择性 Mott 邻近的有效局域矩框架中。该视角有助于理解双层镍酸盐中密度波、坏金属和高温超导的关系。",
+    "abstract": "针对高温超导双层镍酸盐 La3Ni2O7 正常态，基于其坏金属和接近轨道选择性 Mott 相的实验证据，用有效局域矩描述磁关联。目标是澄清超导相图邻近密度波序的本质。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.15228",
     "journal": "arXiv"
   },
   {
     "title": "Sizable Ligand-Mediated Bond-Dependent Interactions in a Spin-1 Triangular Antiferromagnet NiI₂",
-    "title_zh": "NiI2 中强配体介导键依赖相互作用",
-    "summary": "NiI2 的磁激发显示出可观的配体介导键依赖相互作用，而非普通各向同性三角反铁磁交换。该发现拓展了 Kitaev 物理候选体系到 S=1 范德华三角磁体。",
-    "abstract": "研究自旋 S=1 的范德华三角反铁磁体 NiI2，结合非弹性中子散射、磁化、磁结构分析、第一性原理和线性自旋波模拟。结果识别出显著的配体介导键依赖各向异性 Kitaev 相互作用，说明非蜂窝、S=1 三角磁体也可承载强键依赖交换。",
+    "title_zh": "NiI2 中配体介导的键依赖相互作用",
+    "summary": "NiI2 展示自旋 1 三角晶格中的显著键依赖 Kitaev 型相互作用，并由中子散射和第一性原理共同约束。该材料扩展了 Kitaev 物理候选体系的晶格和自旋范围。",
+    "abstract": "在自旋 1 三角反铁磁范德华磁体 NiI2 中，结合非弹性中子散射、磁化、磁结构分析、第一性原理和线性自旋波模拟，识别显著的配体介导键依赖各向异性 Kitaev 相互作用。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.14893",
     "journal": "arXiv"
@@ -173,8 +173,8 @@
   {
     "title": "Spin Hall Effect in Collinear Ferromagnets from Spin-Group Symmetry",
     "title_zh": "自旋群对称性解释铁磁体自旋霍尔效应",
-    "summary": "用自旋群对称性分解共线铁磁体的自旋霍尔电流来源，区分磁化无关和磁化依赖的 T 偶机制。该方法为磁性材料中自旋输运的对称性分类和材料筛选提供清晰准则。",
-    "abstract": "将自旋轨道耦合视为破缺自旋群对称性的微扰，分析共线铁磁体中的自旋霍尔效应。到 SOC 一阶，识别两类主要时间反演偶自旋霍尔机制：与磁化无关的常规贡献，以及依赖磁化的贡献；框架澄清磁序如何激活不同自旋霍尔响应。",
+    "summary": "自旋群对称性给出共线铁磁体自旋 Hall 电流的分类框架。该理论区分磁化无关和磁化依赖的时间反演偶响应，澄清 SOC 与磁序的微观作用。",
+    "abstract": "把自旋轨道耦合视为破缺自旋群对称性的微扰，解析共线铁磁体中的自旋 Hall 效应。在线性 SOC 阶，识别两个主要时间反演偶贡献：与磁化无关的常规项和依赖磁化的项，并阐明磁序激活不同自旋 Hall 响应的机制。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.15112",
     "journal": "arXiv"
