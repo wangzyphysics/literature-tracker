@@ -1,18 +1,18 @@
 [
   {
     "title": "GQD-AdsNet: Graph Neural Networks Unlock Rapid Exploration of Transition Metal Adsorption on Graphene Quantum Dots",
-    "title_zh": "GQD-AdsNet 快速筛选金属吸附",
-    "summary": "GQD-AdsNet 将 GQD-金属吸附构型表示为图并直接预测吸附能。该框架把单原子催化剂的候选筛选从逐点 DFT 转向快速代理模型。",
-    "abstract": "面向石墨烯量子点负载单原子催化剂，构建图神经网络框架 GQD-AdsNet，用于预测过渡金属在 GQD 上的吸附能，替代大规模第一性原理构型扫描。摘要未给出数据集规模、误差或具体金属范围。",
+    "title_zh": "GQD-AdsNet 快速探索石墨烯量子点吸附",
+    "summary": "GQD-AdsNet 将石墨烯量子点金属吸附构型转化为图学习问题，直接预测过渡金属吸附能。该框架把单原子催化剂候选空间的 DFT 穷举筛选压缩为快速代理模型。",
+    "abstract": "面向石墨烯量子点负载过渡金属单原子催化剂，构建图神经网络框架 GQD-AdsNet 预测金属吸附能，用图表示替代逐一第一性原理计算。目标是快速筛选大量金属—量子点构型，缓解 DFT 表征单原子催化位点的计算成本瓶颈。",
     "category": "AI×物理",
     "link": "https://arxiv.org/abs/2607.18591",
     "journal": "arXiv"
   },
   {
     "title": "Position: The Inevitable Transition to Machine Learning in Quantum Chemistry",
-    "title_zh": "量子化学必然转向机器学习",
-    "summary": "文章把量子化学瓶颈归因于多体复杂度与传统近似停滞。核心观点是机器学习应成为电子结构理论的主体方法之一，尤其面向强关联与泛函构造。",
-    "abstract": "立场文章从量子多体问题 QMA-hard 出发，指出 DFT 泛函增殖未收敛到精确泛函，强关联问题长期未解，传统波函数方法和 DFT 的改进空间趋于饱和。作者主张机器学习是量子化学继续发展的主要路径，而非仅作经验加速器。",
+    "title_zh": "量子化学向机器学习转型不可避免",
+    "summary": "文章把 DFT 泛函停滞和强关联难题归因于传统近似框架的瓶颈，主张量子化学必然转向机器学习。其意义在于把 ML 从加速工具提升为电子结构理论构造方式。",
+    "abstract": "立场文指出量子多体精确求解属于 QMA-hard，传统 DFT 与波函数方法虽长期核心，但泛函数量膨胀未收敛到精确泛函，强关联问题仍未解决。作者主张机器学习是量子化学下一阶段最有前景路径，重点不在简单替代现有近似，而在突破经验泛函和手工模型的停滞。",
     "category": "AI×物理",
     "link": "https://arxiv.org/abs/2607.18281",
     "journal": "arXiv"
@@ -20,107 +20,116 @@
   {
     "title": "Formulation-Level Auto-Tuning for QUBO-Based Machine Learning: A Case Study Across Multiple Quantum-Inspired Annealers",
     "title_zh": "QUBO 机器学习的表述级自动调参",
-    "summary": "QUBO-SVM 的性能不只由核参数决定，还受变量编码方式强烈制约。该框架把 B、K、γ 联合搜索，可在不同量子启发退火硬件间进行可迁移调优。",
-    "abstract": "提出基于 Optuna 的表述级自动调优框架，用于多种量子启发退火器上的 SVM。连续对偶变量离散化为 QUBO 时，同时优化编码基数 B、位深 K 与 RBF 核参数 γ，兼顾数值范围、分辨率、QUBO 规模和分类边界。",
+    "summary": "该框架把 QUBO 表述参数 B、K 与 SVM 核参数 γ 联合优化，而非只调机器学习超参数。它直接面向量子启发退火硬件的离散化误差、规模和分类性能权衡。",
+    "abstract": "提出基于 Optuna 的表述级自动调参框架，用于多个量子启发退火器上的 SVM。退火 SVM 需将连续对偶变量离散化为 QUBO，耦合参数包括编码基数 B、位深 K 与 RBF 核参数 γ，分别控制数值范围、分辨率、QUBO 规模和分类边界。",
     "category": "AI×物理",
     "link": "https://arxiv.org/abs/2607.18774",
     "journal": "arXiv"
   },
   {
     "title": "Benchmarking a Tunable Quantum Neural Network on Trapped-Ion and Superconducting Hardware",
-    "title_zh": "可调量子神经网络的硬件基准",
-    "summary": "同一可调量子神经网络被放到离子阱与超导硬件上对比测试。该工作把量子机器学习从线路设计推进到跨平台硬件可靠性评估。",
-    "abstract": "在离子阱和超导两类量子计算平台上实现同一种可调量子神经网络，用硬件实验检验量子神经网络能否稳定达到理论预期。摘要未列出量子比特数、线路深度、任务精度或噪声指标。",
+    "title_zh": "可调量子神经网络的硬件基准测试",
+    "summary": "同一量子神经网络被部署到囚禁离子和超导硬件上，直接检验平台差异对训练和推理的影响。结果把量子机器学习从理想线路模拟推进到硬件可靠性比较。",
+    "abstract": "在囚禁离子和超导两类量子计算平台上实现同一可调量子神经网络，并进行硬件基准测试。工作关注理论量子神经网络在真实噪声、门操作与读出条件下能否保持可重复性能，为跨平台评估量子机器学习电路提供实验参照。",
     "category": "AI×物理",
     "link": "http://link.aps.org/doi/10.1103/9bp2-42v3",
     "journal": "Editors' Suggestions"
   },
   {
     "title": "Quantum Neural Networks Face the Hardware Test",
-    "title_zh": "量子神经网络接受硬件检验",
-    "summary": "这篇评论聚焦量子神经网络的硬件可实现性，而非只讨论算法表达能力。离子阱与超导平台的并行测试凸显噪声和控制误差是量子机器学习的关键门槛。",
-    "abstract": "评论文章介绍一项在离子阱和超导量子计算平台上实现量子神经网络的实验，用以判断此类系统能否在真实硬件中稳定体现理论优势。文本为研究解读，未给出独立实验数据。",
+    "title_zh": "量子神经网络面对硬件检验",
+    "summary": "该评述聚焦量子神经网络在囚禁离子与超导硬件上的实际测试。它指出量子机器学习的关键门槛已从算法构想转向噪声硬件中的可重复性能。",
+    "abstract": "Physics 观点文章解读同日 PRL 的量子神经网络硬件基准实验，强调囚禁离子和超导平台上的实现可用于判断量子神经网络是否能兑现理论优势。重点在真实量子处理器的噪声、可调参数和平台可移植性，而非仅依赖经典模拟。",
     "category": "AI×物理",
     "link": "http://link.aps.org/doi/10.1103/Physics.19.100",
     "journal": "Physics"
   },
   {
+    "title": "Altermagnetism in Quasicrystals",
+    "title_zh": "准晶中的反常磁性",
+    "summary": "准晶也可承载零磁化但自旋劈裂的反常磁态，说明平移周期性并非反常磁性的必要条件。该结果把反常磁体搜索从常规晶体推广到非周期长程序结构。",
+    "abstract": "将反常磁体概念推广到准晶体系：在共线、零净磁化的磁结构中仍可出现类似铁磁体的动量依赖自旋劈裂。由于准晶缺少平移对称性，反常磁性需由非周期空间对称和破缺的联合时间反演相关对称来刻画，拓展了反常磁相的材料边界。",
+    "category": "磁性·自旋电子学",
+    "link": "http://link.aps.org/doi/10.1103/src1-b2xt",
+    "journal": "Phys. Rev. Lett."
+  },
+  {
     "title": "Energy-Efficient Seawater Carbon Removal using Reversible Phenazine-Mediated pH Swings: Insights from Experiments, Modeling, and Machine Learning",
-    "title_zh": "吩嗪可逆 pH 摆动海水除碳",
-    "summary": "吩嗪-碳纳米管电极用可逆 PCET 同时完成酸化放碳和碱度恢复。该方案把海水除碳的能耗、材料成本和酸性排放问题放在同一电化学循环中处理。",
-    "abstract": "提出基于单一吩嗪-碳纳米管氧化还原电极的电化学海水除碳方案，通过可逆质子耦合电子转移驱动 pH 摆动。该电极在一个循环内将溶解无机碳转化为可萃取 CO₂并恢复海水碱度，结合实验、建模和机器学习分析，避免双极膜和贵金属催化剂依赖。",
+    "title_zh": "酚嗪介导 pH 摆动的海水除碳",
+    "summary": "酚嗪—碳纳米管电极用可逆 PCET 完成海水 DIC 到 CO2 的转换并恢复碱度。它避免双极膜和贵金属催化剂，给电化学海洋碳移除提供了更简化的电极路线。",
+    "abstract": "使用单一氧化还原活性酚嗪—碳纳米管电极，通过可逆质子耦合电子转移驱动海水 pH 摆动。该电极可在一个循环内将溶解无机碳完全转化为可提取 CO2，并恢复海水碱度；实验、建模和机器学习共同分析能耗与过程窗口。",
     "category": "其他",
     "link": "https://www.researchsquare.com/article/rs-9953870/latest",
     "journal": "Preprints"
   },
   {
     "title": "A physics-guided graph neural network for interpretable multiscale modelling of concrete properties",
-    "title_zh": "物理引导混凝土多尺度图网络",
-    "summary": "HiCon-GNN 把混凝土的 ITZ 与多尺度层级结构直接写入图模型。13170 条记录训练的多任务预测显示，物理先验可缓解文献数据缺失和配比表示过粗的问题。",
-    "abstract": "HiCon-GNN 将混凝土表示为浆体、砂浆、界面过渡区和混凝土层级耦合的代理图，而非平面配比向量。模型含缺失数据感知编码器，并加入胶凝材料组成、弱界面和跨性质一致性的软物理先验；在 13170 条文献记录上联合预测抗压等混凝土性质。",
+    "title_zh": "物理引导 GNN 建模混凝土多尺度性质",
+    "summary": "HiCon-GNN 用层级图而非平面配方向量表示混凝土，并在 13170 条记录上融合缺失数据和物理软约束。它展示了复杂工程材料可解释多尺度机器学习建模路径。",
+    "abstract": "HiCon-GNN 用砂浆尺度和混凝土尺度代理图表示水泥浆、砂浆、界面过渡区和混凝土层级结构。模型含缺失记录感知编码器，并加入胶凝材料组成、弱界面和跨性质一致性的软先验；在 13170 条文献记录上联合预测抗压等混凝土性质。",
     "category": "AI×物理",
     "link": "https://www.researchsquare.com/article/rs-10361693/latest",
     "journal": "Preprints"
   },
   {
     "title": "Magnetic exchange interactions in the molecular orbital spin system NaV2O5 from a distributed moment point of view",
-    "title_zh": "NaV2O5 分布磁矩的交换作用",
-    "summary": "NaV2O5 的局域磁矩不能简单归属单个 V 离子，而是分布在 V-V 分子轨道上。该视角改变了交换相互作用和 34 K 电荷歧化以上磁态的描述方式。",
-    "abstract": "分析分子轨道自旋体系 NaV2O5 的磁交换。Na 掺杂使 V2O5 窄分裂导带半填充，形成 Mott 绝缘自旋分裂能带并沿锯齿链反铁磁有序；在 Pmmn 结构中 S=1/2 自旋平均分布在两个 V 原子上。34 K 以下出现 V4+/V5+ 电荷歧化，高温相涉及涨落磁矩。",
+    "title_zh": "NaV2O5 分布磁矩下的磁交换",
+    "summary": "文章用分布磁矩视角处理 NaV2O5，而非把 S=1/2 固定在单个 V 离子。该图像有助于重新理解 34 K 电荷歧化前后的交换相互作用和分子轨道磁性。",
+    "abstract": "NaV2O5 的磁性来自 V2O5 窄分裂导带掺杂后半填充，形成 Mott 绝缘的自旋分辨带并沿之字链反铁磁有序。在 Pmmn 结构中 S=1/2 自旋平均分布在两个 V 原子上的分子轨道态；34 K 以下发生 V4+/V5+ 电荷歧化，以上温区更接近涨落分布磁矩图像。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.19224",
     "journal": "arXiv"
   },
   {
     "title": "Pure Spin Bulk Photovoltaic Effect in an Altermagnetic Higher-Order Topological Insulator",
-    "title_zh": "交替磁高阶拓扑绝缘体纯自旋光伏",
-    "summary": "PT 简并的交替磁高阶拓扑绝缘体需要非阿贝尔自旋 BPVE 描述。Néel 矢量成为同时切换拓扑性质和纯自旋非线性光响应的控制旋钮。",
-    "abstract": "研究由拓扑绝缘体耦合 d 波交替磁体构成的 PT 对称二维异质结构中的体光伏效应。针对 PT 简并能带，建立非阿贝尔自旋体光伏理论，把传统非简并能带公式推广到简并子空间；Néel 矢量方向同时调控拓扑相和非线性光学响应，可产生纯自旋体光伏效应。",
+    "title_zh": "反常磁高阶拓扑绝缘体的纯自旋光伏",
+    "summary": "非阿贝尔形式的自旋 BPVE 被用于 PT 简并反常磁高阶拓扑绝缘体。Néel 矢量成为同时切换拓扑相和纯自旋光电流的控制旋钮。",
+    "abstract": "研究 PT 对称二维异质结构：拓扑绝缘体耦合 d 波反常磁体。为处理 PT 简并能带，建立非阿贝尔自旋体光伏效应理论，把常规非线性光响应从孤立非简并能带推广到简并子空间；Néel 矢量取向同时控制拓扑相和非线性光学响应，并可产生纯自旋体光伏效应。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.19018",
     "journal": "arXiv"
   },
   {
     "title": "Magnonic crystalline properties of stripe textures in thin ferromagnetic films",
-    "title_zh": "铁磁薄膜条纹织构的磁振子晶体性",
-    "summary": "铁磁条纹畴把可调畴周期转化为可调磁振子晶格常数。该体系适合研究磁振子能带随晶格常数连续演化，而无需重新纳米加工样品。",
-    "abstract": "有序条纹畴在铁磁薄膜中形成天然一维磁振子晶体，其周期可由外磁场连续调节。作者用微磁模拟计算模型铁石榴石薄膜的自旋波谱，考察条纹晶格常数 a 变化对磁振子能带的影响，这种调谐在人工图案化材料中较难实现。",
+    "title_zh": "铁磁薄膜条纹织构的磁振子晶体性质",
+    "summary": "铁磁条纹畴提供可由磁场调节周期的一维磁振子晶体。微磁谱计算揭示自旋波能带随条纹晶格常数连续变化，这是人工图案化结构难以实现的调控方式。",
+    "abstract": "有序条纹畴在铁磁薄膜中形成一维天然磁振子晶体，其周期可通过外磁场连续调节。作者用微磁模拟计算模型铁石榴石薄膜的自旋波谱，考察外场调节晶格常数 a 时磁振子能带如何演化，为无需刻蚀的可调磁振子晶体提供方案。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.19165",
     "journal": "arXiv"
   },
   {
     "title": "Electrostatic Control Enables Robust Helical Edge Channel Transport in III-V Quantum Spin Hall Insulators",
-    "title_zh": "III-V 量子自旋霍尔边缘通道电控",
-    "summary": "双栅 InAs/GaInSb/InAs 量子阱实现了体绝缘和宽电场窗口的稳定边缘电阻。该结果提高了 III-V 量子自旋霍尔绝缘体中螺旋边缘态的器件可控性。",
-    "abstract": "在 AlSb 准衬底上的双栅 InAs/GaInSb/InAs 三层量子阱中，通过静电控制抑制寄生体态和边缘贡献。长度超过相干长度的宏观 Hall 条中，多端测量显示体态绝缘且边缘电阻在宽电场范围内保持恒定；微米器件用于检验短边缘螺旋通道输运。",
+    "title_zh": "静电控制稳健 III-V 量子自旋霍尔输运",
+    "summary": "双栅 InAs/GaInSb/InAs 量子阱把体导电压低到绝缘，同时维持宽电场范围内稳定边缘电阻。该结果提高了 III-V 量子自旋霍尔器件中螺旋边缘输运的可控性。",
+    "abstract": "在 AlSb 准衬底上的双栅 InAs/GaInSb/InAs 三层量子阱中，通过静电控制抑制量子自旋霍尔器件的寄生体通道和边缘贡献。宏观 Hall 条长度超过相干长度时，多探针分析显示体态绝缘，边缘电阻在宽电场范围内保持恒定；微米级短边器件进一步突出螺旋边缘通道输运。",
     "category": "其他",
     "link": "https://arxiv.org/abs/2607.19051",
     "journal": "arXiv"
   },
   {
     "title": "Discerning ground state and photoemission-induced spin textures in altermagnetic α-MnTe",
-    "title_zh": "α-MnTe 基态与光电子自旋织构辨析",
-    "summary": "α-MnTe 的 SARPES 信号并不等同于基态自旋织构本身。区分本征交替磁自旋劈裂与光电子过程诱导极化，是判读交替磁实验图像的核心问题。",
-    "abstract": "围绕交替磁 α-MnTe 的动量依赖自旋织构，讨论自旋角分辨光电子谱中基态自旋结构与光发射过程诱导自旋信号的区分。该体系是补偿磁有序但能带自旋劈裂的交替磁代表，SARPES 可解析其与动量交织的自旋纹理，但需处理矩阵元和出射态效应。",
+    "title_zh": "区分 α-MnTe 基态与光电子诱导自旋纹理",
+    "summary": "α-MnTe 的 SARPES 自旋纹理不能简单等同于基态反常磁自旋劈裂。文章强调光电子诱导效应的判别，对反常磁体实验指认尤为关键。",
+    "abstract": "围绕反常磁体 α-MnTe 的自旋角分辨光电子谱，分析实验中动量依赖自旋纹理的来源。该体系具有补偿磁矩和高阶部分波型磁序，SARPES 可探测反常磁自旋劈裂，但光发射过程本身也可能诱导自旋纹理，因此需区分基态电子结构信号与光电子末态效应。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2603.16635",
     "journal": "arXiv"
   },
   {
     "title": "Coherent Magnons Driven by Photomodulated Anisotropy in Altermagnetic MnTe",
-    "title_zh": "MnTe 光调制各向异性驱动相干磁振子",
-    "summary": "飞秒光调制各向异性可在 MnTe 中驱动并成像相干磁振子。60 μeV 的自旋波能隙上限说明 g 波交替磁序具有异常软的 Néel 矢量动力学。",
-    "abstract": "在 g 波交替磁 MnTe 中，用光激发同时空间成像局域平衡 Néel 矢量方向 φL(r)、自旋波振幅 Δφ(r,t) 和频率 Ω(r)。测量给出由本征各向异性导致的自旋波能隙上限约 60 μeV，即 0.7 K，表明 MnTe 的各向异性能量极低。",
+    "title_zh": "MnTe 中光调制各向异性驱动相干磁振子",
+    "summary": "MnTe 中光调制各向异性可驱动相干磁振子，并能逐点映射 Néel 矢量、振幅和频率。60 μeV 的自旋波能隙上限揭示该反常磁体近乎软各向异性。",
+    "abstract": "在 g 波反常磁体 MnTe 中，同时空间成像局域平衡 Néel 矢量取向 φL(r)、光激发自旋波振幅 Δφ(r,t) 和频率 Ω(r)。测量给出由本征各向异性导致的自旋波能隙上限约 60 μeV，即 0.7 K，显示 MnTe 的各向异性极弱且适合研究光驱反常磁序动力学。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.18421",
     "journal": "arXiv"
   },
   {
     "title": "Incommensurate modulation with Q=0 A-type Antiferromagnetic Order in CeRh₂As₂ revealed by NQR studies",
-    "title_zh": "CeRh2As2 中 Q=0 A 型反铁磁调制",
-    "summary": "CeRh2As2 的低温相图包含超导多相、0.5 K 相 I 和 0.25 K 反铁磁序。NQR/NMR 指出其磁态不是简单均匀反铁磁，而带有不公度调制成分。",
-    "abstract": "对高质量单晶重费米子超导体 CeRh2As2 进行 75As NQR/NMR 测量。该材料在 c 轴磁场下有多个超导相，通常与局域反演破缺产生的交错 Rashba 自旋轨道耦合相关；除超导外，约 0.5 K 以下出现相 I，约 0.25 K 以下进入反铁磁态。NQR 揭示与 Q=0 A 型反铁磁序共存的不公度调制。",
+    "title_zh": "CeRh2As2 中非公度调制与 Q=0 A 型反铁磁",
+    "summary": "75As NQR/NMR 在 CeRh2As2 中解析出非公度调制和 Q=0 A 型反铁磁。该信息约束了交错 Rashba 耦合下多重超导相与磁序的共存图像。",
+    "abstract": "对高质量单晶重费米子超导体 CeRh2As2 进行 75As NQR/NMR 测量。该材料在 c 轴磁场下有多重超导相，通常归因于局域反演对称破缺导致的交错 Rashba 自旋轨道耦合；除超导外，还存在 T0≈0.5 K 以下的 I 相和 TN≈0.25 K 以下反铁磁态。结果揭示非公度调制与 Q=0 A 型反铁磁有序。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.18686",
     "journal": "arXiv"
@@ -128,26 +137,35 @@
   {
     "title": "Quantum-Enabled Spintronic \"Small\" Antennas",
     "title_zh": "量子使能自旋电子小型天线",
-    "summary": "自旋电子小型天线试图绕开经典天线的尺寸-效率折衷。其核心在于用量子或自旋动力学机制产生辐射，而不是依赖传统半波长结构。",
-    "abstract": "讨论基于非经典工作原理的新型小型天线。传统电磁天线尺寸远小于辐射波长时辐射效率急剧下降，而量子使能自旋电子天线利用不同于经典电磁共振的机制，有望突破深亚波长辐射效率限制，用于嵌入式无线应用。",
+    "summary": "自旋电子小型天线试图用非经典机制突破传统小天线的辐射效率下降。该方向把量子材料和自旋动力学引入微型无线器件设计。",
+    "abstract": "讨论利用非经典原理实现的自旋电子小型天线。传统电磁天线尺寸远小于辐射波长时辐射效率急剧下降，而新一代量子使能天线可绕开这一经典小天线限制，适合嵌入式无线通信、片上或微型系统等传统天线难以集成的场景。",
     "category": "磁性·自旋电子学",
     "link": "https://arxiv.org/abs/2607.18469",
     "journal": "arXiv"
   },
   {
+    "title": "Unconventional Altermagnetism in Quasicrystals: A Hyperspatial Projective Construction",
+    "title_zh": "准晶中的非常规反常磁性构造",
+    "summary": "超空间投影给出准晶反常磁体的构造方法，把反常磁性的对称语言推广到无平移周期系统。该框架为在准周期材料中寻找自旋劈裂补偿磁相提供了路线。",
+    "abstract": "通过超空间投影构造将反常磁性推广到准晶。反常磁体具有对称保护的动量依赖自旋劈裂和共线补偿磁矩，此前主要讨论周期晶体；该工作在非周期准晶中建立相应磁相描述，说明准周期长程序和高维投影对称也能支撑反常磁自旋劈裂。",
+    "category": "磁性·自旋电子学",
+    "link": "http://link.aps.org/doi/10.1103/hx9n-v1yg",
+    "journal": "Phys. Rev. Lett."
+  },
+  {
     "title": "A magnetic impurity sets off ripples in a kagome superconductor",
-    "title_zh": "磁性杂质激发 Kagome 超导涟漪",
-    "summary": "磁性杂质在 Kagome 超导体中不只是局域散射中心，还诱发各向异性 Kondo 共振。其与超导能隙交织，为判定 Kagome 金属中的局域磁性和配对竞争提供线索。",
-    "abstract": "新闻与观点文章评述磁性掺杂 Kagome 超导体中的扫描探针结果：磁性杂质附近出现各向异性 Kondo 共振，并与超导能隙相互交织。该现象关联 Kagome 金属中磁杂质、超导配对和电子有序之间的未解耦合问题。",
+    "title_zh": "磁杂质激发 kagome 超导体涟漪",
+    "summary": "磁杂质在 kagome 超导体中产生各向异性 Kondo 共振，并与超导能隙相互缠绕。该现象为解析 kagome 金属中磁散射、电子序和配对态关系提供了局域探针视角。",
+    "abstract": "Nature Physics 新闻介绍磁掺杂 kagome 超导体中磁杂质对超导和电子序的影响。相关研究观察到各向异性 Kondo 共振与超导能隙交织，说明单个或局域磁散射中心可在 kagome 金属中诱发空间各向异性的低能电子响应。",
     "category": "磁性·自旋电子学",
     "link": "https://www.nature.com/articles/s41567-026-03372-7",
     "journal": "Nature Physics"
   },
   {
     "title": "Ferroelectric tunable dielectric Materials: Response mechanisms and applications",
-    "title_zh": "铁电可调介电材料机制与应用",
-    "summary": "铁电可调介质的关键矛盾是高介电调谐与低损耗的平衡。该综述面向可重构射频、微波和电控介电器件梳理材料机制。",
-    "abstract": "综述铁电可调介电材料的响应机制与应用场景，覆盖铁电极化、介电可调性、损耗、偏压响应和器件实现之间的关系。摘要信息未列出具体材料体系、频段、调谐率或品质因数。",
+    "title_zh": "铁电可调介电材料的机制与应用",
+    "summary": "该综述围绕铁电极化和畴响应解释可调介电行为，并联系微波/射频器件应用。它把材料机制、性能指标和器件需求放在同一设计框架中。",
+    "abstract": "综述铁电可调介电材料的介电响应机制和应用方向，主题涵盖铁电极化、畴结构、相变和外场调控如何改变介电常数与损耗。文章面向可调微波、射频、储能和可重构电子器件等应用，总结材料设计中可调性、损耗和可靠性的权衡。",
     "category": "铁电·极化",
     "link": "https://www.sciencedirect.com/science/article/pii/S1369702126002713?dgcid=rss_sd_all",
     "journal": "ScienceDirect Publication: Materials Today"
@@ -155,28 +173,10 @@
   {
     "title": "Long-range magnetoelectricity in type-II multiferroic NiI2",
     "title_zh": "II 型多铁 NiI2 的长程磁电性",
-    "summary": "NiI2 的磁电性不能由局域自旋流模型完全解释。广义自旋流框架把二维螺旋磁序中的长程耦合纳入极化机制，补足 II 型多铁理论描述。",
-    "abstract": "针对首个确立的二维 II 型多铁 NiI2，构建广义自旋流框架以解释非共线自旋螺旋诱导电极化及既有模型遗漏的磁电行为。该模型给出更完整的长程磁电耦合描述，关联自旋构型与极化响应。",
+    "summary": "NiI2 的磁电响应需要广义自旋流框架和长程耦合才能解释。该结果修正了二维 II 型多铁体中螺旋磁序诱导极化的传统局域模型。",
+    "abstract": "NiI2 是已确立的二维 II 型多铁体，非共线自旋螺旋诱导电极化，但现有模型无法完整解释其磁电行为。作者采用广义自旋流框架构建更完整模型，强调长程磁电耦合对 NiI2 极化响应不可忽略，为描述二维螺旋磁序诱导铁电性提供修正图像。",
     "category": "磁性·自旋电子学",
     "link": "https://www.pnas.org/doi/abs/10.1073/pnas.2530708123?af=R",
     "journal": "PNAS"
-  },
-  {
-    "title": "Signatures of bulk g-wave altermagnetism in optically excited α−MnTe",
-    "title_zh": "光激发 α-MnTe 的体 g 波交替磁信号",
-    "summary": "α-MnTe 的 g 波交替磁序可通过飞秒光激发后的自旋选择布居显现。线偏振泵浦-探测有望成为识别体交替磁对称性的全光学手段。",
-    "abstract": "计算线偏振飞秒激光激发 α-MnTe 后的非平衡自旋极化电子布居，利用能带对称性读取体 g 波交替磁有序。结果显示纯光学泵浦-探测可观察平面 d 波和 g 波样的自旋响应特征，为无需自旋分辨光电子谱的交替磁识别提供可测信号。",
-    "category": "磁性·自旋电子学",
-    "link": "http://link.aps.org/doi/10.1103/ypfs-fy39",
-    "journal": "Phys. Rev. Materials"
-  },
-  {
-    "title": "Identifying the origin of out-of-plane spin polarization in the noncollinear antiferromagnet Mn₃Ge",
-    "title_zh": "Mn3Ge 面外自旋极化起源",
-    "summary": "Mn3Ge/Py 晶向对比把面外自旋极化的两种候选机制分开检验。结果将直接影响非共线反铁磁无场开关器件中自旋流来源的判定。",
-    "abstract": "针对非共线反铁磁 Mn3Ge 中可实现无外场磁化翻转的面外自旋极化，比较不同晶向单晶 Mn3Ge/Py 双层中的自旋力矩。实验目标是在依赖反铁磁有序的磁自旋霍尔效应与不依赖反铁磁有序的自旋交换机制之间判别微观来源。",
-    "category": "磁性·自旋电子学",
-    "link": "http://link.aps.org/doi/10.1103/kpj1-yrwh",
-    "journal": "Editors' Suggestions"
   }
 ]
